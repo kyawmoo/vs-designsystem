@@ -13,6 +13,21 @@
  * integration step in the design-system rollout plan.
  */
 
+/* Button.tsx renders everything else via inline style (so colors work
+   even without this stylesheet loaded), but :hover/:active can't be
+   expressed inline — these need !important since inline style's
+   opacity otherwise always wins over an external stylesheet rule,
+   regardless of pseudo-class. Matches the real site's own
+   .btn:hover { opacity: .9 } (public/themes/basic/assets/css/app.css). */
+.vs-btn:hover:not(:disabled) {
+  opacity: 0.9 !important;
+}
+
+.vs-btn:active:not(:disabled) {
+  opacity: 1 !important;
+  transform: scale(0.98);
+}
+
 /* Segmented Controls (Tabs) */
 .vs-segment-control {
   display: inline-flex;

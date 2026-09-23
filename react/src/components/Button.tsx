@@ -19,6 +19,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   disabled?: boolean;
   children?: React.ReactNode;
   style?: React.CSSProperties;
+  className?: string;
 }
 
 const SIZE_PADDING: Record<ButtonSize, string> = {
@@ -64,6 +65,7 @@ export function Button({
   disabled,
   children,
   style,
+  className,
   ...rest
 }: ButtonProps) {
   const baseStyle: React.CSSProperties = {
@@ -87,7 +89,13 @@ export function Button({
   };
 
   return (
-    <button type="button" disabled={disabled} style={baseStyle} {...rest}>
+    <button
+      type="button"
+      disabled={disabled}
+      style={baseStyle}
+      className={className ? `vs-btn ${className}` : 'vs-btn'}
+      {...rest}
+    >
       {icon}
       {!iconOnly && children}
     </button>
