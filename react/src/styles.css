@@ -28,6 +28,117 @@
   transform: scale(0.98);
 }
 
+/* Form fields (TextInput/Textarea/Select/SearchInput/InputGroup) — only
+   :focus needs a class rule; colors/radius/padding are inline (per-size,
+   per-error-state) in each component. Matches the real site's own
+   .form-control:focus { border-color: var(--primary_color) }. */
+.vs-field:focus {
+  outline: none;
+  border-color: var(--vs-color-brand-primary) !important;
+}
+
+.vs-field::placeholder {
+  color: var(--vs-color-text-muted);
+}
+
+/* Checkbox/Radio — native input, appearance:none can't be expressed
+   inline. Shape audited from the real site's Bootstrap:
+   [type=checkbox] 1em square, radius .25em (~4px); [type=radio] 50%
+   (circle); checked color overridden to the brand primary (real site
+   overrides Bootstrap's blue the same way). */
+.vs-check {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  border: 1px solid var(--vs-color-border);
+  background-color: var(--vs-color-surface);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 10px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.vs-check[type='checkbox'] {
+  border-radius: 4px;
+}
+
+.vs-check[type='radio'] {
+  border-radius: 50%;
+}
+
+.vs-check:checked {
+  background-color: var(--vs-color-brand-primary);
+  border-color: var(--vs-color-brand-primary);
+}
+
+.vs-check[type='checkbox']:checked {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M1 4l2 2 4-4'/%3e%3c/svg%3e");
+}
+
+.vs-check[type='radio']:checked {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3ccircle cx='4' cy='4' r='2' fill='%23fff'/%3e%3c/svg%3e");
+}
+
+.vs-check:focus-visible {
+  outline: 2px solid var(--vs-color-brand-primary);
+  outline-offset: 2px;
+}
+
+.vs-check:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Switch — track + thumb, same appearance:none constraint. Track
+   32x16px (Bootstrap's real 2em x 1em at a 16px base), pill radius. */
+.vs-switch {
+  appearance: none;
+  position: relative;
+  width: 32px;
+  height: 16px;
+  margin: 0;
+  border: 1px solid var(--vs-color-border);
+  border-radius: var(--vs-radius-full);
+  background-color: var(--vs-color-surface);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.vs-switch::before {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--vs-color-text-muted);
+  transition: transform 150ms ease, background-color 150ms ease;
+}
+
+.vs-switch:checked {
+  background-color: var(--vs-color-brand-primary);
+  border-color: var(--vs-color-brand-primary);
+}
+
+.vs-switch:checked::before {
+  transform: translateX(16px);
+  background: #ffffff;
+}
+
+.vs-switch:focus-visible {
+  outline: 2px solid var(--vs-color-brand-primary);
+  outline-offset: 2px;
+}
+
+.vs-switch:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* Segmented Controls (Tabs) */
 .vs-segment-control {
   display: inline-flex;
