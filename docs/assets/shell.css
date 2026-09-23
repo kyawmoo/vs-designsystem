@@ -146,9 +146,11 @@ a {
 }
 
 /* ---- Content ----
-   Gray page canvas + a white, bordered, rounded card holding the actual
-   content — same layered pattern as the Stitch reference Master KMO
-   pointed at. Kept border-only (no shadow), since this system's own
+   Three layers, matching the Stitch reference Master KMO pointed at:
+   1. Dark hero band (page title/breadcrumb) right under the global header
+   2. Gray canvas
+   3. White, bordered, rounded card holding the actual content
+   Kept border-only (no shadow) on the card, since this system's own
    Shadow principle is flat design: "Elevation comes only from a 1px
    border and background-color contrast." One shared edit here applies
    to every page. */
@@ -156,6 +158,47 @@ a {
   margin-left: 240px;
   margin-top: 56px;
   min-height: calc(100vh - 56px);
+}
+
+.vs-docs-hero {
+  background: var(--vs-color-brand-secondary);
+  color: #ffffff;
+  padding: 36px 56px;
+}
+
+.vs-docs-hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #a1a1aa;
+  margin: 0 0 10px;
+}
+
+.vs-docs-hero-eyebrow strong {
+  color: var(--vs-color-brand-accent);
+}
+
+.vs-docs-hero h1 {
+  font-size: var(--vs-font-size-display);
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 10px;
+  letter-spacing: -0.01em;
+}
+
+.vs-docs-hero-lede {
+  font-size: 16px;
+  line-height: var(--vs-line-height-body);
+  color: #c9cdd3;
+  max-width: 640px;
+  margin: 0;
+}
+
+.vs-docs-canvas {
   background: var(--vs-color-background);
   padding: 40px 40px 80px;
 }
@@ -167,31 +210,6 @@ a {
   border: 1px solid var(--vs-color-border);
   border-radius: var(--vs-radius-lg);
   padding: 48px 56px 64px;
-}
-
-.vs-docs-eyebrow {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--vs-color-brand-primary);
-  margin: 0 0 8px;
-}
-
-.vs-docs-content h1 {
-  font-size: var(--vs-font-size-display);
-  font-weight: 600;
-  color: var(--vs-color-text-heading);
-  margin: 0 0 12px;
-  letter-spacing: -0.01em;
-}
-
-.vs-docs-lede {
-  font-size: 16px;
-  line-height: var(--vs-line-height-body);
-  color: var(--vs-color-text-muted);
-  max-width: 640px;
-  margin: 0 0 40px;
 }
 
 .vs-docs-content h2 {
@@ -478,6 +496,11 @@ a {
   }
   .vs-docs-main {
     margin-left: 0;
+  }
+  .vs-docs-hero {
+    padding: 28px 24px;
+  }
+  .vs-docs-canvas {
     padding: 16px;
   }
   .vs-docs-content {
