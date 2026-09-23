@@ -59,6 +59,13 @@
   --vs-radius-xl: 20px;
   --vs-radius-full: 9999px;
 
+  /* ---- Icon size scale (library differs by platform: lucide-react on
+     React, Font Awesome on Blade — see tokens.json "icon.principle") ---- */
+  --vs-icon-size-sm: 16px;
+  --vs-icon-size-md: 20px;
+  --vs-icon-size-lg: 24px;
+  --vs-icon-stroke-width: 2;
+
   /* ---- Shadow (flat design — always none) ---- */
   --vs-shadow-none: none;
 
