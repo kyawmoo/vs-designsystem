@@ -155,6 +155,7 @@ a {
 
 .vs-docs-content {
   max-width: 880px;
+  margin: 0 auto;
   padding: 48px 56px 96px;
 }
 
