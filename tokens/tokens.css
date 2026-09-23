@@ -35,6 +35,14 @@
   --vs-color-badge-free: #743CEE;
   --vs-color-badge-premium: var(--vs-color-brand-primary);
 
+  /* ---- Color: Item Status (admin moderation states) ---- */
+  --vs-color-item-status-pending: #FF7A14;
+  --vs-color-item-status-soft-rejected: #5506E8;
+  --vs-color-item-status-resubmitted: #0A89FF;
+  --vs-color-item-status-approved: #00BA10;
+  --vs-color-item-status-hard-rejected: #D60C0C;
+  --vs-color-item-status-deleted: #F44336;
+
   /* ---- Typography ---- */
   --vs-font-family: 'Roboto', sans-serif;
   --vs-font-size-body-sm: 13px;
