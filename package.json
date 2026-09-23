@@ -1,0 +1,16 @@
+{
+  "name": "@vectorsticker/design-system",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "VectorSticker React component library — installed as a git dependency by reports.vectorsticker.com. Built on the tokens defined in /tokens. (react/package.json is the same manifest, kept for local tsc checks inside react/ — this root copy is what npm actually reads when installing via github:kyawmoo/vs-designsystem.)",
+  "main": "react/src/index.ts",
+  "types": "react/src/index.ts",
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "lucide-react": "^0.546.0"
+  }
+}
