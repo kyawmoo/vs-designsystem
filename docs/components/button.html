@@ -21,9 +21,9 @@
     gap: 8px;
     transition: opacity 150ms ease;
   }
-  .demo-btn--primary { background: var(--vs-color-brand-primary); border-color: var(--vs-color-brand-primary); color: #fff; border-radius: var(--vs-radius-full); }
-  .demo-btn--secondary { background: var(--vs-color-brand-secondary); border-color: var(--vs-color-brand-secondary); color: #fff; border-radius: var(--vs-radius-full); }
-  .demo-btn--tertiary { background: var(--vs-color-surface); border-color: var(--vs-color-border); color: var(--vs-color-text-body); border-radius: var(--vs-radius-full); }
+  .demo-btn--primary { background: var(--vs-color-brand-primary); border-color: var(--vs-color-brand-primary); color: #fff; border-radius: var(--vs-radius-sm); }
+  .demo-btn--secondary { background: var(--vs-color-brand-secondary); border-color: var(--vs-color-brand-secondary); color: #fff; border-radius: var(--vs-radius-sm); }
+  .demo-btn--tertiary { background: var(--vs-color-surface); border-color: var(--vs-color-border); color: var(--vs-color-text-body); border-radius: var(--vs-radius-sm); }
   .demo-btn--sm { padding: 8px 18px; font-size: 13px; }
   .demo-btn--md { padding: 12px 28px; font-size: 14px; }
   .demo-btn--lg { padding: 14px 35px; font-size: 14px; }
@@ -188,8 +188,7 @@
     <table class="vs-docs-table">
       <thead><tr><th>Property</th><th>Value</th><th>Token / source</th></tr></thead>
       <tbody>
-        <tr><td>Radius (text/icon+text)</td><td>9999px (pill)</td><td><code>--vs-radius-full</code></td></tr>
-        <tr><td>Radius (icon-only)</td><td>8px</td><td><code>--vs-radius-sm</code></td></tr>
+        <tr><td>Radius (all variants)</td><td>8px</td><td><code>--vs-radius-sm</code> — real site is 6px (Bootstrap's <code>--bs-border-radius</code>), rounded to this system's nearest token</td></tr>
         <tr><td>Border width</td><td>1px</td><td>all variants</td></tr>
         <tr><td>Icon-only size (sm/md/lg)</td><td>32 / 38 / 44px</td><td><code>ICON_ONLY_SIZE</code> — matches Blade's <code>.vs-btn-icon-only</code></td></tr>
         <tr><td>Gap (icon + label)</td><td>8px</td><td>only when both are present</td></tr>

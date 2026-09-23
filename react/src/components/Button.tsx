@@ -6,7 +6,7 @@ export type ButtonSize = 'sm' | 'md' | 'lg';
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   emphasis?: ButtonEmphasis;
   size?: ButtonSize;
-  /** Icon-only buttons omit visible text and become a square, not a pill. */
+  /** Icon-only buttons omit visible text and become a square. */
   iconOnly?: boolean;
   icon?: React.ReactNode;
   /**
@@ -71,7 +71,11 @@ export function Button({
   const baseStyle: React.CSSProperties = {
     fontFamily: 'var(--vs-font-family)',
     fontWeight: 600,
-    borderRadius: iconOnly ? 'var(--vs-radius-sm)' : 'var(--vs-radius-full)',
+    /* Real site buttons are a small rounded rectangle, not a pill —
+       .btn { border-radius: var(--bs-border-radius) } = 0.375rem (6px)
+       in the site's own vendored Bootstrap. Same radius for icon-only:
+       the real CSS doesn't special-case it either. */
+    borderRadius: 'var(--vs-radius-sm)',
     border: '1px solid',
     cursor: disabled ? 'not-allowed' : 'pointer',
     opacity: disabled ? 0.5 : 1,
