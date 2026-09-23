@@ -1,0 +1,33 @@
+/**
+ * VectorSticker Design System — Blade component companion CSS.
+ * Load AFTER the main site's public/themes/basic/assets/css/app.css.
+ * Adds only what real app.css is missing for vs-button's iconOnly mode —
+ * every other class here (.btn-primary, .btn-soft, .badge, bg-orange, …)
+ * is already defined and correctly styled by the main site's own CSS.
+ *
+ * Sizes match react/src/components/Button.tsx's ICON_ONLY_SIZE exactly,
+ * so an icon-only button looks identical on reports.vectorsticker.com
+ * and vectorsticker.com.
+ */
+
+.vs-btn-icon-only {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+}
+
+.vs-btn-icon-only.btn-sm {
+  width: 32px;
+  height: 32px;
+}
+
+.vs-btn-icon-only.btn-md {
+  width: 38px;
+  height: 38px;
+}
+
+.vs-btn-icon-only.btn-lg {
+  width: 44px;
+  height: 44px;
+}
