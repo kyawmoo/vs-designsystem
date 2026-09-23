@@ -24,6 +24,7 @@
       items: [
         { id: 'button', label: 'Button', href: '/components/button.html' },
         { id: 'badge', label: 'Badge', href: '/components/badge.html' },
+        { id: 'card', label: 'Card', href: '/components/card.html' },
       ],
     },
   ];
