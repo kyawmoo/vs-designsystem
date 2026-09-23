@@ -9,6 +9,16 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   /** Icon-only buttons omit visible text and become a square, not a pill. */
   iconOnly?: boolean;
   icon?: React.ReactNode;
+  /**
+   * Re-declared explicitly (not just inherited from
+   * ButtonHTMLAttributes) so this component still type-checks in a
+   * consumer project that has no @types/react installed — there,
+   * `React.ButtonHTMLAttributes<...>` silently resolves to `any` and
+   * contributes no named members to the interface.
+   */
+  disabled?: boolean;
+  children?: React.ReactNode;
+  style?: React.CSSProperties;
 }
 
 const SIZE_PADDING: Record<ButtonSize, string> = {
