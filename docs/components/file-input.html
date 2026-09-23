@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>File Input — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-field { width: 100%; box-sizing: border-box; font-family: var(--vs-font-family); font-size: 14px; padding: 6px 12px; border-radius: var(--vs-radius-sm); border: 1px solid var(--vs-color-border); background: var(--vs-color-surface); color: var(--vs-color-text-body); }
+  .demo-field-label { display: block; font-size: 13px; font-weight: 600; color: var(--vs-color-text-heading); margin-bottom: 6px; }
+</style>
+</head>
+<body data-page="file-input">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> File Input</p>
+    <h1>File Input</h1>
+    <p class="vs-docs-hero-lede">
+      Native file picker, styled to match the other fields. Implemented
+      in <code>react/src/components/FileInput.tsx</code> and
+      <code>blade/components/vs-file-input.blade.php</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">Native browser file-selector button.</p>
+    </div>
+    <div class="vs-docs-preview" style="flex-direction: column; align-items: stretch; max-width: 360px;">
+      <label class="demo-field-label" for="demo-avatar">Profile photo</label>
+      <input class="demo-field" id="demo-avatar" type="file" accept="image/*">
+    </div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { FileInput } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;FileInput</span> <span class="attr">name</span>=<span class="str">"avatar"</span> <span class="attr">accept</span>=<span class="str">"image/*"</span> <span class="attr">label</span>=<span class="str">"Profile photo"</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Usage — Blade</h2>
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-file-input</span> <span class="attr">name</span>=<span class="str">"avatar"</span> <span class="attr">accept</span>=<span class="str">"image/*"</span> <span class="attr">label</span>=<span class="str">"Profile photo"</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>name</code></td><td>required</td><td>—</td></tr>
+        <tr><td><code>accept</code></td><td>MIME type filter</td><td>—</td></tr>
+        <tr><td><code>multiple</code></td><td>boolean — appends <code>[]</code> to the name</td><td><code>false</code></td></tr>
+        <tr><td><code>error</code></td><td>string</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

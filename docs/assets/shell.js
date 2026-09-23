@@ -27,6 +27,20 @@
         { id: 'card', label: 'Card', href: '/components/card.html' },
       ],
     },
+    {
+      group: 'Form Elements',
+      items: [
+        { id: 'text-input', label: 'Text Input', href: '/components/text-input.html' },
+        { id: 'textarea', label: 'Textarea', href: '/components/textarea.html' },
+        { id: 'select', label: 'Select', href: '/components/select.html' },
+        { id: 'checkbox', label: 'Checkbox', href: '/components/checkbox.html' },
+        { id: 'radio', label: 'Radio', href: '/components/radio.html' },
+        { id: 'switch', label: 'Switch', href: '/components/switch.html' },
+        { id: 'search-input', label: 'Search Input', href: '/components/search-input.html' },
+        { id: 'file-input', label: 'File Input', href: '/components/file-input.html' },
+        { id: 'input-group', label: 'Input Group', href: '/components/input-group.html' },
+      ],
+    },
   ];
 
   function renderHeader() {

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Checkbox — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-check {
+    appearance: none;
+    width: 16px; height: 16px;
+    border: 1px solid var(--vs-color-border);
+    border-radius: 4px;
+    background-color: var(--vs-color-surface);
+    background-repeat: no-repeat; background-position: center; background-size: 10px;
+    cursor: pointer; flex-shrink: 0;
+  }
+  .demo-check:checked {
+    background-color: var(--vs-color-brand-primary);
+    border-color: var(--vs-color-brand-primary);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M1 4l2 2 4-4'/%3e%3c/svg%3e");
+  }
+  .demo-check-row { display: flex; align-items: center; gap: 8px; font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); color: var(--vs-color-text-body); }
+</style>
+</head>
+<body data-page="checkbox">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Checkbox</p>
+    <h1>Checkbox</h1>
+    <p class="vs-docs-hero-lede">
+      A real <code>&lt;input type="checkbox"&gt;</code>, custom-styled to
+      match the real site's Bootstrap shape. Implemented in
+      <code>react/src/components/Checkbox.tsx</code> and
+      <code>blade/components/vs-checkbox.blade.php</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">Click to toggle — real checkbox.</p>
+    </div>
+    <div class="vs-docs-preview">
+      <label class="demo-check-row"><input class="demo-check" type="checkbox" checked> I agree to the terms</label>
+      <label class="demo-check-row"><input class="demo-check" type="checkbox"> Unchecked</label>
+      <label class="demo-check-row" style="opacity:.5"><input class="demo-check" type="checkbox" disabled> Disabled</label>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Measurement Guide</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Checked against the real vendored Bootstrap CSS.</p>
+    </div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Size</td><td>16px × 16px</td><td>1em at Bootstrap's default font size</td></tr>
+        <tr><td>Radius</td><td>4px</td><td><code>.form-check-input[type=checkbox]{border-radius:.25em}</code></td></tr>
+        <tr><td>Checked color</td><td><code>--vs-color-brand-primary</code></td><td>site overrides Bootstrap's default blue</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Checkbox } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;Checkbox</span> <span class="attr">name</span>=<span class="str">"terms"</span><span class="tag">&gt;</span>I agree to the terms<span class="tag">&lt;/Checkbox&gt;</span></div>
+
+    <h2>Usage — Blade</h2>
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-checkbox</span> <span class="attr">name</span>=<span class="str">"terms"</span><span class="tag">&gt;</span>I agree to the terms<span class="tag">&lt;/x-vs-checkbox&gt;</span></div>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>name</code></td><td>required</td><td>—</td></tr>
+        <tr><td><code>checked</code> / <code>defaultChecked</code></td><td>boolean</td><td>—</td></tr>
+        <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td></tr>
+        <tr><td>slot / children</td><td>label content</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

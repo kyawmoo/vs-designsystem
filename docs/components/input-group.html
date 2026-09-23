@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Input Group — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-group { position: relative; display: flex; align-items: center; max-width: 360px; }
+  .demo-group input { width: 100%; box-sizing: border-box; font-family: var(--vs-font-family); font-size: 16px; padding: 12px 140px 12px 16px; border-radius: var(--vs-radius-sm); border: 1px solid var(--vs-color-border); background: var(--vs-color-surface); color: var(--vs-color-text-body); }
+  .demo-group button { position: absolute; right: 6px; padding: 8px 16px; font-family: var(--vs-font-family); font-size: 13px; font-weight: 600; border-radius: var(--vs-radius-sm); border: 1px solid var(--vs-color-brand-primary); background: var(--vs-color-brand-primary); color: #fff; cursor: pointer; }
+</style>
+</head>
+<body data-page="input-group">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Input Group</p>
+    <h1>Input Group</h1>
+    <p class="vs-docs-hero-lede">
+      A text field with a button docked inside its right edge — copy
+      links, password-visibility toggles. Implemented in
+      <code>react/src/components/InputGroup.tsx</code> and
+      <code>blade/components/vs-input-group.blade.php</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">140px right padding clears the button.</p>
+    </div>
+    <div class="vs-docs-preview">
+      <div class="demo-group">
+        <input type="text" value="https://vectorsticker.com/ref/abc123" readonly>
+        <button type="button">Copy</button>
+      </div>
+    </div>
+    <div class="vs-docs-callout">
+      <p>
+        The button's click behavior (copy-to-clipboard, password toggle)
+        is page-specific — not built into the component. React takes a
+        plain <code>onButtonClick</code> handler; Blade takes a plain
+        <code>onclick</code> string, or edit the component file directly
+        for Alpine/Livewire wiring (<code>x-on:click</code>,
+        <code>wire:click</code> aren't plain string attributes).
+      </p>
+    </div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { InputGroup } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;InputGroup</span> <span class="attr">value</span>=<span class="tag">{referralLink}</span> <span class="attr">onButtonClick</span>=<span class="tag">{copyLink}</span><span class="tag">&gt;</span>Copy<span class="tag">&lt;/InputGroup&gt;</span></div>
+
+    <h2>Usage — Blade</h2>
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-input-group</span> <span class="attr">:value</span>=<span class="str">"$link"</span> <span class="attr">readonly</span> <span class="attr">onclick</span>=<span class="str">"copyLink()"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;i</span> <span class="attr">class</span>=<span class="str">"fa fa-copy"</span><span class="tag">&gt;&lt;/i&gt;</span> Copy
+<span class="tag">&lt;/x-vs-input-group&gt;</span></div>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>value</code></td><td>string</td><td>—</td></tr>
+        <tr><td><code>readOnly</code> / <code>readonly</code></td><td>boolean</td><td><code>false</code></td></tr>
+        <tr><td><code>onButtonClick</code></td><td>React only</td><td>—</td></tr>
+        <tr><td><code>onclick</code></td><td>Blade only — plain string</td><td>—</td></tr>
+        <tr><td>slot / children</td><td>button content</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Text Input — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-field { width: 100%; box-sizing: border-box; font-family: var(--vs-font-family); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); background: var(--vs-color-surface); color: var(--vs-color-text-body); }
+  .demo-field:focus { outline: none; border-color: var(--vs-color-brand-primary); }
+  .demo-field-md { padding: 12px 18px; font-size: 16px; }
+  .demo-field-lg { padding: 14px 22px; font-size: 16px; }
+  .demo-field-label { display: block; font-size: 13px; font-weight: 600; color: var(--vs-color-text-heading); margin-bottom: 6px; }
+</style>
+</head>
+<body data-page="text-input">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Text Input</p>
+    <h1>Text Input</h1>
+    <p class="vs-docs-hero-lede">
+      Single-line input — text, email, password, any native
+      <code>&lt;input&gt;</code> type. Implemented in
+      <code>react/src/components/TextInput.tsx</code> and
+      <code>blade/components/vs-input.blade.php</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">Click in — try the focus state.</p>
+    </div>
+    <div class="vs-docs-preview" style="flex-direction: column; align-items: stretch; max-width: 360px;">
+      <label class="demo-field-label" for="demo-email">Email address</label>
+      <input class="demo-field demo-field-md" id="demo-email" type="email" placeholder="you@example.com">
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Scale</span><h2>Size</h2></div>
+      <p class="vs-docs-section-desc">md / lg — real site has no custom "sm".</p>
+    </div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Size</th><th>Padding</th><th>Font size</th></tr></thead>
+      <tbody>
+        <tr><td>md (default)</td><td><code>12px 18px</code></td><td>16px</td></tr>
+        <tr><td>lg</td><td><code>14px 22px</code></td><td>16px</td></tr>
+      </tbody>
+    </table>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Measurement Guide</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Real values from .form-control.</p>
+    </div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Radius</td><td>8px</td><td><code>--vs-radius-sm</code> — set explicitly in the real CSS, not a Bootstrap default</td></tr>
+        <tr><td>Border</td><td>1px solid <code>--vs-color-border</code></td><td>.form-control</td></tr>
+        <tr><td>Focus border</td><td><code>--vs-color-brand-primary</code></td><td>.form-control:focus</td></tr>
+        <tr><td>Disabled background</td><td><code>--vs-color-disabled-bg</code></td><td>.form-control:disabled</td></tr>
+        <tr><td>Placeholder color</td><td><code>--vs-color-text-muted</code></td><td>.form-control::placeholder</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { TextInput } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;TextInput</span> <span class="attr">name</span>=<span class="str">"email"</span> <span class="attr">type</span>=<span class="str">"email"</span> <span class="attr">label</span>=<span class="str">"Email address"</span> <span class="attr">required</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Usage — Blade</h2>
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-input</span> <span class="attr">name</span>=<span class="str">"email"</span> <span class="attr">type</span>=<span class="str">"email"</span> <span class="attr">label</span>=<span class="str">"Email address"</span> <span class="attr">required</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>name</code></td><td>required</td><td>—</td></tr>
+        <tr><td><code>type</code></td><td>any native input type</td><td><code>text</code></td></tr>
+        <tr><td><code>size</code></td><td><code>md</code> · <code>lg</code></td><td><code>md</code></td></tr>
+        <tr><td><code>label</code></td><td>string</td><td>—</td></tr>
+        <tr><td><code>error</code></td><td>string — red border + message</td><td>—</td></tr>
+        <tr><td><code>required</code> / <code>disabled</code></td><td>boolean</td><td><code>false</code></td></tr>
+      </tbody>
+    </table>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

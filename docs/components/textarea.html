@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Textarea — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-field { width: 100%; box-sizing: border-box; font-family: var(--vs-font-family); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); background: var(--vs-color-surface); color: var(--vs-color-text-body); padding: 12px 18px; font-size: 16px; resize: vertical; }
+  .demo-field:focus { outline: none; border-color: var(--vs-color-brand-primary); }
+  .demo-field-label { display: block; font-size: 13px; font-weight: 600; color: var(--vs-color-text-heading); margin-bottom: 6px; }
+</style>
+</head>
+<body data-page="textarea">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Textarea</p>
+    <h1>Textarea</h1>
+    <p class="vs-docs-hero-lede">
+      Multi-line input — same visual spec as
+      <a href="/components/text-input.html">Text Input</a>, since the
+      real site's CSS doesn't special-case <code>&lt;textarea&gt;</code>.
+      Implemented in <code>react/src/components/Textarea.tsx</code> and
+      <code>blade/components/vs-textarea.blade.php</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">Drag the corner — resizable vertically.</p>
+    </div>
+    <div class="vs-docs-preview" style="flex-direction: column; align-items: stretch; max-width: 360px;">
+      <label class="demo-field-label" for="demo-message">Message</label>
+      <textarea class="demo-field" id="demo-message" rows="4" placeholder="Your message..."></textarea>
+    </div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Textarea } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;Textarea</span> <span class="attr">name</span>=<span class="str">"message"</span> <span class="attr">label</span>=<span class="str">"Message"</span> <span class="attr">rows</span>=<span class="tag">{5}</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Usage — Blade</h2>
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-textarea</span> <span class="attr">name</span>=<span class="str">"message"</span> <span class="attr">label</span>=<span class="str">"Message"</span> <span class="attr">rows</span>=<span class="str">"5"</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>name</code></td><td>required</td><td>—</td></tr>
+        <tr><td><code>rows</code></td><td>number</td><td><code>4</code></td></tr>
+        <tr><td><code>label</code></td><td>string</td><td>—</td></tr>
+        <tr><td><code>error</code></td><td>string — red border + message</td><td>—</td></tr>
+        <tr><td><code>required</code> / <code>disabled</code></td><td>boolean</td><td><code>false</code></td></tr>
+      </tbody>
+    </table>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

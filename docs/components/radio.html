@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Radio — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-check {
+    appearance: none;
+    width: 16px; height: 16px;
+    border: 1px solid var(--vs-color-border);
+    border-radius: 50%;
+    background-color: var(--vs-color-surface);
+    background-repeat: no-repeat; background-position: center;
+    cursor: pointer; flex-shrink: 0;
+  }
+  .demo-check:checked {
+    background-color: var(--vs-color-brand-primary);
+    border-color: var(--vs-color-brand-primary);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3ccircle cx='4' cy='4' r='2' fill='%23fff'/%3e%3c/svg%3e");
+  }
+  .demo-check-row { display: flex; align-items: center; gap: 8px; font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); color: var(--vs-color-text-body); }
+</style>
+</head>
+<body data-page="radio">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Radio</p>
+    <h1>Radio</h1>
+    <p class="vs-docs-hero-lede">
+      Same shape family as <a href="/components/checkbox.html">Checkbox</a>
+      but circular — real Bootstrap sets <code>border-radius: 50%</code>
+      specifically for <code>[type=radio]</code>. Implemented in
+      <code>react/src/components/Radio.tsx</code> and
+      <code>blade/components/vs-radio.blade.php</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">Same <code>name</code> = one group.</p>
+    </div>
+    <div class="vs-docs-preview">
+      <label class="demo-check-row"><input class="demo-check" type="radio" name="demo-plan" checked> Monthly</label>
+      <label class="demo-check-row"><input class="demo-check" type="radio" name="demo-plan"> Yearly</label>
+    </div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Radio } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;Radio</span> <span class="attr">name</span>=<span class="str">"plan"</span> <span class="attr">value</span>=<span class="str">"monthly"</span> <span class="attr">checked</span><span class="tag">&gt;</span>Monthly<span class="tag">&lt;/Radio&gt;</span>
+<span class="tag">&lt;Radio</span> <span class="attr">name</span>=<span class="str">"plan"</span> <span class="attr">value</span>=<span class="str">"yearly"</span><span class="tag">&gt;</span>Yearly<span class="tag">&lt;/Radio&gt;</span></div>
+
+    <h2>Usage — Blade</h2>
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-radio</span> <span class="attr">name</span>=<span class="str">"plan"</span> <span class="attr">value</span>=<span class="str">"monthly"</span> <span class="attr">checked</span><span class="tag">&gt;</span>Monthly<span class="tag">&lt;/x-vs-radio&gt;</span>
+<span class="tag">&lt;x-vs-radio</span> <span class="attr">name</span>=<span class="str">"plan"</span> <span class="attr">value</span>=<span class="str">"yearly"</span><span class="tag">&gt;</span>Yearly<span class="tag">&lt;/x-vs-radio&gt;</span></div>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>name</code></td><td>required — shared across a group</td><td>—</td></tr>
+        <tr><td><code>value</code></td><td>required</td><td>—</td></tr>
+        <tr><td><code>checked</code> / <code>defaultChecked</code></td><td>boolean</td><td>—</td></tr>
+        <tr><td>slot / children</td><td>label content</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>
