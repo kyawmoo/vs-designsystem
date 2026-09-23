@@ -28,6 +28,14 @@
   transform: scale(0.98);
 }
 
+/* Pagination — real .page-item .page-link:hover fills solid brand
+   primary + white text (audited from app.css); can't express :hover
+   background/color swap inline. */
+.vs-page-item:hover:not(:disabled) {
+  background: var(--vs-color-brand-primary) !important;
+  color: #ffffff !important;
+}
+
 /* Form fields (TextInput/Textarea/Select/SearchInput/InputGroup) — only
    :focus needs a class rule; colors/radius/padding are inline (per-size,
    per-error-state) in each component. Matches the real site's own

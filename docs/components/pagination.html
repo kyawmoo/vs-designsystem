@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Pagination — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-page-item { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 36px; padding: 6px 15px; border-radius: var(--vs-radius-xs); border: none; background: transparent; color: var(--vs-color-brand-primary); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); cursor: pointer; }
+  .demo-page-item:hover:not(:disabled) { background: var(--vs-color-brand-primary); color: #fff; }
+  .demo-page-item.is-active { background: var(--vs-color-brand-primary); color: #fff; }
+  .demo-page-item:disabled { color: var(--vs-color-text-muted); cursor: default; }
+</style>
+</head>
+<body data-page="pagination">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Pagination</p>
+    <h1>Pagination</h1>
+    <p class="vs-docs-hero-lede">
+      Wraps the real <code>.page-item</code> / <code>.page-link</code>
+      pattern. Implemented in
+      <code>react/src/components/Pagination.tsx</code> and
+      <code>blade/components/vs-pagination.blade.php</code> — the two
+      work differently; see below.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">Hover a page number — real fill.</p>
+    </div>
+    <div class="vs-docs-preview">
+      <button class="demo-page-item" disabled>‹</button>
+      <button class="demo-page-item is-active">1</button>
+      <button class="demo-page-item">2</button>
+      <button class="demo-page-item">3</button>
+      <span class="demo-page-item" style="cursor:default;color:var(--vs-color-text-muted)">…</span>
+      <button class="demo-page-item">12</button>
+      <button class="demo-page-item">›</button>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Platform Difference</span><h2>React vs. Blade</h2></div>
+      <p class="vs-docs-section-desc">Different data source, same visual output.</p>
+    </div>
+    <div class="vs-docs-callout">
+      <p>
+        <strong>React</strong> takes plain <code>page</code>/
+        <code>totalPages</code> numbers and an <code>onPageChange</code>
+        callback — the reports dashboard has no server-rendered
+        paginator, so it computes its own windowed page range.
+        <strong>Blade</strong> takes a real Laravel paginator instance
+        (<code>Model::paginate()</code>) and simply renders
+        <code>$paginator-&gt;links()</code> — Laravel's own pagination
+        view already outputs the exact <code>.page-item</code> /
+        <code>.page-link</code> markup the site's CSS styles correctly,
+        so there was nothing to re-wrap.
+      </p>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Measurement Guide</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Real values, from .page-item .page-link.</p>
+    </div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Radius</td><td>5px — <code>--vs-radius-xs</code></td><td><code>border-radius: 5px !important</code></td></tr>
+        <tr><td>Padding</td><td><code>6px 15px</code></td><td>Bootstrap's 0.375rem vertical + the site's 15px horizontal override</td></tr>
+        <tr><td>Border</td><td>none</td><td>real site removes it entirely</td></tr>
+        <tr><td>Default state</td><td>transparent bg, brand-primary text</td><td>.page-item .page-link</td></tr>
+        <tr><td>Hover / Active</td><td>solid brand-primary bg, white text</td><td>.page-link:hover / .page-item.active</td></tr>
+        <tr><td>Disabled</td><td><code>--vs-color-text-muted</code> text</td><td>.page-item[disabled]</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Pagination } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;Pagination</span> <span class="attr">page</span>=<span class="tag">{page}</span> <span class="attr">totalPages</span>=<span class="tag">{12}</span> <span class="attr">onPageChange</span>=<span class="tag">{setPage}</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Usage — Blade</h2>
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-pagination</span> <span class="attr">:paginator</span>=<span class="str">"$items"</span> <span class="tag">/&gt;</span>
+
+<span class="cmt">&lt;!-- $items = Item::paginate(20) in the controller --&gt;</span></div>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Platform</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td><code>page</code> / <code>totalPages</code></td><td>React</td><td>numbers</td></tr>
+        <tr><td><code>onPageChange</code></td><td>React</td><td><code>(page: number) =&gt; void</code></td></tr>
+        <tr><td><code>paginator</code></td><td>Blade</td><td>a LengthAwarePaginator instance</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

@@ -55,5 +55,11 @@ export type { FileInputProps } from './components/FileInput';
 export { InputGroup } from './components/InputGroup';
 export type { InputGroupProps } from './components/InputGroup';
 
+export { Breadcrumb } from './components/Breadcrumb';
+export type { BreadcrumbProps, BreadcrumbItem } from './components/Breadcrumb';
+
+export { Pagination } from './components/Pagination';
+export type { PaginationProps } from './components/Pagination';
+
 import '../../tokens/tokens.css';
 import './styles.css';
