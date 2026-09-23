@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Button — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  /* Demo-only: mirrors react/src/components/Button.tsx's computed styles
+     exactly (same tokens), so this preview matches the real component
+     without needing a JS runtime on a static doc page. */
+  .demo-btn {
+    font-family: var(--vs-font-family);
+    font-weight: 600;
+    border: 1px solid;
+    cursor: pointer;
+    box-shadow: var(--vs-shadow-none);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .demo-btn--primary { background: var(--vs-color-brand-primary); border-color: var(--vs-color-brand-primary); color: #fff; border-radius: var(--vs-radius-full); }
+  .demo-btn--secondary { background: var(--vs-color-brand-secondary); border-color: var(--vs-color-brand-secondary); color: #fff; border-radius: var(--vs-radius-full); }
+  .demo-btn--tertiary { background: var(--vs-color-surface); border-color: var(--vs-color-border); color: var(--vs-color-text-body); border-radius: var(--vs-radius-full); }
+  .demo-btn--sm { padding: 8px 18px; font-size: 13px; }
+  .demo-btn--md { padding: 12px 28px; font-size: 14px; }
+  .demo-btn--lg { padding: 14px 35px; font-size: 14px; }
+  .demo-btn--icon-only { border-radius: var(--vs-radius-sm); padding: 0; width: 38px; height: 38px; }
+  .demo-btn--icon-only.demo-btn--sm { width: 32px; height: 32px; }
+  .demo-btn--icon-only.demo-btn--lg { width: 44px; height: 44px; }
+</style>
+</head>
+<body data-page="button">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-content">
+    <p class="vs-docs-eyebrow">Components</p>
+    <h1>Button</h1>
+    <p class="vs-docs-lede">
+      Primary / Secondary / Tertiary emphasis, in text-only, icon+text or
+      icon-only form. Implemented in <code>react/src/components/Button.tsx</code>
+      and <code>blade/components/vs-button.blade.php</code>.
+    </p>
+
+    <h2>Emphasis</h2>
+    <div class="vs-docs-preview">
+      <button class="demo-btn demo-btn--primary demo-btn--md">Primary</button>
+      <button class="demo-btn demo-btn--secondary demo-btn--md">Secondary</button>
+      <button class="demo-btn demo-btn--tertiary demo-btn--md">Tertiary</button>
+    </div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Emphasis</th><th>React <code>emphasis</code></th><th>Blade <code>variant</code></th><th>Real class (Blade)</th></tr></thead>
+      <tbody>
+        <tr><td>Primary</td><td><code>"primary"</code></td><td><code>"primary"</code></td><td><code>.btn-primary</code></td></tr>
+        <tr><td>Secondary</td><td><code>"secondary"</code></td><td><code>"secondary"</code></td><td><code>.btn-secondary</code></td></tr>
+        <tr><td>Tertiary</td><td><code>"tertiary"</code></td><td><code>"tertiary"</code></td><td><code>.btn-soft</code></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Size</h2>
+    <div class="vs-docs-preview">
+      <button class="demo-btn demo-btn--primary demo-btn--sm">Small</button>
+      <button class="demo-btn demo-btn--primary demo-btn--md">Medium</button>
+      <button class="demo-btn demo-btn--primary demo-btn--lg">Large</button>
+    </div>
+
+    <h2>Icon-only</h2>
+    <p>Square, not a pill — <code>var(--vs-radius-sm)</code>, sized off the shared icon scale (see <a href="/foundations/iconography.html">Iconography</a>).</p>
+    <div class="vs-docs-preview">
+      <button class="demo-btn demo-btn--tertiary demo-btn--icon-only demo-btn--sm">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5v14"/></svg>
+      </button>
+      <button class="demo-btn demo-btn--tertiary demo-btn--icon-only demo-btn--md">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5v14"/></svg>
+      </button>
+      <button class="demo-btn demo-btn--tertiary demo-btn--icon-only demo-btn--lg">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5v14"/></svg>
+      </button>
+    </div>
+    <div class="vs-docs-callout">
+      <p>
+        On Blade, this replaces the ad-hoc inline
+        <code>style="height:38px;width:38px;padding:0;"</code> hack seen in
+        <code>grid-buttons.blade.php</code> — the sizes are now the same
+        component-level fix on both platforms.
+      </p>
+    </div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Button } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;Button</span> <span class="attr">emphasis</span>=<span class="str">"primary"</span><span class="tag">&gt;</span>Save changes<span class="tag">&lt;/Button&gt;</span>
+<span class="tag">&lt;Button</span> <span class="attr">emphasis</span>=<span class="str">"tertiary"</span> <span class="attr">size</span>=<span class="str">"sm"</span><span class="tag">&gt;</span>Cancel<span class="tag">&lt;/Button&gt;</span>
+<span class="tag">&lt;Button</span> <span class="attr">iconOnly</span> <span class="attr">icon</span>=<span class="tag">{&lt;Trash2 /&gt;}</span> <span class="attr">aria-label</span>=<span class="str">"Delete"</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Usage — Blade</h2>
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-button</span> <span class="attr">variant</span>=<span class="str">"primary"</span><span class="tag">&gt;</span>Save changes<span class="tag">&lt;/x-vs-button&gt;</span>
+<span class="tag">&lt;x-vs-button</span> <span class="attr">variant</span>=<span class="str">"tertiary"</span> <span class="attr">size</span>=<span class="str">"sm"</span><span class="tag">&gt;</span>Cancel<span class="tag">&lt;/x-vs-button&gt;</span>
+<span class="tag">&lt;x-vs-button</span> <span class="attr">variant</span>=<span class="str">"tertiary"</span> <span class="attr">icon-only</span> <span class="attr">aria-label</span>=<span class="str">"Delete"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;x-slot:icon&gt;&lt;i</span> <span class="attr">class</span>=<span class="str">"fa-solid fa-trash"</span><span class="tag">&gt;&lt;/i&gt;&lt;/x-slot:icon&gt;</span>
+<span class="tag">&lt;/x-vs-button&gt;</span></div>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>emphasis</code> / <code>variant</code></td><td><code>primary</code> · <code>secondary</code> · <code>tertiary</code> (Blade adds <code>oauth</code>)</td><td><code>primary</code></td></tr>
+        <tr><td><code>size</code></td><td><code>sm</code> · <code>md</code> · <code>lg</code></td><td><code>md</code></td></tr>
+        <tr><td><code>iconOnly</code> / <code>icon-only</code></td><td>boolean</td><td><code>false</code></td></tr>
+        <tr><td><code>outline</code></td><td>Blade only, primary/secondary</td><td><code>false</code></td></tr>
+        <tr><td><code>disabled</code></td><td>—</td><td><code>false</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

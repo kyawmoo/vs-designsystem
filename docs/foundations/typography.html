@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Typography — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap">
+</head>
+<body data-page="typography">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-content">
+    <p class="vs-docs-eyebrow">Foundations</p>
+    <h1>Typography</h1>
+    <p class="vs-docs-lede">
+      One typeface across both products: <strong>Roboto</strong>. Replaces the
+      public site's Montserrat override and the report site's Inter.
+    </p>
+
+    <div class="vs-docs-callout">
+      <p>
+        <strong>Not yet live on either site.</strong> This is the agreed target
+        — vectorsticker.com's <code>custom.css</code> Montserrat override and
+        reports.vectorsticker.com's Inter (<code>index.css</code>) both still
+        need to switch to Roboto. Token is defined; site-wide swap is a
+        tracked follow-up.
+      </p>
+    </div>
+
+    <h2>Scale</h2>
+    <div class="vs-docs-specimen-row">
+      <span class="vs-docs-specimen-label"><code>display</code> · 45px / 600</span>
+      <span style="font-family:'Roboto',sans-serif;font-size:45px;font-weight:600;color:var(--vs-color-text-heading)">Aa 123</span>
+    </div>
+    <div class="vs-docs-specimen-row">
+      <span class="vs-docs-specimen-label"><code>heading-md</code> · 28px / 600</span>
+      <span style="font-family:'Roboto',sans-serif;font-size:28px;font-weight:600;color:var(--vs-color-text-heading)">Aa 123</span>
+    </div>
+    <div class="vs-docs-specimen-row">
+      <span class="vs-docs-specimen-label"><code>heading-sm</code> · 15px / 600</span>
+      <span style="font-family:'Roboto',sans-serif;font-size:15px;font-weight:600;color:var(--vs-color-text-heading)">Aa 123</span>
+    </div>
+    <div class="vs-docs-specimen-row">
+      <span class="vs-docs-specimen-label"><code>body-md</code> · 16px / 400</span>
+      <span style="font-family:'Roboto',sans-serif;font-size:16px;font-weight:400;color:var(--vs-color-text-body)">Aa 123</span>
+    </div>
+    <div class="vs-docs-specimen-row">
+      <span class="vs-docs-specimen-label"><code>body-sm</code> · 13px / 400</span>
+      <span style="font-family:'Roboto',sans-serif;font-size:13px;font-weight:400;color:var(--vs-color-text-body)">Aa 123</span>
+    </div>
+
+    <h2>Usage</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Scale</th><th>Use for</th></tr></thead>
+      <tbody>
+        <tr><td><code>display</code></td><td>Pricing display, large stat numbers (report site KPI tiles)</td></tr>
+        <tr><td><code>heading-md</code></td><td>Section titles</td></tr>
+        <tr><td><code>heading-sm</code></td><td>Card titles, smallest heading</td></tr>
+        <tr><td><code>body-md</code></td><td>Card/item titles, section body text</td></tr>
+        <tr><td><code>body-sm</code></td><td>Base body text, labels, table cells</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Line-height for body text is <code>1.7</code> — relaxed, for
+      descriptive paragraphs and long-form content.
+    </p>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

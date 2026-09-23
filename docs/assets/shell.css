@@ -1,0 +1,364 @@
+/**
+ * VectorSticker Design System docs — shared "Site Shell".
+ * Dark top header + dark left sidebar (both use brand.secondary #222222),
+ * white content body. Agreed with Master KMO during the Stitch phase:
+ * "top header, left side bar and content title section [are dark].
+ * The body is white as we do."
+ */
+
+/* Copy of ../../tokens/tokens.css, not a reference — this docs site
+   deploys to its own subdomain root (ds.vectorsticker.com), so it can't
+   reach outside its own served folder. Keep this in sync by hand when
+   tokens.css changes (same duplication approach as blade/components.css,
+   which ships one copy per asset pipeline for the same reason). */
+@import url('./tokens.css');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--vs-font-family);
+  color: var(--vs-color-text-body);
+  background: var(--vs-color-background);
+}
+
+a {
+  color: inherit;
+}
+
+/* ---- Header ---- */
+.vs-docs-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: var(--vs-color-brand-secondary);
+  color: #ffffff;
+  z-index: 100;
+}
+
+.vs-docs-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.vs-docs-header-logo {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--vs-radius-sm);
+  background: var(--vs-color-brand-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.vs-docs-header-version {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--vs-color-brand-accent);
+  background: color-mix(in srgb, var(--vs-color-brand-accent) 15%, transparent);
+  padding: 3px 8px;
+  border-radius: var(--vs-radius-full);
+}
+
+.vs-docs-header-links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.vs-docs-header-links a {
+  text-decoration: none;
+  color: #c9cdd3;
+  transition: color 120ms ease;
+}
+
+.vs-docs-header-links a:hover {
+  color: #ffffff;
+}
+
+/* ---- Sidebar ---- */
+.vs-docs-sidebar {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  bottom: 0;
+  width: 240px;
+  overflow-y: auto;
+  background: var(--vs-color-brand-secondary);
+  padding: 20px 0 40px;
+  z-index: 90;
+}
+
+.vs-docs-sidebar-group {
+  margin-bottom: 22px;
+}
+
+.vs-docs-sidebar-group-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #7d838c;
+  padding: 0 20px;
+  margin: 0 0 8px;
+}
+
+.vs-docs-sidebar a {
+  display: block;
+  padding: 7px 20px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #c9cdd3;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: color 120ms ease, background 120ms ease;
+}
+
+.vs-docs-sidebar a:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.vs-docs-sidebar a.is-active {
+  color: #ffffff;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.06);
+  border-left-color: var(--vs-color-brand-accent);
+}
+
+/* ---- Content ---- */
+.vs-docs-main {
+  margin-left: 240px;
+  margin-top: 56px;
+  min-height: calc(100vh - 56px);
+  background: #ffffff;
+}
+
+.vs-docs-content {
+  max-width: 880px;
+  padding: 48px 56px 96px;
+}
+
+.vs-docs-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--vs-color-brand-primary);
+  margin: 0 0 8px;
+}
+
+.vs-docs-content h1 {
+  font-size: var(--vs-font-size-display);
+  font-weight: 600;
+  color: var(--vs-color-text-heading);
+  margin: 0 0 12px;
+  letter-spacing: -0.01em;
+}
+
+.vs-docs-lede {
+  font-size: 16px;
+  line-height: var(--vs-line-height-body);
+  color: var(--vs-color-text-muted);
+  max-width: 640px;
+  margin: 0 0 40px;
+}
+
+.vs-docs-content h2 {
+  font-size: var(--vs-font-size-heading-md);
+  font-weight: 600;
+  color: var(--vs-color-text-heading);
+  margin: 48px 0 16px;
+  padding-top: 8px;
+  border-top: 1px solid var(--vs-color-border);
+}
+
+.vs-docs-content h2:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.vs-docs-content h3 {
+  font-size: var(--vs-font-size-heading-sm);
+  font-weight: 600;
+  color: var(--vs-color-text-heading);
+  margin: 28px 0 12px;
+}
+
+.vs-docs-content p {
+  font-size: var(--vs-font-size-body-md);
+  line-height: var(--vs-line-height-body);
+  color: var(--vs-color-text-body);
+}
+
+.vs-docs-content code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.85em;
+  background: var(--vs-color-background);
+  border: 1px solid var(--vs-color-border);
+  border-radius: var(--vs-radius-xs);
+  padding: 1px 6px;
+}
+
+.vs-docs-code-block {
+  background: #1c1c1e;
+  color: #e4e4e7;
+  border-radius: var(--vs-radius-sm);
+  padding: 16px 18px;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 0 0 20px;
+}
+
+.vs-docs-code-block .tag { color: #78dc77; }
+.vs-docs-code-block .attr { color: #bcfd1d; }
+.vs-docs-code-block .str { color: #a488ff; }
+.vs-docs-code-block .cmt { color: #7d838c; }
+
+/* ---- Reusable doc widgets ---- */
+.vs-docs-swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  margin: 0 0 20px;
+}
+
+.vs-docs-swatch {
+  border: 1px solid var(--vs-color-border);
+  border-radius: var(--vs-radius-sm);
+  overflow: hidden;
+}
+
+.vs-docs-swatch-fill {
+  height: 72px;
+}
+
+.vs-docs-swatch-meta {
+  padding: 10px 12px;
+}
+
+.vs-docs-swatch-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--vs-color-text-heading);
+  margin: 0 0 2px;
+}
+
+.vs-docs-swatch-value {
+  font-size: 11.5px;
+  color: var(--vs-color-text-muted);
+  font-family: 'SFMono-Regular', Consolas, monospace;
+  margin: 0;
+}
+
+.vs-docs-specimen-row {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--vs-color-border);
+}
+
+.vs-docs-specimen-row:last-child {
+  border-bottom: none;
+}
+
+.vs-docs-specimen-label {
+  width: 160px;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--vs-color-text-muted);
+}
+
+.vs-docs-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 24px;
+  font-size: 13.5px;
+}
+
+.vs-docs-table th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--vs-color-text-muted);
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--vs-color-border);
+}
+
+.vs-docs-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--vs-color-border);
+  color: var(--vs-color-text-body);
+}
+
+.vs-docs-table code {
+  white-space: nowrap;
+}
+
+.vs-docs-callout {
+  border: 1px solid var(--vs-color-border);
+  border-left: 3px solid var(--vs-color-brand-primary);
+  background: var(--vs-color-success-bg);
+  border-radius: var(--vs-radius-xs);
+  padding: 14px 18px;
+  margin: 0 0 24px;
+  font-size: 13.5px;
+}
+
+.vs-docs-callout--gap {
+  border-left-color: var(--vs-color-warning-border);
+  background: var(--vs-color-warning-bg);
+}
+
+.vs-docs-callout p {
+  margin: 0;
+}
+
+.vs-docs-preview {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--vs-color-border);
+  border-radius: var(--vs-radius-sm);
+  padding: 24px;
+  margin: 0 0 20px;
+  background: var(--vs-color-background);
+}
+
+@media (max-width: 900px) {
+  .vs-docs-sidebar {
+    display: none;
+  }
+  .vs-docs-main {
+    margin-left: 0;
+  }
+  .vs-docs-content {
+    padding: 32px 24px 64px;
+  }
+}

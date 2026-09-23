@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Iconography — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+</head>
+<body data-page="iconography">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-content">
+    <p class="vs-docs-eyebrow">Foundations</p>
+    <h1>Iconography</h1>
+    <p class="vs-docs-lede">
+      The icon <em>library</em> intentionally differs by platform. The
+      <em>size scale</em> is shared, so icons carry the same visual weight
+      on both products.
+    </p>
+
+    <h2>Library — one per platform</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Platform</th><th>Library</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>reports.vectorsticker.com (React)</td>
+          <td><a href="https://lucide.dev" target="_blank" rel="noopener">lucide-react</a></td>
+          <td>SVG components, already the project's icon set</td>
+        </tr>
+        <tr>
+          <td>vectorsticker.com (Blade)</td>
+          <td>Font Awesome</td>
+          <td>Deeply embedded site-wide; re-unifying was judged not worth the rework risk</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Shared size scale</h2>
+    <div class="vs-docs-preview">
+      <div style="text-align:center">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--vs-color-brand-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+        <p class="vs-docs-swatch-value" style="margin-top:8px">sm · 16px</p>
+      </div>
+      <div style="text-align:center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--vs-color-brand-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+        <p class="vs-docs-swatch-value" style="margin-top:8px">md · 20px (default)</p>
+      </div>
+      <div style="text-align:center">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--vs-color-brand-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+        <p class="vs-docs-swatch-value" style="margin-top:8px">lg · 24px</p>
+      </div>
+    </div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Token</th><th>Value</th><th>Use for</th></tr></thead>
+      <tbody>
+        <tr><td><code>--vs-icon-size-sm</code></td><td>16px</td><td>Inline with body text, dense UI (filter icons, table row actions)</td></tr>
+        <tr><td><code>--vs-icon-size-md</code></td><td>20px</td><td><strong>Default</strong> — buttons, headers, nav items</td></tr>
+        <tr><td><code>--vs-icon-size-lg</code></td><td>24px</td><td>Standalone/featured icons</td></tr>
+        <tr><td><code>--vs-icon-stroke-width</code></td><td>2</td><td>lucide-react only — Font Awesome has no stroke-width equivalent</td></tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

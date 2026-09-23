@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Badge — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: var(--vs-radius-full);
+    font-family: var(--vs-font-family);
+    font-size: var(--vs-font-size-body-sm);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .demo-dot { width: 6px; height: 6px; border-radius: var(--vs-radius-full); flex-shrink: 0; }
+</style>
+</head>
+<body data-page="badge">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-content">
+    <p class="vs-docs-eyebrow">Components</p>
+    <h1>Badge</h1>
+    <p class="vs-docs-lede">
+      Three tone families, one component: semantic, product, and item-status
+      (admin moderation). Implemented in
+      <code>react/src/components/Badge.tsx</code> and
+      <code>blade/components/vs-badge.blade.php</code> +
+      <code>vs-item-badge.blade.php</code>.
+    </p>
+
+    <h2>Semantic</h2>
+    <div class="vs-docs-preview">
+      <span class="demo-badge" style="background:var(--vs-color-success-bg);color:var(--vs-color-success-border)">Success</span>
+      <span class="demo-badge" style="background:var(--vs-color-warning-bg);color:#854d0e">Warning</span>
+      <span class="demo-badge" style="background:var(--vs-color-danger-bg);color:var(--vs-color-danger-border)">Danger</span>
+      <span class="demo-badge" style="background:var(--vs-color-info-bg);color:var(--vs-color-info-border)">Info</span>
+      <span class="demo-badge" style="background:var(--vs-color-disabled-bg);color:var(--vs-color-text-muted)">Neutral</span>
+    </div>
+
+    <h2>Product (item card)</h2>
+    <div class="vs-docs-preview">
+      <span class="demo-badge" style="background:color-mix(in srgb, #0074E4 12%, transparent);color:#0074E4">Trending</span>
+      <span class="demo-badge" style="background:color-mix(in srgb, #0BBE9A 12%, transparent);color:#0BBE9A">On Sale</span>
+      <span class="demo-badge" style="background:color-mix(in srgb, #743CEE 12%, transparent);color:#743CEE">Free</span>
+      <span class="demo-badge" style="background:color-mix(in srgb, var(--vs-color-brand-primary) 12%, transparent);color:var(--vs-color-brand-primary)">Premium</span>
+    </div>
+
+    <h2>Item status (admin moderation)</h2>
+    <div class="vs-docs-preview">
+      <span class="demo-badge" style="background:#FF7A14;color:#fff">Pending</span>
+      <span class="demo-badge" style="background:#5506E8;color:#fff">Soft Rejected</span>
+      <span class="demo-badge" style="background:#0A89FF;color:#fff">Resubmitted</span>
+      <span class="demo-badge" style="background:#00BA10;color:#fff">Approved</span>
+      <span class="demo-badge" style="background:#D60C0C;color:#fff">Hard Rejected</span>
+      <span class="demo-badge" style="background:#F44336;color:#fff">Deleted</span>
+    </div>
+    <p>
+      On Blade, item-status badges are solid (<code>bg-orange</code> etc,
+      matching the real admin table). On React, they use the same 12%-tint
+      pattern as semantic/product badges via <code>color-mix()</code>, since
+      no dedicated tint token exists for them.
+    </p>
+
+    <h2>Dot variant</h2>
+    <p>React only — a leading solid dot instead of a filled background, for denser contexts.</p>
+    <div class="vs-docs-preview">
+      <span class="demo-badge" style="color:var(--vs-color-success-border)"><span class="demo-dot" style="background:var(--vs-color-success-border)"></span>Online</span>
+      <span class="demo-badge" style="color:var(--vs-color-danger-border)"><span class="demo-dot" style="background:var(--vs-color-danger-border)"></span>Offline</span>
+    </div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Badge } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;Badge</span> <span class="attr">tone</span>=<span class="str">"success"</span><span class="tag">&gt;</span>Verified<span class="tag">&lt;/Badge&gt;</span>
+<span class="tag">&lt;Badge</span> <span class="attr">tone</span>=<span class="str">"trending"</span><span class="tag">&gt;</span>Trending<span class="tag">&lt;/Badge&gt;</span>
+<span class="tag">&lt;Badge</span> <span class="attr">tone</span>=<span class="str">"approved"</span> <span class="attr">dot</span><span class="tag">&gt;</span>Approved<span class="tag">&lt;/Badge&gt;</span></div>
+
+    <h2>Usage — Blade</h2>
+    <div class="vs-docs-code-block"><span class="cmt">&lt;!-- item-status --&gt;</span>
+<span class="tag">&lt;x-vs-badge</span> <span class="attr">item-status</span>=<span class="str">"pending"</span><span class="tag">&gt;</span>{{ $item->getStatusName() }}<span class="tag">&lt;/x-vs-badge&gt;</span>
+
+<span class="cmt">&lt;!-- generic --&gt;</span>
+<span class="tag">&lt;x-vs-badge</span> <span class="attr">tone</span>=<span class="str">"success"</span><span class="tag">&gt;</span>Verified<span class="tag">&lt;/x-vs-badge&gt;</span>
+
+<span class="cmt">&lt;!-- item card product badge --&gt;</span>
+<span class="tag">&lt;x-vs-item-badge</span> <span class="attr">type</span>=<span class="str">"premium"</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td><code>tone</code></td><td><code>success</code> · <code>warning</code> · <code>danger</code> · <code>info</code> · <code>neutral</code> · <code>trending</code> · <code>sale</code> · <code>free</code> · <code>premium</code> · <code>pending</code> · <code>soft-rejected</code> · <code>resubmitted</code> · <code>approved</code> · <code>hard-rejected</code> · <code>deleted</code></td></tr>
+        <tr><td><code>dot</code></td><td>React only, boolean</td></tr>
+        <tr><td><code>item-status</code></td><td>Blade only — takes priority over <code>tone</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

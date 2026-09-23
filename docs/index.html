@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Getting Started — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+</head>
+<body data-page="getting-started">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-content">
+    <p class="vs-docs-eyebrow">Overview</p>
+    <h1>VectorSticker Design System</h1>
+    <p class="vs-docs-lede">
+      One source of truth for color, type, spacing and components —
+      shared by vectorsticker.com and reports.vectorsticker.com.
+      Change a token or a component here once; both products pick it up.
+    </p>
+
+    <h2>Three layers</h2>
+    <table class="vs-docs-table">
+      <thead>
+        <tr><th>Layer</th><th>What it is</th><th>Lives in</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Tokens</strong></td>
+          <td>Color, typography, spacing, radius, shadow, icon-size values — framework-agnostic</td>
+          <td><code>tokens/tokens.json</code> + <code>tokens/tokens.css</code></td>
+        </tr>
+        <tr>
+          <td><strong>React components</strong></td>
+          <td>Button, Badge, and the shared reporting widgets, built on the tokens</td>
+          <td><code>react/src/components/</code></td>
+        </tr>
+        <tr>
+          <td><strong>Blade components</strong></td>
+          <td>Button, Badge, Card, and 9 form elements, wrapping the main site's own CSS classes</td>
+          <td><code>blade/components/</code></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      Tokens are consumed directly by both stacks. Components are built
+      separately per stack — PHP/Blade can't run React code — but both
+      reference the same tokens, so a color or radius change propagates
+      everywhere. A structural change (new variant, new component) means
+      editing both implementations.
+    </p>
+
+    <h2>Using it in reports.vectorsticker.com</h2>
+    <div class="vs-docs-code-block"><span class="cmt">// package.json</span>
+"<span class="attr">@vectorsticker/design-system</span>": "<span class="str">github:kyawmoo/vs-designsystem#main</span>"</div>
+    <div class="vs-docs-code-block"><span class="cmt">// any view</span>
+<span class="tag">import</span> { Button, Badge, SummaryCard } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;</div>
+    <p>
+      Tokens and component styles are auto-imported the first time you
+      import anything from the package — no separate CSS import needed.
+      Tailwind v4 doesn't scan <code>node_modules</code> by default, so
+      add one <code>@source</code> line in <code>index.css</code>
+      pointing at the package's <code>react/src</code> folder.
+    </p>
+
+    <h2>Using it in vectorsticker.com</h2>
+    <div class="vs-docs-code-block"><span class="cmt">&lt;!-- any Blade view, after copying blade/components/*.blade.php --&gt;</span>
+<span class="tag">&lt;x-vs-button</span> <span class="attr">variant</span>=<span class="str">"primary"</span><span class="tag">&gt;</span>Save changes<span class="tag">&lt;/x-vs-button&gt;</span>
+<span class="tag">&lt;x-vs-badge</span> <span class="attr">item-status</span>=<span class="str">"pending"</span><span class="tag">&gt;</span>Pending<span class="tag">&lt;/x-vs-badge&gt;</span></div>
+    <p>
+      Blade components wrap classes the main site's CSS already defines
+      (<code>.btn-primary</code>, <code>bg-orange</code>, …) — no separate
+      stylesheet needed for most of them. See each component page for the
+      one exception (icon-only buttons) and the current public/admin CSS
+      gap.
+    </p>
+
+    <div class="vs-docs-callout">
+      <p>
+        <strong>Start with Foundations</strong> if you're new here — Colors
+        and Spacing &amp; Radius explain the values everything else is
+        built from. Then check a Component page for the variant you need.
+      </p>
+    </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

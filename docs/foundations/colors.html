@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Colors — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+</head>
+<body data-page="colors">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-content">
+    <p class="vs-docs-eyebrow">Foundations</p>
+    <h1>Colors</h1>
+    <p class="vs-docs-lede">
+      Audited from vectorsticker.com's own CSS (<code>colors.css</code>) —
+      not invented. Every value here is what the main site already uses;
+      reports.vectorsticker.com was migrated to match, replacing its
+      previous, unrelated <code>#005C55</code>.
+    </p>
+
+    <h2>Brand</h2>
+    <div class="vs-docs-swatch-grid">
+      <div class="vs-docs-swatch">
+        <div class="vs-docs-swatch-fill" style="background:var(--vs-color-brand-primary)"></div>
+        <div class="vs-docs-swatch-meta">
+          <p class="vs-docs-swatch-name">Primary</p>
+          <p class="vs-docs-swatch-value">#4CAF50</p>
+        </div>
+      </div>
+      <div class="vs-docs-swatch">
+        <div class="vs-docs-swatch-fill" style="background:var(--vs-color-brand-accent)"></div>
+        <div class="vs-docs-swatch-meta">
+          <p class="vs-docs-swatch-name">Accent</p>
+          <p class="vs-docs-swatch-value">#BCFD1D</p>
+        </div>
+      </div>
+      <div class="vs-docs-swatch">
+        <div class="vs-docs-swatch-fill" style="background:var(--vs-color-brand-secondary)"></div>
+        <div class="vs-docs-swatch-meta">
+          <p class="vs-docs-swatch-name">Secondary</p>
+          <p class="vs-docs-swatch-value">#222222</p>
+        </div>
+      </div>
+    </div>
+    <p>
+      <strong>Primary</strong> — buttons, links, active states, approved/verified
+      indicators. <strong>Accent</strong> — highlight tags, promotional badges;
+      used sparingly. <strong>Secondary</strong> — dark surfaces: this doc site's
+      own header/sidebar, secondary buttons, footers.
+    </p>
+
+    <h2>Neutral</h2>
+    <div class="vs-docs-swatch-grid">
+      <div class="vs-docs-swatch">
+        <div class="vs-docs-swatch-fill" style="background:var(--vs-color-background)"></div>
+        <div class="vs-docs-swatch-meta"><p class="vs-docs-swatch-name">Background</p><p class="vs-docs-swatch-value">#F8F8F8</p></div>
+      </div>
+      <div class="vs-docs-swatch">
+        <div class="vs-docs-swatch-fill" style="background:var(--vs-color-surface);border-bottom:1px solid var(--vs-color-border)"></div>
+        <div class="vs-docs-swatch-meta"><p class="vs-docs-swatch-name">Surface</p><p class="vs-docs-swatch-value">#FFFFFF</p></div>
+      </div>
+      <div class="vs-docs-swatch">
+        <div class="vs-docs-swatch-fill" style="background:var(--vs-color-border)"></div>
+        <div class="vs-docs-swatch-meta"><p class="vs-docs-swatch-name">Border</p><p class="vs-docs-swatch-value">#ECECEC</p></div>
+      </div>
+      <div class="vs-docs-swatch">
+        <div class="vs-docs-swatch-fill" style="background:var(--vs-color-text-heading)"></div>
+        <div class="vs-docs-swatch-meta"><p class="vs-docs-swatch-name">Text Heading</p><p class="vs-docs-swatch-value">#010D4C</p></div>
+      </div>
+      <div class="vs-docs-swatch">
+        <div class="vs-docs-swatch-fill" style="background:var(--vs-color-text-body)"></div>
+        <div class="vs-docs-swatch-meta"><p class="vs-docs-swatch-name">Text Body</p><p class="vs-docs-swatch-value">#2B2B2B</p></div>
+      </div>
+      <div class="vs-docs-swatch">
+        <div class="vs-docs-swatch-fill" style="background:var(--vs-color-text-muted)"></div>
+        <div class="vs-docs-swatch-meta"><p class="vs-docs-swatch-name">Text Muted</p><p class="vs-docs-swatch-value">#8E9CBA</p></div>
+      </div>
+    </div>
+
+    <h2>Status</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Tone</th><th>Background</th><th>Border / Text</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Success</td><td><code style="background:var(--vs-color-success-bg)">#E0F9E0</code></td><td><code style="background:var(--vs-color-success-border);color:#fff">#55B355</code></td><td><code>--vs-color-success-*</code></td></tr>
+        <tr><td>Danger</td><td><code style="background:var(--vs-color-danger-bg)">#FFDCDC</code></td><td><code style="background:var(--vs-color-danger-border);color:#fff">#C13B3B</code></td><td><code>--vs-color-danger-*</code></td></tr>
+        <tr><td>Warning</td><td><code style="background:var(--vs-color-warning-bg)">#FFF7DC</code></td><td><code style="background:var(--vs-color-warning-border)">#FFD854</code></td><td><code>--vs-color-warning-*</code></td></tr>
+        <tr><td>Info</td><td><code style="background:var(--vs-color-info-bg)">#E0E1F9</code></td><td><code style="background:var(--vs-color-info-border);color:#fff">#5558B3</code></td><td><code>--vs-color-info-*</code></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Product badges</h2>
+    <p>The 4 badges on an item card (<code>item.blade.php</code>) — see the <a href="/components/badge.html">Badge</a> page for usage.</p>
+    <table class="vs-docs-table">
+      <thead><tr><th>Badge</th><th>Color</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Trending</td><td><code style="background:#0074E4;color:#fff">#0074E4</code></td><td><code>--vs-color-badge-trending</code></td></tr>
+        <tr><td>On Sale</td><td><code style="background:#0BBE9A;color:#fff">#0BBE9A</code></td><td><code>--vs-color-badge-sale</code></td></tr>
+        <tr><td>Free</td><td><code style="background:#743CEE;color:#fff">#743CEE</code></td><td><code>--vs-color-badge-free</code></td></tr>
+        <tr><td>Premium</td><td><code style="background:var(--vs-color-brand-primary);color:#fff">#4CAF50</code></td><td><code>--vs-color-badge-premium</code> (= brand.primary)</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Item status (admin moderation)</h2>
+    <p>The 6 states from <code>admin/items/index.blade.php</code>'s status column.</p>
+    <table class="vs-docs-table">
+      <thead><tr><th>Status</th><th>Color</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Pending</td><td><code style="background:#FF7A14;color:#fff">#FF7A14</code></td><td><code>--vs-color-item-status-pending</code></td></tr>
+        <tr><td>Soft Rejected</td><td><code style="background:#5506E8;color:#fff">#5506E8</code></td><td><code>--vs-color-item-status-soft-rejected</code></td></tr>
+        <tr><td>Resubmitted</td><td><code style="background:#0A89FF;color:#fff">#0A89FF</code></td><td><code>--vs-color-item-status-resubmitted</code></td></tr>
+        <tr><td>Approved</td><td><code style="background:#00BA10;color:#fff">#00BA10</code></td><td><code>--vs-color-item-status-approved</code></td></tr>
+        <tr><td>Hard Rejected</td><td><code style="background:#D60C0C;color:#fff">#D60C0C</code></td><td><code>--vs-color-item-status-hard-rejected</code></td></tr>
+        <tr><td>Deleted</td><td><code style="background:#F44336;color:#fff">#F44336</code></td><td><code>--vs-color-item-status-deleted</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="vs-docs-callout vs-docs-callout--gap">
+      <p>
+        <strong>One-System Gap:</strong> item-status colors are defined in the
+        admin panel's CSS (<code>vendor/admin/css/app.css</code>) only. Using
+        the <code>vs-badge item-status</code> variant outside the admin panel
+        renders unstyled until this is resolved.
+      </p>
+    </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shadow — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+</head>
+<body data-page="shadow">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-content">
+    <p class="vs-docs-eyebrow">Foundations</p>
+    <h1>Shadow</h1>
+    <p class="vs-docs-lede">
+      Flat design — no <code>box-shadow</code> anywhere, on either product.
+      Elevation comes only from a 1px border and background-color contrast.
+    </p>
+
+    <h2>Why</h2>
+    <p>
+      Decided with Master KMO: <em>"Let's fuse flat design."</em> A single
+      token, <code>--vs-shadow-none</code>, exists so any lingering
+      <code>box-shadow</code> in either codebase has an explicit,
+      intentional value to be set to — rather than being silently removed
+      with nothing marking the decision.
+    </p>
+
+    <h2>Before / after</h2>
+    <div class="vs-docs-preview">
+      <div style="width:160px;padding:20px;background:#fff;border:1px solid var(--vs-color-border);border-radius:var(--vs-radius-sm);box-shadow:0 4px 14px rgba(0,0,0,0.12)">
+        <p style="margin:0;font-size:12px;color:var(--vs-color-text-muted)">Not used</p>
+        <p style="margin:4px 0 0;font-size:13px;font-weight:600">Soft drop shadow</p>
+      </div>
+      <div style="width:160px;padding:20px;background:#fff;border:1px solid var(--vs-color-border);border-radius:var(--vs-radius-sm)">
+        <p style="margin:0;font-size:12px;color:var(--vs-color-brand-primary);font-weight:600">This system</p>
+        <p style="margin:4px 0 0;font-size:13px;font-weight:600">Border only</p>
+      </div>
+    </div>
+
+    <div class="vs-docs-callout vs-docs-callout--gap">
+      <p>
+        <strong>Not yet live.</strong> vectorsticker.com's <code>card-v</code>,
+        widget and modal styles still carry shadows in production CSS —
+        removing them site-wide is a tracked follow-up, not done in this pass.
+      </p>
+    </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

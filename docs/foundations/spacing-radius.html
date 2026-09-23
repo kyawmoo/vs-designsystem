@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Spacing &amp; Radius — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+</head>
+<body data-page="spacing-radius">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-content">
+    <p class="vs-docs-eyebrow">Foundations</p>
+    <h1>Spacing &amp; Radius</h1>
+    <p class="vs-docs-lede">
+      Radius follows the main site's scale — the report site's previous
+      12px-dominant cards were moved to match.
+    </p>
+
+    <h2>Radius</h2>
+    <div class="vs-docs-preview">
+      <div>
+        <div style="width:72px;height:72px;background:var(--vs-color-brand-primary);border-radius:var(--vs-radius-xs)"></div>
+        <p class="vs-docs-swatch-value" style="margin-top:8px">xs · 5px</p>
+      </div>
+      <div>
+        <div style="width:72px;height:72px;background:var(--vs-color-brand-primary);border-radius:var(--vs-radius-sm)"></div>
+        <p class="vs-docs-swatch-value" style="margin-top:8px">sm · 8px (default)</p>
+      </div>
+      <div>
+        <div style="width:72px;height:72px;background:var(--vs-color-brand-primary);border-radius:var(--vs-radius-lg)"></div>
+        <p class="vs-docs-swatch-value" style="margin-top:8px">lg · 12px</p>
+      </div>
+      <div>
+        <div style="width:72px;height:72px;background:var(--vs-color-brand-primary);border-radius:var(--vs-radius-xl)"></div>
+        <p class="vs-docs-swatch-value" style="margin-top:8px">xl · 20px</p>
+      </div>
+      <div>
+        <div style="width:72px;height:72px;background:var(--vs-color-brand-primary);border-radius:var(--vs-radius-full)"></div>
+        <p class="vs-docs-swatch-value" style="margin-top:8px">full · pill</p>
+      </div>
+    </div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Token</th><th>Value</th><th>Use for</th></tr></thead>
+      <tbody>
+        <tr><td><code>--vs-radius-xs</code></td><td>5px</td><td>Dividers, small accents, pagination items</td></tr>
+        <tr><td><code>--vs-radius-sm</code></td><td>8px</td><td><strong>Default</strong> — buttons, form inputs, cards</td></tr>
+        <tr><td><code>--vs-radius-lg</code></td><td>12px</td><td>Larger feature cards</td></tr>
+        <tr><td><code>--vs-radius-xl</code></td><td>20px</td><td>Hero/banner elements</td></tr>
+        <tr><td><code>--vs-radius-full</code></td><td>9999px</td><td>Pills, badges, avatars, circular elements</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Spacing</h2>
+    <div class="vs-docs-preview">
+      <div style="width:4px;height:24px;background:var(--vs-color-brand-primary)"></div>
+      <div style="width:8px;height:24px;background:var(--vs-color-brand-primary)"></div>
+      <div style="width:16px;height:24px;background:var(--vs-color-brand-primary)"></div>
+      <div style="width:24px;height:24px;background:var(--vs-color-brand-primary)"></div>
+      <div style="width:32px;height:24px;background:var(--vs-color-brand-primary)"></div>
+    </div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Token</th><th>Value</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td><code>--vs-spacing-xs</code></td><td>4px</td><td></td></tr>
+        <tr><td><code>--vs-spacing-sm</code></td><td>8px</td><td></td></tr>
+        <tr><td><code>--vs-spacing-md</code></td><td>16px</td><td></td></tr>
+        <tr><td><code>--vs-spacing-lg</code></td><td>24px</td><td></td></tr>
+        <tr><td><code>--vs-spacing-xl</code></td><td>32px</td><td></td></tr>
+        <tr><td><code>--vs-spacing-section-compact</code></td><td>30px</td><td>Compact section vertical padding</td></tr>
+        <tr><td><code>--vs-spacing-section-default</code></td><td>60px</td><td>Standard section vertical padding</td></tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>
