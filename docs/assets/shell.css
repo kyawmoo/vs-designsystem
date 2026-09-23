@@ -161,9 +161,17 @@ a {
 }
 
 .vs-docs-hero {
-  background: var(--vs-color-brand-secondary);
+  /* Deliberately lighter than the header/sidebar's #222222
+     (var(--vs-color-brand-secondary)) so the hero band reads as this
+     page's content, not more persistent chrome. */
+  background: #2c2c2c;
   color: #ffffff;
-  padding: 36px 56px;
+  padding: 36px 40px 40px;
+}
+
+.vs-docs-hero-inner {
+  max-width: 880px;
+  margin: 0 auto;
 }
 
 .vs-docs-hero-eyebrow {
