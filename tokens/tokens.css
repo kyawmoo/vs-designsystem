@@ -1,0 +1,65 @@
+/**
+ * VectorSticker Design System — canonical CSS tokens.
+ * Source of truth for vectorsticker.com (Laravel/Blade) and reports.vectorsticker.com (React).
+ * Generated from tokens.json — do not edit values here without updating tokens.json too.
+ */
+
+:root {
+  /* ---- Color: Brand ---- */
+  --vs-color-brand-primary: #4CAF50;
+  --vs-color-brand-accent: #BCFD1D;
+  --vs-color-brand-secondary: #222222;
+
+  /* ---- Color: Neutral ---- */
+  --vs-color-background: #F8F8F8;
+  --vs-color-surface: #FFFFFF;
+  --vs-color-border: #ECECEC;
+  --vs-color-text-heading: #010D4C;
+  --vs-color-text-body: #2B2B2B;
+  --vs-color-text-muted: #8E9CBA;
+  --vs-color-disabled-bg: #EEEEEE;
+
+  /* ---- Color: Status ---- */
+  --vs-color-success-bg: #E0F9E0;
+  --vs-color-success-border: #55B355;
+  --vs-color-danger-bg: #FFDCDC;
+  --vs-color-danger-border: #C13B3B;
+  --vs-color-warning-bg: #FFF7DC;
+  --vs-color-warning-border: #FFD854;
+  --vs-color-info-bg: #E0E1F9;
+  --vs-color-info-border: #5558B3;
+
+  /* ---- Color: Product Badges ---- */
+  --vs-color-badge-trending: #0074E4;
+  --vs-color-badge-sale: #0BBE9A;
+  --vs-color-badge-free: #743CEE;
+  --vs-color-badge-premium: var(--vs-color-brand-primary);
+
+  /* ---- Typography ---- */
+  --vs-font-family: 'Roboto', sans-serif;
+  --vs-font-size-body-sm: 13px;
+  --vs-font-size-body-md: 16px;
+  --vs-font-size-heading-sm: 15px;
+  --vs-font-size-heading-md: 28px;
+  --vs-font-size-display: 45px;
+  --vs-line-height-body: 1.7;
+
+  /* ---- Radius ---- */
+  --vs-radius-xs: 5px;
+  --vs-radius-sm: 8px;
+  --vs-radius-lg: 12px;
+  --vs-radius-xl: 20px;
+  --vs-radius-full: 9999px;
+
+  /* ---- Shadow (flat design — always none) ---- */
+  --vs-shadow-none: none;
+
+  /* ---- Spacing ---- */
+  --vs-spacing-xs: 4px;
+  --vs-spacing-sm: 8px;
+  --vs-spacing-md: 16px;
+  --vs-spacing-lg: 24px;
+  --vs-spacing-xl: 32px;
+  --vs-spacing-section-compact: 30px;
+  --vs-spacing-section-default: 60px;
+}
