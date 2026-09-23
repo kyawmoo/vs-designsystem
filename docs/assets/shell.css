@@ -352,6 +352,116 @@ a {
   background: var(--vs-color-background);
 }
 
+/* ---- Section header with a numbered eyebrow + right-aligned note ---- */
+.vs-docs-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--vs-color-border);
+  padding-bottom: 14px;
+  margin: 48px 0 24px;
+}
+
+.vs-docs-content .vs-docs-section-head:first-of-type {
+  margin-top: 0;
+}
+
+.vs-docs-section-num {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--vs-color-text-muted);
+  margin: 0 0 4px;
+}
+
+.vs-docs-section-head h2 {
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+
+.vs-docs-section-desc {
+  font-size: 13px;
+  color: var(--vs-color-text-muted);
+  max-width: 320px;
+  text-align: right;
+}
+
+/* ---- Example card grid (one live specimen + label + spec line) ---- */
+.vs-docs-example-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin: 0 0 32px;
+}
+
+.vs-docs-example-card {
+  background: var(--vs-color-background);
+  border: 1px solid var(--vs-color-border);
+  border-radius: var(--vs-radius-sm);
+  padding: 20px;
+}
+
+.vs-docs-example-stage {
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid var(--vs-color-border);
+  border-radius: var(--vs-radius-xs);
+  margin-bottom: 14px;
+  gap: 16px;
+}
+
+.vs-docs-example-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--vs-color-text-heading);
+  margin: 0 0 4px;
+}
+
+.vs-docs-example-spec {
+  font-size: 11px;
+  color: var(--vs-color-text-muted);
+  font-family: 'SFMono-Regular', Consolas, monospace;
+  margin: 0;
+}
+
+.vs-docs-tag {
+  font-size: 10.5px;
+  font-family: 'SFMono-Regular', Consolas, monospace;
+  background: var(--vs-color-surface);
+  border: 1px solid var(--vs-color-border);
+  border-radius: var(--vs-radius-xs);
+  padding: 2px 6px;
+  color: var(--vs-color-text-body);
+  white-space: nowrap;
+}
+
+/* ---- States matrix ---- */
+.vs-docs-state-table th,
+.vs-docs-state-table td {
+  text-align: center;
+}
+
+.vs-docs-state-table th:first-child,
+.vs-docs-state-table td:first-child {
+  text-align: left;
+}
+
+.vs-docs-state-table td {
+  padding: 14px;
+}
+
 @media (max-width: 900px) {
   .vs-docs-sidebar {
     display: none;

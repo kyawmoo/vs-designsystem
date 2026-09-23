@@ -7,8 +7,8 @@
 <link rel="stylesheet" href="/assets/shell.css">
 <style>
   /* Demo-only: mirrors react/src/components/Button.tsx's computed styles
-     exactly (same tokens), so this preview matches the real component
-     without needing a JS runtime on a static doc page. */
+     exactly (same tokens, same hover/active CSS), so this preview matches
+     the real component without needing a JS runtime on a static page. */
   .demo-btn {
     font-family: var(--vs-font-family);
     font-weight: 600;
@@ -19,6 +19,7 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+    transition: opacity 150ms ease;
   }
   .demo-btn--primary { background: var(--vs-color-brand-primary); border-color: var(--vs-color-brand-primary); color: #fff; border-radius: var(--vs-radius-full); }
   .demo-btn--secondary { background: var(--vs-color-brand-secondary); border-color: var(--vs-color-brand-secondary); color: #fff; border-radius: var(--vs-radius-full); }
@@ -29,6 +30,13 @@
   .demo-btn--icon-only { border-radius: var(--vs-radius-sm); padding: 0; width: 38px; height: 38px; }
   .demo-btn--icon-only.demo-btn--sm { width: 32px; height: 32px; }
   .demo-btn--icon-only.demo-btn--lg { width: 44px; height: 44px; }
+  /* Real, live hover/active — try it, this is the actual behavior, not a mockup */
+  .demo-btn:hover:not(:disabled) { opacity: .9; }
+  .demo-btn:active:not(:disabled) { transform: scale(.98); }
+  .demo-btn:disabled { opacity: .5; cursor: not-allowed; }
+  /* Forced-state cells in the matrix (can't :hover two cells at once) */
+  .demo-btn--force-hover { opacity: .9; }
+  .demo-btn--force-active { transform: scale(.98); }
 </style>
 </head>
 <body data-page="button">
@@ -44,49 +52,147 @@
       and <code>blade/components/vs-button.blade.php</code>.
     </p>
 
-    <h2>Emphasis</h2>
-    <div class="vs-docs-preview">
-      <button class="demo-btn demo-btn--primary demo-btn--md">Primary</button>
-      <button class="demo-btn demo-btn--secondary demo-btn--md">Secondary</button>
-      <button class="demo-btn demo-btn--tertiary demo-btn--md">Tertiary</button>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Interaction &amp; States</span><h2>States</h2></div>
+      <p class="vs-docs-section-desc">Live — hover the Default column for real.</p>
     </div>
-    <table class="vs-docs-table">
-      <thead><tr><th>Emphasis</th><th>React <code>emphasis</code></th><th>Blade <code>variant</code></th><th>Real class (Blade)</th></tr></thead>
+    <table class="vs-docs-table vs-docs-state-table">
+      <thead><tr><th>Emphasis</th><th>Default</th><th>Hover</th><th>Active</th><th>Disabled</th></tr></thead>
       <tbody>
-        <tr><td>Primary</td><td><code>"primary"</code></td><td><code>"primary"</code></td><td><code>.btn-primary</code></td></tr>
-        <tr><td>Secondary</td><td><code>"secondary"</code></td><td><code>"secondary"</code></td><td><code>.btn-secondary</code></td></tr>
-        <tr><td>Tertiary</td><td><code>"tertiary"</code></td><td><code>"tertiary"</code></td><td><code>.btn-soft</code></td></tr>
+        <tr>
+          <td>Primary</td>
+          <td><button class="demo-btn demo-btn--primary demo-btn--md">Button</button></td>
+          <td><button class="demo-btn demo-btn--primary demo-btn--md demo-btn--force-hover">Button</button></td>
+          <td><button class="demo-btn demo-btn--primary demo-btn--md demo-btn--force-active">Button</button></td>
+          <td><button class="demo-btn demo-btn--primary demo-btn--md" disabled>Button</button></td>
+        </tr>
+        <tr>
+          <td>Secondary</td>
+          <td><button class="demo-btn demo-btn--secondary demo-btn--md">Button</button></td>
+          <td><button class="demo-btn demo-btn--secondary demo-btn--md demo-btn--force-hover">Button</button></td>
+          <td><button class="demo-btn demo-btn--secondary demo-btn--md demo-btn--force-active">Button</button></td>
+          <td><button class="demo-btn demo-btn--secondary demo-btn--md" disabled>Button</button></td>
+        </tr>
+        <tr>
+          <td>Tertiary</td>
+          <td><button class="demo-btn demo-btn--tertiary demo-btn--md">Button</button></td>
+          <td><button class="demo-btn demo-btn--tertiary demo-btn--md demo-btn--force-hover">Button</button></td>
+          <td><button class="demo-btn demo-btn--tertiary demo-btn--md demo-btn--force-active">Button</button></td>
+          <td><button class="demo-btn demo-btn--tertiary demo-btn--md" disabled>Button</button></td>
+        </tr>
       </tbody>
     </table>
+    <div class="vs-docs-callout">
+      <p>
+        Hover = <code>opacity: .9</code>, active = <code>scale(.98)</code>,
+        disabled = <code>opacity: .5</code> — the actual rule in
+        <code>styles.css</code>, matching the real site's own
+        <code>.btn:hover { opacity: .9 }</code>
+        (<code>public/themes/basic/assets/css/app.css</code>). Not
+        per-variant shade swaps — this component didn't have hover/active
+        feedback at all until it was added while building this page; see
+        the repo history if you want the before/after.
+      </p>
+    </div>
 
-    <h2>Size</h2>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Scale</span><h2>Size</h2></div>
+      <p class="vs-docs-section-desc">sm / md / lg — same 3 sizes on both platforms.</p>
+    </div>
     <div class="vs-docs-preview">
       <button class="demo-btn demo-btn--primary demo-btn--sm">Small</button>
       <button class="demo-btn demo-btn--primary demo-btn--md">Medium</button>
       <button class="demo-btn demo-btn--primary demo-btn--lg">Large</button>
     </div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Size</th><th>Padding</th><th>Font size</th></tr></thead>
+      <tbody>
+        <tr><td>sm</td><td><code>8px 18px</code></td><td>13px</td></tr>
+        <tr><td>md (default)</td><td><code>12px 28px</code></td><td>14px</td></tr>
+        <tr><td>lg</td><td><code>14px 35px</code></td><td>14px</td></tr>
+      </tbody>
+    </table>
 
-    <h2>Icon-only</h2>
-    <p>Square, not a pill — <code>var(--vs-radius-sm)</code>, sized off the shared icon scale (see <a href="/foundations/iconography.html">Iconography</a>).</p>
-    <div class="vs-docs-preview">
-      <button class="demo-btn demo-btn--tertiary demo-btn--icon-only demo-btn--sm">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5v14"/></svg>
-      </button>
-      <button class="demo-btn demo-btn--tertiary demo-btn--icon-only demo-btn--md">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5v14"/></svg>
-      </button>
-      <button class="demo-btn demo-btn--tertiary demo-btn--icon-only demo-btn--lg">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5v14"/></svg>
-      </button>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Icon-only</span><h2>Icon-only</h2></div>
+      <p class="vs-docs-section-desc">Square, not a pill — real site precedents.</p>
+    </div>
+    <div class="vs-docs-example-grid">
+      <div class="vs-docs-example-card">
+        <div class="vs-docs-example-stage">
+          <button class="demo-btn demo-btn--tertiary demo-btn--icon-only demo-btn--md" aria-label="Grid view">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </button>
+          <button class="demo-btn demo-btn--tertiary demo-btn--icon-only demo-btn--md" aria-label="List view">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+          </button>
+        </div>
+        <p class="vs-docs-example-label">Grid / List toggle<span class="vs-docs-tag">tertiary</span></p>
+        <p class="vs-docs-example-spec">grid-buttons.blade.php</p>
+      </div>
+      <div class="vs-docs-example-card">
+        <div class="vs-docs-example-stage">
+          <button class="demo-btn demo-btn--tertiary demo-btn--icon-only demo-btn--md" aria-label="Download">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 19h16"/></svg>
+          </button>
+        </div>
+        <p class="vs-docs-example-label">Free download<span class="vs-docs-tag">tertiary</span></p>
+        <p class="vs-docs-example-spec">item.blade.php — btn-outline-primary</p>
+      </div>
+      <div class="vs-docs-example-card">
+        <div class="vs-docs-example-stage">
+          <button class="demo-btn demo-btn--tertiary demo-btn--icon-only demo-btn--md" aria-label="Add to cart">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          </button>
+        </div>
+        <p class="vs-docs-example-label">Add to cart<span class="vs-docs-tag">tertiary</span></p>
+        <p class="vs-docs-example-spec">item.blade.php — btn-outline-primary</p>
+      </div>
     </div>
     <div class="vs-docs-callout">
       <p>
         On Blade, this replaces the ad-hoc inline
         <code>style="height:38px;width:38px;padding:0;"</code> hack seen in
-        <code>grid-buttons.blade.php</code> — the sizes are now the same
-        component-level fix on both platforms.
+        <code>grid-buttons.blade.php</code> with a proper
+        <code>.vs-btn-icon-only</code> class — the same component-level fix
+        on both platforms, sized off the shared icon scale (see
+        <a href="/foundations/iconography.html">Iconography</a>).
       </p>
     </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Icon + Text</span><h2>Icon + Text</h2></div>
+      <p class="vs-docs-section-desc">Real precedent: Google OAuth sign-in.</p>
+    </div>
+    <div class="vs-docs-example-grid">
+      <div class="vs-docs-example-card">
+        <div class="vs-docs-example-stage">
+          <button class="demo-btn demo-btn--tertiary demo-btn--md">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09a6.6 6.6 0 010-4.18V7.06H2.18a11 11 0 000 9.87l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/></svg>
+            Continue with Google
+          </button>
+        </div>
+        <p class="vs-docs-example-label">OAuth sign-in<span class="vs-docs-tag">oauth (Blade only)</span></p>
+        <p class="vs-docs-example-spec">oauth-buttons.blade.php — .btn-social</p>
+      </div>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">05 // Measurement Guide</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Real values, both platforms.</p>
+    </div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Property</th><th>Value</th><th>Token / source</th></tr></thead>
+      <tbody>
+        <tr><td>Radius (text/icon+text)</td><td>9999px (pill)</td><td><code>--vs-radius-full</code></td></tr>
+        <tr><td>Radius (icon-only)</td><td>8px</td><td><code>--vs-radius-sm</code></td></tr>
+        <tr><td>Border width</td><td>1px</td><td>all variants</td></tr>
+        <tr><td>Icon-only size (sm/md/lg)</td><td>32 / 38 / 44px</td><td><code>ICON_ONLY_SIZE</code> — matches Blade's <code>.vs-btn-icon-only</code></td></tr>
+        <tr><td>Gap (icon + label)</td><td>8px</td><td>only when both are present</td></tr>
+        <tr><td>Font weight</td><td>600</td><td>all variants</td></tr>
+        <tr><td>Shadow</td><td>none</td><td><a href="/foundations/shadow.html">flat design</a></td></tr>
+      </tbody>
+    </table>
 
     <h2>Usage — React</h2>
     <div class="vs-docs-code-block"><span class="tag">import</span> { Button } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
@@ -110,7 +216,7 @@
         <tr><td><code>size</code></td><td><code>sm</code> · <code>md</code> · <code>lg</code></td><td><code>md</code></td></tr>
         <tr><td><code>iconOnly</code> / <code>icon-only</code></td><td>boolean</td><td><code>false</code></td></tr>
         <tr><td><code>outline</code></td><td>Blade only, primary/secondary</td><td><code>false</code></td></tr>
-        <tr><td><code>disabled</code></td><td>—</td><td><code>false</code></td></tr>
+        <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td></tr>
       </tbody>
     </table>
   </div>
