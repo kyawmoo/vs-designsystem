@@ -145,18 +145,28 @@ a {
   border-left-color: var(--vs-color-brand-accent);
 }
 
-/* ---- Content ---- */
+/* ---- Content ----
+   Gray page canvas + a white, bordered, rounded card holding the actual
+   content — same layered pattern as the Stitch reference Master KMO
+   pointed at. Kept border-only (no shadow), since this system's own
+   Shadow principle is flat design: "Elevation comes only from a 1px
+   border and background-color contrast." One shared edit here applies
+   to every page. */
 .vs-docs-main {
   margin-left: 240px;
   margin-top: 56px;
   min-height: calc(100vh - 56px);
-  background: #ffffff;
+  background: var(--vs-color-background);
+  padding: 40px 40px 80px;
 }
 
 .vs-docs-content {
   max-width: 880px;
   margin: 0 auto;
-  padding: 48px 56px 96px;
+  background: var(--vs-color-surface);
+  border: 1px solid var(--vs-color-border);
+  border-radius: var(--vs-radius-lg);
+  padding: 48px 56px 64px;
 }
 
 .vs-docs-eyebrow {
@@ -468,6 +478,7 @@ a {
   }
   .vs-docs-main {
     margin-left: 0;
+    padding: 16px;
   }
   .vs-docs-content {
     padding: 32px 24px 64px;
