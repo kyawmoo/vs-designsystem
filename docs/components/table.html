@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Table — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-table-card { background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); overflow: hidden; font-family: var(--vs-font-family); }
+  .demo-table-head { padding: 1rem 1.25rem; border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .demo-table-head h3 { margin: 0; font-size: 15px; font-weight: 600; color: var(--vs-color-text-heading); }
+  .demo-table-head p { margin: 4px 0 0; font-size: 13px; color: var(--vs-color-text-muted); }
+  .demo-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+  .demo-table thead tr { border-bottom: 1px solid var(--vs-color-border); background: #f9fafb80; }
+  .demo-table th { padding: 12px 20px; font-weight: 600; color: #374151; text-transform: uppercase; letter-spacing: 0.03em; font-size: 11px; }
+  .demo-table th:not(:first-child):not(:nth-child(2)) { text-align: right; }
+  .demo-table td { padding: 12px 20px; border-top: 1px solid #f3f4f6; }
+  .demo-table td:not(:first-child):not(:nth-child(2)) { text-align: right; }
+  .demo-table tr:hover td { background: #f9fafb99; }
+  .demo-table .rank { color: var(--vs-color-text-muted); }
+  .demo-table .name { color: var(--vs-color-text-heading); font-weight: 500; }
+  .demo-table .strong { font-weight: 600; color: var(--vs-color-text-heading); }
+  .demo-segment-control { display: inline-flex; align-items: center; padding: 0.375rem; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-full); gap: 0.25rem; }
+  .demo-segment-button { padding: 0.375rem 1rem; border-radius: var(--vs-radius-full); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); font-weight: 600; color: var(--vs-color-text-muted); background: transparent; border: none; cursor: pointer; white-space: nowrap; }
+  .demo-segment-button.is-active { background-color: var(--vs-color-brand-primary); color: #fff; }
+</style>
+</head>
+<body data-page="table">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Table</p>
+    <h1>Table</h1>
+    <p class="vs-docs-hero-lede">
+      Already live in production as <code>TableWidget.tsx</code>, used
+      across every dashboard view. This page documents the existing
+      component — no code changes were needed, only the audit and
+      write-up.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">Header, optional Tabs, ranked rows, right-aligned metric columns.</p>
+    </div>
+    <div class="vs-docs-preview">
+      <div class="demo-table-card" style="width: 100%;">
+        <div class="demo-table-head">
+          <div>
+            <h3>Top Items</h3>
+            <p>Ranked by views this period</p>
+          </div>
+          <div class="demo-segment-control">
+            <button class="demo-segment-button is-active">Views</button>
+            <button class="demo-segment-button">Downloads</button>
+          </div>
+        </div>
+        <table class="demo-table">
+          <thead>
+            <tr><th>#</th><th>Item</th><th>Views</th><th>Downloads</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="rank">1</td><td class="name">Cute Cat Sticker Pack</td><td class="strong">12,480</td><td>3,204</td></tr>
+            <tr><td class="rank">2</td><td class="name">Minimal Line Icons Vol. 2</td><td class="strong">9,110</td><td>2,887</td></tr>
+            <tr><td class="rank">3</td><td class="name">Retro Badge Collection</td><td class="strong">7,652</td><td>1,940</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Composition</span><h2>Built from Tabs</h2></div>
+      <p class="vs-docs-section-desc">The header's tab switcher is the same &lt;Tabs&gt; pattern documented separately.</p>
+    </div>
+    <div class="vs-docs-callout">
+      <p>
+        <code>TableWidget</code>'s optional header-right tab switcher
+        renders the exact same <code>vs-segment-control</code> /
+        <code>vs-segment-button</code> markup as the standalone
+        <code>&lt;Tabs&gt;</code> component documented on its own page
+        — this is in fact where that pattern was first formalized
+        from. A future pass could have <code>TableWidget</code> render
+        <code>&lt;Tabs&gt;</code> internally instead of duplicating the
+        markup; left as-is here since it works correctly today and
+        that refactor carries its own regression risk on an
+        already-live component.
+      </p>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Platform</span><h2>React only — no Blade wrapper</h2></div>
+      <p class="vs-docs-section-desc">Admin tables use a vendored JS plugin, not a presentational CSS pattern.</p>
+    </div>
+    <div class="vs-docs-callout">
+      <p>
+        The main site's admin panel tables are built on the vendored
+        <code>datatables.min.css</code> / DataTables jQuery plugin —
+        sorting, pagination, and search are all driven by its own JS
+        initialization per page, not a shared CSS class this system
+        could thin-wrap the way <code>vs-pagination.blade.php</code>
+        wraps Laravel's paginator. Re-implementing that JS behavior
+        as a design-system component would be a new feature, not a
+        presentational wrapper, so it's deliberately out of scope
+        here — same reasoning as excluding the item price/cart logic
+        from <code>vs-card.blade.php</code>. Revisit only if Master
+        KMO asks for it explicitly.
+      </p>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Measurement Guide</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Real values, from TableWidget.tsx.</p>
+    </div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Card</td><td>white, 1px border, 8px radius, no shadow</td><td><code>--vs-radius-sm</code> / <code>--vs-shadow-none</code></td></tr>
+        <tr><td>Header</td><td>16px/20px padding, 1px bottom border</td><td><code>px-5 py-4 border-b border-gray-100</code></td></tr>
+        <tr><td>Head row</td><td>uppercase, 12px, bold, muted bg tint</td><td><code>text-xs uppercase ... bg-gray-50/50</code></td></tr>
+        <tr><td>Cell padding</td><td><code>12px 20px</code></td><td><code>py-3 px-5</code></td></tr>
+        <tr><td>Row divider</td><td>1px, very light gray</td><td><code>divide-y divide-gray-100</code></td></tr>
+        <tr><td>Row hover</td><td>subtle gray tint</td><td><code>hover:bg-gray-50/60</code></td></tr>
+        <tr><td>Metric columns</td><td>right-aligned, tabular numerals</td><td><code>text-right tabular-nums</code></td></tr>
+        <tr><td><code>bare</code> variant</td><td>no border/radius/shadow/background</td><td>for embedding inside another card</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { TableWidget } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;TableWidget</span>
+  <span class="attr">title</span>=<span class="str">"Top Items"</span>
+  <span class="attr">subtitle</span>=<span class="str">"Ranked by views this period"</span>
+  <span class="attr">tabs</span>=<span class="tag">{[</span>{ id: <span class="str">'views'</span>, label: <span class="str">'Views'</span> }, { id: <span class="str">'downloads'</span>, label: <span class="str">'Downloads'</span> }<span class="tag">]}</span>
+  <span class="attr">activeTabId</span>=<span class="tag">{tab}</span>
+  <span class="attr">onTabChange</span>=<span class="tag">{setTab}</span>
+  <span class="attr">itemLabel</span>=<span class="str">"Item"</span>
+  <span class="attr">rows</span>=<span class="tag">{items}</span>
+  <span class="attr">renderItem</span>=<span class="tag">{(row)</span> =&gt; row.name<span class="tag">}</span>
+  <span class="attr">columns</span>=<span class="tag">{[</span>
+    { label: <span class="str">'Views'</span>, value: (row) =&gt; row.total_views, strong: <span class="tag">true</span> },
+    { label: <span class="str">'Downloads'</span>, value: (row) =&gt; row.free_downloads },
+  <span class="tag">]}</span>
+<span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Required</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td><code>columns</code> / <code>rows</code> / <code>renderItem</code></td><td>yes</td><td>column defs, row data, first-column renderer</td></tr>
+        <tr><td><code>title</code> / <code>subtitle</code></td><td>no</td><td><code>ReactNode</code></td></tr>
+        <tr><td><code>tabs</code> / <code>activeTabId</code> / <code>onTabChange</code></td><td>no</td><td>optional header tab switcher</td></tr>
+        <tr><td><code>rowKey</code></td><td>no</td><td><code>(row, index) =&gt; string | number</code></td></tr>
+        <tr><td><code>emptyLabel</code></td><td>no</td><td>default <code>'No data available'</code></td></tr>
+        <tr><td><code>bare</code></td><td>no</td><td><code>boolean</code>, default <code>false</code></td></tr>
+      </tbody>
+    </table>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>
