@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Toast — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-toast-row { display: flex; flex-wrap: wrap; gap: 16px; }
+  .demo-toast { display: flex; align-items: flex-start; gap: 0.75rem; width: 280px; padding: 20px; border-radius: 10px; font-family: var(--vs-font-family); color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+  .demo-toast--success { background-color: #8bc34a; }
+  .demo-toast--error { background-color: #f44336; }
+  .demo-toast--warning { background-color: #f6b800; }
+  .demo-toast--info { background-color: #00bcd4; }
+  .demo-toast-icon { flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; border: 2px solid #fff; display: flex; align-items: center; justify-content: center; }
+  .demo-toast-title { margin: 0 0 6px; font-size: 15px; font-weight: 600; }
+  .demo-toast-text { margin: 0; font-size: 13px; }
+</style>
+</head>
+<body data-page="toast">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Toast</p>
+    <h1>Toast</h1>
+    <p class="vs-docs-hero-lede">
+      Wraps the real vironeer-toastr notification the main site
+      already uses (<code>app/Traits/LivewireToastr.php</code>) — solid
+      tone-colored fill, white text, a circular icon badge.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">All four tones — real vironeer-toastr colors, not a pastel guess.</p>
+    </div>
+    <div class="vs-docs-preview">
+      <div class="demo-toast-row">
+        <div class="demo-toast demo-toast--success">
+          <span class="demo-toast-icon">✓</span>
+          <div><p class="demo-toast-title">Saved</p><p class="demo-toast-text">Your changes were saved successfully.</p></div>
+        </div>
+        <div class="demo-toast demo-toast--error">
+          <span class="demo-toast-icon">✕</span>
+          <div><p class="demo-toast-title">Failed</p><p class="demo-toast-text">Something went wrong. Please try again.</p></div>
+        </div>
+        <div class="demo-toast demo-toast--warning">
+          <span class="demo-toast-icon">!</span>
+          <div><p class="demo-toast-title">Careful</p><p class="demo-toast-text">This action can't be undone.</p></div>
+        </div>
+        <div class="demo-toast demo-toast--info">
+          <span class="demo-toast-icon">i</span>
+          <div><p class="demo-toast-title">Heads up</p><p class="demo-toast-text">A new report is ready to view.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Correction</span><h2>Audit note</h2></div>
+      <p class="vs-docs-section-desc">The first draft of this component guessed wrong — caught before commit.</p>
+    </div>
+    <div class="vs-docs-callout">
+      <p>
+        The first pass of this component used light pastel tint
+        backgrounds with dark text, without re-reading the real
+        <code>vironeer-toastr.min.css</code> file first. Re-auditing it
+        directly found the real toasts are <strong>solid</strong>
+        brand-colored fills (<code>#8bc34a</code> / <code>#f44336</code>
+        / <code>#f6b800</code> / <code>#00bcd4</code>) with white text
+        and a circular icon badge — the opposite of the first guess.
+        Fixed before this ever shipped, per the audit-before-code rule
+        adopted after the Button radius bug.
+      </p>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Platform</span><h2>React vs. Blade</h2></div>
+      <p class="vs-docs-section-desc">Blade already has a full, working system — nothing to wrap.</p>
+    </div>
+    <div class="vs-docs-callout">
+      <p>
+        <strong>Blade/Livewire</strong> toasts are entirely event-driven:
+        a Livewire component calls
+        <code>$this->toastr('success', 'Saved!')</code> (from the
+        existing <code>LivewireToastr</code> trait), which dispatches a
+        browser event that the vendored vironeer-toastr JS listens for
+        and renders — there's no static markup to wrap, the same
+        reason a Blade table wrapper was skipped for DataTables. Use
+        the existing trait directly on Blade pages.
+        <strong>React</strong> has no such library, so
+        <code>&lt;Toast&gt;</code> is a real, presentational component —
+        pair it with your own toast-stack state.
+      </p>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Measurement Guide</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Real values, from vironeer-toastr.min.css.</p>
+    </div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Width</td><td><code>300px</code></td><td><code>.vironeer-toast</code></td></tr>
+        <tr><td>Radius</td><td><code>10px</code></td><td>doesn't map to an existing token; kept as the real value</td></tr>
+        <tr><td>Padding</td><td><code>24px</code></td><td><code>.vironeer-toast-content</code></td></tr>
+        <tr><td>Text color</td><td><code>#ffffff</code></td><td><code>.vironeer-toast-content</code></td></tr>
+        <tr><td>Success / Error / Warning / Info</td><td><code>#8bc34a</code> / <code>#f44336</code> / <code>#f6b800</code> / <code>#00bcd4</code></td><td><code>.vironeer-toast-{tone}</code></td></tr>
+        <tr><td>Icon badge</td><td>30×30px circle, 2px white border</td><td><code>.vironeer-toast-icon</code></td></tr>
+        <tr><td>Title</td><td>16px, weight 600, 8px margin-bottom</td><td><code>.vironeer-toast-title</code></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Toast } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;Toast</span> <span class="attr">tone</span>=<span class="str">"success"</span> <span class="attr">title</span>=<span class="str">"Saved"</span> <span class="attr">message</span>=<span class="str">"Your changes were saved successfully."</span> <span class="attr">onClose</span>=<span class="tag">{dismiss}</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Usage — Blade / Livewire</h2>
+    <div class="vs-docs-code-block"><span class="cmt">// inside a Livewire component using the LivewireToastr trait</span>
+<span class="tag">$this</span>-&gt;toastr(<span class="str">'success'</span>, <span class="str">'Saved!'</span>);</div>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td><code>tone</code></td><td><code>'success' | 'error' | 'warning' | 'info'</code></td></tr>
+        <tr><td><code>title</code></td><td>optional, <code>ReactNode</code></td></tr>
+        <tr><td><code>message</code></td><td>required, <code>ReactNode</code></td></tr>
+        <tr><td><code>onClose</code></td><td>optional — omit to hide the dismiss button</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

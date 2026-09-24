@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Modal — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-modal-stage { position: relative; background: #eef0f2; border-radius: var(--vs-radius-sm); padding: 48px 24px; display: flex; align-items: center; justify-content: center; min-height: 320px; }
+  .demo-modal-panel { position: relative; width: 100%; max-width: 26rem; background: var(--vs-color-surface); border-radius: 16px; border: 1px solid var(--vs-color-border); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); padding: 1.5rem; font-family: var(--vs-font-family); }
+  .demo-modal-close { position: absolute; top: 1rem; right: 1rem; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: none; border-radius: var(--vs-radius-xs); background: transparent; color: var(--vs-color-text-muted); cursor: pointer; }
+  .demo-modal-title { margin: 0 1.75rem 0.75rem 0; font-size: 20px; font-weight: 700; color: var(--vs-color-text-heading); }
+  .demo-modal-body { font-size: var(--vs-font-size-body-sm); color: var(--vs-color-text-body); line-height: 1.5; }
+</style>
+</head>
+<body data-page="modal">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Modal</p>
+    <h1>Modal</h1>
+    <p class="vs-docs-hero-lede">
+      An overlay + centered panel shell, formalized from the reports
+      dashboard's own <code>ForgotPasswordModal</code> — the only real
+      modal already live. Content is passed as children; this
+      component owns only the shell.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">Overlay dimmed, panel centered — real dimensions from ForgotPasswordModal.</p>
+    </div>
+    <div class="vs-docs-preview">
+      <div class="demo-modal-stage">
+        <div class="demo-modal-panel">
+          <button class="demo-modal-close">✕</button>
+          <h2 class="demo-modal-title">Reset your password</h2>
+          <p class="demo-modal-body">Enter your account email to receive a secure 30-minute password reset link.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Platform</span><h2>React vs. Blade</h2></div>
+      <p class="vs-docs-section-desc">React owns the overlay/animation; Blade reuses Bootstrap's own.</p>
+    </div>
+    <div class="vs-docs-callout">
+      <p>
+        <strong>React</strong> renders its own overlay + panel, since
+        the reports dashboard has no Bootstrap JS loaded.
+        <strong>Blade</strong> wraps Bootstrap's real
+        <code>.modal</code>/<code>.modal-dialog</code>/
+        <code>.modal-content</code> markup — already styled by the
+        vendored <code>bootstrap.min.css</code>, and already wired for
+        open/close by Bootstrap's own bundled JS via
+        <code>data-bs-toggle</code>/<code>data-bs-dismiss</code>, so no
+        new JS was written for it — same reasoning as
+        <code>vs-pagination.blade.php</code> wrapping Laravel's own
+        paginator view.
+      </p>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Measurement Guide</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Real values, from ForgotPasswordModal.tsx.</p>
+    </div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Overlay</td><td><code>rgba(0,0,0,0.5)</code> + 2px blur</td><td><code>bg-black/50 backdrop-blur-xs</code></td></tr>
+        <tr><td>Panel radius</td><td><code>16px</code></td><td><code>rounded-2xl</code> — larger than <code>--vs-radius-xl</code> (20px)'s sibling <code>--vs-radius-lg</code> (12px); doesn't map to an existing token, kept as the real value rather than force-rounded</td></tr>
+        <tr><td>Panel shadow</td><td><code>0 25px 50px -12px rgba(0,0,0,0.25)</code></td><td>Tailwind's real <code>shadow-2xl</code> — the one place in this system a shadow is intentional (a floating overlay needs separation from its backdrop even under the flat-design rule)</td></tr>
+        <tr><td>Panel padding</td><td><code>24px</code> (<code>32px</code> on <code>sm:</code>)</td><td><code>p-6 sm:p-8</code></td></tr>
+        <tr><td>Max width (sm)</td><td><code>28rem</code> / (md) <code>32rem</code></td><td><code>max-w-md</code></td></tr>
+        <tr><td>Close button</td><td>32×32px, top-right, 5px radius</td><td><code>--vs-radius-xs</code></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Modal } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;Modal</span> <span class="attr">open</span>=<span class="tag">{open}</span> <span class="attr">onClose</span>=<span class="tag">{()</span> =&gt; setOpen(<span class="tag">false</span>)<span class="tag">}</span> <span class="attr">title</span>=<span class="str">"Reset your password"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;p&gt;</span>Enter your account email...<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/Modal&gt;</span></div>
+
+    <h2>Usage — Blade</h2>
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-modal</span> <span class="attr">id</span>=<span class="str">"resetModal"</span> <span class="attr">title</span>=<span class="str">"Reset your password"</span><span class="tag">&gt;</span>
+  Enter your account email...
+  <span class="tag">&lt;x-slot:footer&gt;</span>
+    <span class="tag">&lt;button</span> <span class="attr">class</span>=<span class="str">"btn btn-primary"</span><span class="tag">&gt;</span>Send Link<span class="tag">&lt;/button&gt;</span>
+  <span class="tag">&lt;/x-slot:footer&gt;</span>
+<span class="tag">&lt;/x-vs-modal&gt;</span>
+
+<span class="cmt">&lt;!-- trigger: &lt;button data-bs-toggle="modal" data-bs-target="#resetModal"&gt; --&gt;</span></div>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Platform</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td><code>open</code> / <code>onClose</code></td><td>React</td><td><code>boolean</code> / <code>() =&gt; void</code></td></tr>
+        <tr><td><code>title</code></td><td>Both</td><td>optional header title</td></tr>
+        <tr><td><code>size</code></td><td>React</td><td><code>'sm' | 'md'</code> (default <code>'sm'</code>)</td></tr>
+        <tr><td><code>size</code></td><td>Blade</td><td><code>'' | 'sm' | 'lg' | 'xl'</code> (maps to <code>.modal-{size}</code>)</td></tr>
+        <tr><td><code>id</code></td><td>Blade</td><td>DOM id for <code>data-bs-target</code></td></tr>
+      </tbody>
+    </table>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

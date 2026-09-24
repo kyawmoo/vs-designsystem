@@ -30,6 +30,8 @@
         { id: 'pagination', label: 'Pagination', href: '/components/pagination.html' },
         { id: 'tabs', label: 'Tabs', href: '/components/tabs.html' },
         { id: 'filter-bar', label: 'Filter Bar', href: '/components/filter-bar.html' },
+        { id: 'modal', label: 'Modal', href: '/components/modal.html' },
+        { id: 'toast', label: 'Toast', href: '/components/toast.html' },
       ],
     },
     {

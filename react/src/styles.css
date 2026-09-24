@@ -452,3 +452,98 @@
     transform: rotate(360deg);
   }
 }
+
+/* Modal */
+.vs-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: var(--vs-radius-xs);
+  background: transparent;
+  color: var(--vs-color-text-muted);
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.vs-modal-close:hover {
+  color: var(--vs-color-text-heading);
+  background: var(--vs-color-background);
+}
+
+/* Toast — real values audited from vendor/vironeer/toastr's
+   vironeer-toastr.min.css: solid brand-colored fill + white text (not
+   a light pastel tint — verified after an initial wrong guess, per
+   this system's audit-before-code rule), 10px radius, 24px padding,
+   a circular 30px icon badge with a 2px white ring. */
+.vs-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  width: 300px;
+  padding: 24px;
+  border-radius: 10px;
+  font-family: var(--vs-font-family);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.vs-toast--success {
+  background-color: #8bc34a;
+}
+
+.vs-toast--error {
+  background-color: #f44336;
+}
+
+.vs-toast--warning {
+  background-color: #f6b800;
+}
+
+.vs-toast--info {
+  background-color: #00bcd4;
+}
+
+.vs-toast-icon {
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vs-toast-title {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.vs-toast-text {
+  margin: 0;
+  font-size: var(--vs-font-size-body-sm);
+  word-break: break-word;
+}
+
+.vs-toast-close {
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  opacity: 0.85;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.vs-toast-close:hover {
+  opacity: 1;
+}

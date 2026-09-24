@@ -67,5 +67,11 @@ export type { TabsProps, TabItem } from './components/Tabs';
 export { FilterBar } from './components/FilterBar';
 export type { FilterBarProps } from './components/FilterBar';
 
+export { Modal } from './components/Modal';
+export type { ModalProps } from './components/Modal';
+
+export { Toast } from './components/Toast';
+export type { ToastProps, ToastTone } from './components/Toast';
+
 import '../../tokens/tokens.css';
 import './styles.css';
