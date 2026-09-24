@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Filter Bar — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-filter-bar { display: flex; flex-direction: column; align-items: stretch; gap: 0.75rem; padding: 1rem; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); font-family: var(--vs-font-family); }
+  @media (min-width: 640px) { .demo-filter-bar { flex-direction: row; align-items: center; justify-content: space-between; } }
+  .demo-filter-search { position: relative; display: flex; align-items: center; flex: 1 1 auto; max-width: 28rem; }
+  .demo-filter-search svg { position: absolute; left: 14px; color: var(--vs-color-text-muted); pointer-events: none; }
+  .demo-filter-input { width: 100%; box-sizing: border-box; padding: 8px 16px 8px 36px; font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); background: var(--vs-color-background); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); color: var(--vs-color-text-heading); }
+  .demo-filter-input:focus { outline: none; border-color: #005c55; background: var(--vs-color-surface); }
+  .demo-filter-sort { display: flex; align-items: center; gap: 0.5rem; overflow-x: auto; }
+  .demo-filter-sort-label { display: flex; align-items: center; gap: 0.25rem; font-size: 12px; font-weight: 600; color: var(--vs-color-text-muted); white-space: nowrap; }
+  .demo-segment-control { display: inline-flex; align-items: center; padding: 0.375rem; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-full); gap: 0.25rem; }
+  .demo-segment-button { padding: 0.375rem 1rem; border-radius: var(--vs-radius-full); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); font-weight: 600; color: var(--vs-color-text-muted); background: transparent; border: none; cursor: pointer; white-space: nowrap; }
+  .demo-segment-button:hover:not(.is-active) { color: var(--vs-color-text-heading); background: var(--vs-color-background); }
+  .demo-segment-button.is-active { background-color: var(--vs-color-brand-primary); color: #fff; }
+</style>
+</head>
+<body data-page="filter-bar">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Filter Bar</p>
+    <h1>Filter Bar</h1>
+    <p class="vs-docs-hero-lede">
+      The reports dashboard's search + sort bar — formalizes a pattern
+      already duplicated identically across the Items and Category
+      views into one reusable component.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">Same markup already shipping above the Items table today.</p>
+    </div>
+    <div class="vs-docs-preview">
+      <div class="demo-filter-bar" style="width: 100%;">
+        <div class="demo-filter-search">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input class="demo-filter-input" placeholder="Search sticker name, slug, or category...">
+        </div>
+        <div class="demo-filter-sort">
+          <span class="demo-filter-sort-label">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+            Sort:
+          </span>
+          <div class="demo-segment-control">
+            <button class="demo-segment-button is-active">Most Viewed</button>
+            <button class="demo-segment-button">Most Downloaded</button>
+            <button class="demo-segment-button">Featured</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Platform</span><h2>React only</h2></div>
+      <p class="vs-docs-section-desc">No Blade counterpart — and that's intentional.</p>
+    </div>
+    <div class="vs-docs-callout">
+      <p>
+        This bar is the reports dashboard's own convention — it isn't
+        derived from any real vectorsticker.com page, so there's
+        nothing on the main site to wrap. Same treatment as
+        <code>SummaryCard</code>, <code>TableWidget</code>, and
+        <code>FilterSheet</code>: dashboard-only, React-only.
+      </p>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Measurement Guide</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Real values, from ItemsView.tsx / CategoryView.tsx.</p>
+    </div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Container</td><td>white, 1px border, 8px radius, 16px padding</td><td>bordered card, matches <code>--vs-radius-sm</code></td></tr>
+        <tr><td>Search input bg</td><td><code>--vs-color-background</code> (#F8F8F8)</td><td>Tailwind <code>bg-gray-50</code> (#F9FAFB) — rounded to nearest token, 1-unit difference not visually distinguishable</td></tr>
+        <tr><td>Search input focus border</td><td><code>#005c55</code></td><td>the reports dashboard's own accent color — used 100+ times across its own UI, deliberately kept as-is rather than forced to <code>--vs-color-brand-primary</code> (the main site's green), since these are two different real, already-live colors</td></tr>
+        <tr><td>Sort group</td><td>reuses the <code>&lt;Tabs&gt;</code> component, <code>size="sm"</code></td><td>same <code>vs-segment-control</code> pattern</td></tr>
+        <tr><td>Layout</td><td>column on mobile, row + space-between from 768px</td><td><code>flex-col md:flex-row</code></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { FilterBar } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;FilterBar</span>
+  <span class="attr">searchValue</span>=<span class="tag">{search}</span>
+  <span class="attr">onSearchChange</span>=<span class="tag">{setSearch}</span>
+  <span class="attr">searchPlaceholder</span>=<span class="str">"Search sticker name, slug, or category..."</span>
+  <span class="attr">tabs</span>=<span class="tag">{[</span>{ id: <span class="str">'views'</span>, label: <span class="str">'Most Viewed'</span> }, { id: <span class="str">'downloads'</span>, label: <span class="str">'Most Downloaded'</span> }<span class="tag">]}</span>
+  <span class="attr">activeTabId</span>=<span class="tag">{filterType}</span>
+  <span class="attr">onTabChange</span>=<span class="tag">{setFilterType}</span>
+<span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Required</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td><code>searchValue</code> / <code>onSearchChange</code></td><td>yes</td><td><code>string</code> / <code>(value: string) =&gt; void</code></td></tr>
+        <tr><td><code>searchPlaceholder</code></td><td>no</td><td>default <code>'Search...'</code></td></tr>
+        <tr><td><code>tabs</code> / <code>activeTabId</code> / <code>onTabChange</code></td><td>no</td><td>omit to render search-only, e.g. Social Media's own text filter</td></tr>
+        <tr><td><code>sortLabel</code></td><td>no</td><td>default <code>'Sort:'</code></td></tr>
+      </tbody>
+    </table>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

@@ -28,6 +28,7 @@
         { id: 'breadcrumb', label: 'Breadcrumb', href: '/components/breadcrumb.html' },
         { id: 'pagination', label: 'Pagination', href: '/components/pagination.html' },
         { id: 'tabs', label: 'Tabs', href: '/components/tabs.html' },
+        { id: 'filter-bar', label: 'Filter Bar', href: '/components/filter-bar.html' },
       ],
     },
     {

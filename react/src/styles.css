@@ -190,6 +190,79 @@
   font-size: var(--vs-font-size-body-sm);
 }
 
+/* Filter Bar (reports dashboard convention — search + sort segment control) */
+.vs-filter-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--vs-color-surface);
+  border: 1px solid var(--vs-color-border);
+  border-radius: var(--vs-radius-sm);
+  box-shadow: var(--vs-shadow-none);
+  font-family: var(--vs-font-family);
+}
+
+@media (min-width: 768px) {
+  .vs-filter-bar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.vs-filter-bar-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  max-width: 28rem;
+}
+
+.vs-filter-bar-search svg {
+  position: absolute;
+  left: 14px;
+  color: var(--vs-color-text-muted);
+  pointer-events: none;
+}
+
+.vs-filter-bar-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 16px 8px 36px;
+  font-family: var(--vs-font-family);
+  font-size: var(--vs-font-size-body-sm);
+  background: var(--vs-color-background);
+  border: 1px solid var(--vs-color-border);
+  border-radius: var(--vs-radius-sm);
+  color: var(--vs-color-text-heading);
+}
+
+.vs-filter-bar-input:focus {
+  outline: none;
+  border-color: #005c55;
+  background: var(--vs-color-surface);
+}
+
+.vs-filter-bar-sort {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+}
+
+.vs-filter-bar-sort-label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--vs-color-text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 /* Summary Card */
 .vs-summary-card {
   background: var(--vs-color-surface);
