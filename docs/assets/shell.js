@@ -90,10 +90,8 @@
     if (!mount) return;
     mount.innerHTML = `
       <header class="vs-docs-header">
-        <a class="vs-docs-header-brand" href="/">
-          <img class="vs-docs-header-logo" src="/assets/logo-sticker.png" alt="VectorSticker logo" width="96" height="35">
-          <span class="vs-docs-header-title">VectorSticker</span>
-          <span class="vs-docs-header-version">v0.1.0</span>
+        <a class="vs-docs-header-brand" href="/" aria-label="VectorSticker Design System — home">
+          <img class="vs-docs-header-logo" src="/assets/logo.png" alt="VectorSticker Design System" width="100" height="48">
         </a>
         <nav class="vs-docs-header-links">
           <a href="https://github.com/kyawmoo/vs-designsystem" target="_blank" rel="noopener">GitHub</a>
