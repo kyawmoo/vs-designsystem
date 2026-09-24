@@ -27,6 +27,7 @@
         { id: 'card', label: 'Card', href: '/components/card.html' },
         { id: 'breadcrumb', label: 'Breadcrumb', href: '/components/breadcrumb.html' },
         { id: 'pagination', label: 'Pagination', href: '/components/pagination.html' },
+        { id: 'tabs', label: 'Tabs', href: '/components/tabs.html' },
       ],
     },
     {

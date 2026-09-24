@@ -61,5 +61,8 @@ export type { BreadcrumbProps, BreadcrumbItem } from './components/Breadcrumb';
 export { Pagination } from './components/Pagination';
 export type { PaginationProps } from './components/Pagination';
 
+export { Tabs } from './components/Tabs';
+export type { TabsProps, TabItem } from './components/Tabs';
+
 import '../../tokens/tokens.css';
 import './styles.css';

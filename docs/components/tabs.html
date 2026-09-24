@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tabs — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  /* React — vs-segment-control / vs-segment-button, live in TableWidget today */
+  .demo-segment-control { display: inline-flex; align-items: center; padding: 0.375rem; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-full); gap: 0.25rem; }
+  .demo-segment-button { padding: 0.5rem 1.25rem; border-radius: var(--vs-radius-full); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-md); font-weight: 600; color: var(--vs-color-text-muted); background: transparent; border: none; cursor: pointer; white-space: nowrap; }
+  .demo-segment-button:hover:not(.is-active) { color: var(--vs-color-text-heading); background: var(--vs-color-background); }
+  .demo-segment-button.is-active { background-color: var(--vs-color-brand-primary); color: #fff; }
+
+  /* Blade — .tabs-custom .nav-pills, real main-site markup/CSS */
+  .demo-nav-pills { display: flex; gap: 17px; list-style: none; padding: 0; margin: 0; }
+  .demo-nav-pills .demo-nav-link { display: inline-block; padding: 0.5rem 1.25rem; border-radius: var(--vs-radius-full); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-md); color: var(--vs-color-text-muted); border: 1px solid var(--vs-color-text-muted); text-decoration: none; cursor: pointer; }
+  .demo-nav-pills .demo-nav-link.active { font-weight: 500; color: #fff; background: var(--vs-color-brand-primary); border-color: var(--vs-color-brand-primary); }
+</style>
+</head>
+<body data-page="tabs">
+<div id="vs-docs-header-mount"></div>
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Tabs</p>
+    <h1>Tabs</h1>
+    <p class="vs-docs-hero-lede">
+      A segmented control for switching between related views. React
+      and Blade wrap two different real patterns already live in
+      production — see the platform-difference callout below before
+      picking one.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>React — Segment Control</h2></div>
+      <p class="vs-docs-section-desc">Already used inside TableWidget's tab switcher.</p>
+    </div>
+    <div class="vs-docs-preview">
+      <div class="demo-segment-control">
+        <button class="demo-segment-button is-active">Overview</button>
+        <button class="demo-segment-button">Items</button>
+        <button class="demo-segment-button">Category</button>
+      </div>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Live</span><h2>Blade — Nav Pills</h2></div>
+      <p class="vs-docs-section-desc">The main site's existing .tabs-custom .nav-pills pattern.</p>
+    </div>
+    <div class="vs-docs-preview">
+      <ul class="demo-nav-pills">
+        <li><a class="demo-nav-link active">Overview</a></li>
+        <li><a class="demo-nav-link">Items</a></li>
+        <li><a class="demo-nav-link">Category</a></li>
+      </ul>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Platform Difference</span><h2>React vs. Blade</h2></div>
+      <p class="vs-docs-section-desc">Deliberately not unified — both are real, both already ship.</p>
+    </div>
+    <div class="vs-docs-callout">
+      <p>
+        <strong>React</strong> (<code>vs-segment-control</code> /
+        <code>vs-segment-button</code>) is a single bordered track
+        with a solid brand-primary fill on the active tab — this is
+        already live in the reports dashboard's <code>TableWidget</code>
+        and several views, so the <code>&lt;Tabs&gt;</code> component
+        formalizes it, not invents it.
+        <strong>Blade</strong> (<code>.tabs-custom .nav-pills</code>)
+        is individually bordered pills with gaps between them, no
+        shared track — this is the main site's own existing CSS,
+        already correct and in production.
+      </p>
+      <p>
+        These were audited side by side and found visually different.
+        Per this system's "change the component, not the page"
+        principle, neither was forced to match the other — that would
+        mean changing pages that already work correctly today. Each
+        wrapper simply reuses its platform's real, proven pattern.
+      </p>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Measurement Guide</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Real values for each platform's pattern.</p>
+    </div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Property</th><th>React (segment control)</th><th>Blade (nav-pills)</th></tr></thead>
+      <tbody>
+        <tr><td>Shape</td><td>one bordered track, pill buttons inside</td><td>individual bordered pills, no shared track</td></tr>
+        <tr><td>Gap</td><td><code>0.25rem</code> inside the track</td><td><code>17px</code> between pills</td></tr>
+        <tr><td>Radius</td><td><code>--vs-radius-full</code> (track + buttons)</td><td><code>--vs-radius-full</code> (each pill)</td></tr>
+        <tr><td>Active state</td><td>solid brand-primary bg, white text</td><td>solid brand-primary bg + border, white text, 500 weight</td></tr>
+        <tr><td>Inactive border</td><td>none (transparent, track has the border)</td><td><code>1px solid</code> muted text color, per pill</td></tr>
+        <tr><td>Source</td><td><code>react/src/styles.css</code> — already shipped in TableWidget</td><td><code>public/themes/basic/assets/css/app.css</code> — <code>.tabs-custom .nav-pills</code></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Tabs } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;Tabs</span>
+  <span class="attr">tabs</span>=<span class="tag">{[</span>{ id: <span class="str">'overview'</span>, label: <span class="str">'Overview'</span> }, { id: <span class="str">'items'</span>, label: <span class="str">'Items'</span> }<span class="tag">]}</span>
+  <span class="attr">activeId</span>=<span class="tag">{activeId}</span>
+  <span class="attr">onChange</span>=<span class="tag">{setActiveId}</span>
+<span class="tag">/&gt;</span></div>
+
+    <h2>Usage — Blade</h2>
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-tabs</span>
+  <span class="attr">:tabs</span>=<span class="str">"[['id' =&gt; 'overview', 'label' =&gt; 'Overview'], ['id' =&gt; 'items', 'label' =&gt; 'Items']]"</span>
+  <span class="attr">:activeId</span>=<span class="str">"'overview'"</span>
+<span class="tag">/&gt;</span>
+
+<span class="cmt">&lt;!-- pair with Bootstrap's data-bs-toggle="pill" tab-content panes --&gt;</span></div>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Platform</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td><code>tabs</code></td><td>Both</td><td>array of <code>{ id, label }</code></td></tr>
+        <tr><td><code>activeId</code></td><td>Both</td><td>the active tab's <code>id</code></td></tr>
+        <tr><td><code>onChange</code></td><td>React</td><td><code>(id: string) =&gt; void</code></td></tr>
+        <tr><td><code>size</code></td><td>React</td><td><code>'sm' | 'md'</code> (default <code>'md'</code>)</td></tr>
+        <tr><td><code>name</code></td><td>Blade</td><td>id/anchor prefix (default <code>'tab'</code>)</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>
