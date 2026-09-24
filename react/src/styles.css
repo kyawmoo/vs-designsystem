@@ -263,6 +263,16 @@
   flex-shrink: 0;
 }
 
+.vs-filter-bar-sort--desktop-only {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .vs-filter-bar-sort--desktop-only {
+    display: flex;
+  }
+}
+
 /* Summary Card */
 .vs-summary-card {
   background: var(--vs-color-surface);

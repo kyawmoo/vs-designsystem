@@ -124,7 +124,7 @@
     <table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Platform</th><th>Values</th></tr></thead>
       <tbody>
-        <tr><td><code>tabs</code></td><td>Both</td><td>array of <code>{ id, label }</code></td></tr>
+        <tr><td><code>tabs</code></td><td>Both</td><td>array of <code>{ id, label }</code> — React's <code>label</code> accepts a full <code>ReactNode</code> (icon + text), not just a string, for tabs like CategoryView's "Main Category" that carry an icon</td></tr>
         <tr><td><code>activeId</code></td><td>Both</td><td>the active tab's <code>id</code></td></tr>
         <tr><td><code>onChange</code></td><td>React</td><td><code>(id: string) =&gt; void</code></td></tr>
         <tr><td><code>size</code></td><td>React</td><td><code>'sm' | 'md'</code> (default <code>'md'</code>)</td></tr>

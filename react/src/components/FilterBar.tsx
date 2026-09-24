@@ -10,6 +10,7 @@ export interface FilterBarProps {
   activeTabId?: string;
   onTabChange?: (id: string) => void;
   sortLabel?: string;
+  hideSortOnMobile?: boolean;
   id?: string;
   className?: string;
 }
@@ -32,6 +33,7 @@ export function FilterBar({
   activeTabId,
   onTabChange,
   sortLabel = 'Sort:',
+  hideSortOnMobile = false,
   id,
   className,
 }: FilterBarProps) {
@@ -49,7 +51,7 @@ export function FilterBar({
       </div>
 
       {tabs && tabs.length > 0 && (
-        <div className="vs-filter-bar-sort">
+        <div className={hideSortOnMobile ? 'vs-filter-bar-sort vs-filter-bar-sort--desktop-only' : 'vs-filter-bar-sort'}>
           <span className="vs-filter-bar-sort-label">
             <Filter size={14} strokeWidth={2} />
             {sortLabel}
