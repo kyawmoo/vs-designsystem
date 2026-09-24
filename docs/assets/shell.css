@@ -13,6 +13,9 @@
    tokens.css changes (same duplication approach as blade/components.css,
    which ships one copy per asset pipeline for the same reason). */
 @import url('./tokens.css');
+/* tokens.css names Roboto but nothing loaded it (only typography.html did, without 300),
+   so pages fell back to the OS font; 300 is the sidebar's light weight. */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap');
 
 :root {
   --vs-docs-sidebar-width: 240px;
@@ -80,7 +83,7 @@ a {
 }
 
 .vs-docs-sidebar-group {
-  margin-bottom: 18px;
+  margin-bottom: 28px;
 }
 
 .vs-docs-sidebar-group-title {
@@ -89,19 +92,19 @@ a {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: #717179;
-  padding: 0 20px;
-  margin: 0 0 6px;
+  padding: 0 22px;
+  margin: 0 0 10px;
 }
 
 .vs-docs-sidebar a {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 0 10px 2px;
-  padding: 8px 10px;
+  gap: 12px;
+  margin: 0 10px 4px;
+  padding: 11px 12px;
   border-radius: 8px;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 300;
   line-height: 18px;
   color: #d4d4d8;
   text-decoration: none;
@@ -114,15 +117,6 @@ a {
   transition: color 120ms ease;
 }
 
-.vs-docs-sidebar a:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.vs-docs-sidebar a:hover .vs-docs-sidebar-icon {
-  color: #a1a1aa;
-}
-
 .vs-docs-sidebar a:focus-visible {
   outline: 2px solid var(--vs-color-brand-accent);
   outline-offset: -2px;
@@ -130,12 +124,22 @@ a {
 
 .vs-docs-sidebar a.is-active {
   color: #fafafa;
-  font-weight: 600;
+  font-weight: 500;
   background: #2a2a2d;
 }
 
 .vs-docs-sidebar a.is-active .vs-docs-sidebar-icon {
   color: #e4e4e7;
+}
+
+/* After .is-active on purpose, so the current page highlights on hover too. */
+.vs-docs-sidebar a:hover,
+.vs-docs-sidebar a:hover .vs-docs-sidebar-icon {
+  color: #ffd854;
+}
+
+.vs-docs-sidebar a:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* ---- Content ----
