@@ -15,9 +15,7 @@
 @import url('./tokens.css');
 
 :root {
-  --vs-docs-header-height: 60px;
   --vs-docs-sidebar-width: 240px;
-  --vs-docs-chrome-header-bg: #09090b;
   --vs-docs-chrome-sidebar-bg: #0e0e10;
 }
 
@@ -36,66 +34,49 @@ a {
   color: inherit;
 }
 
-/* ---- Header ---- */
-.vs-docs-header {
+/* ---- Sidebar (full height: logo on top, page links scroll in the middle, GitHub pinned at the bottom) ---- */
+.vs-docs-sidebar {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  height: var(--vs-docs-header-height);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px 0 18px;
-  background: var(--vs-docs-chrome-header-bg);
-  color: #ffffff;
-  z-index: 100;
-}
-
-.vs-docs-header-brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: #efeff0;
-}
-
-.vs-docs-header-logo {
-  display: block;
-  height: 48px;
-  width: auto;
-  flex-shrink: 0;
-}
-
-.vs-docs-header-links {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.vs-docs-header-links a {
-  text-decoration: none;
-  color: #c9cdd3;
-  transition: color 120ms ease;
-}
-
-.vs-docs-header-links a:hover {
-  color: #ffffff;
-}
-
-/* ---- Sidebar ---- */
-.vs-docs-sidebar {
-  position: fixed;
-  top: var(--vs-docs-header-height);
-  left: 0;
   bottom: 0;
   width: var(--vs-docs-sidebar-width);
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   background: var(--vs-docs-chrome-sidebar-bg);
-  padding: 20px 0 40px;
   z-index: 90;
+}
+
+.vs-docs-sidebar .vs-docs-sidebar-brand {
+  display: block;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 32px 20px 28px;
+  border-radius: 0;
+  background: none;
+}
+
+.vs-docs-sidebar .vs-docs-sidebar-brand:hover {
+  background: none;
+}
+
+.vs-docs-sidebar-brand img {
+  display: block;
+  width: 180px;
+  height: auto;
+}
+
+.vs-docs-sidebar-nav {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 4px 0 20px;
+}
+
+.vs-docs-sidebar-footer {
+  flex-shrink: 0;
+  padding: 12px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .vs-docs-sidebar-group {
@@ -159,7 +140,7 @@ a {
 
 /* ---- Content ----
    Three layers, matching the Stitch reference Master KMO pointed at:
-   1. Dark hero band (page title/breadcrumb) right under the global header
+   1. Dark hero band (page title/breadcrumb) at the top of the page
    2. Gray canvas
    3. White, bordered, rounded card holding the actual content
    Kept border-only (no shadow) on the card, since this system's own
@@ -168,14 +149,12 @@ a {
    to every page. */
 .vs-docs-main {
   margin-left: var(--vs-docs-sidebar-width);
-  margin-top: var(--vs-docs-header-height);
-  min-height: calc(100vh - var(--vs-docs-header-height));
+  min-height: 100vh;
 }
 
 .vs-docs-hero {
-  /* Deliberately lighter than the header/sidebar's #222222
-     (var(--vs-color-brand-secondary)) so the hero band reads as this
-     page's content, not more persistent chrome. */
+  /* Deliberately lighter than the sidebar so the hero band reads as
+     this page's content, not more persistent chrome. */
   background: #2c2c2c;
   color: #ffffff;
   padding: 36px 40px 40px;
@@ -511,8 +490,28 @@ a {
 }
 
 @media (max-width: 900px) {
+  /* No room for a side column: the sidebar collapses to a strip above the
+     page with the logo and GitHub link; the page links stay hidden as before. */
   .vs-docs-sidebar {
+    position: static;
+    width: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px 0 0;
+  }
+  .vs-docs-sidebar .vs-docs-sidebar-brand {
+    padding: 14px 16px;
+  }
+  .vs-docs-sidebar-brand img {
+    width: 120px;
+  }
+  .vs-docs-sidebar-nav {
     display: none;
+  }
+  .vs-docs-sidebar-footer {
+    border-top: none;
+    padding: 0;
   }
   .vs-docs-main {
     margin-left: 0;
