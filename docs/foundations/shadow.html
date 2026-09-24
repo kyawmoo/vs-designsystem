@@ -45,23 +45,28 @@
 
     <div class="vs-docs-callout vs-docs-callout--gap">
       <p>
-        <strong>Not yet fully live on either site.</strong>
-        vectorsticker.com's <code>card-v</code>, widget and modal
-        styles still carry shadows in production CSS — out of scope
-        for a change made from this repo (it's the main production
-        site). On reports.vectorsticker.com, every exported design-
-        system component (Card, SummaryCard, TableWidget, FilterBar,
-        Tabs) is already shadow-free — but auditing
-        <code>src/index.css</code> directly found a few bespoke,
-        non-component styles that still use a real shadow on purpose:
-        a floating score tooltip, scatter-plot marker "bubbles" on the
-        Opportunities view, and a subtle hover-lift on list items.
-        These are deliberate depth cues on specific interactive
-        elements, not leftover defaults, so removing them is a real
-        design call (would they still read correctly as
-        floating/interactive with only a border?) rather than a
-        mechanical swap — flagged for Master KMO to decide rather than
-        stripped silently.
+        <strong>Live on reports.vectorsticker.com; not yet on
+        vectorsticker.com.</strong> vectorsticker.com's
+        <code>card-v</code>, widget and modal styles still carry
+        shadows in production CSS — out of scope for a change made
+        from this repo, since it touches the main production site.
+      </p>
+      <p>
+        reports.vectorsticker.com is now fully shadow-free. Beyond the
+        design-system components (already shadow-free), auditing
+        <code>src/index.css</code> found a real, deliberate box-shadow
+        on three bespoke elements — a floating score tooltip,
+        scatter-plot marker "bubbles" on the Opportunities view, and a
+        list-item hover-lift — plus roughly 40 Tailwind
+        <code>shadow-*</code> utility classes still written across ~15
+        files. Master KMO confirmed removing all of it for
+        consistency. Removing the three bespoke shadows also surfaced
+        a real bug: a second, later CSS rule targeting the tooltip
+        (added after an earlier flat-design pass) was silently winning
+        the cascade over that pass's own fix, so the tooltip's shadow
+        had never actually been removed — found and fixed in the same
+        pass, confirmed via computed-style checks in a live browser
+        rather than by reading the CSS alone.
       </p>
     </div>
   </div>
