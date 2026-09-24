@@ -1,9 +1,10 @@
 /**
  * VectorSticker Design System docs — shared "Site Shell".
- * Dark top header + dark left sidebar (both use brand.secondary #222222),
- * white content body. Agreed with Master KMO during the Stitch phase:
- * "top header, left side bar and content title section [are dark].
- * The body is white as we do."
+ * Near-black top header + left sidebar, white content body. Agreed with
+ * Master KMO during the Stitch phase: "top header, left side bar and
+ * content title section [are dark]. The body is white as we do."
+ * Header/sidebar colors, sizes and the icon-per-item nav were matched
+ * to the reference screenshot Master KMO supplied on 2026-09-24.
  */
 
 /* Copy of ../../tokens/tokens.css, not a reference — this docs site
@@ -12,6 +13,13 @@
    tokens.css changes (same duplication approach as blade/components.css,
    which ships one copy per asset pipeline for the same reason). */
 @import url('./tokens.css');
+
+:root {
+  --vs-docs-header-height: 60px;
+  --vs-docs-sidebar-width: 240px;
+  --vs-docs-chrome-header-bg: #09090b;
+  --vs-docs-chrome-sidebar-bg: #0e0e10;
+}
 
 * {
   box-sizing: border-box;
@@ -34,12 +42,12 @@ a {
   top: 0;
   left: 0;
   right: 0;
-  height: 56px;
+  height: var(--vs-docs-header-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
-  background: var(--vs-color-brand-secondary);
+  padding: 0 20px 0 18px;
+  background: var(--vs-docs-chrome-header-bg);
   color: #ffffff;
   z-index: 100;
 }
@@ -47,25 +55,22 @@ a {
 .vs-docs-header-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-weight: 700;
-  font-size: 15px;
+  gap: 12px;
   text-decoration: none;
-  color: #ffffff;
+  color: #efeff0;
 }
 
 .vs-docs-header-logo {
-  width: 22px;
-  height: 22px;
-  border-radius: var(--vs-radius-sm);
-  background: var(--vs-color-brand-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: #ffffff;
+  display: block;
+  height: 35px;
+  width: auto;
   flex-shrink: 0;
+}
+
+.vs-docs-header-title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .vs-docs-header-version {
@@ -98,51 +103,73 @@ a {
 /* ---- Sidebar ---- */
 .vs-docs-sidebar {
   position: fixed;
-  top: 56px;
+  top: var(--vs-docs-header-height);
   left: 0;
   bottom: 0;
-  width: 240px;
+  width: var(--vs-docs-sidebar-width);
   overflow-y: auto;
-  background: var(--vs-color-brand-secondary);
+  background: var(--vs-docs-chrome-sidebar-bg);
   padding: 20px 0 40px;
   z-index: 90;
 }
 
 .vs-docs-sidebar-group {
-  margin-bottom: 22px;
+  margin-bottom: 18px;
 }
 
 .vs-docs-sidebar-group-title {
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #7d838c;
+  letter-spacing: 0.1em;
+  color: #717179;
   padding: 0 20px;
-  margin: 0 0 8px;
+  margin: 0 0 6px;
 }
 
 .vs-docs-sidebar a {
-  display: block;
-  padding: 7px 20px;
-  font-size: 13.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 10px 2px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 15px;
   font-weight: 500;
-  color: #c9cdd3;
+  line-height: 18px;
+  color: #d4d4d8;
   text-decoration: none;
-  border-left: 2px solid transparent;
   transition: color 120ms ease, background 120ms ease;
+}
+
+.vs-docs-sidebar-icon {
+  flex-shrink: 0;
+  color: #717179;
+  transition: color 120ms ease;
 }
 
 .vs-docs-sidebar a:hover {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.vs-docs-sidebar a:hover .vs-docs-sidebar-icon {
+  color: #a1a1aa;
+}
+
+.vs-docs-sidebar a:focus-visible {
+  outline: 2px solid var(--vs-color-brand-accent);
+  outline-offset: -2px;
 }
 
 .vs-docs-sidebar a.is-active {
-  color: #ffffff;
+  color: #fafafa;
   font-weight: 600;
-  background: rgba(255, 255, 255, 0.06);
-  border-left-color: var(--vs-color-brand-accent);
+  background: #2a2a2d;
+}
+
+.vs-docs-sidebar a.is-active .vs-docs-sidebar-icon {
+  color: #e4e4e7;
 }
 
 /* ---- Content ----
@@ -155,9 +182,9 @@ a {
    border and background-color contrast." One shared edit here applies
    to every page. */
 .vs-docs-main {
-  margin-left: 240px;
-  margin-top: 56px;
-  min-height: calc(100vh - 56px);
+  margin-left: var(--vs-docs-sidebar-width);
+  margin-top: var(--vs-docs-header-height);
+  min-height: calc(100vh - var(--vs-docs-header-height));
 }
 
 .vs-docs-hero {
