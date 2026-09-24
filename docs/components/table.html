@@ -23,6 +23,16 @@
   .demo-segment-control { display: inline-flex; align-items: center; padding: 0.375rem; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-full); gap: 0.25rem; }
   .demo-segment-button { padding: 0.375rem 1rem; border-radius: var(--vs-radius-full); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); font-weight: 600; color: var(--vs-color-text-muted); background: transparent; border: none; cursor: pointer; white-space: nowrap; }
   .demo-segment-button.is-active { background-color: var(--vs-color-brand-primary); color: #fff; }
+
+  /* Blade — real Bootstrap .table (no striping applied on the real site) + DataTables footer strip */
+  .demo-bs-card { border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-xs); background: #fff; font-family: var(--vs-font-family); overflow: hidden; }
+  .demo-bs-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .demo-bs-table th, .demo-bs-table td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--vs-color-border); text-align: left; }
+  .demo-bs-table th { font-weight: 600; color: #495057; }
+  .demo-bs-footer { display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0.75rem; font-size: 12px; color: var(--vs-color-text-muted); }
+  .demo-bs-pagination { display: flex; gap: 2px; }
+  .demo-bs-pagination span { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 11px; }
+  .demo-bs-pagination .is-active { background: var(--vs-color-brand-primary); color: #fff; }
 </style>
 </head>
 <body data-page="table">
@@ -93,24 +103,70 @@
     </div>
 
     <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">03 // Platform</span><h2>React only — no Blade wrapper</h2></div>
-      <p class="vs-docs-section-desc">Admin tables use a vendored JS plugin, not a presentational CSS pattern.</p>
+      <div><span class="vs-docs-section-num">03 // Live</span><h2>Blade — DataTable</h2></div>
+      <p class="vs-docs-section-desc">The real .table.datatable pattern used across every admin list view.</p>
+    </div>
+    <div class="vs-docs-preview">
+      <div class="demo-bs-card" style="width: 100%;">
+        <table class="demo-bs-table">
+          <thead><tr><th>#</th><th>Name</th><th>Views</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Nature</td><td>1,204</td></tr>
+            <tr><td>2</td><td>Animals</td><td>892</td></tr>
+          </tbody>
+        </table>
+        <div class="demo-bs-footer">
+          <span>Showing 1 to 2 of 2 entries</span>
+          <div class="demo-bs-pagination">
+            <span>‹</span><span class="is-active">1</span><span>›</span>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="vs-docs-callout">
       <p>
-        The main site's admin panel tables are built on the vendored
-        <code>datatables.min.css</code> / DataTables jQuery plugin —
-        sorting, pagination, and search are all driven by its own JS
-        initialization per page, not a shared CSS class this system
-        could thin-wrap the way <code>vs-pagination.blade.php</code>
-        wraps Laravel's paginator. Re-implementing that JS behavior
-        as a design-system component would be a new feature, not a
-        presentational wrapper, so it's deliberately out of scope
-        here — same reasoning as excluding the item price/cart logic
-        from <code>vs-card.blade.php</code>. Revisit only if Master
-        KMO asks for it explicitly.
+        <strong>Correction:</strong> an earlier pass here assumed the
+        admin panel's DataTables usage needed new per-page JS to wrap,
+        and skipped a Blade component on that basis. Re-auditing
+        <code>public/vendor/admin/js/app.js</code> directly found that
+        assumption was wrong: a single global script already
+        auto-selects every <code>.datatable</code> /
+        <code>.datatable2</code> table on the page and initializes
+        DataTables itself (shared language strings, <code>pageLength
+        50</code>, pagination styling) — no per-page script exists or
+        is needed. That makes it a genuine thin markup wrapper, same
+        as <code>vs-pagination.blade.php</code>, so
+        <code>vs-table.blade.php</code> was built after all.
       </p>
     </div>
+
+    <h2>Usage — Blade</h2>
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-table</span> <span class="attr">:columns</span>=<span class="str">"[['label' =&gt; '#', 'width' =&gt; '2x'], ['label' =&gt; 'Name', 'width' =&gt; '7x'], ['label' =&gt; 'Views', 'width' =&gt; '3x']]"</span><span class="tag">&gt;</span>
+  @foreach ($categories as $category)
+    <span class="tag">&lt;tr&gt;</span>
+      <span class="tag">&lt;td&gt;</span>{{ $category->id }}<span class="tag">&lt;/td&gt;</span>
+      <span class="tag">&lt;td&gt;</span>{{ $category->name }}<span class="tag">&lt;/td&gt;</span>
+      <span class="tag">&lt;td&gt;</span>{{ $category->views }}<span class="tag">&lt;/td&gt;</span>
+    <span class="tag">&lt;/tr&gt;</span>
+  @endforeach
+<span class="tag">&lt;/x-vs-table&gt;</span></div>
+    <p style="font-size:13px;color:var(--vs-color-text-muted)">
+      Row markup is written by the caller (<code>@foreach</code>, same
+      as every real page today) — badges, dropdown actions and icons
+      vary too much per page for the component to generalize further;
+      <code>&lt;x-vs-table&gt;</code> only owns the card chrome, the
+      real <code>table.datatable</code> class, and the header row.
+    </p>
+
+    <h2>Props — Blade</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td><code>columns</code></td><td>array of <code>{ label, width? }</code> — <code>width</code> maps to the real <code>tb-w-{N}x</code> utility classes</td></tr>
+        <tr><td><code>variant</code></td><td><code>'datatable'</code> (default sort desc on col 0) | <code>'datatable2'</code> (DataTables' own default order) — matches the site's two real configured variants</td></tr>
+        <tr><td><code>card</code></td><td><code>boolean</code>, default <code>true</code> — wraps in the real <code>.card</code> chrome</td></tr>
+      </tbody>
+    </table>
 
     <div class="vs-docs-section-head">
       <div><span class="vs-docs-section-num">04 // Measurement Guide</span><h2>Measurement Guide</h2></div>
