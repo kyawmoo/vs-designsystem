@@ -45,9 +45,23 @@
 
     <div class="vs-docs-callout vs-docs-callout--gap">
       <p>
-        <strong>Not yet live.</strong> vectorsticker.com's <code>card-v</code>,
-        widget and modal styles still carry shadows in production CSS —
-        removing them site-wide is a tracked follow-up, not done in this pass.
+        <strong>Not yet fully live on either site.</strong>
+        vectorsticker.com's <code>card-v</code>, widget and modal
+        styles still carry shadows in production CSS — out of scope
+        for a change made from this repo (it's the main production
+        site). On reports.vectorsticker.com, every exported design-
+        system component (Card, SummaryCard, TableWidget, FilterBar,
+        Tabs) is already shadow-free — but auditing
+        <code>src/index.css</code> directly found a few bespoke,
+        non-component styles that still use a real shadow on purpose:
+        a floating score tooltip, scatter-plot marker "bubbles" on the
+        Opportunities view, and a subtle hover-lift on list items.
+        These are deliberate depth cues on specific interactive
+        elements, not leftover defaults, so removing them is a real
+        design call (would they still read correctly as
+        floating/interactive with only a border?) rather than a
+        mechanical swap — flagged for Master KMO to decide rather than
+        stripped silently.
       </p>
     </div>
   </div>
