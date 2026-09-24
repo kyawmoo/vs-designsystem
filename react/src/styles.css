@@ -463,7 +463,48 @@
   }
 }
 
-/* Modal */
+/* Modal — overlay/panel real values audited from ForgotPasswordModal.tsx:
+   fade-in on open (animate-in fade-in duration-200), panel padding
+   responsive at the sm breakpoint (p-6 sm:p-8). */
+.vs-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  animation: vs-modal-fade-in 200ms ease-out;
+}
+
+.vs-modal-panel {
+  position: relative;
+  width: 100%;
+  background: var(--vs-color-surface);
+  border-radius: 16px;
+  border: 1px solid var(--vs-color-border);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  padding: 1.5rem;
+  font-family: var(--vs-font-family);
+}
+
+@media (min-width: 640px) {
+  .vs-modal-panel {
+    padding: 2rem;
+  }
+}
+
+@keyframes vs-modal-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .vs-modal-close {
   position: absolute;
   top: 1rem;

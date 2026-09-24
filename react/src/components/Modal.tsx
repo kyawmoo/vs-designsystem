@@ -24,33 +24,15 @@ export function Modal({ open, onClose, title, children, size = 'sm', className }
     <div
       role="presentation"
       onClick={onClose}
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 50,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '1rem',
-        background: 'rgba(0, 0, 0, 0.5)',
-        backdropFilter: 'blur(2px)',
-      }}
+      className="vs-modal-overlay"
     >
       <div
         role="dialog"
         aria-modal="true"
         onClick={(e) => e.stopPropagation()}
-        className={className}
+        className={className ? `vs-modal-panel ${className}` : 'vs-modal-panel'}
         style={{
-          position: 'relative',
-          width: '100%',
           maxWidth: size === 'md' ? '32rem' : '28rem',
-          background: 'var(--vs-color-surface)',
-          borderRadius: '16px',
-          border: '1px solid var(--vs-color-border)',
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-          padding: '1.5rem',
-          fontFamily: 'var(--vs-font-family)',
         }}
       >
         <button
