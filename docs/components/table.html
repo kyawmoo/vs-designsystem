@@ -90,15 +90,13 @@
     <div class="vs-docs-callout">
       <p>
         <code>TableWidget</code>'s optional header-right tab switcher
-        renders the exact same <code>vs-segment-control</code> /
-        <code>vs-segment-button</code> markup as the standalone
-        <code>&lt;Tabs&gt;</code> component documented on its own page
-        — this is in fact where that pattern was first formalized
-        from. A future pass could have <code>TableWidget</code> render
-        <code>&lt;Tabs&gt;</code> internally instead of duplicating the
-        markup; left as-is here since it works correctly today and
-        that refactor carries its own regression risk on an
-        already-live component.
+        is built directly on the standalone <code>&lt;Tabs&gt;</code>
+        component (<code>size="sm"</code>) — this is in fact where the
+        <code>vs-segment-control</code> pattern was first formalized
+        from, and <code>TableWidget</code> was refactored afterward to
+        render <code>&lt;Tabs&gt;</code> internally instead of
+        duplicating the markup, so there is now exactly one
+        implementation of this pattern.
       </p>
     </div>
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tabs } from './Tabs';
 
 export interface TableColumn<T> {
   label: string;
@@ -63,20 +64,13 @@ export function TableWidget<T>({
             )}
           </div>
           {tabs && tabs.length > 0 && (
-            <div className="vs-segment-control shrink-0">
-              {tabs.map((t) => (
-                <button
-                  key={t.id}
-                  type="button"
-                  onClick={() => onTabChange && onTabChange(t.id)}
-                  className={`vs-segment-button vs-segment-button--sm ${
-                    activeTabId === t.id ? 'is-active' : ''
-                  }`}
-                >
-                  {t.label}
-                </button>
-              ))}
-            </div>
+            <Tabs
+              tabs={tabs}
+              activeId={activeTabId ?? ''}
+              onChange={(id) => onTabChange && onTabChange(id)}
+              size="sm"
+              className="shrink-0"
+            />
           )}
         </div>
       )}
