@@ -11,6 +11,7 @@ export interface TabsProps {
   onChange: (id: string) => void;
   size?: 'sm' | 'md';
   className?: string;
+  buttonClassName?: string;
 }
 
 /**
@@ -19,7 +20,7 @@ export interface TabsProps {
  * inline across several report views) as its own standalone,
  * reusable component — same classes, same visual output.
  */
-export function Tabs({ tabs, activeId, onChange, size = 'md', className }: TabsProps) {
+export function Tabs({ tabs, activeId, onChange, size = 'md', className, buttonClassName }: TabsProps) {
   return (
     <div className={className ? `vs-segment-control ${className}` : 'vs-segment-control'}>
       {tabs.map((tab) => (
@@ -29,7 +30,7 @@ export function Tabs({ tabs, activeId, onChange, size = 'md', className }: TabsP
           onClick={() => onChange(tab.id)}
           className={`vs-segment-button ${size === 'sm' ? 'vs-segment-button--sm' : ''} ${
             activeId === tab.id ? 'is-active' : ''
-          }`}
+          } ${buttonClassName ?? ''}`}
         >
           {tab.label}
         </button>
