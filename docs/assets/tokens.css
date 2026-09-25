@@ -52,12 +52,66 @@
   --vs-font-size-display: 45px;
   --vs-line-height-body: 1.7;
 
+  /* ---- Typography: full type scale (spec v2, 25 Sep 2026) ----
+     font shorthand: weight size/line-height family */
+  --vs-type-display-01: 600 45px/52px var(--vs-font-family);
+  --vs-type-heading-01: 700 36px/44px var(--vs-font-family);
+  --vs-type-heading-02: 600 30px/38px var(--vs-font-family);
+  --vs-type-heading-03: 600 24px/32px var(--vs-font-family);
+  --vs-type-heading-04: 600 20px/28px var(--vs-font-family);
+  --vs-type-body-02: 500 16px/24px var(--vs-font-family);
+  --vs-type-paragraph: 400 15px/24px var(--vs-font-family);
+  --vs-type-body-01: 400 13px/20px var(--vs-font-family);
+  --vs-type-label: 600 12px/16px var(--vs-font-family); /* + text-transform: uppercase */
+  --vs-type-caption: 400 11px/15px var(--vs-font-family);
+  --vs-font-weight-title: 600;
+  --vs-font-weight-card-title: 500;
+  --vs-font-weight-body: 400;
+
   /* ---- Radius ---- */
   --vs-radius-xs: 5px;
   --vs-radius-sm: 8px;
   --vs-radius-lg: 12px;
   --vs-radius-xl: 20px;
   --vs-radius-full: 9999px;
+
+  /* ---- Button (spec v2, 25 Sep 2026) ---- */
+  --vs-button-primary: #4CAF50;
+  --vs-button-primary-hover: #43A047;
+  --vs-button-primary-pressed: #388E3C;
+  --vs-button-secondary: #222222;
+  --vs-button-secondary-hover: #333333;
+  --vs-button-secondary-pressed: #151515;
+  --vs-button-tertiary-border: #D1D5DB;
+  --vs-button-tertiary-text: #18181B;
+  --vs-button-tertiary-hover-bg: rgba(76, 175, 80, 0.10);
+  --vs-button-tertiary-pressed-bg: rgba(76, 175, 80, 0.20);
+  --vs-button-tertiary-active-border: #4CAF50;
+  --vs-button-cta-support: #F59E0B;
+  --vs-button-cta-support-hover: #F5A623;
+  --vs-button-cta-support-pressed: #D97706;
+  --vs-button-cta-support-text: #18181B;
+  --vs-button-height-sm: 32px;
+  --vs-button-height-md: 40px;
+  --vs-button-height-lg: 48px;
+  --vs-button-pad-x-sm: 16px;
+  --vs-button-pad-x-md: 28px;
+  --vs-button-pad-x-lg: 32px;
+  --vs-button-font-size-sm: 13px;
+  --vs-button-font-size-md: 14px;
+  --vs-button-font-size-lg: 16px;
+  --vs-button-font-weight: 500;
+  --vs-button-icon-only-sm: 32px;
+  --vs-button-icon-only-md: 38px;
+  --vs-button-icon-only-lg: 44px;
+  --vs-button-social-size: 40px;
+  --vs-button-radius: 4px;
+  --vs-button-radius-soft: 6px;
+  --vs-button-radius-icon: 8px;
+  --vs-button-radius-social: 5px;
+  --vs-button-radius-cta: 12px;
+  --vs-button-disabled-opacity: 0.5;
+  --vs-button-pressed-scale: 0.98;
 
   /* ---- Icon size scale (library differs by platform: lucide-react on
      React, Font Awesome on Blade — see tokens.json "icon.principle") ---- */
