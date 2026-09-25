@@ -8,19 +8,98 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <style>
+  /* Demo-only styles built on the Card spec v2 tokens (tokens.css). */
   .demo-card {
     background: var(--vs-color-surface);
-    border-radius: var(--vs-radius-sm);
+    border: 1px solid var(--vs-card-border);
+    border-radius: var(--vs-card-radius);
     box-shadow: var(--vs-shadow-none);
     padding: 20px;
     font-family: var(--vs-font-family);
   }
-  .demo-card--react { border: 1px solid var(--vs-color-border); }
-  .demo-card--blade-base { padding: 28px; }
-  .demo-card--blade-blog { padding: 32px; border: 1px solid var(--vs-color-border); }
-  .demo-card-title { margin: 0 0 6px; font-size: 15px; font-weight: 600; color: var(--vs-color-text-heading); }
-  .demo-card-body { margin: 0; font-size: 13px; color: var(--vs-color-text-muted); }
+  .demo-card--blade-base { border-color: transparent; padding: 28px; }
+  .demo-card--blade-blog { padding: 32px; }
+  .vs-docs-content .demo-card-title { margin: 0 0 6px; font-size: 15px; font-weight: 600; color: var(--vs-color-text-heading); }
+  .vs-docs-content .demo-card-body { margin: 0; font-size: 13px; color: var(--vs-color-text-muted); }
+
+  /* Item card */
+  .item-card { position: relative; width: 100%; max-width: 320px; background: var(--vs-color-surface); border: 1px solid var(--vs-card-border); border-radius: var(--vs-card-radius); padding: var(--vs-card-padding-item); font-family: var(--vs-font-family); box-sizing: border-box; transition: border-color 150ms ease, transform 150ms ease; }
+  .item-card:hover, .item-card.is-hover { border-color: var(--vs-card-hover-border); transform: translateY(var(--vs-card-hover-lift)); }
+  .item-card--sm { max-width: none; padding: 12px; }
+  .item-media { position: relative; aspect-ratio: 1 / 1; background: var(--vs-card-media-bg); border: 1px solid var(--vs-card-divider); border-radius: var(--vs-card-radius); display: flex; align-items: center; justify-content: center; overflow: hidden; color: #cbd5e1; font-size: 44px; }
+  .item-card--sm .item-media { font-size: 32px; }
+  .item-badge { position: absolute; top: var(--vs-card-badge-inset); left: var(--vs-card-badge-inset); display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: var(--vs-card-radius); color: #fff; font-size: 11px; font-weight: 600; line-height: 16px; }
+  .item-badge--premium { background: var(--vs-color-badge-premium); }
+  .item-badge--free { background: var(--vs-color-badge-free); }
+  .item-badge--sale { background: var(--vs-color-badge-sale); }
+  .item-badge--trending { background: var(--vs-color-badge-trending); }
+  .vs-docs-content .item-title { margin: 12px 0 2px; font-size: var(--vs-card-title-size); font-weight: 500; color: #111827; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .vs-docs-content .item-card--sm .item-title { font-size: 13px; margin-top: 8px; }
+  .vs-docs-content .item-meta { margin: 0; font-size: 12px; color: #6b7280; }
+  .vs-docs-content .item-meta strong { color: #374151; font-weight: 500; }
+  .vs-docs-content .item-category { margin: 0; font-size: 12px; font-weight: 500; color: var(--vs-color-brand-primary); }
+  .vs-docs-content .item-desc { margin: 8px 0 0; font-size: 12px; line-height: 1.6; color: #6b7280; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .item-rating { margin-top: 6px; display: flex; align-items: center; gap: 2px; color: #f59e0b; font-size: 12px; }
+  .item-rating span { color: #6b7280; font-family: 'SFMono-Regular', Consolas, monospace; font-size: 11px; margin-left: 4px; }
+  .item-footer { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--vs-card-divider); display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .item-price { font-size: var(--vs-card-price-size); font-weight: 700; color: var(--vs-card-price-color); line-height: 1; }
+  .item-card--sm .item-price { font-size: 13px; }
+  .item-price--sale { color: var(--vs-card-price-sale-color); }
+  .item-price-old { font-size: var(--vs-card-price-old-size); font-weight: 500; color: var(--vs-card-price-old-color); text-decoration: line-through; margin-right: 6px; }
+  .item-card--sm .item-price-old { font-size: 11px; }
+  .item-downloads { margin-top: 6px; font-size: 11px; color: #6b7280; }
+  .item-actions { display: flex; gap: 6px; }
+  .item-icon-btn { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--vs-card-border); border-radius: var(--vs-card-radius); background: #fff; color: #6b7280; cursor: pointer; font-size: 14px; }
+  .item-icon-btn:hover { color: #111827; background: #f9fafb; }
+  .item-icon-btn--eye { width: 40px; height: 40px; border-color: #111827; color: #111827; font-size: 16px; }
+  .item-add-btn { height: 32px; padding: 0 12px; display: inline-flex; align-items: center; gap: 4px; border: 0; border-radius: var(--vs-card-radius); background: var(--vs-button-primary); color: #fff; font: 500 12px var(--vs-font-family); cursor: pointer; }
+  .item-add-btn:hover { background: var(--vs-button-primary-hover); }
+
+  /* Layout helpers */
+  .demo-split { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 24px; align-items: center; margin: 16px 0 24px; }
+  .demo-center { display: flex; justify-content: center; padding: 24px; background: #fafafa; border: 1px solid var(--vs-card-divider); border-radius: var(--vs-radius-sm); }
+  .demo-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .demo-legend li { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; background: #f9fafb; border: 1px solid var(--vs-card-border); border-radius: var(--vs-card-radius); font-size: 13px; }
+  .demo-legend b { flex-shrink: 0; min-width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; border-radius: 3px; background: #111827; color: #fff; font-size: 10px; }
+  .demo-legend strong { display: block; color: #111827; }
+  .demo-legend span { color: #6b7280; }
+  .demo-grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 16px; margin: 16px 0; }
+  .demo-grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: 16px; }
+  .demo-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px; margin: 16px 0 24px; }
+  .demo-swatch { padding: 16px; border: 1px solid var(--vs-card-border); border-radius: var(--vs-card-radius); background: #f9fafb; display: flex; flex-direction: column; align-items: center; gap: 8px; font-family: 'SFMono-Regular', Consolas, monospace; font-size: 11px; }
+  .demo-swatch .item-badge { position: static; font-family: var(--vs-font-family); }
+  .demo-panel { border: 1px solid var(--vs-card-border); border-radius: var(--vs-card-radius); background: var(--vs-color-surface); padding: 20px; font-size: 13px; }
+  .demo-panel h3 { margin: 0 0 12px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
+  .demo-panel code { overflow-wrap: anywhere; }
+  .demo-note { display: block; margin-top: 8px; font-size: 11px; color: #9ca3af; font-family: 'SFMono-Regular', Consolas, monospace; }
+  .demo-state-label { display: block; margin-bottom: 8px; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: #6b7280; }
+  .demo-skeleton { background: #e5e7eb; border-radius: var(--vs-card-radius); animation: demo-pulse 1.5s ease-in-out infinite; }
+  @keyframes demo-pulse { 50% { opacity: .5; } }
+  @media (prefers-reduced-motion: reduce) { .demo-skeleton { animation: none; } .item-card { transition: none; } }
+  .demo-empty { height: 100%; min-height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-align: center; background: #fafafa; border: 1px dashed #d1d5db; border-radius: var(--vs-card-radius); color: #9ca3af; font-size: 11px; }
+  .demo-empty i { font-size: 28px; }
+  .demo-empty strong { color: #374151; font-size: 12px; font-weight: 500; }
+  .demo-content-card { background: #fff; border: 1px solid var(--vs-card-border); border-radius: var(--vs-card-radius); padding: var(--vs-card-padding-content); }
+  @media (max-width: 767px) { .demo-content-card { padding: 24px; } }
+  .demo-content-card h3 { margin: 12px 0; font-size: 24px; line-height: 32px; font-weight: 700; color: #111827; }
+  .demo-content-card p { margin: 0 0 24px; font-size: 14px; line-height: 1.7; color: #4b5563; }
+  .demo-kicker { display: inline-block; padding: 2px 8px; border-radius: var(--vs-card-radius); background: #f3f4f6; color: #374151; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+  .demo-browser { border: 1px solid #d1d5db; border-radius: var(--vs-radius-sm); overflow: hidden; }
+  .demo-browser-bar { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: #e5e7eb; border-bottom: 1px solid #d1d5db; font-size: 11px; color: #6b7280; }
+  .demo-browser-bar i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .demo-browser-body { padding: 20px; background: var(--vs-color-background); }
+  .demo-rule { border-radius: var(--vs-radius-sm); padding: 16px; }
+  .demo-rule--do { border: 1px solid #10b981; background: #ecfdf5; }
+  .demo-rule--dont { border: 1px solid #ef4444; background: #fef2f2; }
+  .demo-rule p { margin: 0 0 12px; font-size: 13px; }
+  .demo-pill { display: inline-block; margin-right: 6px; padding: 1px 8px; border-radius: 3px; color: #fff; font-size: 11px; font-weight: 700; }
+  .demo-rule .item-card { max-width: 200px; }
+  .demo-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .demo-scroll > .vs-docs-table { min-width: 560px; }
+  .vs-docs-content p code { overflow-wrap: anywhere; }
+  .vs-docs-hero-eyebrow { flex-wrap: wrap; row-gap: 6px; }
 </style>
 </head>
 <body data-page="card">
@@ -28,29 +107,248 @@
 <main class="vs-docs-main">
   <div class="vs-docs-hero">
     <div class="vs-docs-hero-inner">
-    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Card</p>
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Card <span class="vs-docs-tag">$card-item-v2</span> <span class="vs-docs-tag">3px / #e5e7eb</span></p>
     <h1>Card</h1>
     <p class="vs-docs-hero-lede">
-      A generic content container. Implemented in
+      The item card used across VectorSticker.com listings, plus a generic
+      content container. The generic card is implemented in
       <code>react/src/components/Card.tsx</code> and
-      <code>blade/components/vs-card.blade.php</code> — the two are not
-      visually identical, and that's intentional; see below.
+      <code>blade/components/vs-card.blade.php</code>.
     </p>
     </div>
   </div>
   <div class="vs-docs-canvas">
   <div class="vs-docs-content">
 
+    <!-- 01 -->
     <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">01 // Platform Difference</span><h2>React vs. Blade</h2></div>
+      <div><span class="vs-docs-section-num">01 // Item Card — Anatomy</span><h2>Item Card</h2></div>
+      <p class="vs-docs-section-desc">Target: sticker item. Hover the card.</p>
+    </div>
+    <div class="demo-split">
+      <div class="demo-center">
+        <div class="item-card">
+          <div class="item-media">
+            <i class="fa-regular fa-image" aria-hidden="true"></i>
+            <span class="item-badge item-badge--premium"><i class="fa-solid fa-crown"></i>Premium</span>
+          </div>
+          <p class="item-title">Holographic Cyber Cat Sticker</p>
+          <p class="item-meta">By <strong>StudioKMO</strong> in <strong>Cyberpunk</strong></p>
+          <p class="item-desc">Durable vinyl die-cut sticker with waterproof coating and a vibrant finish.</p>
+          <div class="item-rating" aria-label="5 out of 5 stars, 128 reviews"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><span>(128)</span></div>
+          <div class="item-footer">
+            <span class="item-price">$12.00</span>
+            <div class="item-actions">
+              <button class="item-icon-btn" type="button" aria-label="Add to favorites"><i class="fa-regular fa-heart"></i></button>
+              <button class="item-add-btn" type="button"><i class="fa-solid fa-cart-shopping"></i>Add</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ol class="demo-legend">
+        <li><b>1</b><div><strong>Image</strong><span>1:1 ratio, neutral light-gray backdrop (<code>#f9fafb</code>), 3px radius.</span></div></li>
+        <li><b>2</b><div><strong>Badge</strong><span>Top-left, overlapping the image, 10px inset, solid badge color.</span></div></li>
+        <li><b>3</b><div><strong>Title</strong><span>16px / 500, one line, truncated with an ellipsis.</span></div></li>
+        <li><b>4</b><div><strong>Meta</strong><span>“By [author] in [category]”, subdued secondary text.</span></div></li>
+        <li><b>5</b><div><strong>Description</strong><span>Two-line clamp with a uniform line height so cards stay the same height.</span></div></li>
+        <li><b>6</b><div><strong>Rating</strong><span>Stars plus the review count in parentheses.</span></div></li>
+        <li><b>7</b><div><strong>Footer</strong><span>Price on the left, icon action buttons on the right.</span></div></li>
+      </ol>
+    </div>
+
+    <!-- 02 -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Production Card Specimen — Free Tier &amp; Preview</span><h2>Free Download Variant</h2></div>
+      <p class="vs-docs-section-desc">The card most VectorSticker.com items use.</p>
+    </div>
+    <div class="demo-split">
+      <div class="demo-center">
+        <div class="item-card" style="padding:16px">
+          <div class="item-media" style="border:0;background:#fafafa">
+            <i class="fa-regular fa-image" aria-hidden="true"></i>
+            <span class="item-badge item-badge--free"><i class="fa-regular fa-heart"></i>Free</span>
+          </div>
+          <p class="item-title" style="font-size:18px;font-weight:600">Dark Skull Chess King Illustration</p>
+          <p class="item-category">Skulls, Bones &amp; Anatomy</p>
+          <p class="item-desc">This striking skull chess king illustration delivers a sinister gothic aesthetic for shirts, stickers and posters.</p>
+          <div class="item-footer">
+            <div>
+              <div class="item-price">Free</div>
+              <div class="item-downloads"><i class="fa-solid fa-download"></i> 2 Downloads</div>
+            </div>
+            <button class="item-icon-btn item-icon-btn--eye" type="button" aria-label="Quick view preview"><i class="fa-regular fa-eye"></i></button>
+          </div>
+        </div>
+      </div>
+      <ol class="demo-legend">
+        <li><b style="background:var(--vs-color-badge-free)">A</b><div><strong>Top badge: #743CEE</strong><span>Purple heart badge marking a free asset; 10px inset.</span></div></li>
+        <li><b style="background:var(--vs-color-brand-primary)">B</b><div><strong>Category subheading: #4CAF50</strong><span>Brand-green link to the item's category.</span></div></li>
+        <li><b>C</b><div><strong>Download counter</strong><span>Shown instead of star ratings on free items (live site: when the “total downloads” setting is on and the item has more than 1 download).</span></div></li>
+        <li><b>D</b><div><strong>Quick-view eye button</strong><span>Square 40px outlined button with a 20px eye icon; opens the item page (<code>btn-outline-secondary</code> in <code>item.blade.php</code>).</span></div></li>
+      </ol>
+    </div>
+
+    <!-- 03 -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Status Badges</span><h2>Status Badges</h2></div>
+      <p class="vs-docs-section-desc"><code>$badge-status</code> — same icons as the live site.</p>
+    </div>
+    <div class="demo-grid-4">
+      <div class="demo-swatch"><span class="item-badge item-badge--premium"><i class="fa-solid fa-crown"></i>Premium</span>#4CAF50</div>
+      <div class="demo-swatch"><span class="item-badge item-badge--free"><i class="fa-regular fa-heart"></i>Free</span>#743CEE</div>
+      <div class="demo-swatch"><span class="item-badge item-badge--sale"><i class="fa-solid fa-tag"></i>On Sale</span>#0BBE9A</div>
+      <div class="demo-swatch"><span class="item-badge item-badge--trending"><i class="fa-solid fa-bolt"></i>Trending</span>#0074E4</div>
+    </div>
+    <div class="vs-docs-callout">
+      <p><strong>One badge per card.</strong> Priority: Premium &gt; Free &gt; Sale &gt; Trending — the same <code>@if / @elseif</code> order as <code>resources/views/themes/basic/partials/item.blade.php</code>. Colors are the <a href="/components/badge.html">badge tokens</a>.</p>
+    </div>
+
+    <!-- 04 -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Price</span><h2>Price</h2></div>
+      <p class="vs-docs-section-desc">Typography and strikethrough.</p>
+    </div>
+    <div class="demo-grid-2">
+      <div class="demo-panel">
+        <h3><code>$card-price-regular</code></h3>
+        <span class="item-price">$12.00</span>
+        <span class="demo-note">18px bold · #111827</span>
+      </div>
+      <div class="demo-panel">
+        <h3><code>$card-price-sale</code></h3>
+        <span class="item-price-old">$18.00</span><span class="item-price item-price--sale">$12.00</span>
+        <span class="demo-note">14px strikethrough (#9ca3af) → 18px bold (#4caf50)</span>
+      </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">05 // Generic Content Card</span><h2>Content Card</h2></div>
+      <p class="vs-docs-section-desc"><code>$card-content</code> — blog / CMS pages, 45px padding (24px on mobile).</p>
+    </div>
+    <div class="demo-content-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+        <span class="demo-kicker">Design notes</span>
+        <span style="font-size:12px;color:#9ca3af">Oct 24, 2024</span>
+      </div>
+      <h3>SVG Rasterization Workflows in Production Build Pipelines</h3>
+      <p>Architectural considerations for high-density sticker rendering across viewport sizes, keeping vector fidelity high and bundle size low.</p>
+      <div class="item-footer" style="padding-top:16px">
+        <span style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:#374151"><span style="width:24px;height:24px;border-radius:50%;background:#111827;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700">VS</span>Core Engineering</span>
+        <a href="#" onclick="return false" style="font-size:12px;font-weight:600;color:var(--vs-color-brand-primary)">Read Article <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">06 // One-System Gap</span><h2>⚠ Public vs Admin</h2></div>
+      <p class="vs-docs-section-desc">Inconsistency flag.</p>
+    </div>
+    <div class="demo-grid-2">
+      <div class="demo-panel">
+        <h3>Public card <span class="vs-docs-tag">flat</span></h3>
+        <div style="height:80px;display:flex;align-items:center;justify-content:center;background:#fafafa;border:1px solid var(--vs-card-border);border-radius:3px;color:#6b7280">Flat, no shadow</div>
+        <span class="demo-note">box-shadow: none; border: 1px solid #e5e7eb;</span>
+      </div>
+      <div class="demo-panel">
+        <h3>Admin card <span class="vs-docs-tag">shadowed</span></h3>
+        <div style="height:80px;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:3px;box-shadow:0 1px 3px rgba(0,0,0,.15);color:#6b7280">Soft shadow (0 1px 3px)</div>
+        <span class="demo-note">.card { box-shadow: 0 1px 3px #00000026; } — public/vendor/admin/css/app.css</span>
+      </div>
+    </div>
+
+    <!-- 07 -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">07 // States</span><h2>States</h2></div>
+      <p class="vs-docs-section-desc">Interactive lifecycle.</p>
+    </div>
+    <div class="demo-grid-4">
+      <div>
+        <span class="demo-state-label">Default</span>
+        <div class="item-card item-card--sm">
+          <div class="item-media"><i class="fa-regular fa-image" aria-hidden="true"></i></div>
+          <p class="item-title">Cyber Skull 01</p>
+          <div class="item-footer"><span class="item-price">$9.00</span><span style="font-size:11px;color:#9ca3af">Ready</span></div>
+        </div>
+      </div>
+      <div>
+        <span class="demo-state-label" style="color:var(--vs-color-brand-primary)">Hover</span>
+        <div class="item-card item-card--sm is-hover">
+          <div class="item-media"><i class="fa-regular fa-image" aria-hidden="true"></i><span style="position:absolute;background:rgba(255,255,255,.95);padding:3px 8px;border-radius:3px;font-size:10px;font-weight:700;color:#111827">Quick View</span></div>
+          <p class="item-title">Astro Wave</p>
+          <div class="item-footer"><span class="item-price item-price--sale">$14.00</span><span style="font-size:11px;color:var(--vs-color-brand-primary);font-weight:500">Active</span></div>
+        </div>
+        <span class="demo-note">border #4caf50 · translateY(-4px)</span>
+      </div>
+      <div>
+        <span class="demo-state-label">Loading</span>
+        <div class="item-card item-card--sm" aria-busy="true" aria-label="Loading">
+          <div class="demo-skeleton" style="aspect-ratio:1/1"></div>
+          <div class="demo-skeleton" style="height:12px;width:75%;margin-top:10px"></div>
+          <div class="demo-skeleton" style="height:10px;width:33%;margin-top:6px"></div>
+          <div class="item-footer"><div class="demo-skeleton" style="height:12px;width:25%"></div><div class="demo-skeleton" style="height:20px;width:20px"></div></div>
+        </div>
+      </div>
+      <div>
+        <span class="demo-state-label">Empty</span>
+        <div class="demo-empty"><i class="fa-solid fa-box-open" aria-hidden="true"></i><strong>No items found</strong>Try another search or category</div>
+      </div>
+    </div>
+
+    <!-- 08 -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">08 // Usage in Context</span><h2>Usage in Context</h2></div>
+      <p class="vs-docs-section-desc">Illustrative listing page — 3-column grid, 16px gutter.</p>
+    </div>
+    <div class="demo-browser">
+      <div class="demo-browser-bar"><i style="background:#ef4444"></i><i style="background:#f59e0b"></i><i style="background:#10b981"></i> vectorsticker.com/items</div>
+      <div class="demo-browser-body">
+        <div class="demo-grid-3">
+          <div class="item-card item-card--sm"><div class="item-media"><i class="fa-regular fa-image" aria-hidden="true"></i><span class="item-badge item-badge--premium">Premium</span></div><p class="item-title">Prism Gem Vinyl</p><p class="item-meta">By VektorHaus</p><div class="item-footer"><span class="item-price">$11.00</span><i class="fa-solid fa-bag-shopping" style="color:#9ca3af"></i></div></div>
+          <div class="item-card item-card--sm"><div class="item-media"><i class="fa-regular fa-image" aria-hidden="true"></i><span class="item-badge item-badge--free">Free</span></div><p class="item-title">Neo Tokyo Ramen</p><p class="item-meta">By UkiyoLab</p><div class="item-footer"><span class="item-price" style="color:var(--vs-color-badge-free)">FREE</span><i class="fa-solid fa-download" style="color:#9ca3af"></i></div></div>
+          <div class="item-card item-card--sm"><div class="item-media"><i class="fa-regular fa-image" aria-hidden="true"></i><span class="item-badge item-badge--sale">On Sale</span></div><p class="item-title">Brass Chrono Cog</p><p class="item-meta">By Clockwork</p><div class="item-footer"><span><span class="item-price-old">$15.00</span><span class="item-price item-price--sale">$8.50</span></span><i class="fa-solid fa-bag-shopping" style="color:#9ca3af"></i></div></div>
+          <div class="item-card item-card--sm"><div class="item-media"><i class="fa-regular fa-image" aria-hidden="true"></i><span class="item-badge item-badge--trending">Trending</span></div><p class="item-title">Mixtape '84</p><p class="item-meta">By TapeDeck</p><div class="item-footer"><span class="item-price">$10.00</span><i class="fa-solid fa-bag-shopping" style="color:#9ca3af"></i></div></div>
+          <div class="item-card item-card--sm"><div class="item-media"><i class="fa-regular fa-image" aria-hidden="true"></i></div><p class="item-title">8-Bit Life Heart</p><p class="item-meta">By BitPixel</p><div class="item-footer"><span class="item-price">$7.00</span><i class="fa-solid fa-bag-shopping" style="color:#9ca3af"></i></div></div>
+          <div class="item-card item-card--sm"><div class="item-media"><i class="fa-regular fa-image" aria-hidden="true"></i><span class="item-badge item-badge--premium">Premium</span></div><p class="item-title">Alien Boba Sips</p><p class="item-meta">By GalactiTea</p><div class="item-footer"><span class="item-price">$13.50</span><i class="fa-solid fa-bag-shopping" style="color:#9ca3af"></i></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09 -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">09 // Do's and Don'ts</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc">Strict rules.</p>
+    </div>
+    <div class="demo-grid-2">
+      <div class="demo-rule demo-rule--do">
+        <p><span class="demo-pill" style="background:#10b981">DO</span>One badge only.</p>
+        <div class="item-card item-card--sm"><div class="item-media"><i class="fa-regular fa-image" aria-hidden="true"></i><span class="item-badge item-badge--premium">Premium</span></div><p class="item-title">Sticker title</p></div>
+      </div>
+      <div class="demo-rule demo-rule--dont">
+        <p><span class="demo-pill" style="background:#ef4444">DON’T</span>Don’t stack badges.</p>
+        <div class="item-card item-card--sm"><div class="item-media"><i class="fa-regular fa-image" aria-hidden="true"></i><span class="item-badge item-badge--premium">Premium</span><span class="item-badge item-badge--sale" style="top:34px">On Sale</span></div><p class="item-title">Sticker title</p></div>
+      </div>
+      <div class="demo-rule demo-rule--do">
+        <p><span class="demo-pill" style="background:#10b981">DO</span>Truncate the title to one line.</p>
+        <div class="item-card item-card--sm"><div class="item-media" style="aspect-ratio:16/9"><i class="fa-regular fa-image" aria-hidden="true"></i></div><p class="item-title">Holographic Cybernetic Neon Cat Sticker Die Cut Deluxe</p></div>
+      </div>
+      <div class="demo-rule demo-rule--dont">
+        <p><span class="demo-pill" style="background:#ef4444">DON’T</span>Don’t let the title wrap onto several lines.</p>
+        <div class="item-card item-card--sm"><div class="item-media" style="aspect-ratio:16/9"><i class="fa-regular fa-image" aria-hidden="true"></i></div><p class="item-title" style="white-space:normal">Holographic Cybernetic Neon Cat Sticker Die Cut Deluxe</p></div>
+      </div>
+    </div>
+
+    <!-- 10 -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">10 // Platform Difference</span><h2>Generic Card: React vs. Blade</h2></div>
       <p class="vs-docs-section-desc">Same name, different default border.</p>
     </div>
     <div class="vs-docs-example-grid">
       <div class="vs-docs-example-card">
         <div class="vs-docs-example-stage" style="height: auto; padding: 20px; justify-content: flex-start;">
-          <div class="demo-card demo-card--react" style="width: 100%;">
+          <div class="demo-card" style="width: 100%;">
             <p class="demo-card-title">React Card</p>
-            <p class="demo-card-body">Bordered — matches SummaryCard/TableWidget.</p>
+            <p class="demo-card-body">Bordered — 1px #e5e7eb, 3px radius.</p>
           </div>
         </div>
         <p class="vs-docs-example-label">React <code>&lt;Card&gt;</code><span class="vs-docs-tag">bordered</span></p>
@@ -58,7 +356,7 @@
       </div>
       <div class="vs-docs-example-card">
         <div class="vs-docs-example-stage" style="height: auto; padding: 20px; justify-content: flex-start; background: var(--vs-color-background);">
-          <div class="demo-card demo-card--blade-base" style="width: 100%;">
+          <div class="demo-card demo-card--blade-base" style="width: 100%; border-radius: 6px;">
             <p class="demo-card-title">Blade Card</p>
             <p class="demo-card-body">No border — real .card-v on the public site.</p>
           </div>
@@ -66,55 +364,45 @@
         <p class="vs-docs-example-label">Blade <code>&lt;x-vs-card&gt;</code><span class="vs-docs-tag">borderless</span></p>
         <p class="vs-docs-example-spec">.card-v, app.css</p>
       </div>
-    </div>
-    <div class="vs-docs-callout">
-      <p>
-        The real <code>.card-v</code> class (audited directly from
-        <code>public/themes/basic/assets/css/app.css</code>) has
-        <strong>no border</strong> — it sits on the public site's white
-        page background, so padding and radius alone read as a card.
-        The dashboard's own cards (SummaryCard, TableWidget) always use a
-        1px border, because they sit on the report site's gray canvas
-        and need a visible edge. React's <code>&lt;Card&gt;</code> follows
-        that existing dashboard convention rather than copying
-        <code>.card-v</code> literally — copying it border-less would
-        make cards invisible against the report site's own gray
-        background. Blade's <code>&lt;x-vs-card&gt;</code> wraps the real
-        class as-is, borderless, matching the public site exactly.
-      </p>
-    </div>
-
-    <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">02 // Variants</span><h2>Blade variants</h2></div>
-      <p class="vs-docs-section-desc">Blade only — .card-blog adds padding + a border.</p>
-    </div>
-    <div class="vs-docs-example-grid">
       <div class="vs-docs-example-card">
         <div class="vs-docs-example-stage" style="height: auto; padding: 20px; justify-content: flex-start; background: var(--vs-color-background);">
-          <div class="demo-card demo-card--blade-blog" style="width: 100%;">
+          <div class="demo-card demo-card--blade-blog" style="width: 100%; border-color: var(--vs-color-border); border-radius: 6px;">
             <p class="demo-card-title">Blog post card</p>
             <p class="demo-card-body">variant="blog" — extra padding, adds a border.</p>
           </div>
         </div>
-        <p class="vs-docs-example-label">card-blog<span class="vs-docs-tag">blog</span></p>
+        <p class="vs-docs-example-label">Blade card-blog<span class="vs-docs-tag">blog</span></p>
         <p class="vs-docs-example-spec">.card-v.card-blog</p>
       </div>
     </div>
-
-    <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">03 // Measurement Guide</span><h2>Measurement Guide</h2></div>
-      <p class="vs-docs-section-desc">Real values, both platforms.</p>
+    <div class="vs-docs-callout">
+      <p>
+        The real <code>.card-v</code> class (<code>public/themes/basic/assets/css/app.css</code>)
+        has <strong>no border</strong> — it sits on the public site's white
+        page background, so padding and radius alone read as a card. The
+        dashboard's cards (SummaryCard, TableWidget) always use a 1px border
+        because they sit on the report site's gray canvas. React's
+        <code>&lt;Card&gt;</code> follows that dashboard convention; Blade's
+        <code>&lt;x-vs-card&gt;</code> wraps the real class as-is.
+      </p>
     </div>
+
+    <h2>Measurement Guide</h2>
+    <div class="demo-scroll">
     <table class="vs-docs-table">
-      <thead><tr><th>Property</th><th>React</th><th>Blade (real .card-v)</th></tr></thead>
+      <thead><tr><th>Property</th><th>Spec v2 (React + tokens)</th><th>Blade today (real site CSS)</th></tr></thead>
       <tbody>
-        <tr><td>Padding</td><td>20px</td><td>35px (45px on desktop ≥1200px, or with <code>blog</code> variant)</td></tr>
-        <tr><td>Radius</td><td>8px — <code>--vs-radius-sm</code></td><td>6px — real site's Bootstrap default (<code>--bs-border-radius</code>)</td></tr>
-        <tr><td>Border</td><td>1px solid <code>--vs-color-border</code></td><td>none (blog variant only)</td></tr>
-        <tr><td>Background</td><td colspan="2">white — <code>--vs-color-surface</code></td></tr>
-        <tr><td>Shadow</td><td colspan="2">none — <a href="/foundations/shadow.html">flat design</a></td></tr>
+        <tr><td>Radius</td><td>3px — <code>--vs-card-radius</code></td><td>item card 8px (<code>.item</code>); <code>.card-v</code> 6px</td></tr>
+        <tr><td>Border</td><td>1px solid #e5e7eb — <code>--vs-card-border</code></td><td><code>.card-v</code>: none (blog variant only)</td></tr>
+        <tr><td>Padding</td><td>item card 14px · content card 45px (24px mobile) · React Card 20px</td><td><code>.card-v</code> 35px (45px ≥1200px or blog)</td></tr>
+        <tr><td>Image</td><td>1:1, <code>#f9fafb</code> backdrop</td><td>—</td></tr>
+        <tr><td>Badge</td><td>10px inset, 3px radius, 11px / 600</td><td>edge ribbon: top 25px, left 0, 10px 12px padding</td></tr>
+        <tr><td>Title / price</td><td>16px / 500 · 18px / 700</td><td>—</td></tr>
+        <tr><td>Hover</td><td>border #4caf50, translateY(-4px)</td><td>—</td></tr>
+        <tr><td>Shadow</td><td colspan="2">none — <a href="/foundations/shadow.html">flat design</a> (admin panel is the exception, see section 06)</td></tr>
       </tbody>
     </table>
+    </div>
 
     <h2>Usage — React</h2>
     <div class="vs-docs-code-block"><span class="tag">import</span> { Card } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
@@ -134,6 +422,7 @@
 <span class="tag">&lt;x-vs-card</span> <span class="attr">variant</span>=<span class="str">"blog"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/x-vs-card&gt;</span></div>
 
     <h2>Props</h2>
+    <div class="demo-scroll">
     <table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Platform</th><th>Values</th></tr></thead>
       <tbody>
@@ -141,18 +430,19 @@
         <tr><td><code>className</code> / class attrs</td><td>both</td><td>merged with the component's own classes</td></tr>
       </tbody>
     </table>
+    </div>
 
     <div class="vs-docs-callout vs-docs-callout--gap">
       <p>
-        <strong>Not included:</strong> the full Item Card
-        (<code>item.blade.php</code>) — price, discount, cart and download
-        logic touches payment/billing, which this engagement's rules
-        require asking about before wrapping. Only the presentational
-        product badges were extracted separately — see
-        <a href="/components/badge.html">Badge</a>.
+        <strong>Rollout status:</strong> the item card on this page is a
+        spec, not a component yet — there is no <code>&lt;ItemCard&gt;</code>
+        in React or Blade, because the real <code>item.blade.php</code> also
+        carries price, cart and download logic (payment-related, needs its
+        own reviewed change). vectorsticker.com's live item card still uses
+        its current CSS (8px radius, edge-ribbon badge) until that site is
+        updated.
       </p>
     </div>
-
   </div>
   </div>
 </main>

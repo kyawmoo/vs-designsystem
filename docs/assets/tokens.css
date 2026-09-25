@@ -113,6 +113,23 @@
   --vs-button-disabled-opacity: 0.5;
   --vs-button-pressed-scale: 0.98;
 
+  /* ---- Card (spec v2, 25 Sep 2026) ---- */
+  --vs-card-radius: 3px;
+  --vs-card-border: #E5E7EB;
+  --vs-card-divider: #F3F4F6;
+  --vs-card-media-bg: #F9FAFB;
+  --vs-card-padding-item: 14px;
+  --vs-card-padding-content: 45px;
+  --vs-card-badge-inset: 10px;
+  --vs-card-title-size: 16px;
+  --vs-card-price-size: 18px;
+  --vs-card-price-color: #111827;
+  --vs-card-price-old-size: 14px;
+  --vs-card-price-old-color: #9CA3AF;
+  --vs-card-price-sale-color: #4CAF50;
+  --vs-card-hover-border: #4CAF50;
+  --vs-card-hover-lift: -4px;
+
   /* ---- Icon size scale (library differs by platform: lucide-react on
      React, Font Awesome on Blade — see tokens.json "icon.principle") ---- */
   --vs-icon-size-sm: 16px;
