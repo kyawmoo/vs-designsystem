@@ -8,6 +8,8 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="/assets/demo-kit.css">
 </head>
 <body data-page="colors">
 <div id="vs-docs-sidebar-mount"></div>
@@ -86,7 +88,7 @@
     </div>
 
     <h2>Status</h2>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Tone</th><th>Background</th><th>Border / Text</th><th>Token</th></tr></thead>
       <tbody>
         <tr><td>Success</td><td><code style="background:var(--vs-color-success-bg)">#E0F9E0</code></td><td><code style="background:var(--vs-color-success-border);color:#fff">#55B355</code></td><td><code>--vs-color-success-*</code></td></tr>
@@ -94,11 +96,11 @@
         <tr><td>Warning</td><td><code style="background:var(--vs-color-warning-bg)">#FFF7DC</code></td><td><code style="background:var(--vs-color-warning-border)">#FFD854</code></td><td><code>--vs-color-warning-*</code></td></tr>
         <tr><td>Info</td><td><code style="background:var(--vs-color-info-bg)">#E0E1F9</code></td><td><code style="background:var(--vs-color-info-border);color:#fff">#5558B3</code></td><td><code>--vs-color-info-*</code></td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <h2>Product badges</h2>
     <p>The 4 badges on an item card (<code>item.blade.php</code>) — see the <a href="/components/badge.html">Badge</a> page for usage.</p>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Badge</th><th>Color</th><th>Token</th></tr></thead>
       <tbody>
         <tr><td>Trending</td><td><code style="background:#0074E4;color:#fff">#0074E4</code></td><td><code>--vs-color-badge-trending</code></td></tr>
@@ -106,11 +108,11 @@
         <tr><td>Free</td><td><code style="background:#743CEE;color:#fff">#743CEE</code></td><td><code>--vs-color-badge-free</code></td></tr>
         <tr><td>Premium</td><td><code style="background:var(--vs-color-brand-primary);color:#fff">#4CAF50</code></td><td><code>--vs-color-badge-premium</code> (= brand.primary)</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <h2>Item status (admin moderation)</h2>
     <p>The 6 states from <code>admin/items/index.blade.php</code>'s status column.</p>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Status</th><th>Color</th><th>Token</th></tr></thead>
       <tbody>
         <tr><td>Pending</td><td><code style="background:#FF7A14;color:#fff">#FF7A14</code></td><td><code>--vs-color-item-status-pending</code></td></tr>
@@ -120,7 +122,7 @@
         <tr><td>Hard Rejected</td><td><code style="background:#D60C0C;color:#fff">#D60C0C</code></td><td><code>--vs-color-item-status-hard-rejected</code></td></tr>
         <tr><td>Deleted</td><td><code style="background:#F44336;color:#fff">#F44336</code></td><td><code>--vs-color-item-status-deleted</code></td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <div class="vs-docs-callout vs-docs-callout--gap">
       <p>
@@ -130,6 +132,21 @@
         renders unstyled until this is resolved.
       </p>
     </div>
+    <!-- data-v2-merged -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Brand Interaction</span><h2>Primary &amp; Secondary</h2></div>
+      <p class="vs-docs-section-desc">Buttons, links and focus states.</p>
+    </div>
+<div class="demo-scroll"><table class="vs-docs-table"><thead><tr><th>Value</th><th>Semantic name</th><th>CSS token</th><th>Use for</th></tr></thead><tbody><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#4CAF50;vertical-align:middle"></span> <code>#4CAF50</code></td><td><code>$color-interactive-01</code></td><td><code>--vs-color-brand-primary</code></td><td>Primary buttons, links, form focus border</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#222222;vertical-align:middle"></span> <code>#222222</code></td><td><code>$color-interactive-02</code></td><td><code>--vs-color-brand-secondary</code></td><td>Secondary buttons, dark surfaces</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#BCFD1D;vertical-align:middle"></span> <code>#BCFD1D</code></td><td><code>$color-accent-01</code></td><td><code>--vs-color-brand-accent</code></td><td>Highlight nav bar, promotional tags (sparingly)</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#FFFFFF;vertical-align:middle"></span> <code>#FFFFFF</code></td><td><code>$color-interactive-on-primary</code></td><td><code>—</code></td><td>Text / icons on top of primary buttons</td></tr></tbody></table></div><p style="font-size:12px;color:var(--vs-color-text-muted)">Naming convention: <code>$color-attributeType-attributeVariant</code>. The <code>$…</code> names are aliases for designers; code uses the <code>--vs-*</code> tokens in <code>tokens/tokens.css</code>.</p>    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Status &amp; Feedback</span><h2>UI State Colors</h2></div>
+      <p class="vs-docs-section-desc">Alerts, badges and validation.</p>
+    </div>
+<div class="demo-scroll"><table class="vs-docs-table"><thead><tr><th>Value</th><th>Semantic name</th><th>CSS token</th><th>Use for</th></tr></thead><tbody><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#E0F9E0;vertical-align:middle"></span> <code>#E0F9E0</code></td><td><code>$color-success</code></td><td><code>--vs-color-success-bg / -border (#55B355)</code></td><td>Success alert</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#FFDCDC;vertical-align:middle"></span> <code>#FFDCDC</code></td><td><code>$color-error</code></td><td><code>--vs-color-danger-bg / -border (#C13B3B)</code></td><td>Error / danger alert</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#FFF7DC;vertical-align:middle"></span> <code>#FFF7DC</code></td><td><code>$color-warning</code></td><td><code>--vs-color-warning-bg / -border (#FFD854)</code></td><td>Warning alert</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#E0E1F9;vertical-align:middle"></span> <code>#E0E1F9</code></td><td><code>$color-info</code></td><td><code>--vs-color-info-bg / -border (#5558B3)</code></td><td>Informational alert</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#0074E4;vertical-align:middle"></span> <code>#0074E4</code></td><td><code>$color-badge-trending</code></td><td><code>--vs-color-badge-trending</code></td><td>Trending item badge</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#0BBE9A;vertical-align:middle"></span> <code>#0BBE9A</code></td><td><code>$color-badge-sale</code></td><td><code>--vs-color-badge-sale</code></td><td>Sale item badge</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#743CEE;vertical-align:middle"></span> <code>#743CEE</code></td><td><code>$color-badge-free</code></td><td><code>--vs-color-badge-free</code></td><td>Free item badge</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#EEEEEE;vertical-align:middle"></span> <code>#EEEEEE</code></td><td><code>$color-disabled-01</code></td><td><code>--vs-color-disabled-bg</code></td><td>Disabled form field background</td></tr></tbody></table></div>    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Structural Tokens</span><h2>UI Colors</h2></div>
+      <p class="vs-docs-section-desc">Backgrounds, borders, text and icons that don't carry the brand.</p>
+    </div>
+<div class="demo-scroll"><table class="vs-docs-table"><thead><tr><th>Value</th><th>Semantic name</th><th>CSS token</th><th>Use for</th></tr></thead><tbody><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#FFFFFF;vertical-align:middle"></span> <code>#FFFFFF</code></td><td><code>$color-field-01</code></td><td><code>--vs-color-surface</code></td><td>Default form field background</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#F8F8F8;vertical-align:middle"></span> <code>#F8F8F8</code></td><td><code>$color-ui-01</code></td><td><code>--vs-color-background</code></td><td>Default page background</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#FFFFFF;vertical-align:middle"></span> <code>#FFFFFF</code></td><td><code>$color-ui-02</code></td><td><code>--vs-color-surface</code></td><td>Card / container background</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#ECECEC;vertical-align:middle"></span> <code>#ECECEC</code></td><td><code>$color-ui-03</code></td><td><code>--vs-color-border</code></td><td>Default border</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#222222;vertical-align:middle"></span> <code>#222222</code></td><td><code>$color-ui-05</code></td><td><code>--vs-color-brand-secondary</code></td><td>Dark container background (sidebar, footer)</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#2B2B2B;vertical-align:middle"></span> <code>#2B2B2B</code></td><td><code>$color-text-01</code></td><td><code>--vs-color-text-body</code></td><td>Primary body text</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#010D4C;vertical-align:middle"></span> <code>#010D4C</code></td><td><code>$color-text-02</code></td><td><code>--vs-color-text-heading</code></td><td>Heading text</td></tr><tr><td><span style="display:inline-block;width:28px;height:28px;border-radius:5px;border:1px solid #e5e7eb;background:#8E9CBA;vertical-align:middle"></span> <code>#8E9CBA</code></td><td><code>$color-text-03</code></td><td><code>--vs-color-text-muted</code></td><td>Muted / placeholder text</td></tr></tbody></table></div>    <div class="vs-docs-callout"><p>Every value above already exists in <code>tokens.css</code> — the new design pages only add the <code>$color-*</code> names. <code>#FFFFFF</code> is used for three roles (on-primary, field, card) and maps to the same token.</p></div>
+
   </div>
   </div>
 </main>

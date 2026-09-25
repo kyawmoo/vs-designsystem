@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Navigation — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="/assets/demo-kit.css">
+<style>
+  .nv-top { display: flex; align-items: center; gap: 20px; padding: 12px 20px; background: #222; border-radius: 8px; color: #fff; font: 16px var(--vs-font-family); flex-wrap: wrap; }
+  .nv-top a { color: #d4d4d8; text-decoration: none; font-size: 15px; }
+  .nv-top a:hover, .nv-top a.is-active { color: #fff; }
+  .nv-side { width: 230px; background: #262626; border-radius: 8px; padding: 12px 8px; font: 14px var(--vs-font-family); color: #d4d4d8; box-sizing: border-box; }
+  .nv-side-head { height: 56px; display: flex; align-items: center; gap: 8px; padding: 0 10px; color: #fff; font-weight: 600; border-bottom: 1px solid #333; margin-bottom: 8px; }
+  .nv-link { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 5px; color: #a1a1aa; text-decoration: none; cursor: pointer; }
+  .nv-link .fa-chevron-right { margin-left: auto; font-size: 10px; transition: transform .15s ease; }
+  .nv-link:hover, .nv-link.is-hover { background: #333; color: #e4e4e7; }
+  .nv-link.is-active { background: #333; color: #fff; }
+  .nv-link.is-active .fa-chevron-right { transform: rotate(90deg); }
+  .nv-sub { padding-left: 38px; font-size: 13px; }
+  .nv-sub .nv-link { padding: 7px 12px; }
+  .nv-crumb { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font: 14px var(--vs-font-family); }
+  .nv-crumb a { color: var(--vs-color-text-body); text-decoration: none; text-transform: capitalize; }
+  .nv-crumb i { font-size: 10px; color: var(--vs-color-text-body); }
+  .nv-crumb span[aria-current] { color: var(--vs-color-brand-primary); }
+  .nv-pages { display: flex; gap: 6px; font: 14px var(--vs-font-family); list-style: none; padding: 0; margin: 0; }
+  .nv-pages a { min-width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border-radius: 5px; color: var(--vs-color-brand-primary); text-decoration: none; }
+  .nv-pages a:hover, .nv-pages a[aria-current] { background: var(--vs-color-brand-primary); color: #fff; }
+</style>
+</head>
+<body data-page="navigation">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Navigation <span class="vs-docs-tag">Production</span> <span class="vs-docs-tag">#nav-components-v1</span></p>
+    <h1>Navigation</h1>
+    <p class="vs-docs-hero-lede">Top nav, admin sidebar, breadcrumb and pagination, from live code. Breadcrumb and Pagination each have their own detailed page.</p>
+    <div class="demo-spec-pills"><span><em>Sidebar:</em> 230px</span><span><em>Dark surface:</em> #222222</span><span><em>Active:</em> #4CAF50</span></div>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Top Navigation Bar</span><h2>Top Nav (public site)</h2></div>
+      <p class="vs-docs-section-desc"><code>$nav-top</code></p>
+    </div>
+    <div class="vs-docs-preview" style="display:block"><div class="nv-top"><strong>VectorSticker</strong><a href="#" onclick="return false" class="is-active">Explore Stickers</a><a href="#" onclick="return false">Categories</a><a href="#" onclick="return false">Premium</a><span style="margin-left:auto"><i class="fa-solid fa-magnifying-glass"></i></span></div></div>
+    <div class="vs-docs-callout"><p>Live <code>.nav-bar</code> (app.css): floats <code>top: 12px</code>, 16px text, background from the admin theme settings (<code>--navbar1_background_color</code>, stored in the database, not in code). <code>custom.css</code> paints the small sticky bar <code>#BCFD1D</code> lime with black 14px text. <code>#222222</code> is the spec colour for the main bar.</p></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Sidebar (Admin)</span><h2>Admin Sidebar</h2></div>
+      <p class="vs-docs-section-desc"><code>$sidebar-admin</code></p>
+    </div>
+    <div class="vs-docs-preview"><div class="nv-side"><div class="nv-side-head"><i class="fa-solid fa-shapes"></i> Admin Console</div>
+<a class="nv-link"><i class="fa-solid fa-table-columns"></i>Dashboard</a>
+<a class="nv-link is-active"><i class="fa-solid fa-layer-group"></i>Catalog<i class="fa-solid fa-chevron-right"></i></a>
+<div class="nv-sub"><a class="nv-link">Die-Cut Vinyl</a><a class="nv-link">Holographic</a></div>
+<a class="nv-link"><i class="fa-solid fa-chart-line"></i>Analytics<i class="fa-solid fa-chevron-right"></i></a>
+<a class="nv-link"><i class="fa-solid fa-gear"></i>Settings</a></div></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Sidebar Link States</span><h2>Link States</h2></div>
+      <p class="vs-docs-section-desc"><code>$sidebar-link-states</code></p>
+    </div>
+    <div class="demo-states">
+      <div class="demo-state"><div class="demo-state-stage"><div class="nv-side" style="width:100%;padding:6px"><a class="nv-link"><i class="fa-solid fa-box"></i>Sticker Packs<i class="fa-solid fa-chevron-right"></i></a></div></div><div class="demo-state-meta"><b>Default</b><code>$sidebar-link</code><span>light gray text</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><div class="nv-side" style="width:100%;padding:6px"><a class="nv-link is-hover"><i class="fa-solid fa-box"></i>Sticker Packs<i class="fa-solid fa-chevron-right"></i></a></div></div><div class="demo-state-meta"><b>Hover</b><code>$sidebar-link-hover</code><span>lighter background</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><div class="nv-side" style="width:100%;padding:6px"><a class="nv-link is-active"><i class="fa-solid fa-box"></i>Sticker Packs<i class="fa-solid fa-chevron-right"></i></a></div></div><div class="demo-state-meta"><b>Active</b><code>$sidebar-link-active</code><span>highlighted, arrow turns 90°</span></div></div>
+    </div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Breadcrumb</span><h2>Breadcrumb</h2></div>
+      <p class="vs-docs-section-desc"><code>$breadcrumb</code> — full spec on <a href="/components/breadcrumb.html">Breadcrumb</a>.</p>
+    </div>
+    <div class="vs-docs-preview"><nav aria-label="Breadcrumb" class="nv-crumb"><a href="#" onclick="return false">Home</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><a href="#" onclick="return false">Category</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><span aria-current="page">Item name</span></nav></div>
+    <div class="vs-docs-callout"><p>Live <code>.breadcrumb.custom</code>: Font Awesome chevron divider at 10px, capitalised items, the current item in <strong>brand green</strong> (<code>--primary_color</code>). The source page said the current item is 600-weight — the live CSS changes its colour, not its weight.</p></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">05 // Pagination</span><h2>Pagination</h2></div>
+      <p class="vs-docs-section-desc"><code>$pagination</code> — full spec on <a href="/components/pagination.html">Pagination</a>.</p>
+    </div>
+    <div class="vs-docs-preview"><nav aria-label="Pagination"><ul class="nv-pages"><li><a href="#" onclick="return false" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></a></li><li><a href="#" onclick="return false">1</a></li><li><a href="#" onclick="return false" aria-current="page">2</a></li><li><a href="#" onclick="return false">3</a></li><li><a href="#" onclick="return false">4</a></li><li><a href="#" onclick="return false">5</a></li><li><a href="#" onclick="return false" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></a></li></ul></nav></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">06 // Redline</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc"></p>
+    </div>
+<div class="demo-scroll"><table class="vs-docs-table"><thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead><tbody><tr><td>Admin sidebar width</td><td>230px (spec)</td><td><code>width: var(--sidebar_size)</code> — set in admin settings, not in code. <strong>Not verified</strong></td></tr><tr><td>Sidebar header height</td><td>70px (spec)</td><td><strong>Not verified</strong> — not a fixed value in admin app.css</td></tr><tr><td>Sidebar collapse</td><td>off-screen below 1200px</td><td><code>@media (max-width: 1199.98px)</code> in admin app.css</td></tr><tr><td>Link radius</td><td>5px — <code>--vs-radius-xs</code></td><td>spec</td></tr><tr><td>Top nav</td><td>floats 12px from the top, 16px text</td><td><code>.nav-bar</code> (public app.css)</td></tr><tr><td>Pagination item</td><td>5px radius, 6px gap, solid green when active</td><td>see <a href="/components/pagination.html">Pagination</a></td></tr></tbody></table></div>    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">07 // Usage in Context</span><h2>Usage in Context</h2></div>
+      <p class="vs-docs-section-desc">Illustrative admin catalog screen.</p>
+    </div>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> <i class="fa-solid fa-lock" style="color:var(--vs-color-brand-primary)"></i> vectorsticker.com/admin/items</div><div class="demo-browser-body"><div style="display:flex;gap:16px;width:100%;max-width:760px;flex-wrap:wrap"><div class="nv-side"><div class="nv-side-head"><i class="fa-solid fa-shapes"></i> Admin Console</div>
+<a class="nv-link"><i class="fa-solid fa-table-columns"></i>Dashboard</a>
+<a class="nv-link is-active"><i class="fa-solid fa-layer-group"></i>Catalog<i class="fa-solid fa-chevron-right"></i></a>
+<div class="nv-sub"><a class="nv-link">Die-Cut Vinyl</a><a class="nv-link">Holographic</a></div>
+<a class="nv-link"><i class="fa-solid fa-chart-line"></i>Analytics<i class="fa-solid fa-chevron-right"></i></a>
+<a class="nv-link"><i class="fa-solid fa-gear"></i>Settings</a></div><div style="flex:1;min-width:240px;background:#fff;border:1px solid var(--vs-color-border);border-radius:8px;padding:20px;display:flex;flex-direction:column;gap:14px"><nav aria-label="Breadcrumb" class="nv-crumb"><a href="#" onclick="return false">Catalog</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><a href="#" onclick="return false">Stickers</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><span aria-current="page">Die-Cut Vinyl</span></nav><strong style="font:600 18px var(--vs-font-family)">Vector Inventory <span class="vs-docs-tag">42 records</span></strong><div style="font:13px var(--vs-font-family);display:flex;justify-content:space-between;border-top:1px solid #f3f4f6;padding-top:10px"><span>Acid Neon Skull.svg</span><span style="color:#71717a">64 KB</span></div><div style="font:13px var(--vs-font-family);display:flex;justify-content:space-between;border-top:1px solid #f3f4f6;padding-top:10px"><span>Cyberpunk Glitch Cat.svg</span><span style="color:#71717a">112 KB</span></div><nav aria-label="Pagination"><ul class="nv-pages"><li><a href="#" onclick="return false" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></a></li><li><a href="#" onclick="return false">1</a></li><li><a href="#" onclick="return false" aria-current="page">2</a></li><li><a href="#" onclick="return false">3</a></li><li><a href="#" onclick="return false">4</a></li><li><a href="#" onclick="return false">5</a></li><li><a href="#" onclick="return false" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></a></li></ul></nav></div></div></div></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">08 // Guidelines</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc"><code>$nav-guidelines</code></p>
+    </div>
+    <div class="demo-rules">
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Always highlight the current page clearly.</div><div class="demo-rule-stage"><div class="nv-side" style="width:100%"><a class="nv-link is-active"><i class="fa-solid fa-circle-check"></i>Active selection</a><a class="nv-link"><i class="fa-regular fa-circle"></i>Other page</a></div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t leave the active state ambiguous in nav or pagination.</div><div class="demo-rule-stage"><div class="nv-side" style="width:100%"><a class="nv-link"><i class="fa-regular fa-circle-question"></i>All links look identical</a><a class="nv-link"><i class="fa-regular fa-circle-question"></i>Which page am I on?</a></div></div></div>
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Keep breadcrumbs short — 3–4 levels at most.</div><div class="demo-rule-stage"><nav aria-label="Breadcrumb" class="nv-crumb"><a href="#" onclick="return false">Home</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><a href="#" onclick="return false">Stickers</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><span aria-current="page">Holographic</span></nav></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t build 6+ level breadcrumbs — they wrap and clutter.</div><div class="demo-rule-stage"><nav aria-label="Breadcrumb" class="nv-crumb"><a href="#" onclick="return false">Home</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><a href="#" onclick="return false">Catalog</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><a href="#" onclick="return false">Vector</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><a href="#" onclick="return false">Decals</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><a href="#" onclick="return false">2025</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><a href="#" onclick="return false">Series-A</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i><span aria-current="page">Item-77</span></nav></div></div>
+    </div>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

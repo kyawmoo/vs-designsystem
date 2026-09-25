@@ -8,6 +8,8 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="/assets/demo-kit.css">
 </head>
 <body data-page="shadow">
 <div id="vs-docs-sidebar-mount"></div>
@@ -71,6 +73,27 @@
         rather than by reading the CSS alone.
       </p>
     </div>
+    <!-- data-v2-merged -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">Proposed // Not Adopted</span><h2>Elevation Scale (proposal)</h2></div>
+      <p class="vs-docs-section-desc">Kept for reference — flat design stays the rule.</p>
+    </div>
+    <div class="vs-docs-callout vs-docs-callout--gap"><p><strong>Decision (Master KMO, 25 Sep 2026): flat design stays.</strong> The new Elevation page proposed five shadow levels. None of these values exist in the live CSS, and they would undo the flat-design rule above, so they are recorded here as a proposal only — no token was added.</p></div>
+<div class="demo-scroll"><table class="vs-docs-table"><thead><tr><th>Proposed name</th><th>Proposed value</th><th>Intended for</th><th>Flat-design equivalent (use this)</th></tr></thead><tbody><tr><td><code>$elevation-01</code></td><td><code>0 1px 2px rgba(0,0,0,.06)</code></td><td>sticky headers, fixed nav bars</td><td>1px bottom border</td></tr><tr><td><code>$elevation-02</code></td><td><code>0 4px 12px rgba(0,0,0,.07)</code></td><td>floating notification cards</td><td>1px border + white surface on the gray page</td></tr><tr><td><code>$elevation-03</code></td><td><code>0 10px 24px rgba(0,0,0,.10)</code></td><td>dropdown menus, popovers</td><td>1px border, white surface</td></tr><tr><td><code>$elevation-04</code></td><td><code>0 20px 30px rgba(28,25,23,.14)</code></td><td>chat widget, trays</td><td>1px border, white surface</td></tr><tr><td><code>$elevation-hover</code></td><td><code>0 20px 35px rgba(116,60,238,.18)</code></td><td>card hover lift</td><td>border → <code>#4CAF50</code> + 4px lift (<a href="/components/card.html">Card</a>)</td></tr></tbody></table></div>    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">Live // Audit</span><h2>Shadows still on vectorsticker.com</h2></div>
+      <p class="vs-docs-section-desc">Counted in <code>public/themes/basic/assets/css/app.css</code>.</p>
+    </div>
+<div class="demo-scroll"><table class="vs-docs-table"><thead><tr><th>Occurrences</th><th>Value</th></tr></thead><tbody><tr><td>25</td><td><code>box-shadow: none</code> (incl. 6 with <code>!important</code>)</td></tr><tr><td>4</td><td><code>rgba(0,0,0,.1) 0 10px 15px -3px, rgba(0,0,0,.05) 0 4px 6px -2px</code></td></tr><tr><td>2</td><td><code>0 10px 60px 0 rgba(89,86,233,.1)</code></td></tr><tr><td>2</td><td><code>0 16px 24px 2px #41141405, 0 6px 32px 4px #4114140a, 0 8px 12px -5px #4114140a</code></td></tr><tr><td>2</td><td><code>0 4.4px 30px rgba(19,16,34,.05)</code></td></tr><tr><td>2</td><td><code>rgba(0,0,0,.05) 0 0 0 1px</code></td></tr></tbody></table></div>    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">Guidelines</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc">How to show layering without shadows.</p>
+    </div>
+    <div class="demo-rules">
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Give floating menus a 1px border and a white surface so they read as “on top”.</div><div class="demo-rule-stage"><div style="border:1px solid var(--vs-color-border);border-radius:8px;background:#fff;font-size:13px;max-width:220px"><div style="padding:8px 12px;border-bottom:1px solid #f3f4f6"><i class="fa-regular fa-clone"></i> Duplicate</div><div style="padding:8px 12px;border-bottom:1px solid #f3f4f6"><i class="fa-solid fa-download"></i> Export vector</div><div style="padding:8px 12px;color:#dc2626"><i class="fa-regular fa-trash-can"></i> Delete</div></div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t leave floating UI with no edge — people can’t tell it is a temporary layer.</div><div class="demo-rule-stage"><div style="background:#fafafa;font-size:13px;max-width:220px"><div style="padding:8px 12px">Duplicate</div><div style="padding:8px 12px">Export vector</div><div style="padding:8px 12px">Delete</div></div></div></div>
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Show hover with a border colour change, only while hovering.</div><div class="demo-rule-stage"><div style="display:flex;gap:8px"><span style="flex:1;height:48px;border:1px solid var(--vs-color-border);border-radius:3px"></span><span style="flex:1;height:48px;border:1px solid var(--vs-color-brand-primary);border-radius:3px;transform:translateY(-4px)"></span><span style="flex:1;height:48px;border:1px solid var(--vs-color-border);border-radius:3px"></span></div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t add a resting shadow to every card — it adds noise and flattens the hierarchy.</div><div class="demo-rule-stage"><div style="display:flex;gap:8px"><span style="flex:1;height:48px;border-radius:3px;background:#fff;box-shadow:0 20px 35px rgba(116,60,238,.18)"></span><span style="flex:1;height:48px;border-radius:3px;background:#fff;box-shadow:0 20px 35px rgba(116,60,238,.18)"></span><span style="flex:1;height:48px;border-radius:3px;background:#fff;box-shadow:0 20px 35px rgba(116,60,238,.18)"></span></div></div></div>
+    </div>
+
   </div>
   </div>
 </main>

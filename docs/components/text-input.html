@@ -8,12 +8,41 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="/assets/demo-kit.css">
 <style>
   .demo-field { width: 100%; box-sizing: border-box; font-family: var(--vs-font-family); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); background: var(--vs-color-surface); color: var(--vs-color-text-body); }
   .demo-field:focus { outline: none; border-color: var(--vs-color-brand-primary); }
   .demo-field-md { padding: 12px 18px; font-size: 16px; }
   .demo-field-lg { padding: 14px 22px; font-size: 16px; }
   .demo-field-label { display: block; font-size: 13px; font-weight: 600; color: var(--vs-color-text-heading); margin-bottom: 6px; }
+  .fx { width: 100%; box-sizing: border-box; height: 44px; padding: 0 16px; border: 1px solid var(--vs-color-border); border-radius: 8px; background: #fff; font: 14px var(--vs-font-family); color: #18181b; }
+  .fx::placeholder { color: var(--vs-color-text-muted); }
+  .fx:focus, .fx.is-focus { outline: none; border-color: var(--vs-color-brand-primary); }
+  .fx:disabled, .fx.is-disabled { background: #eee; color: #a1a1aa; cursor: not-allowed; }
+  textarea.fx { height: auto; min-height: 96px; max-height: 360px; padding: 16px; resize: vertical; line-height: 1.5; }
+  .fx-wrap { position: relative; display: flex; align-items: center; }
+  .fx-wrap .fx-icon { position: absolute; left: 0; width: 50px; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--vs-color-text-muted); border: 0; background: none; cursor: pointer; }
+  .fx-wrap .fx { padding-left: 45px; }
+  .fx-wrap.is-reverse .fx-icon { left: auto; right: 0; }
+  .fx-wrap.is-reverse .fx { padding-left: 16px; padding-right: 45px; }
+  .fx-wrap:focus-within .fx-icon { color: var(--vs-color-brand-primary); }
+  .fx-group { display: flex; align-items: stretch; height: 42px; }
+  .fx-group > * { box-sizing: border-box; }
+  .fx-group .fx { height: 100%; border-radius: 0; flex: 1; min-width: 0; }
+  .fx-group .fx-add { display: flex; align-items: center; padding: 0 16px; background: #F8F8F8; border: 1px solid var(--vs-color-border); color: #71717a; font: 500 14px var(--vs-font-family); }
+  .fx-group > :first-child { border-radius: 8px 0 0 8px; }
+  .fx-group > :last-child { border-radius: 0 8px 8px 0; }
+  .fx-group > :not(:first-child) { margin-left: -1px; }
+  .fx-group .fx:focus { position: relative; z-index: 1; }
+  .fx-group .fx-btn { padding: 0 18px; border: 1px solid var(--vs-button-primary); background: var(--vs-button-primary); color: #fff; font: 500 14px var(--vs-font-family); cursor: pointer; }
+  .fx-label { display: block; font: 500 13px var(--vs-font-family); color: #18181b; margin-bottom: 6px; }
+  .fx-note { display: block; font: 11px SFMono-Regular, Consolas, monospace; color: #71717a; margin-top: 6px; }
+  .sw { appearance: none; -webkit-appearance: none; width: 32px; height: 16px; margin: 0; border: 1px solid var(--vs-color-border); border-radius: 2em; background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(0,0,0,.25)'/%3e%3c/svg%3e") left center / contain no-repeat; cursor: pointer; transition: background-position .15s ease; flex-shrink: 0; }
+  .sw:checked { background-color: var(--vs-color-brand-primary); border-color: var(--vs-color-brand-primary); background-position: right center; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e"); }
+  .sw:not(:checked):focus, .sw.is-focus { outline: none; border-color: #aaa; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23aaa'/%3e%3c/svg%3e"); }
+  .sw:disabled { opacity: .5; cursor: not-allowed; }
+  .sw-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; font: 14px var(--vs-font-family); cursor: pointer; }
 </style>
 </head>
 <body data-page="text-input">
@@ -47,19 +76,19 @@
       <div><span class="vs-docs-section-num">02 // Scale</span><h2>Size</h2></div>
       <p class="vs-docs-section-desc">md / lg — real site has no custom "sm".</p>
     </div>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Size</th><th>Padding</th><th>Font size</th></tr></thead>
       <tbody>
         <tr><td>md (default)</td><td><code>12px 18px</code></td><td>16px</td></tr>
         <tr><td>lg</td><td><code>14px 22px</code></td><td>16px</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <div class="vs-docs-section-head">
       <div><span class="vs-docs-section-num">03 // Measurement Guide</span><h2>Measurement Guide</h2></div>
       <p class="vs-docs-section-desc">Real values from .form-control.</p>
     </div>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
       <tbody>
         <tr><td>Radius</td><td>8px</td><td><code>--vs-radius-sm</code> — set explicitly in the real CSS, not a Bootstrap default</td></tr>
@@ -68,7 +97,48 @@
         <tr><td>Disabled background</td><td><code>--vs-color-disabled-bg</code></td><td>.form-control:disabled</td></tr>
         <tr><td>Placeholder color</td><td><code>--vs-color-text-muted</code></td><td>.form-control::placeholder</td></tr>
       </tbody>
-    </table>
+    </table></div>
+
+    <!-- data-v2-merged -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // States</span><h2>States</h2></div>
+      <p class="vs-docs-section-desc"><code>$input-states</code></p>
+    </div>
+    <div class="demo-states demo-states--wide">
+      <div class="demo-state"><div class="demo-state-stage"><input class="fx" placeholder="you@example.com" aria-label="Default"></div><div class="demo-state-meta"><b>Default</b><code>$input-default</code><span>#fff · 1px #ECECEC · 8px</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><input class="fx is-focus" value="designer@example.com" aria-label="Focus"></div><div class="demo-state-meta"><b>Focus</b><code>$input-focus</code><span>border #4CAF50 · box-shadow none</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><input class="fx" value="Not editable" disabled aria-label="Disabled"></div><div class="demo-state-meta"><b>Disabled</b><code>$input-disabled</code><span>#eee · not-allowed</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><input class="fx" value="you@example.com" aria-label="Filled"></div><div class="demo-state-meta"><b>Filled</b><code>$input-filled</code><span>text #111827</span></div></div>
+    </div>
+    <div class="vs-docs-callout vs-docs-callout--gap"><p><strong>⚠ Accessibility gap (live site):</strong> focus only changes the border colour (<code>box-shadow: none</code>) — no visible focus ring.</p></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">05 // Redline</span><h2>Redline</h2></div>
+      <p class="vs-docs-section-desc">Live <code>.form-control</code> values.</p>
+    </div>
+    <div class="demo-redline" style="flex-direction:column"><span class="demo-dim">radius 8px · border 1px #ECECEC</span><div style="display:flex;align-items:center;gap:8px;width:100%;max-width:420px"><span class="demo-dim">16px</span><input class="fx" placeholder="Placeholder text" aria-label="Measured" style="flex:1"><span class="demo-dim">16px</span></div><span class="demo-dim">side padding 16px desktop · 12px below 769px</span></div>
+<div class="demo-scroll"><table class="vs-docs-table"><thead><tr><th>Size</th><th>Padding</th><th>Height</th><th>Source</th></tr></thead><tbody><tr><td>sm</td><td>Bootstrap <code>.25rem .5rem</code></td><td>~31px</td><td>no site override — the source page's 36px isn't in the CSS</td></tr><tr><td>md (default)</td><td><code>12px 18px</code>, 16px text</td><td>50px</td><td><code>.form-control-md</code> (mobile: 10px 18px, 14px text)</td></tr><tr><td>lg</td><td><code>14px 22px</code></td><td>54px</td><td><code>.form-control-lg</code> (mobile: 10px 22px)</td></tr></tbody></table></div>    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">06 // One-System Gap</span><h2>⚠ Public vs Admin</h2></div>
+      <p class="vs-docs-section-desc">Radius and focus ring differ.</p>
+    </div>
+    <div class="demo-rules">
+      <div style="border:1px solid var(--vs-color-border);border-radius:8px;padding:16px;background:#fff"><strong style="font-size:13px">Public site</strong> <span class="vs-docs-tag">8px · no focus ring</span><p style="font-size:12px;margin:8px 0">.form-control: 8px radius, 1px #ECECEC, focus = green border, <code>box-shadow: none</code>.</p><input class="fx is-focus" value="active_search_query" aria-label="Public example" readonly></div>
+      <div style="border:1px solid var(--vs-color-border);border-radius:8px;padding:16px;background:#fff"><strong style="font-size:13px">Admin panel</strong> <span class="vs-docs-tag">2px · visible ring</span><p style="font-size:12px;margin:8px 0">.form-control: 0.125rem (2px) radius, 1px #ced4da, focus = <code>0 0 0 1px var(--primary_color)</code>.</p><input class="fx" value="sku_admin_filter" aria-label="Admin example" readonly style="border-radius:2px;border-color:#4caf50;box-shadow:0 0 0 1px #4caf50;height:36px;font-size:15px"></div>
+    </div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">07 // Usage in Context</span><h2>Usage in Context</h2></div>
+      <p class="vs-docs-section-desc">Illustrative sign-in form.</p>
+    </div>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> <i class="fa-solid fa-lock" style="color:var(--vs-color-brand-primary)"></i> vectorsticker.com/login</div><div class="demo-browser-body"><div class="demo-form-card"><span class="demo-kicker">VectorSticker account</span><h3>Sign In</h3><div><label class="fx-label" for="ti-e">Email address</label><input id="ti-e" class="fx" type="email" placeholder="you@example.com"></div><div><label class="fx-label" for="ti-p">Password</label><input id="ti-p" class="fx" type="password" placeholder="Password"></div><button class="demo-submit" type="button">Sign In</button></div></div></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">08 // Guidelines</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc"><code>$input-guidelines</code></p>
+    </div>
+    <div class="demo-rules">
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Put a visible label above every field.</div><div class="demo-rule-stage"><label class="fx-label" for="ti-d1">Email address</label><input id="ti-d1" class="fx" value="you@example.com"></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t use the placeholder as the only label — it disappears as soon as someone types.</div><div class="demo-rule-stage"><input class="fx" placeholder="Enter your email…" aria-label="Bad example"></div></div>
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Make disabled fields visibly grey.</div><div class="demo-rule-stage"><input class="fx" value="read-only value" disabled aria-label="Disabled good example"></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t make disabled fields look identical to active ones.</div><div class="demo-rule-stage"><input class="fx" value="read-only value" readonly aria-label="Disabled bad example" style="background:#fff;color:#18181b"></div></div>
+    </div>
 
     <h2>Usage — React</h2>
     <div class="vs-docs-code-block"><span class="tag">import</span> { TextInput } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
@@ -79,7 +149,7 @@
     <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-input</span> <span class="attr">name</span>=<span class="str">"email"</span> <span class="attr">type</span>=<span class="str">"email"</span> <span class="attr">label</span>=<span class="str">"Email address"</span> <span class="attr">required</span> <span class="tag">/&gt;</span></div>
 
     <h2>Props</h2>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
       <tbody>
         <tr><td><code>name</code></td><td>required</td><td>—</td></tr>
@@ -89,7 +159,7 @@
         <tr><td><code>error</code></td><td>string — red border + message</td><td>—</td></tr>
         <tr><td><code>required</code> / <code>disabled</code></td><td>boolean</td><td><code>false</code></td></tr>
       </tbody>
-    </table>
+    </table></div>
 
   </div>
   </div>

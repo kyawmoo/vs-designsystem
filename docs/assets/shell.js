@@ -30,6 +30,7 @@
         { id: 'pagination', label: 'Pagination', href: '/components/pagination.html', icon: 'ellipsis' },
         { id: 'tabs', label: 'Tabs', href: '/components/tabs.html', icon: 'panel-top' },
         { id: 'filter-bar', label: 'Filter Bar', href: '/components/filter-bar.html', icon: 'filter' },
+        { id: 'navigation', label: 'Navigation', href: '/components/navigation.html', icon: 'chevrons-right' },
         { id: 'modal', label: 'Modal', href: '/components/modal.html', icon: 'app-window' },
         { id: 'toast', label: 'Toast', href: '/components/toast.html', icon: 'bell' },
       ],
@@ -37,6 +38,7 @@
     {
       group: 'Form Elements',
       items: [
+        { id: 'form-elements', label: 'All Form Elements', href: '/components/form-elements.html', icon: 'panels-top-left' },
         { id: 'text-input', label: 'Text Input', href: '/components/text-input.html', icon: 'text-cursor-input' },
         { id: 'textarea', label: 'Textarea', href: '/components/textarea.html', icon: 'square-pen' },
         { id: 'select', label: 'Select', href: '/components/select.html', icon: 'square-chevron-down' },

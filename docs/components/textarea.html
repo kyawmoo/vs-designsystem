@@ -8,10 +8,39 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="/assets/demo-kit.css">
 <style>
   .demo-field { width: 100%; box-sizing: border-box; font-family: var(--vs-font-family); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); background: var(--vs-color-surface); color: var(--vs-color-text-body); padding: 12px 18px; font-size: 16px; resize: vertical; }
   .demo-field:focus { outline: none; border-color: var(--vs-color-brand-primary); }
   .demo-field-label { display: block; font-size: 13px; font-weight: 600; color: var(--vs-color-text-heading); margin-bottom: 6px; }
+  .fx { width: 100%; box-sizing: border-box; height: 44px; padding: 0 16px; border: 1px solid var(--vs-color-border); border-radius: 8px; background: #fff; font: 14px var(--vs-font-family); color: #18181b; }
+  .fx::placeholder { color: var(--vs-color-text-muted); }
+  .fx:focus, .fx.is-focus { outline: none; border-color: var(--vs-color-brand-primary); }
+  .fx:disabled, .fx.is-disabled { background: #eee; color: #a1a1aa; cursor: not-allowed; }
+  textarea.fx { height: auto; min-height: 96px; max-height: 360px; padding: 16px; resize: vertical; line-height: 1.5; }
+  .fx-wrap { position: relative; display: flex; align-items: center; }
+  .fx-wrap .fx-icon { position: absolute; left: 0; width: 50px; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--vs-color-text-muted); border: 0; background: none; cursor: pointer; }
+  .fx-wrap .fx { padding-left: 45px; }
+  .fx-wrap.is-reverse .fx-icon { left: auto; right: 0; }
+  .fx-wrap.is-reverse .fx { padding-left: 16px; padding-right: 45px; }
+  .fx-wrap:focus-within .fx-icon { color: var(--vs-color-brand-primary); }
+  .fx-group { display: flex; align-items: stretch; height: 42px; }
+  .fx-group > * { box-sizing: border-box; }
+  .fx-group .fx { height: 100%; border-radius: 0; flex: 1; min-width: 0; }
+  .fx-group .fx-add { display: flex; align-items: center; padding: 0 16px; background: #F8F8F8; border: 1px solid var(--vs-color-border); color: #71717a; font: 500 14px var(--vs-font-family); }
+  .fx-group > :first-child { border-radius: 8px 0 0 8px; }
+  .fx-group > :last-child { border-radius: 0 8px 8px 0; }
+  .fx-group > :not(:first-child) { margin-left: -1px; }
+  .fx-group .fx:focus { position: relative; z-index: 1; }
+  .fx-group .fx-btn { padding: 0 18px; border: 1px solid var(--vs-button-primary); background: var(--vs-button-primary); color: #fff; font: 500 14px var(--vs-font-family); cursor: pointer; }
+  .fx-label { display: block; font: 500 13px var(--vs-font-family); color: #18181b; margin-bottom: 6px; }
+  .fx-note { display: block; font: 11px SFMono-Regular, Consolas, monospace; color: #71717a; margin-top: 6px; }
+  .sw { appearance: none; -webkit-appearance: none; width: 32px; height: 16px; margin: 0; border: 1px solid var(--vs-color-border); border-radius: 2em; background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(0,0,0,.25)'/%3e%3c/svg%3e") left center / contain no-repeat; cursor: pointer; transition: background-position .15s ease; flex-shrink: 0; }
+  .sw:checked { background-color: var(--vs-color-brand-primary); border-color: var(--vs-color-brand-primary); background-position: right center; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e"); }
+  .sw:not(:checked):focus, .sw.is-focus { outline: none; border-color: #aaa; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23aaa'/%3e%3c/svg%3e"); }
+  .sw:disabled { opacity: .5; cursor: not-allowed; }
+  .sw-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; font: 14px var(--vs-font-family); cursor: pointer; }
 </style>
 </head>
 <body data-page="textarea">
@@ -42,6 +71,44 @@
       <textarea class="demo-field" id="demo-message" rows="4" placeholder="Your message..."></textarea>
     </div>
 
+    <!-- data-v2-merged -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // States</span><h2>States</h2></div>
+      <p class="vs-docs-section-desc"><code>$textarea-states</code> — 4 rows · 96px min.</p>
+    </div>
+    <div class="demo-states demo-states--wide">
+      <div class="demo-state"><div class="demo-state-stage"><textarea class="fx" placeholder="Describe your item…" aria-label="Default"></textarea></div><div class="demo-state-meta"><b>Default</b><code>$textarea-default</code><span>#fff · 1px #ECECEC · 8px</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><textarea class="fx is-focus" aria-label="Focus">Vinyl sticker with matte finish and waterproof lamination.</textarea></div><div class="demo-state-meta"><b>Focus</b><code>$textarea-focus</code><span>border #4CAF50 · no ring ⚠</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><textarea class="fx" disabled aria-label="Disabled">System-generated metadata. Editing is restricted.</textarea></div><div class="demo-state-meta"><b>Disabled</b><code>$textarea-disabled</code><span>#eee · not-allowed</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><textarea class="fx" aria-label="Filled">Contour-cut vinyl graphic designed for outdoor durability, with UV-resistant ink and a strong adhesive backing.</textarea></div><div class="demo-state-meta"><b>Filled</b><code>$textarea-filled</code><span>text #111827</span></div></div>
+    </div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Resize Behaviour</span><h2>Resize</h2></div>
+      <p class="vs-docs-section-desc"><code>resize: vertical; min-height: 96px; max-height: 360px</code> (spec)</p>
+    </div>
+    <div class="demo-rules"><div><label class="fx-label" for="ta-r">Expandable field — drag the corner</label><textarea id="ta-r" class="fx">Die-cut edge: 2mm bleed around the outer contour.
+Substrate: 100-micron calendered vinyl.
+Backing: 140gsm kraft paper.</textarea></div><div class="demo-metrics" style="margin:0"><div><span>Direction</span><strong>vertical only</strong></div><div><span>Min height</span><strong>96px</strong></div><div><span>Max height</span><strong>360px</strong></div><div><span>Handle</span><strong>native corner</strong></div></div></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Redline</span><h2>Redline</h2></div>
+      <p class="vs-docs-section-desc">Spec vs. live.</p>
+    </div>
+<div class="demo-scroll"><table class="vs-docs-table"><thead><tr><th>Property</th><th>Spec</th><th>Live (.form-control on a textarea)</th></tr></thead><tbody><tr><td>Border / radius</td><td colspan="2">1px #ECECEC · 8px</td></tr><tr><td>Padding</td><td>16px all sides</td><td>16px sides, Bootstrap .375rem (6px) top/bottom</td></tr><tr><td>Min / max height</td><td>96px / 360px</td><td>not set — browser default (rows attribute)</td></tr><tr><td>Resize</td><td>vertical</td><td>browser default (vertical for Bootstrap .form-control)</td></tr><tr><td>Focus</td><td colspan="2">border #4CAF50, <code>box-shadow: none</code></td></tr></tbody></table></div>    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">05 // Usage in Context</span><h2>Usage in Context</h2></div>
+      <p class="vs-docs-section-desc">Illustrative listing form with a character counter.</p>
+    </div>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> <i class="fa-solid fa-lock" style="color:var(--vs-color-brand-primary)"></i> vectorsticker.com/workspace/items/create</div><div class="demo-browser-body"><div class="demo-form-card" style="max-width:560px"><h3 style="font-size:18px">Create Listing</h3><div><label class="fx-label" for="ta-t">Sticker title</label><input id="ta-t" class="fx" value="Neon Cyber Skull"></div><div><label class="fx-label" for="ta-d">Item description</label><textarea id="ta-d" class="fx" maxlength="500">Detailed description of the sticker, file formats and suggested uses.</textarea><span class="fx-note" style="text-align:right">68 / 500 characters</span></div><button class="demo-submit" type="button">Save &amp; Publish</button></div></div></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">06 // Guidelines</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc"><code>$textarea-guidelines</code></p>
+    </div>
+    <div class="demo-rules">
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Set a sensible default height for the expected length.</div><div class="demo-rule-stage"><textarea class="fx" aria-label="Good height">A multi-line description with comfortable wrapping and room to breathe.</textarea></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t use a 1-row textarea for long descriptions.</div><div class="demo-rule-stage"><textarea class="fx" rows="1" style="min-height:0;height:44px;resize:none" aria-label="Too short">A long, detailed description that gets cut off…</textarea></div></div>
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Show a character counter on limited fields.</div><div class="demo-rule-stage"><textarea class="fx" aria-label="With counter">Premium waterproof gloss sticker with hand-lettered type.</textarea><span class="fx-note" style="text-align:right">58 / 500</span></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t silently cut off text with no warning.</div><div class="demo-rule-stage"><textarea class="fx" aria-label="Silent truncation">Premium waterproof gloss sticker with hand-lettered ty</textarea><span class="fx-note" style="text-align:right;color:#ef4444">LIMIT REACHED [TRUNCATED]</span></div></div>
+    </div>
+
     <h2>Usage — React</h2>
     <div class="vs-docs-code-block"><span class="tag">import</span> { Textarea } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
 
@@ -51,7 +118,7 @@
     <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-textarea</span> <span class="attr">name</span>=<span class="str">"message"</span> <span class="attr">label</span>=<span class="str">"Message"</span> <span class="attr">rows</span>=<span class="str">"5"</span> <span class="tag">/&gt;</span></div>
 
     <h2>Props</h2>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
       <tbody>
         <tr><td><code>name</code></td><td>required</td><td>—</td></tr>
@@ -60,7 +127,7 @@
         <tr><td><code>error</code></td><td>string — red border + message</td><td>—</td></tr>
         <tr><td><code>required</code> / <code>disabled</code></td><td>boolean</td><td><code>false</code></td></tr>
       </tbody>
-    </table>
+    </table></div>
 
   </div>
   </div>

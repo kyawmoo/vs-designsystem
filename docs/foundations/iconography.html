@@ -8,6 +8,8 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="/assets/demo-kit.css">
 </head>
 <body data-page="iconography">
 <div id="vs-docs-sidebar-mount"></div>
@@ -26,7 +28,7 @@
   <div class="vs-docs-canvas">
   <div class="vs-docs-content">
     <h2>Library — one per platform</h2>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Platform</th><th>Library</th><th>Why</th></tr></thead>
       <tbody>
         <tr>
@@ -40,7 +42,7 @@
           <td>Deeply embedded site-wide; re-unifying was judged not worth the rework risk</td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
 
     <h2>Shared size scale</h2>
     <div class="vs-docs-preview">
@@ -57,7 +59,7 @@
         <p class="vs-docs-swatch-value" style="margin-top:8px">lg · 24px</p>
       </div>
     </div>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Token</th><th>Value</th><th>Use for</th></tr></thead>
       <tbody>
         <tr><td><code>--vs-icon-size-sm</code></td><td>16px</td><td>Inline with body text, dense UI (filter icons, table row actions)</td></tr>
@@ -65,7 +67,32 @@
         <tr><td><code>--vs-icon-size-lg</code></td><td>24px</td><td>Standalone/featured icons</td></tr>
         <tr><td><code>--vs-icon-stroke-width</code></td><td>2</td><td>lucide-react only — Font Awesome has no stroke-width equivalent</td></tr>
       </tbody>
-    </table>
+    </table></div>
+    <!-- data-v2-merged -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Icon Style</span><h2>Solid &amp; Regular</h2></div>
+      <p class="vs-docs-section-desc">vectorsticker.com (Blade) uses Font Awesome 6 in two styles.</p>
+    </div>
+    <div class="demo-rules">
+      <div class="demo-panel" style="border:1px solid var(--vs-color-border);border-radius:8px;padding:16px;background:#fff"><strong>Solid · <code>fa-solid</code></strong> <span class="vs-docs-tag">$icon-style-primary</span><p style="font-size:13px">Primary actions and filled states (favourited, cart, ratings).</p><div style="display:flex;flex-wrap:wrap"><span style="display:inline-flex;flex-direction:column;align-items:center;gap:6px;width:92px;font-size:11px"><i class="fa-solid fa-star" style="font-size:22px"></i><code>fa-star</code></span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:6px;width:92px;font-size:11px"><i class="fa-solid fa-heart" style="font-size:22px"></i><code>fa-heart</code></span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:6px;width:92px;font-size:11px"><i class="fa-solid fa-cart-shopping" style="font-size:22px"></i><code>fa-cart-shopping</code></span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:6px;width:92px;font-size:11px"><i class="fa-solid fa-crown" style="font-size:22px"></i><code>fa-crown</code></span></div></div>
+      <div class="demo-panel" style="border:1px solid var(--vs-color-border);border-radius:8px;padding:16px;background:#fff"><strong>Regular · <code>fa-regular</code></strong> <span class="vs-docs-tag">$icon-style-secondary</span><p style="font-size:13px">Secondary / inactive states, hints, unselected elements.</p><div style="display:flex;flex-wrap:wrap"><span style="display:inline-flex;flex-direction:column;align-items:center;gap:6px;width:92px;font-size:11px"><i class="fa-regular fa-star" style="font-size:22px"></i><code>fa-star</code></span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:6px;width:92px;font-size:11px"><i class="fa-regular fa-heart" style="font-size:22px"></i><code>fa-heart</code></span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:6px;width:92px;font-size:11px"><i class="fa-regular fa-circle-question" style="font-size:22px"></i><code>fa-circle-question</code></span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:6px;width:92px;font-size:11px"><i class="fa-regular fa-bookmark" style="font-size:22px"></i><code>fa-bookmark</code></span></div></div>
+    </div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Usage Frequency</span><h2>Most-Used Icons</h2></div>
+      <p class="vs-docs-section-desc">Real counts across <code>resources/views</code> (public site, workspace and admin).</p>
+    </div>
+<div class="demo-scroll"><table class="vs-docs-table"><thead><tr><th>Rank</th><th>Icon</th><th>Uses</th><th>Typical use</th></tr></thead><tbody><tr><td>#1</td><td><i class="fa-solid fa-chevron-right"></i> <code>fa-solid fa-chevron-right</code></td><td>75</td><td>Navigation, carousels</td></tr><tr><td>#2</td><td><i class="fa-solid fa-search"></i> <code>fa-solid fa-search</code></td><td>50</td><td>Search bars, filters</td></tr><tr><td>#3</td><td><i class="fa-regular fa-trash-alt"></i> <code>fa-regular fa-trash-alt</code></td><td>46</td><td>Delete actions (mostly admin)</td></tr><tr><td>#4</td><td><i class="fa-solid fa-up-right-from-square"></i> <code>fa-solid fa-up-right-from-square</code></td><td>42</td><td>Open in new tab / external links</td></tr><tr><td>#5</td><td><i class="fa-solid fa-ellipsis-v"></i> <code>fa-solid fa-ellipsis-v</code></td><td>39</td><td>Row action menus</td></tr><tr><td>#6</td><td><i class="fa-solid fa-hashtag"></i> <code>fa-solid fa-hashtag</code></td><td>32</td><td>IDs / references</td></tr><tr><td>#7</td><td><i class="fa-regular fa-pen-to-square"></i> <code>fa-regular fa-pen-to-square</code></td><td>31</td><td>Edit actions</td></tr><tr><td>#8</td><td><i class="fa-solid fa-download"></i> <code>fa-solid fa-download</code></td><td>30</td><td>Free download CTA</td></tr><tr><td>#9</td><td><i class="fa-solid fa-user"></i> <code>fa-solid fa-user</code></td><td>25</td><td>Account, author</td></tr><tr><td>#10</td><td><i class="fa-regular fa-circle-question"></i> <code>fa-regular fa-circle-question</code></td><td>24</td><td>Help, tooltips</td></tr><tr><td>#11</td><td><i class="fa-solid fa-arrow-right"></i> <code>fa-solid fa-arrow-right</code></td><td>19</td><td>“View more” links</td></tr><tr><td>#12</td><td><i class="fa-regular fa-clone"></i> <code>fa-regular fa-clone</code></td><td>19</td><td>Duplicate / copy</td></tr></tbody></table></div>    <div class="vs-docs-callout"><p>Counted by searching every Blade view for Font Awesome classes on 25 Sep 2026 (1,101 icon uses in total; <code>fas</code>/<code>far</code>/<code>fa</code> short forms folded into solid/regular). The source page's ranking (download #2, cart #3, star #7) didn't match the code, so this table replaces it. The reports dashboard uses lucide-react instead — see the library section above.</p></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Guidelines</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc">Keep weight, size and meaning consistent.</p>
+    </div>
+    <div class="demo-rules">
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Pair one icon with one clear label, and keep icon size the same across a row (16px, 8px gap).</div><div class="demo-rule-stage"><div style="display:flex;flex-wrap:wrap;gap:12px;font-size:13px"><span><i class="fa-solid fa-file-export" style="font-size:16px;margin-right:8px"></i>Export</span><span><i class="fa-solid fa-tag" style="font-size:16px;margin-right:8px"></i>Categorize</span><span><i class="fa-solid fa-bookmark" style="font-size:16px;margin-right:8px"></i>Save</span><span><i class="fa-solid fa-share-nodes" style="font-size:16px;margin-right:8px"></i>Share</span></div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t mix icon sizes in one group, or stack several icons on one action.</div><div class="demo-rule-stage"><div style="display:flex;flex-wrap:wrap;gap:12px;font-size:13px;align-items:center"><span><i class="fa-solid fa-file-export" style="font-size:12px"></i> Export</span><span><i class="fa-solid fa-tag" style="font-size:22px"></i> Categorize</span><span><i class="fa-regular fa-bookmark"></i><i class="fa-regular fa-heart"></i> Save/Fav</span><span><i class="fa-solid fa-share-nodes" style="font-size:18px"></i> Share</span></div></div></div>
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Use Solid icons on primary actions such as Download or Add to Cart.</div><div class="demo-rule-stage"><button type="button" style="height:40px;padding:0 20px;border:0;border-radius:4px;background:var(--vs-color-brand-primary);color:#fff;font:500 14px var(--vs-font-family)"><i class="fa-solid fa-download"></i>&nbsp; Download Vector</button></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t use Regular (outline) icons on primary actions — they read as low emphasis.</div><div class="demo-rule-stage"><button type="button" style="height:40px;padding:0 20px;border:0;border-radius:4px;background:var(--vs-color-brand-primary);color:#fff;font:500 14px var(--vs-font-family)"><i class="fa-regular fa-circle-down"></i>&nbsp; Download Vector</button></div></div>
+    </div>
+
   </div>
   </div>
 </main>

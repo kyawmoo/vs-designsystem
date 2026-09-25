@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Form Elements — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="/assets/demo-kit.css">
+<style>
+  .fx { width: 100%; box-sizing: border-box; height: 44px; padding: 0 16px; border: 1px solid var(--vs-color-border); border-radius: 8px; background: #fff; font: 14px var(--vs-font-family); color: #18181b; }
+  .fx::placeholder { color: var(--vs-color-text-muted); }
+  .fx:focus, .fx.is-focus { outline: none; border-color: var(--vs-color-brand-primary); }
+  .fx:disabled, .fx.is-disabled { background: #eee; color: #a1a1aa; cursor: not-allowed; }
+  textarea.fx { height: auto; min-height: 96px; max-height: 360px; padding: 16px; resize: vertical; line-height: 1.5; }
+  .fx-wrap { position: relative; display: flex; align-items: center; }
+  .fx-wrap .fx-icon { position: absolute; left: 0; width: 50px; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--vs-color-text-muted); border: 0; background: none; cursor: pointer; }
+  .fx-wrap .fx { padding-left: 45px; }
+  .fx-wrap.is-reverse .fx-icon { left: auto; right: 0; }
+  .fx-wrap.is-reverse .fx { padding-left: 16px; padding-right: 45px; }
+  .fx-wrap:focus-within .fx-icon { color: var(--vs-color-brand-primary); }
+  .fx-group { display: flex; align-items: stretch; height: 42px; }
+  .fx-group > * { box-sizing: border-box; }
+  .fx-group .fx { height: 100%; border-radius: 0; flex: 1; min-width: 0; }
+  .fx-group .fx-add { display: flex; align-items: center; padding: 0 16px; background: #F8F8F8; border: 1px solid var(--vs-color-border); color: #71717a; font: 500 14px var(--vs-font-family); }
+  .fx-group > :first-child { border-radius: 8px 0 0 8px; }
+  .fx-group > :last-child { border-radius: 0 8px 8px 0; }
+  .fx-group > :not(:first-child) { margin-left: -1px; }
+  .fx-group .fx:focus { position: relative; z-index: 1; }
+  .fx-group .fx-btn { padding: 0 18px; border: 1px solid var(--vs-button-primary); background: var(--vs-button-primary); color: #fff; font: 500 14px var(--vs-font-family); cursor: pointer; }
+  .fx-label { display: block; font: 500 13px var(--vs-font-family); color: #18181b; margin-bottom: 6px; }
+  .fx-note { display: block; font: 11px SFMono-Regular, Consolas, monospace; color: #71717a; margin-top: 6px; }
+  .sw { appearance: none; -webkit-appearance: none; width: 32px; height: 16px; margin: 0; border: 1px solid var(--vs-color-border); border-radius: 2em; background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba(0,0,0,.25)'/%3e%3c/svg%3e") left center / contain no-repeat; cursor: pointer; transition: background-position .15s ease; flex-shrink: 0; }
+  .sw:checked { background-color: var(--vs-color-brand-primary); border-color: var(--vs-color-brand-primary); background-position: right center; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e"); }
+  .sw:not(:checked):focus, .sw.is-focus { outline: none; border-color: #aaa; background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23aaa'/%3e%3c/svg%3e"); }
+  .sw:disabled { opacity: .5; cursor: not-allowed; }
+  .sw-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; font: 14px var(--vs-font-family); cursor: pointer; }
+</style>
+</head>
+<body data-page="form-elements">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Form Elements <span class="vs-docs-tag">Production</span> <span class="vs-docs-tag">#input-elements-v1</span></p>
+    <h1>Form Elements</h1>
+    <p class="vs-docs-hero-lede">Every input type from live vectorsticker.com code, on one page — text, textarea, select, search, checkbox / radio / switch, file upload and input group.</p>
+    <div class="demo-spec-pills"><span><em>Radius:</em> 8px</span><span><em>Border:</em> 1px #ECECEC</span><span><em>Focus:</em> #4CAF50</span></div>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Every Input Type</span><h2>All Form Elements</h2></div>
+      <p class="vs-docs-section-desc">Each card links to its full page.</p>
+    </div>
+    <div class="demo-rules">
+      <div style="border:1px solid var(--vs-color-border);border-radius:8px;background:#fff;padding:16px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><a href="/components/text-input.html" style="font:600 14px var(--vs-font-family)">Text Input →</a><code style="font-size:11px">$input-text</code></div><input class="fx" placeholder="you@example.com" aria-label="Text input"><span class="fx-note">8px radius · 1px #ECECEC · focus #4CAF50</span></div>
+      <div style="border:1px solid var(--vs-color-border);border-radius:8px;background:#fff;padding:16px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><a href="/components/textarea.html" style="font:600 14px var(--vs-font-family)">Textarea →</a><code style="font-size:11px">$textarea</code></div><textarea class="fx" aria-label="Textarea" style="min-height:72px">Same style as text input, resize: vertical.</textarea><span class="fx-note">8px radius · vertical resize</span></div>
+      <div style="border:1px solid var(--vs-color-border);border-radius:8px;background:#fff;padding:16px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><a href="/components/select.html" style="font:600 14px var(--vs-font-family)">Select →</a><code style="font-size:11px">$input-select</code></div><select class="fx" aria-label="Select" style="font-weight:500;padding-right:40px"><option>Select sticker category…</option><option>Die-Cut Vinyl</option><option>Holographic</option></select><span class="fx-note">500 weight · 8px radius</span></div>
+      <div style="border:1px solid var(--vs-color-border);border-radius:8px;background:#fff;padding:16px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><a href="/components/search-input.html" style="font:600 14px var(--vs-font-family)">Search Input →</a><code style="font-size:11px">$input-search</code></div><div class="fx-wrap"><button type="button" class="fx-icon" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button><input class="fx" type="search" placeholder="Search stickers…" aria-label="Search"></div><span class="fx-note">50px icon zone · 45px padding-left</span></div>
+      <div style="border:1px solid var(--vs-color-border);border-radius:8px;background:#fff;padding:16px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><a href="/components/checkbox.html" style="font:600 14px var(--vs-font-family)">Checkbox · Radio · Switch →</a><code style="font-size:11px">$input-toggle</code></div><div class="demo-check-group" style="gap:10px"><label class="demo-check-row"><input type="checkbox" class="demo-check" checked>Active license</label><label class="demo-check-row"><input type="radio" class="demo-check demo-check--radio" name="fe-r" checked>Vector (.SVG)</label><label class="demo-check-row"><input type="checkbox" role="switch" class="sw" checked>Email updates</label></div><span class="fx-note">16px box / circle · 32 × 16px switch · #4CAF50 when on</span></div>
+      <div style="border:1px solid var(--vs-color-border);border-radius:8px;background:#fff;padding:16px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><a href="/components/file-input.html" style="font:600 14px var(--vs-font-family)">File Upload →</a><code style="font-size:11px">$input-file</code></div><div style="border:2px dashed var(--vs-color-border);background:#F8F8F8;border-radius:5px;padding:18px;text-align:center;font:13px var(--vs-font-family);color:#71717a"><i class="fa-solid fa-cloud-arrow-up" style="font-size:22px;display:block;margin-bottom:6px"></i><strong style="color:#18181b">Drop files here or browse</strong><br>PNG, JPG up to 10MB</div><span class="fx-note">2px dashed #ECECEC · 5px radius</span></div>
+      <div style="border:1px solid var(--vs-color-border);border-radius:8px;background:#fff;padding:16px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap"><a href="/components/input-group.html" style="font:600 14px var(--vs-font-family)">Input Group →</a><code style="font-size:11px">$input-group</code></div><div class="fx-group"><span class="fx-add">$</span><input class="fx" value="12.00" aria-label="Price"><button type="button" class="fx-btn">Apply</button></div><span class="fx-note">attached, outer corners 8px</span></div>
+    </div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Redline</span><h2>Shared Measurements</h2></div>
+      <p class="vs-docs-section-desc">Values every text-style field shares.</p>
+    </div>
+    <div class="demo-metrics"><div><span>Border</span><strong>1px #ECECEC</strong></div><div><span>Radius</span><strong>8px</strong></div><div><span>Side padding</span><strong>16px (12px mobile)</strong></div><div><span>md / lg padding</span><strong>12px 18px / 14px 22px</strong></div><div><span>Disabled</span><strong>#EEEEEE</strong></div><div><span>Focus</span><strong style="color:var(--vs-color-brand-primary)">#4CAF50 border</strong></div></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // One-System Gap</span><h2>⚠ Public vs Admin</h2></div>
+      <p class="vs-docs-section-desc">Radius and focus ring differ across the two panels.</p>
+    </div>
+    <div class="demo-rules">
+      <div style="border:1px solid var(--vs-color-border);border-radius:8px;padding:16px;background:#fff"><strong style="font-size:13px">Public site</strong> <span class="vs-docs-tag">8px · no focus ring</span><p style="font-size:12px;margin:8px 0">.form-control: 8px radius, 1px #ECECEC, focus = green border, <code>box-shadow: none</code>.</p><input class="fx is-focus" value="active_search_query" aria-label="Public example" readonly></div>
+      <div style="border:1px solid var(--vs-color-border);border-radius:8px;padding:16px;background:#fff"><strong style="font-size:13px">Admin panel</strong> <span class="vs-docs-tag">2px · visible ring</span><p style="font-size:12px;margin:8px 0">.form-control: 0.125rem (2px) radius, 1px #ced4da, focus = <code>0 0 0 1px var(--primary_color)</code>.</p><input class="fx" value="sku_admin_filter" aria-label="Admin example" readonly style="border-radius:2px;border-color:#4caf50;box-shadow:0 0 0 1px #4caf50;height:36px;font-size:15px"></div>
+    </div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Usage in Context</span><h2>Usage in Context</h2></div>
+      <p class="vs-docs-section-desc">Illustrative search + filter row.</p>
+    </div>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> <i class="fa-solid fa-lock" style="color:var(--vs-color-brand-primary)"></i> vectorsticker.com/items</div><div class="demo-browser-body"><div class="demo-form-card" style="max-width:720px;flex-direction:row;flex-wrap:wrap;align-items:center"><div class="fx-wrap" style="flex:2;min-width:200px"><button type="button" class="fx-icon" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button><input class="fx" type="search" placeholder="Search stickers…" aria-label="Search"></div><select class="fx" aria-label="Category" style="flex:1;min-width:160px;font-weight:500"><option>All Categories</option><option>Retro Synth</option><option>Cyberpunk Decals</option></select><label class="demo-check-row"><input type="checkbox" class="demo-check" checked>Free only</label></div></div></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">05 // Guidelines</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc">Design rules for every field.</p>
+    </div>
+    <div class="demo-rules">
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Put a visible label above every field.</div><div class="demo-rule-stage"><label class="fx-label" for="fe-l">Email address</label><input id="fe-l" class="fx" value="you@example.com"></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t use the placeholder as the only label.</div><div class="demo-rule-stage"><input class="fx" placeholder="Email address" aria-label="Bad example"></div></div>
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Make disabled fields visibly inactive.</div><div class="demo-rule-stage"><label class="fx-label">Account ID</label><input class="fx" value="VS-00421" disabled aria-label="Account ID"></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t leave disabled fields looking editable.</div><div class="demo-rule-stage"><label class="fx-label">Account ID</label><input class="fx" value="VS-00421" readonly aria-label="Account ID bad" style="background:#fff"></div></div>
+    </div>
+    <div class="vs-docs-callout"><p><strong>Checkbox size correction:</strong> the source Form Input page listed checkboxes at 18 × 18px. The live Bootstrap checkbox is <strong>16 × 16px</strong> (1em) — see <a href="/components/checkbox.html">Checkbox</a>.</p></div>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>
