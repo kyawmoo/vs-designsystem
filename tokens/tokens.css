@@ -115,6 +115,8 @@
 
   /* ---- Card (spec v2, 25 Sep 2026) ---- */
   --vs-card-radius: 3px;
+  --vs-card-width: 344.5px; /* real vectorsticker.com item card at >=1600px */
+  --vs-card-media-ratio: 1 / 1;
   --vs-card-border: #E5E7EB;
   --vs-card-divider: #F3F4F6;
   --vs-card-media-bg: #F9FAFB;
