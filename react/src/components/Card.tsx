@@ -15,7 +15,8 @@ export interface CardProps {
 
 /**
  * VectorSticker Card — generic content container for the reports
- * dashboard. Matches the border + radius-sm + white-surface convention
+ * dashboard. Card spec v2: 1px #E5E7EB border, 3px radius, flat. Keeps
+ * the bordered, white-surface convention
  * already used by SummaryCard/TableWidget (not the public site's
  * borderless .card-v — that sits on a white page background and relies
  * on padding alone; the dashboard's gray canvas needs a visible edge).
@@ -23,8 +24,8 @@ export interface CardProps {
 export function Card({ children, className, style, onClick }: CardProps) {
   const baseStyle: React.CSSProperties = {
     background: 'var(--vs-color-surface)',
-    border: '1px solid var(--vs-color-border)',
-    borderRadius: 'var(--vs-radius-sm)',
+    border: '1px solid var(--vs-card-border)',
+    borderRadius: 'var(--vs-card-radius)',
     boxShadow: 'var(--vs-shadow-none)',
     padding: '20px',
     fontFamily: 'var(--vs-font-family)',
