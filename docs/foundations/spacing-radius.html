@@ -8,6 +8,8 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="/assets/demo-kit.css">
 </head>
 <body data-page="spacing-radius">
 <div id="vs-docs-sidebar-mount"></div>
@@ -47,7 +49,7 @@
         <p class="vs-docs-swatch-value" style="margin-top:8px">full · pill</p>
       </div>
     </div>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Token</th><th>Value</th><th>Use for</th></tr></thead>
       <tbody>
         <tr><td><code>--vs-radius-xs</code></td><td>5px</td><td>Dividers, small accents, pagination items</td></tr>
@@ -56,7 +58,7 @@
         <tr><td><code>--vs-radius-xl</code></td><td>20px</td><td>Hero/banner elements</td></tr>
         <tr><td><code>--vs-radius-full</code></td><td>9999px</td><td>Pills, badges, avatars, circular elements</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <h2>Spacing</h2>
     <div class="vs-docs-preview">
@@ -66,7 +68,7 @@
       <div style="width:24px;height:24px;background:var(--vs-color-brand-primary)"></div>
       <div style="width:32px;height:24px;background:var(--vs-color-brand-primary)"></div>
     </div>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Token</th><th>Value</th><th>Note</th></tr></thead>
       <tbody>
         <tr><td><code>--vs-spacing-xs</code></td><td>4px</td><td></td></tr>
@@ -77,7 +79,41 @@
         <tr><td><code>--vs-spacing-section-compact</code></td><td>30px</td><td>Compact section vertical padding</td></tr>
         <tr><td><code>--vs-spacing-section-default</code></td><td>60px</td><td>Standard section vertical padding</td></tr>
       </tbody>
-    </table>
+    </table></div>
+    <!-- data-v2-merged -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Grid Gutter Scale</span><h2>Grid Gutters</h2></div>
+      <p class="vs-docs-section-desc">From compact groups to spacious grids.</p>
+    </div>
+    <div class="vs-docs-preview" style="flex-direction:column;align-items:flex-start"><div style="display:flex;align-items:center;gap:12px;margin:6px 0"><span style="width:8px;height:20px;background:rgba(76,175,80,.25);border:1px dashed var(--vs-color-brand-primary);flex-shrink:0"></span><code>8px · $spacing-tight · --vs-spacing-sm — compact rows, form field groups</code></div><div style="display:flex;align-items:center;gap:12px;margin:6px 0"><span style="width:16px;height:20px;background:rgba(76,175,80,.25);border:1px dashed var(--vs-color-brand-primary);flex-shrink:0"></span><code>16px · $spacing-default · --vs-spacing-md — default grid gutter (item grids use row g-3 = 16px)</code></div><div style="display:flex;align-items:center;gap:12px;margin:6px 0"><span style="width:24px;height:20px;background:rgba(76,175,80,.25);border:1px dashed var(--vs-color-brand-primary);flex-shrink:0"></span><code>24px · $spacing-loose · --vs-spacing-lg — generous card spacing, dashboard tiles</code></div></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Section Padding</span><h2>Section Padding</h2></div>
+      <p class="vs-docs-section-desc">Vertical rhythm for page sections.</p>
+    </div>
+    <div class="demo-rules">
+      <div class="demo-panel" style="border:1px solid var(--vs-color-border);border-radius:8px;padding:16px;background:#fff"><strong>$spacing-section-default · 60px</strong><div style="margin:10px 0;height:60px;background:rgba(76,175,80,.15);border:1px dashed var(--vs-color-brand-primary);display:flex;align-items:center;justify-content:center;font:11px SFMono-Regular,Consolas,monospace;color:#15803d">↕ 60px · --vs-spacing-section-default</div><p style="margin:0;font-size:13px">Standard top/bottom padding on public pages (home, category feeds).</p></div>
+      <div class="demo-panel" style="border:1px solid var(--vs-color-border);border-radius:8px;padding:16px;background:#fff"><strong>$spacing-section-compact · 30px</strong><div style="margin:10px 0;height:30px;background:rgba(76,175,80,.15);border:1px dashed var(--vs-color-brand-primary);display:flex;align-items:center;justify-content:center;font:11px SFMono-Regular,Consolas,monospace;color:#15803d">↕ 30px · --vs-spacing-section-compact</div><p style="margin:0;font-size:13px">Compact sections for dense screens (profile, order history, admin panels).</p></div>
+    </div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Corner Radius Scale</span><h2>Radius Scale</h2></div>
+      <p class="vs-docs-section-desc">Smallest to largest.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:16px;margin:16px 0 24px"><div style="display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-size:12px"><span style="width:64px;height:64px;background:#fff;border:2px solid var(--vs-color-brand-primary);border-radius:5px"></span><strong>5px</strong><code>$radius-xs</code><span style="color:var(--vs-color-text-muted)">dividers, small tags</span></div><div style="display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-size:12px"><span style="width:64px;height:64px;background:#fff;border:2px solid var(--vs-color-brand-primary);border-radius:8px"></span><strong>8px</strong><code>$radius-default</code><span style="color:var(--vs-color-text-muted)">form inputs, cards, icon buttons</span></div><div style="display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-size:12px"><span style="width:64px;height:64px;background:#fff;border:2px solid var(--vs-color-brand-primary);border-radius:12px"></span><strong>12px</strong><code>$radius-lg</code><span style="color:var(--vs-color-text-muted)">feature cards, modals</span></div><div style="display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-size:12px"><span style="width:64px;height:64px;background:#fff;border:2px solid var(--vs-color-brand-primary);border-radius:20px"></span><strong>20px</strong><code>$radius-xl</code><span style="color:var(--vs-color-text-muted)">hero banners</span></div><div style="display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-size:12px"><span style="width:64px;height:64px;background:#fff;border:2px solid var(--vs-color-brand-primary);border-radius:9999px"></span><strong>9999px</strong><code>$radius-full</code><span style="color:var(--vs-color-text-muted)">badges, pills, avatars</span></div></div>
+    <div class="vs-docs-callout"><p>Text buttons use their own <a href="/components/button.html">button radius tokens</a> (4 / 6px) and item cards use <code>--vs-card-radius</code> (3px) — the scale above is the general-purpose set.</p></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Guidelines</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc">Correct token pairing vs. fragmented layouts.</p>
+    </div>
+    <div class="demo-rules">
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Use the 16px gutter consistently within a grid row.</div><div class="demo-rule-stage"><div style="display:flex;gap:16px"><span style="flex:1;height:44px;background:#f4f4f5;border:1px solid #e4e4e7;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#71717a"><i class="fa-regular fa-image"></i>&nbsp;Pack 01</span><span style="flex:1;height:44px;background:#f4f4f5;border:1px solid #e4e4e7;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#71717a"><i class="fa-regular fa-image"></i>&nbsp;Pack 02</span><span style="flex:1;height:44px;background:#f4f4f5;border:1px solid #e4e4e7;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#71717a"><i class="fa-regular fa-image"></i>&nbsp;Pack 03</span></div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t mix arbitrary gaps (4px vs 28px) in one row — it looks like a bug.</div><div class="demo-rule-stage"><div style="display:flex"><span style="flex:1;height:44px;background:#f4f4f5;border:1px solid #e4e4e7;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#71717a"><i class="fa-regular fa-image"></i>&nbsp;Pack 01</span><span style="width:4px;flex-shrink:0"></span><span style="flex:1;height:44px;background:#f4f4f5;border:1px solid #e4e4e7;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#71717a"><i class="fa-regular fa-image"></i>&nbsp;Pack 02</span><span style="width:28px;flex-shrink:0"></span><span style="flex:1;height:44px;background:#f4f4f5;border:1px solid #e4e4e7;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#71717a"><i class="fa-regular fa-image"></i>&nbsp;Pack 03</span></div></div></div>
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Keep one radius across sibling controls in a group.</div><div class="demo-rule-stage"><div style="display:flex;gap:8px"><span style="padding:6px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:12px">Preview</span><span style="padding:6px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:12px">Download</span><span style="padding:6px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:12px">Share</span></div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t mix 0px, 8px and pill radii on siblings.</div><div class="demo-rule-stage"><div style="display:flex;gap:8px"><span style="padding:6px 12px;border:1px solid #d1d5db;border-radius:0;font-size:12px">Preview</span><span style="padding:6px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:12px">Download</span><span style="padding:6px 12px;border:1px solid #d1d5db;border-radius:9999px;font-size:12px">Share</span></div></div></div>
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Keep full (pill) radius for small elements — badges, avatars, status pills.</div><div class="demo-rule-stage"><div style="display:flex;gap:8px;align-items:center"><span style="width:28px;height:28px;border-radius:9999px;background:#e4e4e7;display:inline-flex;align-items:center;justify-content:center"><i class="fa-solid fa-user" style="font-size:12px;color:#71717a"></i></span><span style="padding:2px 10px;border-radius:9999px;background:var(--vs-color-success-bg);color:#15803d;font-size:11px;font-weight:600">ACTIVE</span><span style="padding:2px 10px;border-radius:9999px;background:#f3e8ff;color:#7e22ce;font-size:11px;font-weight:600">PRO</span></div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t put a pill radius on wide containers or cards — the corners clip the content.</div><div class="demo-rule-stage"><div style="border-radius:9999px;border:1px solid #fca5a5;padding:14px 24px;font-size:12px;color:#991b1b">Card content squeezed by the curve… <i class="fa-solid fa-triangle-exclamation"></i></div></div></div>
+    </div>
+    <div class="vs-docs-callout"><p>The source page named the CSS variables <code>--vs-spacing-8 / 16 / 24</code> and <code>--vs-section-padding</code>; those don't exist — the real tokens are <code>--vs-spacing-sm / md / lg</code> and <code>--vs-spacing-section-default / compact</code>, used above.</p></div>
+
   </div>
   </div>
 </main>
