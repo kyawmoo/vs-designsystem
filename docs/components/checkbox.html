@@ -8,64 +8,75 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
-<style>
-  .demo-check {
-    appearance: none;
-    width: 16px; height: 16px;
-    border: 1px solid var(--vs-color-border);
-    border-radius: 4px;
-    background-color: var(--vs-color-surface);
-    background-repeat: no-repeat; background-position: center; background-size: 10px;
-    cursor: pointer; flex-shrink: 0;
-  }
-  .demo-check:checked {
-    background-color: var(--vs-color-brand-primary);
-    border-color: var(--vs-color-brand-primary);
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M1 4l2 2 4-4'/%3e%3c/svg%3e");
-  }
-  .demo-check-row { display: flex; align-items: center; gap: 8px; font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); color: var(--vs-color-text-body); }
-</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="/assets/demo-kit.css">
 </head>
 <body data-page="checkbox">
 <div id="vs-docs-sidebar-mount"></div>
 <main class="vs-docs-main">
-  <div class="vs-docs-hero">
+      <div class="vs-docs-hero">
     <div class="vs-docs-hero-inner">
-    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Checkbox</p>
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Checkbox <span class="vs-docs-tag">Production</span> <span class="vs-docs-tag">#checkbox-v1</span></p>
     <h1>Checkbox</h1>
-    <p class="vs-docs-hero-lede">
-      A real <code>&lt;input type="checkbox"&gt;</code>, custom-styled to
-      match the real site's Bootstrap shape. Implemented in
-      <code>react/src/components/Checkbox.tsx</code> and
-      <code>blade/components/vs-checkbox.blade.php</code>.
-    </p>
+    <p class="vs-docs-hero-lede">From live code — the checked state fills solid brand green. A real <code>&lt;input type="checkbox"&gt;</code>, custom-styled to match the site's Bootstrap shape. Implemented in <code>react/src/components/Checkbox.tsx</code> and <code>blade/components/vs-checkbox.blade.php</code>.</p>
+    <div class="demo-spec-pills"><span><em>Box:</em> 16×16px</span><span><em>Border:</em> 1px #ECECEC</span><span><em>Active:</em> #4CAF50</span></div>
     </div>
   </div>
   <div class="vs-docs-canvas">
   <div class="vs-docs-content">
-
     <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
-      <p class="vs-docs-section-desc">Click to toggle — real checkbox.</p>
+      <div><span class="vs-docs-section-num">01 // States</span><h2>States</h2></div>
+      <p class="vs-docs-section-desc"><code>$checkbox-states</code> — real inputs, try them.</p>
     </div>
-    <div class="vs-docs-preview">
-      <label class="demo-check-row"><input class="demo-check" type="checkbox" checked> I agree to the terms</label>
-      <label class="demo-check-row"><input class="demo-check" type="checkbox"> Unchecked</label>
-      <label class="demo-check-row" style="opacity:.5"><input class="demo-check" type="checkbox" disabled> Disabled</label>
+    <div class="demo-states">
+      <div class="demo-state"><div class="demo-state-stage"><label class="demo-check-row"><input type="checkbox" class="demo-check" aria-label="Unchecked example"></label></div><div class="demo-state-meta"><b>Unchecked</b><code>$checkbox-default</code><span>white bg, #ECECEC border</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><label class="demo-check-row"><input type="checkbox" class="demo-check" checked aria-label="Checked example"></label></div><div class="demo-state-meta"><b>Checked</b><code>$checkbox-checked</code><span>solid #4CAF50 fill, white tick</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><label class="demo-check-row"><input type="checkbox" class="demo-check is-focus" aria-label="Focus example"></label></div><div class="demo-state-meta"><b>Focus (unchecked)</b><code>$checkbox-focus</code><span>border #4CAF50, no glow</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><label class="demo-check-row"><input type="checkbox" class="demo-check" disabled aria-label="Disabled example"></label></div><div class="demo-state-meta"><b>Disabled</b><code>$checkbox-disabled</code><span>50% opacity, not clickable</span></div></div>
     </div>
-
+    <div class="vs-docs-callout vs-docs-callout--gap"><p><strong>Accessibility gap (live site):</strong> <code>.form-check-input</code> sets <code>box-shadow: none !important</code>, so keyboard focus only changes the border colour. The demos above add a 2px outline on <code>:focus-visible</code> — recommended for the next update.</p></div>
     <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">02 // Measurement Guide</span><h2>Measurement Guide</h2></div>
-      <p class="vs-docs-section-desc">Checked against the real vendored Bootstrap CSS.</p>
+      <div><span class="vs-docs-section-num">02 // With Label</span><h2>With Label</h2></div>
+      <p class="vs-docs-section-desc"><code>$checkbox-with-label</code></p>
     </div>
-    <table class="vs-docs-table">
+    <div class="vs-docs-preview"><label class="demo-check-row"><input type="checkbox" class="demo-check" checked>Remember me</label> <code style="margin-left:auto">gap: 8px; cursor: pointer; user-select: none;</code></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Redline Specs</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Checked against the real vendored Bootstrap 5.3 CSS.</p>
+    </div>
+    <div class="demo-redline"><span class="demo-dim">16px</span><label class="demo-check-row"><input type="checkbox" class="demo-check" checked tabindex="-1" aria-label="Measured checkbox"></label><span class="demo-dim">8px gap</span><span style="font-size:14px">Remember me</span><span class="demo-dim demo-dim--blue">r = 4px · 1px border</span></div>
+    <div class="demo-metrics"><div><span>Box size</span><strong>16 × 16px</strong></div><div><span>Label gap</span><strong>8px</strong></div><div><span>Border</span><strong>1px #ECECEC</strong></div><div><span>Active fill</span><strong style="color:var(--vs-color-brand-primary)">#4CAF50</strong></div></div>
+    <div class="demo-scroll"><table class="vs-docs-table">
       <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
       <tbody>
-        <tr><td>Size</td><td>16px × 16px</td><td>1em at Bootstrap's default font size</td></tr>
-        <tr><td>Radius</td><td>4px</td><td><code>.form-check-input[type=checkbox]{border-radius:.25em}</code></td></tr>
-        <tr><td>Checked color</td><td><code>--vs-color-brand-primary</code></td><td>site overrides Bootstrap's default blue</td></tr>
+        <tr><td>Size</td><td>16px × 16px</td><td><code>width/height: 1em</code> at Bootstrap's default font size</td></tr>
+        <tr><td>Radius</td><td>4px</td><td><code>.form-check-input[type=checkbox] { border-radius: .25em }</code></td></tr>
+        <tr><td>Border</td><td>1px <code>#ECECEC</code></td><td><code>border-color: var(--border_color)</code> (app.css)</td></tr>
+        <tr><td>Checked</td><td><code>--vs-color-brand-primary</code> fill + border</td><td>site overrides Bootstrap's default blue</td></tr>
+        <tr><td>Focus</td><td>border <code>#4CAF50</code>, no shadow</td><td><code>.form-check-input:focus</code> + <code>box-shadow: none !important</code></td></tr>
+        <tr><td>Disabled</td><td>opacity 50%</td><td><code>.form-check-input:disabled { opacity: .5 }</code></td></tr>
+        <tr><td>Label gap</td><td>8px</td><td><code>.form-check</code> padding-left 1.5em − 1em box = .5em</td></tr>
       </tbody>
-    </table>
+    </table></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Usage in Context</span><h2>Usage in Context</h2></div>
+      <p class="vs-docs-section-desc">Live pattern mockup.</p>
+    </div>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> <i class="fa-solid fa-lock" style="color:var(--vs-color-brand-primary)"></i> vectorsticker.com/login</div><div class="demo-browser-body"><div class="demo-form-card"><span class="demo-kicker">VectorSticker account</span><h3>Sign In</h3>
+ <div><label class="demo-label" for="cb-email">Email address</label><input id="cb-email" class="demo-input" type="email" value="you@example.com" readonly></div>
+ <div><label class="demo-label" for="cb-pass">Password</label><input id="cb-pass" class="demo-input" type="password" value="password" readonly></div>
+ <label class="demo-check-row"><input type="checkbox" class="demo-check" checked>Remember me</label>
+ <button class="demo-submit" type="button">Sign In</button></div></div></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">05 // Guidelines</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc"><code>$checkbox-guidelines</code></p>
+    </div>
+    <div class="demo-rules">
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Always pair a checkbox with a clickable label.</div><div class="demo-rule-stage"><label class="demo-check-row"><input type="checkbox" class="demo-check" checked>Save preference for next session</label></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t leave a checkbox with no label — its purpose is unclear.</div><div class="demo-rule-stage"><div style="text-align:center"><label class="demo-check-row"><input type="checkbox" class="demo-check" aria-label="Unlabelled checkbox (bad example)"></label></div></div></div>
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Group related checkboxes together.</div><div class="demo-rule-stage"><div class="demo-check-group"><label class="demo-check-row"><input type="checkbox" class="demo-check" checked>Email updates</label><label class="demo-check-row"><input type="checkbox" class="demo-check" checked>Marketing newsletter</label><label class="demo-check-row"><input type="checkbox" class="demo-check" >Security alerts</label></div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t scatter related options across the page.</div><div class="demo-rule-stage"><div style="display:flex;flex-direction:column;gap:18px"><label class="demo-check-row"><input type="checkbox" class="demo-check" >Email updates</label><div style="align-self:center"><label class="demo-check-row"><input type="checkbox" class="demo-check" >Marketing newsletter</label></div><div style="align-self:flex-end"><label class="demo-check-row"><input type="checkbox" class="demo-check" >Security alerts</label></div></div></div></div>
+    </div>
 
     <h2>Usage — React</h2>
     <div class="vs-docs-code-block"><span class="tag">import</span> { Checkbox } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;

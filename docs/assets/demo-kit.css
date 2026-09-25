@@ -1,0 +1,81 @@
+/* Shared demo styles for the form + table component pages
+   (checkbox, radio, select, file-input, table). Demo-only — built on
+   tokens.css, mirrors the live vectorsticker.com / reports CSS values
+   documented on each page. Not shipped to either product. */
+
+/* ---- Checkbox / radio (real <input>, Bootstrap 5.3 shape) ---- */
+.demo-check {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px; height: 16px; margin: 0;
+  border: 1px solid var(--vs-color-border);
+  border-radius: 4px;
+  background-color: var(--vs-color-surface);
+  background-repeat: no-repeat; background-position: center; background-size: 10px;
+  cursor: pointer; flex-shrink: 0;
+}
+.demo-check--radio { border-radius: 50%; background-size: 16px; }
+.demo-check:checked { background-color: var(--vs-color-brand-primary); border-color: var(--vs-color-brand-primary); }
+.demo-check:not(.demo-check--radio):checked { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M1 4l2 2 4-4'/%3e%3c/svg%3e"); }
+.demo-check--radio:checked { background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e"); }
+.demo-check:focus, .demo-check.is-focus { outline: none; border-color: var(--vs-color-brand-primary); }
+.demo-check:focus-visible { outline: 2px solid var(--vs-color-brand-primary); outline-offset: 2px; }
+.demo-check:disabled { opacity: .5; cursor: not-allowed; }
+.demo-check-row { display: inline-flex; align-items: center; gap: 8px; font-family: var(--vs-font-family); font-size: 14px; color: var(--vs-color-text-body); cursor: pointer; user-select: none; }
+.demo-check-row.is-disabled { cursor: not-allowed; opacity: .5; }
+.demo-check-group { display: flex; flex-direction: column; gap: 12px; }
+
+/* ---- State tiles ---- */
+.demo-states { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr)); gap: 12px; margin: 16px 0 24px; }
+.demo-state { background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: 4px; padding: 16px; display: flex; flex-direction: column; gap: 12px; min-height: 150px; }
+.demo-state-stage { flex: 1; display: flex; align-items: center; justify-content: center; }
+.demo-state-meta { border-top: 1px solid #f0f0f0; padding-top: 8px; display: flex; flex-direction: column; gap: 2px; }
+.demo-state-meta b { font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: #18181b; }
+.demo-state-meta code { font-size: 11px; color: var(--vs-color-brand-primary); background: none; border: 0; padding: 0; }
+.demo-state-meta span { font-size: 12px; color: #71717a; }
+.demo-states--wide { grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
+
+/* ---- Redline ---- */
+.demo-redline { position: relative; display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 150px; padding: 40px 24px; background: #fafafa; border: 1px dashed #d4d4d8; border-radius: 4px; margin: 16px 0 12px; font-family: var(--vs-font-family); }
+.demo-dim { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 11px; color: #dc2626; white-space: nowrap; }
+.demo-dim--blue { color: #2563eb; }
+.demo-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr)); gap: 8px; margin: 0 0 24px; }
+.demo-metrics div { padding: 10px 12px; background: #f8f8f8; border-radius: 3px; display: flex; flex-direction: column; gap: 2px; }
+.demo-metrics span { font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: #71717a; }
+.demo-metrics strong { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 13px; color: #18181b; font-weight: 600; }
+
+/* ---- Browser mockup ---- */
+.demo-browser { border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden; background: #fff; margin: 16px 0 24px; }
+.demo-browser-bar { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: #f4f4f5; border-bottom: 1px solid #e5e7eb; font-family: 'SFMono-Regular', Consolas, monospace; font-size: 11px; color: #71717a; }
+.demo-browser-bar i.dot { width: 10px; height: 10px; border-radius: 50%; background: #d4d4d8; display: inline-block; }
+.demo-browser-body { padding: 32px 16px; background: var(--vs-color-background); display: flex; justify-content: center; }
+.demo-form-card { width: 100%; max-width: 420px; background: #fff; border: 1px solid var(--vs-color-border); border-radius: 4px; padding: 28px; display: flex; flex-direction: column; gap: 14px; font-family: var(--vs-font-family); box-sizing: border-box; }
+.demo-form-card h3 { margin: 0; font-size: 22px; color: #18181b; }
+.demo-kicker { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--vs-color-brand-primary); }
+.demo-label { display: block; font-size: 12px; font-weight: 500; color: #71717a; margin-bottom: 4px; }
+.demo-input { width: 100%; box-sizing: border-box; height: 38px; padding: 0 12px; border: 1px solid var(--vs-color-border); border-radius: 8px; background: #fff; font: 14px var(--vs-font-family); color: #18181b; }
+.demo-submit { height: 40px; border: 0; border-radius: var(--vs-button-radius); background: var(--vs-button-primary); color: #fff; font: 500 14px var(--vs-font-family); cursor: pointer; }
+.demo-submit:hover { background: var(--vs-button-primary-hover); }
+
+/* ---- Do / Don't ---- */
+.demo-rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 12px; margin: 16px 0 24px; }
+.demo-rule { border-radius: 4px; padding: 16px; display: flex; flex-direction: column; gap: 12px; font-family: var(--vs-font-family); }
+.demo-rule--do { background: #f2fcf3; border: 1px solid rgba(76, 175, 80, .4); }
+.demo-rule--dont { background: #fef2f2; border: 1px solid rgba(239, 68, 68, .3); }
+.demo-rule-head { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; font-weight: 500; }
+.demo-rule--do .demo-rule-head { color: #1b5e20; }
+.demo-rule--dont .demo-rule-head { color: #991b1b; }
+.demo-pill { flex-shrink: 0; font-size: 10px; font-weight: 700; letter-spacing: .04em; padding: 2px 6px; border-radius: 2px; color: #fff; }
+.demo-rule--do .demo-pill { background: var(--vs-color-brand-primary); }
+.demo-rule--dont .demo-pill { background: #ef4444; }
+.demo-rule-stage { background: #fff; border-radius: 3px; padding: 14px; border: 1px solid rgba(76, 175, 80, .3); }
+.demo-rule--dont .demo-rule-stage { border-color: rgba(239, 68, 68, .2); }
+
+/* ---- Misc ---- */
+.demo-spec-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.demo-spec-pills span { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 12px; padding: 3px 8px; border-radius: 3px; background: #18181b; border: 1px solid #333; color: #e4e1e6; }
+.demo-spec-pills em { font-style: normal; color: #71717a; }
+.demo-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.demo-scroll > .vs-docs-table { min-width: 520px; }
+.vs-docs-content p code { overflow-wrap: anywhere; }
+.vs-docs-hero-eyebrow { flex-wrap: wrap; row-gap: 6px; }

@@ -19,6 +19,8 @@
   .demo-nav-pills { display: flex; gap: 17px; list-style: none; padding: 0; margin: 0; }
   .demo-nav-pills .demo-nav-link { display: inline-block; padding: 0.5rem 1.25rem; border-radius: var(--vs-radius-full); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-md); color: var(--vs-color-text-muted); border: 1px solid var(--vs-color-text-muted); text-decoration: none; cursor: pointer; }
   .demo-nav-pills .demo-nav-link.active { font-weight: 500; color: #fff; background: var(--vs-color-brand-primary); border-color: var(--vs-color-brand-primary); }
+  /* mobile: scroll inside instead of widening the page */
+  .demo-nav-pills, .demo-segment-control { max-width: 100%; overflow-x: auto; flex-wrap: nowrap; }
 </style>
 </head>
 <body data-page="tabs">
@@ -89,11 +91,26 @@
       </p>
     </div>
 
+    <div class="vs-docs-callout vs-docs-callout--gap">
+      <p>
+        <strong>Correction (25 Sep 2026):</strong> the live reports dashboard
+        does not currently show these tabs in brand green. Its own
+        <code>src/index.css</code> overrides the active tab to
+        <code>var(--vs-color-brand, #005c55)</code> (teal). It loads this
+        package's <code>styles.css</code> too, but its own
+        <code>index.css</code> is imported after it in <code>main.tsx</code>,
+        so the teal rule wins. The green shown here is the design-system
+        component's own stylesheet. See
+        <a href="/components/table.html">Table, Filter Bar &amp; Tab</a> for the
+        dashboard as it is live.
+      </p>
+    </div>
+
     <div class="vs-docs-section-head">
       <div><span class="vs-docs-section-num">04 // Measurement Guide</span><h2>Measurement Guide</h2></div>
       <p class="vs-docs-section-desc">Real values for each platform's pattern.</p>
     </div>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Property</th><th>React (segment control)</th><th>Blade (nav-pills)</th></tr></thead>
       <tbody>
         <tr><td>Shape</td><td>one bordered track, pill buttons inside</td><td>individual bordered pills, no shared track</td></tr>
@@ -103,7 +120,7 @@
         <tr><td>Inactive border</td><td>none (transparent, track has the border)</td><td><code>1px solid</code> muted text color, per pill</td></tr>
         <tr><td>Source</td><td><code>react/src/styles.css</code> — already shipped in TableWidget</td><td><code>public/themes/basic/assets/css/app.css</code> — <code>.tabs-custom .nav-pills</code></td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <h2>Usage — React</h2>
     <div class="vs-docs-code-block"><span class="tag">import</span> { Tabs } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
@@ -123,7 +140,7 @@
 <span class="cmt">&lt;!-- pair with Bootstrap's data-bs-toggle="pill" tab-content panes --&gt;</span></div>
 
     <h2>Props</h2>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Platform</th><th>Values</th></tr></thead>
       <tbody>
         <tr><td><code>tabs</code></td><td>Both</td><td>array of <code>{ id, label }</code> — React's <code>label</code> accepts a full <code>ReactNode</code> (icon + text), not just a string, for tabs like CategoryView's "Main Category" that carry an icon</td></tr>
@@ -133,7 +150,7 @@
         <tr><td><code>buttonClassName</code></td><td>React</td><td>extra classes appended to every button — e.g. Overview/Social Media's real <code>flex-1 sm:flex-initial py-2 sm:py-1.5</code> responsive padding override</td></tr>
         <tr><td><code>name</code></td><td>Blade</td><td>id/anchor prefix (default <code>'tab'</code>)</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
   </div>
   </div>

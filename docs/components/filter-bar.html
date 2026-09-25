@@ -21,6 +21,8 @@
   .demo-segment-button { padding: 0.375rem 1rem; border-radius: var(--vs-radius-full); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); font-weight: 600; color: var(--vs-color-text-muted); background: transparent; border: none; cursor: pointer; white-space: nowrap; }
   .demo-segment-button:hover:not(.is-active) { color: var(--vs-color-text-heading); background: var(--vs-color-background); }
   .demo-segment-button.is-active { background-color: var(--vs-color-brand-primary); color: #fff; }
+  /* mobile: scroll inside instead of widening the page */
+  .demo-segment-control { max-width: 100%; overflow-x: auto; }
 </style>
 </head>
 <body data-page="filter-bar">
@@ -82,7 +84,7 @@
       <div><span class="vs-docs-section-num">03 // Measurement Guide</span><h2>Measurement Guide</h2></div>
       <p class="vs-docs-section-desc">Real values, from ItemsView.tsx / CategoryView.tsx.</p>
     </div>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
       <tbody>
         <tr><td>Container</td><td>white, 1px border, 8px radius, 16px padding</td><td>bordered card, matches <code>--vs-radius-sm</code></td></tr>
@@ -91,7 +93,9 @@
         <tr><td>Sort group</td><td>reuses the <code>&lt;Tabs&gt;</code> component, <code>size="sm"</code></td><td>same <code>vs-segment-control</code> pattern</td></tr>
         <tr><td>Layout</td><td>column on mobile, row + space-between from 768px</td><td><code>flex-col md:flex-row</code></td></tr>
       </tbody>
-    </table>
+    </table></div>
+
+    <div class="vs-docs-callout"><p>The reports dashboard also has a <strong>dropdown filter bar</strong> (filter dropdowns + a “Clear” link) above its data tables — documented on <a href="/components/table.html">Table, Filter Bar &amp; Tab</a>.</p></div>
 
     <h2>Usage — React</h2>
     <div class="vs-docs-code-block"><span class="tag">import</span> { FilterBar } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
@@ -106,7 +110,7 @@
 <span class="tag">/&gt;</span></div>
 
     <h2>Props</h2>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Required</th><th>Values</th></tr></thead>
       <tbody>
         <tr><td><code>searchValue</code> / <code>onSearchChange</code></td><td>yes</td><td><code>string</code> / <code>(value: string) =&gt; void</code></td></tr>
@@ -115,7 +119,7 @@
         <tr><td><code>sortLabel</code></td><td>no</td><td>default <code>'Sort:'</code></td></tr>
         <tr><td><code>hideSortOnMobile</code></td><td>no</td><td><code>boolean</code>, default <code>false</code> — matches ItemsView's real <code>hidden md:flex</code> sort row, for pages where mobile users pick sort from the <code>&lt;FilterSheet&gt;</code> instead</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
   </div>
   </div>
