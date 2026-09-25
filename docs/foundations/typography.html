@@ -9,78 +9,226 @@
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap">
+<style>
+  .type-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px; margin: 16px 0; }
+  .type-card { border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); background: var(--vs-color-surface); padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+  .type-card-kicker { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; background: var(--vs-color-brand-secondary); color: #fff; }
+  .type-card-kicker--light { background: #e4e4e7; color: #3f3f46; }
+  .type-card-meta { margin: 6px 0 0; font-family: 'SFMono-Regular', Consolas, monospace; font-size: 12px; color: var(--vs-color-text-muted); }
+  .type-card-aa { font-family: 'Roboto', sans-serif; font-size: 72px; line-height: 1; color: var(--vs-color-text-heading); }
+  .type-card-sample { font-family: 'Roboto', sans-serif; font-size: 14px; color: var(--vs-color-text-body); margin: 12px 0 0; }
+  .type-card-foot { border-top: 1px solid var(--vs-color-border); padding-top: 12px; }
+  .type-card-foot h3 { margin: 0; font-size: 15px; }
+  .type-card-foot p { margin: 2px 0 0; font-size: 13px; color: var(--vs-color-text-muted); }
+  .type-specimen { font-family: 'Roboto', sans-serif; color: var(--vs-color-text-heading); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 420px; display: block; }
+  @media (max-width: 640px) { .type-specimen { white-space: normal; } }
+  .type-size { display: inline-block; font-family: 'SFMono-Regular', Consolas, monospace; font-size: 11px; padding: 1px 6px; border-radius: 4px; background: #f1f1f4; color: #52525b; margin-bottom: 4px; }
+  .type-toolbar { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--vs-color-border); }
+  .type-toolbar > span { margin-right: auto; font-size: 12px; color: var(--vs-color-text-muted); }
+  .type-copy { font-family: var(--vs-font-family); font-size: 13px; font-weight: 500; height: 32px; padding: 0 16px; border-radius: var(--vs-button-radius); border: 1px solid var(--vs-button-tertiary-border); background: var(--vs-color-surface); color: var(--vs-button-tertiary-text); cursor: pointer; }
+  .type-copy--dark { background: var(--vs-button-secondary); border-color: var(--vs-button-secondary); color: #fff; }
+  .type-copy:hover { background: var(--vs-button-tertiary-hover-bg); }
+  .type-copy--dark:hover { background: var(--vs-button-secondary-hover); }
+  .type-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .type-scroll > .vs-docs-table { min-width: 560px; }
+</style>
 </head>
 <body data-page="typography">
 <div id="vs-docs-sidebar-mount"></div>
 <main class="vs-docs-main">
   <div class="vs-docs-hero">
     <div class="vs-docs-hero-inner">
-    <p class="vs-docs-hero-eyebrow">Foundations <strong>//</strong> Typography</p>
+    <p class="vs-docs-hero-eyebrow">Foundations <strong>//</strong> Typography <span class="vs-docs-tag">v2.4.0</span></p>
     <h1>Typography</h1>
     <p class="vs-docs-hero-lede">
-      One typeface across both products: <strong>Roboto</strong>. Replaces the
-      public site's Montserrat override and the report site's Inter.
+      Type tokens define the font family, scale, and weight used across
+      VectorSticker.com. <strong>Roboto</strong> is the single primary font
+      family for both the public frontend and the admin interfaces —
+      replacing the public site's Montserrat override and the report
+      site's Inter.
     </p>
     </div>
   </div>
   <div class="vs-docs-canvas">
   <div class="vs-docs-content">
+
+    <!-- 01 -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Font Selection</span><h2>Font Family</h2></div>
+      <p class="vs-docs-section-desc">Roboto is the standard primary font family across the whole product ecosystem.</p>
+    </div>
+    <div class="type-cards">
+      <div class="type-card">
+        <div>
+          <span class="type-card-kicker">Primary brand font</span>
+          <p class="type-card-meta">font-family: 'Roboto', sans-serif</p>
+        </div>
+        <div>
+          <div class="type-card-aa" style="font-weight:700">Aa</div>
+          <p class="type-card-sample">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz 0123456789</p>
+        </div>
+        <div class="type-card-foot">
+          <h3>Roboto — Public &amp; Admin</h3>
+          <p>One typeface for every customer-facing and management screen, for clean, consistent legibility.</p>
+        </div>
+      </div>
+      <div class="type-card">
+        <div>
+          <span class="type-card-kicker type-card-kicker--light">Weight variants</span>
+          <p class="type-card-meta">400 Regular · 500 Medium · 600 Semibold · 700 Bold</p>
+        </div>
+        <div>
+          <div class="type-card-aa" style="font-weight:500">Aa</div>
+          <p class="type-card-sample">Sphinx of black quartz, judge my vow.<br>1234567890 &amp; @#$%-+()/*</p>
+        </div>
+        <div class="type-card-foot">
+          <h3>Fallback stack</h3>
+          <p>Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif</p>
+        </div>
+      </div>
+    </div>
     <div class="vs-docs-callout">
       <p>
-        <strong>Live on reports.vectorsticker.com; not yet on
-        vectorsticker.com.</strong> The report site's Inter
+        <strong>Decision: Roboto is the unified font family for all interfaces.</strong>
+        Live on reports.vectorsticker.com: the report site's Inter
         (<code>index.css</code>, <code>index.html</code>), its two
         standalone <code>/forgot-password</code> and
         <code>/reset-password</code> pages (previously Plus Jakarta
         Sans — a third font found only by auditing every real
         reference), its printable report pages, and its one Canvas
         chart-label font string have all switched to Roboto.
-        vectorsticker.com's <code>custom.css</code> Montserrat override
-        is a separate, tracked follow-up — out of scope for a change
-        made from this repo, since it touches the main production site.
+      </p>
+    </div>
+    <div class="vs-docs-callout vs-docs-callout--gap">
+      <p>
+        <strong>Not yet on vectorsticker.com.</strong> The main site's
+        <code>custom.css</code> still sets <code>font-family: Montserrat
+        !important</code>. Switching it is a separate, tracked follow-up
+        on the main production site, not something this repo changes.
       </p>
     </div>
 
-    <h2>Scale</h2>
-    <div class="vs-docs-specimen-row">
-      <span class="vs-docs-specimen-label"><code>display</code> · 45px / 600</span>
-      <span style="font-family:'Roboto',sans-serif;font-size:45px;font-weight:600;color:var(--vs-color-text-heading)">Aa 123</span>
+    <!-- 02 -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Hierarchy &amp; Scale</span><h2>Type Scale</h2></div>
+      <p class="vs-docs-section-desc">Display, headings H1–H4, body variants, paragraph, label and caption — all in Roboto.</p>
     </div>
-    <div class="vs-docs-specimen-row">
-      <span class="vs-docs-specimen-label"><code>heading-md</code> · 28px / 600</span>
-      <span style="font-family:'Roboto',sans-serif;font-size:28px;font-weight:600;color:var(--vs-color-text-heading)">Aa 123</span>
-    </div>
-    <div class="vs-docs-specimen-row">
-      <span class="vs-docs-specimen-label"><code>heading-sm</code> · 15px / 600</span>
-      <span style="font-family:'Roboto',sans-serif;font-size:15px;font-weight:600;color:var(--vs-color-text-heading)">Aa 123</span>
-    </div>
-    <div class="vs-docs-specimen-row">
-      <span class="vs-docs-specimen-label"><code>body-md</code> · 16px / 400</span>
-      <span style="font-family:'Roboto',sans-serif;font-size:16px;font-weight:400;color:var(--vs-color-text-body)">Aa 123</span>
-    </div>
-    <div class="vs-docs-specimen-row">
-      <span class="vs-docs-specimen-label"><code>body-sm</code> · 13px / 400</span>
-      <span style="font-family:'Roboto',sans-serif;font-size:13px;font-weight:400;color:var(--vs-color-text-body)">Aa 123</span>
-    </div>
-
-    <h2>Usage</h2>
-    <table class="vs-docs-table">
-      <thead><tr><th>Scale</th><th>Use for</th></tr></thead>
+    <div class="type-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Specimen</th><th>Token</th><th>Size / weight</th><th>Use for</th></tr></thead>
       <tbody>
-        <tr><td><code>display</code></td><td>Pricing display, large stat numbers (report site KPI tiles)</td></tr>
-        <tr><td><code>heading-md</code></td><td>Section titles</td></tr>
-        <tr><td><code>heading-sm</code></td><td>Card titles, smallest heading</td></tr>
-        <tr><td><code>body-md</code></td><td>Card/item titles, section body text</td></tr>
-        <tr><td><code>body-sm</code></td><td>Base body text, labels, table cells</td></tr>
+        <tr>
+          <td><span class="type-size">45px</span><span class="type-specimen" style="font-size:45px;line-height:52px;font-weight:600">$99.00</span></td>
+          <td><code>$type-display-01</code></td><td>45px / 52px · 600</td><td>Hero pricing, stat numbers, banner displays</td>
+        </tr>
+        <tr>
+          <td><span class="type-size">36px</span><span class="type-specimen" style="font-size:36px;line-height:44px;font-weight:700">Main Page Title H1</span></td>
+          <td><code>$type-heading-01</code></td><td>36px / 44px · 700</td><td>Primary page title, hero header</td>
+        </tr>
+        <tr>
+          <td><span class="type-size">30px</span><span class="type-specimen" style="font-size:30px;line-height:38px;font-weight:600">Major Section Header H2</span></td>
+          <td><code>$type-heading-02</code></td><td>30px / 38px · 600</td><td>Major category sections, feature areas</td>
+        </tr>
+        <tr>
+          <td><span class="type-size">24px</span><span class="type-specimen" style="font-size:24px;line-height:32px;font-weight:600">Module Headline H3</span></td>
+          <td><code>$type-heading-03</code></td><td>24px / 32px · 600</td><td>Section titles, modal dialog headings</td>
+        </tr>
+        <tr>
+          <td><span class="type-size">20px</span><span class="type-specimen" style="font-size:20px;line-height:28px;font-weight:600">Card Group Title H4</span></td>
+          <td><code>$type-heading-04</code></td><td>20px / 28px · 600</td><td>Card group headings, widget headers</td>
+        </tr>
+        <tr>
+          <td><span class="type-size">16px</span><span class="type-specimen" style="font-size:16px;line-height:24px;font-weight:500">The quick brown fox jumps over the lazy dog</span></td>
+          <td><code>$type-body-02</code></td><td>16px / 24px · 500</td><td>Lead body copy, navigation links, prominent items</td>
+        </tr>
+        <tr>
+          <td><span class="type-size">15px</span><span class="type-specimen" style="font-size:15px;line-height:24px;font-weight:400;color:var(--vs-color-text-body)">Standard descriptive paragraph for articles and guides</span></td>
+          <td><code>$type-paragraph</code></td><td>15px / 24px · 400</td><td>Long-form body, article copy, documentation content</td>
+        </tr>
+        <tr>
+          <td><span class="type-size">13px</span><span class="type-specimen" style="font-size:13px;line-height:20px;font-weight:400;color:var(--vs-color-text-body)">Compact interface body text and table cell descriptions</span></td>
+          <td><code>$type-body-01</code></td><td>13px / 20px · 400</td><td>Compact UI body text, lists, secondary descriptions</td>
+        </tr>
+        <tr>
+          <td><span class="type-size">12px</span><span class="type-specimen" style="font-size:12px;line-height:16px;font-weight:600;text-transform:uppercase;letter-spacing:.05em">Form field label &amp; tag</span></td>
+          <td><code>$type-label</code></td><td>12px / 16px · 600 · uppercase</td><td>Form labels, button badges, category metadata tags</td>
+        </tr>
+        <tr>
+          <td><span class="type-size">11px</span><span class="type-specimen" style="font-size:11px;line-height:15px;font-weight:400;color:var(--vs-color-text-muted)">Helper caption, timestamp note, or legal microcopy</span></td>
+          <td><code>$type-caption</code></td><td>11px / 15px · 400</td><td>Field hint captions, timestamps, legal microcopy</td>
+        </tr>
       </tbody>
-    </table>
+    </table></div>
     <p>
-      Line-height for body text is <code>1.7</code> — relaxed, for
-      descriptive paragraphs and long-form content.
+      CSS: each row is a <code>font</code> shorthand token, e.g.
+      <code>font: var(--vs-type-heading-01);</code> — see
+      <code>tokens/tokens.css</code>. <code>$type-label</code> also needs
+      <code>text-transform: uppercase</code>.
     </p>
+
+    <h2>Earlier scale names</h2>
+    <p>The original five tokens stay in place for existing components:</p>
+    <div class="type-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Token</th><th>Value</th><th>Relation to the full scale</th></tr></thead>
+      <tbody>
+        <tr><td><code>display</code> (<code>--vs-font-size-display</code>)</td><td>45px / 600</td><td>Same as <code>$type-display-01</code></td></tr>
+        <tr><td><code>heading-md</code> (<code>--vs-font-size-heading-md</code>)</td><td>28px / 600</td><td>Between H2 (30px) and H3 (24px) — prefer those for new work</td></tr>
+        <tr><td><code>heading-sm</code> (<code>--vs-font-size-heading-sm</code>)</td><td>15px / 600</td><td>Card titles, smallest heading</td></tr>
+        <tr><td><code>body-md</code> (<code>--vs-font-size-body-md</code>)</td><td>16px / 400</td><td>Same size as <code>$type-body-02</code> (which is 500)</td></tr>
+        <tr><td><code>body-sm</code> (<code>--vs-font-size-body-sm</code>)</td><td>13px / 400</td><td>Same as <code>$type-body-01</code></td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- 03 -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Specifications</span><h2>Line Height &amp; Weight</h2></div>
+      <p class="vs-docs-section-desc">Weight and spacing conventions observed in code.</p>
+    </div>
+    <div class="type-scroll"><table class="vs-docs-table">
+      <tbody>
+        <tr><td><strong>Body text line-height</strong></td><td><code>1.7</code> — relaxed, for descriptive paragraphs and long-form content (<code>--vs-line-height-body</code>)</td></tr>
+        <tr><td><strong>Heading weight</strong></td><td><code>600</code> (semibold) for titles, <code>500</code> (medium) for card/item titles, <code>400</code> (regular) for body (<code>--vs-font-weight-*</code>)</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="type-toolbar">
+      <span>Sync with CSS variables or an SCSS map · spec revision #VS-TYPO-REV4</span>
+      <button class="type-copy" type="button" data-copy="scss">Copy SCSS Map</button>
+      <button class="type-copy type-copy--dark" type="button" data-copy="css">Copy CSS Variables</button>
+    </div>
   </div>
   </div>
 </main>
 <script src="/assets/shell.js"></script>
+<script>
+  (function () {
+    var scale = [
+      ['display-01', 45, 52, 600], ['heading-01', 36, 44, 700], ['heading-02', 30, 38, 600],
+      ['heading-03', 24, 32, 600], ['heading-04', 20, 28, 600], ['body-02', 16, 24, 500],
+      ['paragraph', 15, 24, 400], ['body-01', 13, 20, 400], ['label', 12, 16, 600], ['caption', 11, 15, 400]
+    ];
+    var snippets = {
+      scss: '$vs-typography: (\n' + scale.map(function (t) {
+        return "  '" + t[0] + "': (size: " + t[1] + 'px, line-height: ' + t[2] + 'px, weight: ' + t[3] + ')';
+      }).join(',\n') + '\n);',
+      css: ':root {\n' + scale.map(function (t) {
+        return '  --vs-type-' + t[0] + ': ' + t[3] + ' ' + t[1] + 'px/' + t[2] + "px 'Roboto', sans-serif;";
+      }).join('\n') + '\n}'
+    };
+    document.querySelectorAll('[data-copy]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var original = btn.textContent;
+        var reset = function () { setTimeout(function () { btn.textContent = original; }, 1800); };
+        if (!navigator.clipboard || !navigator.clipboard.writeText) {
+          btn.textContent = 'Copy not supported'; reset(); return;
+        }
+        navigator.clipboard.writeText(snippets[btn.dataset.copy]).then(function () {
+          btn.textContent = 'Copied!';
+        }, function () {
+          btn.textContent = 'Copy failed';
+        }).then(reset);
+      });
+    });
+  })();
+</script>
 </body>
 </html>

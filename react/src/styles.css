@@ -15,17 +15,52 @@
 
 /* Button.tsx renders everything else via inline style (so colors work
    even without this stylesheet loaded), but :hover/:active can't be
-   expressed inline — these need !important since inline style's
-   opacity otherwise always wins over an external stylesheet rule,
-   regardless of pseudo-class. Matches the real site's own
-   .btn:hover { opacity: .9 } (public/themes/basic/assets/css/app.css). */
-.vs-btn:hover:not(:disabled) {
-  opacity: 0.9 !important;
+   expressed inline — these need !important because inline style always
+   wins over an external stylesheet rule otherwise. Button spec v2
+   (25 Sep 2026): per-variant shade swap on hover/pressed, scale(.98)
+   on press, opacity .5 when disabled (inline). */
+.vs-btn:active:not(:disabled) {
+  transform: scale(var(--vs-button-pressed-scale));
 }
 
-.vs-btn:active:not(:disabled) {
-  opacity: 1 !important;
-  transform: scale(0.98);
+.vs-btn--primary:not(.vs-btn--icon-only):hover:not(:disabled) {
+  background: var(--vs-button-primary-hover) !important;
+  border-color: var(--vs-button-primary-hover) !important;
+}
+.vs-btn--primary:not(.vs-btn--icon-only):active:not(:disabled) {
+  background: var(--vs-button-primary-pressed) !important;
+  border-color: var(--vs-button-primary-pressed) !important;
+}
+
+.vs-btn--secondary:not(.vs-btn--icon-only):hover:not(:disabled) {
+  background: var(--vs-button-secondary-hover) !important;
+  border-color: var(--vs-button-secondary-hover) !important;
+}
+.vs-btn--secondary:not(.vs-btn--icon-only):active:not(:disabled) {
+  background: var(--vs-button-secondary-pressed) !important;
+  border-color: var(--vs-button-secondary-pressed) !important;
+}
+
+.vs-btn--tertiary:not(.vs-btn--icon-only):hover:not(:disabled) {
+  background: var(--vs-button-tertiary-hover-bg) !important;
+  border-color: var(--vs-button-tertiary-active-border) !important;
+  color: var(--vs-button-primary) !important;
+}
+.vs-btn--tertiary:not(.vs-btn--icon-only):active:not(:disabled) {
+  background: var(--vs-button-tertiary-pressed-bg) !important;
+  border-color: var(--vs-button-tertiary-active-border) !important;
+  color: var(--vs-button-primary) !important;
+}
+
+/* Icon-only: light tint on hover */
+.vs-btn--icon-only.vs-btn--primary:hover:not(:disabled) {
+  background: var(--vs-button-tertiary-hover-bg) !important;
+}
+.vs-btn--icon-only.vs-btn--secondary:hover:not(:disabled) {
+  background: rgba(34, 34, 34, 0.05) !important;
+}
+.vs-btn--icon-only.vs-btn--tertiary:hover:not(:disabled) {
+  color: var(--vs-button-secondary) !important;
 }
 
 /* Pagination — real .page-item .page-link:hover fills solid brand
