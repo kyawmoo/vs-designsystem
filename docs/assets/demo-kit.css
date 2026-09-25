@@ -79,3 +79,23 @@
 .demo-scroll > .vs-docs-table { min-width: 520px; }
 .vs-docs-content p code { overflow-wrap: anywhere; }
 .vs-docs-hero-eyebrow { flex-wrap: wrap; row-gap: 6px; }
+
+/* ---- Breadcrumb (live .breadcrumb.custom on Bootstrap 5.3.3) ----
+   Shared by breadcrumb.html and navigation.html so both show one look.
+   Values measured from the real bootstrap.min.css + app.css in Chromium. */
+.demo-crumbs { display: flex; flex-wrap: wrap; align-items: center; margin: 0; padding: 0; list-style: none; font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); }
+.demo-crumb-item { display: flex; align-items: center; text-transform: capitalize; }
+.demo-crumb-item a { color: var(--vs-color-text-body); text-decoration: none; }
+.demo-crumb-item a:hover { opacity: .9; }
+.demo-crumb-sep { padding: 0 8px; font-size: 10px; font-weight: 600; color: rgba(33, 37, 41, .75); }
+.demo-crumb-item.is-active { color: var(--vs-color-brand-primary); }
+.demo-crumb-item.is-active .demo-crumb-sep { color: var(--vs-color-text-body); }
+
+/* ---- Pagination (live .page-item .page-link on Bootstrap 5.3.3) ----
+   Shared by pagination.html and navigation.html. Disabled items (prev/next
+   at the ends, the "..." gap) stay brand green on the live site — app.css
+   overrides Bootstrap's grey — they just can't be clicked. */
+.demo-pages { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.demo-page-link { display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; min-width: 36px; height: 36px; padding: 6px 15px; border: 0; border-radius: var(--vs-radius-xs); background: transparent; color: var(--vs-color-brand-primary); font-family: var(--vs-font-family); font-size: 16px; line-height: 1.5; text-decoration: none; cursor: pointer; }
+.demo-page-link:hover, .demo-page-link.is-active { background: var(--vs-color-brand-primary); color: #fff; }
+.demo-page-link.is-disabled { pointer-events: none; cursor: default; }

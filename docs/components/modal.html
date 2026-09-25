@@ -8,6 +8,7 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="/assets/demo-kit.css">
 <style>
   .demo-modal-stage { position: relative; background: #eef0f2; border-radius: var(--vs-radius-sm); padding: 48px 24px; display: flex; align-items: center; justify-content: center; min-height: 320px; }
   .demo-modal-panel { position: relative; width: 100%; max-width: 26rem; background: var(--vs-color-surface); border-radius: 16px; border: 1px solid var(--vs-color-border); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); padding: 1.5rem; font-family: var(--vs-font-family); }
@@ -72,7 +73,7 @@
       <div><span class="vs-docs-section-num">03 // Measurement Guide</span><h2>Measurement Guide</h2></div>
       <p class="vs-docs-section-desc">Real values, from ForgotPasswordModal.tsx.</p>
     </div>
-    <table class="vs-docs-table">
+    <div class="demo-scroll"><table class="vs-docs-table">
       <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
       <tbody>
         <tr><td>Overlay</td><td><code>rgba(0,0,0,0.5)</code> + 2px blur</td><td><code>bg-black/50 backdrop-blur-xs</code></td></tr>
@@ -83,7 +84,7 @@
         <tr><td>Close button</td><td>32×32px, top-right, 5px radius</td><td><code>--vs-radius-xs</code></td></tr>
         <tr><td>Open animation</td><td>200ms fade-in</td><td><code>animate-in fade-in duration-200</code></td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <h2>Usage — React</h2>
     <div class="vs-docs-code-block"><span class="tag">import</span> { Modal } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
@@ -103,7 +104,7 @@
 <span class="cmt">&lt;!-- trigger: &lt;button data-bs-toggle="modal" data-bs-target="#resetModal"&gt; --&gt;</span></div>
 
     <h2>Props</h2>
-    <table class="vs-docs-table">
+    <div class="demo-scroll"><table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Platform</th><th>Values</th></tr></thead>
       <tbody>
         <tr><td><code>open</code> / <code>onClose</code></td><td>React</td><td><code>boolean</code> / <code>() =&gt; void</code></td></tr>
@@ -112,7 +113,7 @@
         <tr><td><code>size</code></td><td>Blade</td><td><code>'' | 'sm' | 'lg' | 'xl'</code> (maps to <code>.modal-{size}</code>)</td></tr>
         <tr><td><code>id</code></td><td>Blade</td><td>DOM id for <code>data-bs-target</code></td></tr>
       </tbody>
-    </table>
+    </table></div>
 
   </div>
   </div>

@@ -8,6 +8,7 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="/assets/demo-kit.css">
 </head>
 <body data-page="getting-started">
 <div id="vs-docs-sidebar-mount"></div>
@@ -26,7 +27,7 @@
   <div class="vs-docs-canvas">
   <div class="vs-docs-content">
     <h2>Three layers</h2>
-    <table class="vs-docs-table">
+    <div class="demo-scroll"><table class="vs-docs-table">
       <thead>
         <tr><th>Layer</th><th>What it is</th><th>Lives in</th></tr>
       </thead>
@@ -47,7 +48,7 @@
           <td><code>blade/components/</code></td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
     <p>
       Tokens are consumed directly by both stacks. Components are built
       separately per stack — PHP/Blade can't run React code — but both

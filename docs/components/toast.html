@@ -8,6 +8,7 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="/assets/demo-kit.css">
 <style>
   .demo-toast-row { display: flex; flex-wrap: wrap; gap: 16px; }
   .demo-toast { display: flex; align-items: flex-start; gap: 0.75rem; width: 280px; padding: 20px; border-radius: 10px; font-family: var(--vs-font-family); color: #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
@@ -104,7 +105,7 @@
       <div><span class="vs-docs-section-num">04 // Measurement Guide</span><h2>Measurement Guide</h2></div>
       <p class="vs-docs-section-desc">Real values, from vironeer-toastr.min.css.</p>
     </div>
-    <table class="vs-docs-table">
+    <div class="demo-scroll"><table class="vs-docs-table">
       <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
       <tbody>
         <tr><td>Width</td><td><code>300px</code></td><td><code>.vironeer-toast</code></td></tr>
@@ -115,7 +116,7 @@
         <tr><td>Icon badge</td><td>30×30px circle, 2px white border</td><td><code>.vironeer-toast-icon</code></td></tr>
         <tr><td>Title</td><td>16px, weight 600, 8px margin-bottom</td><td><code>.vironeer-toast-title</code></td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <h2>Usage — React</h2>
     <div class="vs-docs-code-block"><span class="tag">import</span> { Toast } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
@@ -127,7 +128,7 @@
 <span class="tag">$this</span>-&gt;toastr(<span class="str">'success'</span>, <span class="str">'Saved!'</span>);</div>
 
     <h2>Props</h2>
-    <table class="vs-docs-table">
+    <div class="demo-scroll"><table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Values</th></tr></thead>
       <tbody>
         <tr><td><code>tone</code></td><td><code>'success' | 'error' | 'warning' | 'info'</code></td></tr>
@@ -135,7 +136,7 @@
         <tr><td><code>message</code></td><td>required, <code>ReactNode</code></td></tr>
         <tr><td><code>onClose</code></td><td>optional — omit to hide the dismiss button</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
   </div>
   </div>

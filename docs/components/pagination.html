@@ -8,12 +8,8 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
-<style>
-  .demo-page-item { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 36px; padding: 6px 15px; border-radius: var(--vs-radius-xs); border: none; background: transparent; color: var(--vs-color-brand-primary); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); cursor: pointer; }
-  .demo-page-item:hover:not(:disabled) { background: var(--vs-color-brand-primary); color: #fff; }
-  .demo-page-item.is-active { background: var(--vs-color-brand-primary); color: #fff; }
-  .demo-page-item:disabled { color: var(--vs-color-text-muted); cursor: default; }
-</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="/assets/demo-kit.css">
 </head>
 <body data-page="pagination">
 <div id="vs-docs-sidebar-mount"></div>
@@ -39,13 +35,7 @@
       <p class="vs-docs-section-desc">Hover a page number — real fill.</p>
     </div>
     <div class="vs-docs-preview">
-      <button class="demo-page-item" disabled>‹</button>
-      <button class="demo-page-item is-active">1</button>
-      <button class="demo-page-item">2</button>
-      <button class="demo-page-item">3</button>
-      <span class="demo-page-item" style="cursor:default;color:var(--vs-color-text-muted)">…</span>
-      <button class="demo-page-item">12</button>
-      <button class="demo-page-item">›</button>
+      <nav aria-label="Pagination"><ul class="demo-pages"><li><span class="demo-page-link is-disabled" aria-label="Previous" aria-disabled="true"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></span></li><li><span class="demo-page-link is-active" aria-current="page">1</span></li><li><a class="demo-page-link" href="#" onclick="return false">2</a></li><li><a class="demo-page-link" href="#" onclick="return false">3</a></li><li><span class="demo-page-link is-disabled" aria-disabled="true">…</span></li><li><a class="demo-page-link" href="#" onclick="return false">12</a></li><li><a class="demo-page-link" href="#" onclick="return false" aria-label="Next"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></li></ul></nav>
     </div>
 
     <div class="vs-docs-section-head">
@@ -71,17 +61,19 @@
       <div><span class="vs-docs-section-num">03 // Measurement Guide</span><h2>Measurement Guide</h2></div>
       <p class="vs-docs-section-desc">Real values, from .page-item .page-link.</p>
     </div>
-    <table class="vs-docs-table">
+    <div class="demo-scroll"><table class="vs-docs-table">
       <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
       <tbody>
         <tr><td>Radius</td><td>5px — <code>--vs-radius-xs</code></td><td><code>border-radius: 5px !important</code></td></tr>
         <tr><td>Padding</td><td><code>6px 15px</code></td><td>Bootstrap's 0.375rem vertical + the site's 15px horizontal override</td></tr>
         <tr><td>Border</td><td>none</td><td>real site removes it entirely</td></tr>
+        <tr><td>Size</td><td>36px tall, 16px text, 6px gap between items</td><td>Bootstrap <code>--bs-pagination-font-size: 1rem</code> (not the 13px body size); <code>.page-item:not(:last-child)</code> margin-right 6px</td></tr>
+        <tr><td>Prev / next icons</td><td>Font Awesome <code>chevron-left</code> / <code>chevron-right</code></td><td>livewire/pagination/bootstrap.blade.php</td></tr>
         <tr><td>Default state</td><td>transparent bg, brand-primary text</td><td>.page-item .page-link</td></tr>
         <tr><td>Hover / Active</td><td>solid brand-primary bg, white text</td><td>.page-link:hover / .page-item.active</td></tr>
-        <tr><td>Disabled</td><td><code>--vs-color-text-muted</code> text</td><td>.page-item[disabled]</td></tr>
+        <tr><td>Disabled (prev/next at the ends, “…” gap)</td><td>stays brand-primary, not clickable</td><td>Laravel outputs <code>.page-item.disabled</code>; Bootstrap would grey it, but <code>.page-item .page-link</code> in app.css loads later and keeps it green (<code>pointer-events: none</code> still applies)</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <h2>Usage — React</h2>
     <div class="vs-docs-code-block"><span class="tag">import</span> { Pagination } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
@@ -94,14 +86,14 @@
 <span class="cmt">&lt;!-- $items = Item::paginate(20) in the controller --&gt;</span></div>
 
     <h2>Props</h2>
-    <table class="vs-docs-table">
+    <div class="demo-scroll"><table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Platform</th><th>Values</th></tr></thead>
       <tbody>
         <tr><td><code>page</code> / <code>totalPages</code></td><td>React</td><td>numbers</td></tr>
         <tr><td><code>onPageChange</code></td><td>React</td><td><code>(page: number) =&gt; void</code></td></tr>
         <tr><td><code>paginator</code></td><td>Blade</td><td>a LengthAwarePaginator instance</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
   </div>
   </div>
