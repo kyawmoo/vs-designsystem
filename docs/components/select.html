@@ -8,7 +8,21 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="/assets/demo-kit.css">
 <style>
+  .demo-select { position: relative; width: 100%; box-sizing: border-box; height: 44px; padding: 0 44px 0 16px; display: flex; align-items: center; border: 1px solid var(--vs-color-border); border-radius: 8px; background: #fff; font: 500 14px var(--vs-font-family); color: #71717a; }
+  .demo-select::after { content: "\f107"; font: 900 14px "Font Awesome 6 Free"; position: absolute; right: 16px; color: inherit; }
+  .demo-select.is-selected { color: #18181b; }
+  .demo-select.is-focus { border-color: var(--vs-color-brand-primary); }
+  .demo-select.is-focus::after { color: var(--vs-color-brand-primary); }
+  .demo-select.is-disabled { background: #eee; color: #a1a1aa; cursor: not-allowed; }
+  .demo-select.is-open::after { content: "\f106"; }
+  .demo-menu { margin-top: 4px; border: 1px solid var(--vs-color-border); border-radius: 8px; background: #fff; overflow: hidden; font: 14px var(--vs-font-family); }
+  .demo-menu div { padding: 10px 16px; border-bottom: 1px solid #f3f4f6; color: #18181b; }
+  .demo-menu div:last-child { border-bottom: 0; }
+  .demo-menu div:hover { background: #f9fafb; font-weight: 500; }
+  .demo-menu .is-active { background: #f9fafb; color: var(--vs-color-brand-primary); font-weight: 500; display: flex; justify-content: space-between; }
   .demo-field { width: 100%; box-sizing: border-box; font-family: var(--vs-font-family); font-weight: 500; border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); background: var(--vs-color-surface); color: var(--vs-color-text-body); padding: 12px 40px 12px 18px; font-size: 16px; }
   .demo-field:focus { outline: none; border-color: var(--vs-color-brand-primary); }
   .demo-field-label { display: block; font-size: 13px; font-weight: 600; color: var(--vs-color-text-heading); margin-bottom: 6px; }
@@ -17,46 +31,78 @@
 <body data-page="select">
 <div id="vs-docs-sidebar-mount"></div>
 <main class="vs-docs-main">
-  <div class="vs-docs-hero">
+      <div class="vs-docs-hero">
     <div class="vs-docs-hero-inner">
-    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Select</p>
-    <h1>Select</h1>
-    <p class="vs-docs-hero-lede">
-      Native dropdown. Implemented in
-      <code>react/src/components/Select.tsx</code> and
-      <code>blade/components/vs-select.blade.php</code>.
-    </p>
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Select <span class="vs-docs-tag">Production</span> <span class="vs-docs-tag">#select-dropdown-v1</span></p>
+    <h1>Select Dropdown</h1>
+    <p class="vs-docs-hero-lede">Native select field with 500-weight text, from live code. Implemented in <code>react/src/components/Select.tsx</code> and <code>blade/components/vs-select.blade.php</code>.</p>
+    <div class="demo-spec-pills"><span><em>Radius:</em> 8px</span><span><em>Border:</em> 1px #ECECEC</span><span><em>Focus:</em> #4CAF50</span></div>
     </div>
   </div>
   <div class="vs-docs-canvas">
   <div class="vs-docs-content">
-
     <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
-      <p class="vs-docs-section-desc">Native browser dropdown.</p>
+      <div><span class="vs-docs-section-num">01 // Live Example</span><h2>Live Example</h2></div>
+      <p class="vs-docs-section-desc">Native browser dropdown — real <code>&lt;select&gt;</code>.</p>
     </div>
-    <div class="vs-docs-preview" style="flex-direction: column; align-items: stretch; max-width: 360px;">
-      <label class="demo-field-label" for="demo-category">Category</label>
-      <select class="demo-field" id="demo-category">
-        <option disabled selected>Choose...</option>
-        <option>Animals &amp; Nature</option>
-        <option>Characters</option>
-      </select>
+    <div class="vs-docs-preview" style="flex-direction:column;align-items:stretch;max-width:420px">
+      <label class="demo-field-label" for="sel-live">Category</label>
+      <select id="sel-live" class="demo-field"><option value="" disabled selected>Choose...</option><option>Animals &amp; Nature</option><option>Characters</option><option>Food &amp; Drink</option></select>
     </div>
-
     <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">02 // Measurement Guide</span><h2>Measurement Guide</h2></div>
-      <p class="vs-docs-section-desc">Real values from .form-select.</p>
+      <div><span class="vs-docs-section-num">02 // States</span><h2>Component States</h2></div>
+      <p class="vs-docs-section-desc"><code>$select-states</code></p>
     </div>
-    <table class="vs-docs-table">
-      <thead><tr><th>Property</th><th>Value</th></tr></thead>
+    <div class="demo-states demo-states--wide">
+      <div class="demo-state" style="min-height:0"><div class="demo-state-meta" style="border:0;padding:0;flex-direction:row;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>Default</b><span style="font-family:SFMono-Regular,Consolas,monospace;font-size:11px">bg #fff · 1px #ECECEC · r 8px</span></div><div class="demo-select ">Select category</div></div>
+      <div class="demo-state" style="min-height:0"><div class="demo-state-meta" style="border:0;padding:0;flex-direction:row;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>Focus</b><span style="font-family:SFMono-Regular,Consolas,monospace;font-size:11px">border #4CAF50</span></div><div class="demo-select is-focus">Select category</div></div>
+      <div class="demo-state" style="min-height:0"><div class="demo-state-meta" style="border:0;padding:0;flex-direction:row;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>Disabled</b><span style="font-family:SFMono-Regular,Consolas,monospace;font-size:11px">bg #eee · not-allowed</span></div><div class="demo-select is-disabled">Select category</div></div>
+      <div class="demo-state" style="min-height:0"><div class="demo-state-meta" style="border:0;padding:0;flex-direction:row;justify-content:space-between;gap:8px;flex-wrap:wrap"><b>Selected</b><span style="font-family:SFMono-Regular,Consolas,monospace;font-size:11px">500 weight · #18181b</span></div><div class="demo-select is-selected">Die-Cut Vinyl Stickers</div></div>
+    </div>
+    <div class="vs-docs-callout vs-docs-callout--gap"><p><strong>⚠ Accessibility gap (live site):</strong> <code>.form-select:focus</code> sets <code>box-shadow: none</code>, so focus only shows as a 1px green border — no visible focus ring. Add a 2px ring or outline on <code>:focus-visible</code> in the next update.</p></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Open State</span><h2>Anchored Dropdown</h2></div>
+      <p class="vs-docs-section-desc"><code>$select-open</code> — 4 option rows, 1 highlighted.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:24px;align-items:start;margin:16px 0 24px">
+      <div><div class="demo-select is-focus is-open is-selected">Select category</div>
+        <div class="demo-menu"><div class="is-active">Die-Cut Vinyl Stickers <i class="fa-solid fa-check"></i></div><div>Holographic Foil Decals</div><div>Matte Finish Stickers</div><div>Transparent Poly Sheet</div></div></div>
+      <div class="demo-metrics" style="margin:0"><div><span>Menu surface</span><strong>#FFFFFF</strong></div><div><span>Elevation</span><strong>flat, no shadow</strong></div><div><span>Row hover</span><strong>#F9FAFB · 500</strong></div><div><span>Active row</span><strong style="color:var(--vs-color-brand-primary)">#4CAF50 + check</strong></div></div>
+    </div>
+    <div class="vs-docs-callout"><p>The live site uses the browser's <strong>native</strong> <code>&lt;select&gt;</code> menu, which each browser/OS draws itself — this panel is the design spec for a custom menu, not what visitors see today.</p></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Redline Specs</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Spec vs. real <code>.form-select</code> values.</p>
+    </div>
+    <div class="demo-redline" style="flex-direction:column"><span class="demo-dim">radius 8px · border 1px #ECECEC</span><div style="display:flex;align-items:center;gap:8px;width:100%;max-width:420px"><span class="demo-dim">16px</span><div class="demo-select is-selected" style="flex:1">Vector Packaging Vinyl</div><span class="demo-dim">16px</span></div><span class="demo-dim">height 44px · text 500</span></div>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Property</th><th>Spec</th><th>Live <code>.form-select</code> (app.css)</th></tr></thead>
       <tbody>
-        <tr><td>Radius</td><td>8px — <code>--vs-radius-sm</code></td></tr>
-        <tr><td>Padding (md)</td><td><code>12px 40px 12px 18px</code> — extra right padding clears the caret</td></tr>
-        <tr><td>Padding (lg)</td><td><code>14px 40px 14px 22px</code></td></tr>
-        <tr><td>Font weight</td><td>500 (medium — heavier than text inputs)</td></tr>
+        <tr><td>Radius</td><td>8px — <code>--vs-radius-sm</code></td><td>8px</td></tr>
+        <tr><td>Border</td><td>1px #ECECEC</td><td><code>var(--border_color)</code></td></tr>
+        <tr><td>Side padding</td><td>16px</td><td><code>padding-inline: 16px</code> (md: 12px 40px 12px 18px — extra right padding clears the caret; lg: 14px 40px 14px 22px)</td></tr>
+        <tr><td>Height</td><td>44px</td><td>38px default · 50px <code>form-select-md</code> (padding + 16px text × 1.5 line-height)</td></tr>
+        <tr><td>Font weight</td><td colspan="2">500 (medium — heavier than text inputs)</td></tr>
+        <tr><td>Disabled</td><td colspan="2">background <code>#eee</code></td></tr>
+        <tr><td>Focus</td><td colspan="2">border <code>--primary_color</code>, <code>box-shadow: none</code></td></tr>
       </tbody>
-    </table>
+    </table></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">05 // Usage in Context</span><h2>Usage in Context</h2></div>
+      <p class="vs-docs-section-desc">Illustrative filter panel.</p>
+    </div>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> <i class="fa-solid fa-lock" style="color:var(--vs-color-brand-primary)"></i> vectorsticker.com/items</div><div class="demo-browser-body"><div class="demo-form-card" style="max-width:640px"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap"><div><span class="demo-kicker" style="color:#71717a">Catalogue refinement</span><h3 style="font-size:16px">Filter Vinyl Assets</h3></div><button type="button" style="font:500 12px var(--vs-font-family);padding:6px 12px;border:1px solid var(--vs-color-border);border-radius:4px;background:#fafafa;color:#71717a;cursor:pointer">Reset all filters</button></div>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:16px"><div><span class="demo-label">Product type</span><div class="demo-select is-selected">Die-Cut Decals</div></div><div><span class="demo-label">Finish material</span><div class="demo-select is-selected">Matte Vinyl (100 micron)</div></div></div></div></div></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">06 // Guidelines</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc"><code>$select-guidelines</code></p>
+    </div>
+    <div class="demo-rules">
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Sort long option lists logically (alphabetical or by relevance).</div><div class="demo-rule-stage"><div class="demo-menu" style="margin:0"><div>Acrylic Gloss Badges</div><div>Brushed Aluminium Seals</div><div>Custom Die-Cut Paper</div></div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t leave options in random or database order.</div><div class="demo-rule-stage"><div class="demo-menu" style="margin:0"><div>Zinc Foil Plates</div><div>Acrylic Gloss Badges</div><div>Matte Finish Stickers</div></div></div></div>
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Show a clear placeholder such as “Select category”.</div><div class="demo-rule-stage"><div class="demo-select">Select category</div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t leave the field blank with no guidance.</div><div class="demo-rule-stage"><div class="demo-select" aria-label="Empty select (bad example)">&nbsp;</div></div></div>
+    </div>
 
     <h2>Usage — React</h2>
     <div class="vs-docs-code-block"><span class="tag">import</span> { Select } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;

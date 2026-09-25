@@ -8,7 +8,21 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="/assets/demo-kit.css">
 <style>
+  .demo-drop { min-height: 140px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 20px; text-align: center; background: #F8F8F8; border: 2px dashed var(--vs-color-border); border-radius: 5px; font-family: var(--vs-font-family); color: #71717a; font-size: 12px; transition: border-color 150ms ease, background-color 150ms ease; cursor: pointer; }
+  .demo-drop i { font-size: 28px; color: #a1a1aa; margin-bottom: 4px; }
+  .demo-drop strong { font-size: 14px; font-weight: 500; color: #18181b; }
+  .demo-drop:hover, .demo-drop.is-over { border-color: var(--vs-color-brand-primary); background: #f4faf4; }
+  .demo-drop.is-over i, .demo-drop.is-over span { color: var(--vs-color-brand-primary); }
+  .demo-drop.is-over strong { color: #14532d; }
+  .demo-file { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; background: #fff; border: 1px solid #e4e4e7; border-radius: 5px; font-family: var(--vs-font-family); }
+  .demo-file-name { display: flex; align-items: center; gap: 12px; font-size: 14px; color: #18181b; }
+  .demo-file-name i { width: 32px; height: 32px; border-radius: 4px; background: #f4f4f5; display: inline-flex; align-items: center; justify-content: center; color: #71717a; }
+  .demo-file small { display: block; color: var(--vs-color-brand-primary); font-size: 11px; font-weight: 600; }
+  .demo-file button { width: 28px; height: 28px; border: 0; background: transparent; border-radius: 4px; color: #71717a; cursor: pointer; }
+  .demo-file button:hover { background: #f4f4f5; color: #18181b; }
   .demo-field { width: 100%; box-sizing: border-box; font-family: var(--vs-font-family); font-size: 14px; padding: 6px 12px; border-radius: var(--vs-radius-sm); border: 1px solid var(--vs-color-border); background: var(--vs-color-surface); color: var(--vs-color-text-body); }
   .demo-field-label { display: block; font-size: 13px; font-weight: 600; color: var(--vs-color-text-heading); margin-bottom: 6px; }
 </style>
@@ -16,27 +30,67 @@
 <body data-page="file-input">
 <div id="vs-docs-sidebar-mount"></div>
 <main class="vs-docs-main">
-  <div class="vs-docs-hero">
+      <div class="vs-docs-hero">
     <div class="vs-docs-hero-inner">
-    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> File Input</p>
-    <h1>File Input</h1>
-    <p class="vs-docs-hero-lede">
-      Native file picker, styled to match the other fields. Implemented
-      in <code>react/src/components/FileInput.tsx</code> and
-      <code>blade/components/vs-file-input.blade.php</code>.
-    </p>
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> File Input <span class="vs-docs-tag">Production</span> <span class="vs-docs-tag">#file-upload-v1</span></p>
+    <h1>File Input &amp; Upload</h1>
+    <p class="vs-docs-hero-lede">Native file picker plus the dropzone pattern from live code — used for item files and identity documents. The native input is implemented in <code>react/src/components/FileInput.tsx</code> and <code>blade/components/vs-file-input.blade.php</code>.</p>
+    <div class="demo-spec-pills"><span><em>Border:</em> 2px dashed #ECECEC</span><span><em>Radius:</em> 5px</span><span><em>Bg:</em> #F8F8F8</span><span><em>Active:</em> #4CAF50</span></div>
     </div>
   </div>
   <div class="vs-docs-canvas">
   <div class="vs-docs-content">
-
     <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <div><span class="vs-docs-section-num">01 // Live Example</span><h2>Live Example</h2></div>
       <p class="vs-docs-section-desc">Native browser file-selector button.</p>
     </div>
-    <div class="vs-docs-preview" style="flex-direction: column; align-items: stretch; max-width: 360px;">
-      <label class="demo-field-label" for="demo-avatar">Profile photo</label>
-      <input class="demo-field" id="demo-avatar" type="file" accept="image/*">
+    <div class="vs-docs-preview" style="flex-direction:column;align-items:stretch;max-width:420px">
+      <label class="demo-field-label" for="fi-live">Profile photo</label>
+      <input id="fi-live" type="file" accept="image/*" class="demo-field">
+    </div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Dropzone States</span><h2>Dropzone States</h2></div>
+      <p class="vs-docs-section-desc"><code>$upload-states</code> — hover the first one.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;margin:16px 0 24px">
+      <div><span class="demo-state-meta" style="border:0;padding:0"><b>1. Empty (default)</b></span><div class="demo-drop "><i class="fa-solid fa-cloud-arrow-up"></i><strong>Drop files here or click to browse</strong><span>Supports PDF, JPG, PNG up to 10MB</span></div></div>
+      <div><span class="demo-state-meta" style="border:0;padding:0"><b style="color:var(--vs-color-brand-primary)">2. Hover / drag-over</b></span><div class="demo-drop is-over"><i class="fa-solid fa-cloud-arrow-up"></i><strong>Drop files to upload immediately</strong><span>Release to start uploading</span></div></div>
+      <div><span class="demo-state-meta" style="border:0;padding:0"><b>3. Filled</b></span><div class="demo-drop" style="min-height:0;padding:16px;cursor:default"><div class="demo-file" style="width:100%"><span class="demo-file-name"><i class="fa-regular fa-file-lines"></i><span>id_front_scan.pdf (1.8 MB)<small>● Uploaded</small></span></span><button type="button" aria-label="Remove file"><i class="fa-solid fa-xmark"></i></button></div></div></div>
+    </div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Redline Specs</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Spec vs. the real <code>.dropzone-drag</code> CSS.</p>
+    </div>
+    <div class="demo-redline" style="flex-direction:column;background:#fbfbfb"><span class="demo-dim">radius 5px · border 2px dashed #ECECEC · background #F8F8F8</span><div style="width:100%;max-width:520px"><div class="demo-drop "><i class="fa-solid fa-cloud-arrow-up"></i><strong>Drop files here or click to browse</strong><span>Supports PDF, JPG, PNG up to 10MB</span></div></div><span class="demo-dim">min-height 140px · icon ~32px</span></div>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Property</th><th>Spec</th><th>Live CSS (app.css)</th></tr></thead>
+      <tbody>
+        <tr><td>Border</td><td colspan="2">2px dashed <code>#ECECEC</code> (<code>var(--border_color)</code>)</td></tr>
+        <tr><td>Radius</td><td colspan="2">5px — <code>--vs-radius-xs</code></td></tr>
+        <tr><td>Background</td><td colspan="2"><code>#F8F8F8</code></td></tr>
+        <tr><td>Hover border</td><td><code>#4CAF50</code></td><td>— (not styled today)</td></tr>
+        <tr><td>Layout</td><td>stacked, centered, min-height 140px, ~32px icon</td><td>row: 20px icon (muted) + 18px green title, 20px padding (<code>.dropzone-drag-inner</code>)</td></tr>
+        <tr><td>Uploaded file row</td><td>white, 1px #e4e4e7, 5px radius, 12px 16px padding</td><td><code>.uploaded-file</code>: #f7f7f7 background, 1px border, 5px radius, 15px 20px padding</td></tr>
+        <tr><td>Native input</td><td colspan="2">8px radius, 0.75rem side padding (<code>input[type="file"].form-control</code>)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="vs-docs-callout"><p>On vectorsticker.com the dropzone is used for an author's item files (<code>workspace/items/includes/files-box.blade.php</code>, <code>workspace/partials/dropzone-options.blade.php</code>).</p></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Usage in Context</span><h2>Usage in Context</h2></div>
+      <p class="vs-docs-section-desc">Illustrative KYC upload.</p>
+    </div>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> <i class="fa-solid fa-lock" style="color:var(--vs-color-brand-primary)"></i> vectorsticker.com/workspace/kyc</div><div class="demo-browser-body"><div class="demo-form-card" style="max-width:640px"><div><h3 style="font-size:20px">KYC Verification</h3><p style="margin:2px 0 0;font-size:12px;color:#71717a">Identity document upload</p></div>
+ <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:16px"><div><span class="demo-label" style="color:#18181b;font-weight:600">Front of ID</span><div class="demo-drop "><i class="fa-solid fa-cloud-arrow-up"></i><strong>Upload front of government ID</strong><span>PNG, JPG or PDF</span></div></div><div><span class="demo-label" style="color:#18181b;font-weight:600">Back of ID</span><div class="demo-drop "><i class="fa-solid fa-cloud-arrow-up"></i><strong>Upload back of government ID</strong><span>PNG, JPG or PDF</span></div></div></div>
+ <button class="demo-submit" type="button">Continue Verification</button></div></div></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">05 // Guidelines</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc"><code>$upload-guidelines</code></p>
+    </div>
+    <div class="demo-rules">
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Show accepted file types and the size limit next to the dropzone.</div><div class="demo-rule-stage"><div style="text-align:center;font-size:13px"><strong>Upload invoice document</strong><div style="font-size:11px;color:var(--vs-color-brand-primary)">PDF, PNG, JPG under 10MB</div></div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t let people discover the limit only after a failed upload.</div><div class="demo-rule-stage"><div style="text-align:center;font-size:13px"><strong>Upload invoice document</strong><div style="font-size:11px;color:#ef4444">Error: file too large (max 5MB)</div></div></div></div>
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Give every uploaded file a clear remove option.</div><div class="demo-rule-stage"><div class="demo-file" style="border-color:#bbf7d0"><span class="demo-file-name"><i class="fa-solid fa-circle-check" style="background:none;color:#14532d"></i>passport_scan.pdf</span><button type="button" aria-label="Remove file" style="color:#ef4444"><i class="fa-solid fa-xmark"></i></button></div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t force a full page reload to change a selected file.</div><div class="demo-rule-stage"><div class="demo-file" style="border-color:#fecaca;opacity:.8"><span class="demo-file-name" style="color:#71717a"><i class="fa-solid fa-lock" style="background:none"></i>passport_scan.pdf (locked)</span><em style="font-size:11px;color:#a1a1aa">no action</em></div></div></div>
     </div>
 
     <h2>Usage — React</h2>

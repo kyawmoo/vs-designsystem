@@ -8,8 +8,10 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="/assets/demo-kit.css">
 <style>
-  .demo-table-card { background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); overflow: hidden; font-family: var(--vs-font-family); }
+  .demo-table-card { background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: 12px; overflow: hidden; font-family: var(--vs-font-family); }
   .demo-table-head { padding: 1rem 1.25rem; border-bottom: 1px solid #f3f4f6; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
   .demo-table-head h3 { margin: 0; font-size: 15px; font-weight: 600; color: var(--vs-color-text-heading); }
   .demo-table-head p { margin: 4px 0 0; font-size: 13px; color: var(--vs-color-text-muted); }
@@ -36,6 +38,39 @@
   .demo-bs-pagination { display: flex; gap: 2px; }
   .demo-bs-pagination span { width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 11px; }
   .demo-bs-pagination .is-active { background: var(--vs-color-brand-primary); color: #fff; }
+  /* Reports dashboard accent (#005C55) — the dashboard's own live colour, see callout */
+  .rt-card { background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; overflow: hidden; font-family: var(--vs-font-family); }
+  .rt-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+  .rt-table th { background: #F9FAFB; padding: 12px 20px; font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: #374151; border-bottom: 1px solid #E5E7EB; }
+  .rt-table td { padding: 12px 20px; border-top: 1px solid #E5E7EB; color: #27272a; }
+  .rt-table tr:first-child td { border-top: 0; }
+  .rt-table tbody tr:hover td, .rt-table tr.is-hover td { background: #F9FAFB; }
+  .rt-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .rt-table .name { font-weight: 500; color: #18181b; }
+  .rt-table .muted { color: #71717a; }
+  .rt-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px; background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 8px; font-family: var(--vs-font-family); }
+  .rt-dd { height: 32px; padding: 6px 10px; display: inline-flex; align-items: center; gap: 8px; background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 8px; font: 12px var(--vs-font-family); color: #27272a; cursor: pointer; }
+  .rt-dd:hover { background: #fff; }
+  .rt-dd.is-active { border-color: #005C55; font-weight: 500; color: #18181b; }
+  .rt-dd.is-active i { color: #005C55; }
+  .rt-clear { border: 0; background: none; padding: 0 0 0 4px; font: 500 12px var(--vs-font-family); color: #005C55; cursor: pointer; }
+  .rt-clear:hover { text-decoration: underline; }
+  .rt-seg { display: inline-flex; padding: 6px; gap: 4px; background: #fff; border: 1px solid #E5E7EB; border-radius: 9999px; font-family: var(--vs-font-family); }
+  .rt-seg button { padding: 8px 20px; border: 0; border-radius: 9999px; background: transparent; font: 500 12px var(--vs-font-family); color: #71717a; cursor: pointer; }
+  .rt-seg button:hover:not(.is-active) { color: #27272a; }
+  .rt-seg button.is-active { background: #005C55; color: #fff; }
+  .rt-seg--sm { padding: 4px; }
+  .rt-seg--sm button { padding: 4px 12px; }
+  .rt-grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 16px; margin: 16px 0 24px; }
+  .rt-panel { border: 1px solid #E5E7EB; border-radius: 8px; background: #F9FAFB; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .rt-panel-head { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-family: 'SFMono-Regular', Consolas, monospace; font-size: 11px; color: #71717a; }
+  .rt-panel-head b { color: #27272a; }
+  .rt-row { display: flex; align-items: center; gap: 16px; padding: 14px; font-size: 13px; font-family: var(--vs-font-family); }
+  .rt-empty { padding: 32px 16px; display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; background: #fcfcfd; font-family: var(--vs-font-family); color: #71717a; font-size: 12px; }
+  .rt-empty i { font-size: 22px; color: #a1a1aa; }
+  /* mobile: scroll inside instead of widening the page */
+  .demo-table-card { overflow-x: auto; }
+  .demo-table-card .demo-table { min-width: 480px; }
 </style>
 </head>
 <body data-page="table">
@@ -103,7 +138,62 @@
     </div>
 
     <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">03 // Live</span><h2>Blade — DataTable</h2></div>
+      <div><span class="vs-docs-section-num">03 // Table — Anatomy</span><h2>Table Anatomy</h2></div>
+      <p class="vs-docs-section-desc"><code>$table-anatomy</code> — reports dashboard pattern (TableWidget).</p>
+    </div>
+    <div class="demo-metrics"><div><span>Header</span><strong>gray-50 bg, uppercase 12px</strong></div><div><span>Dividers</span><strong>1px lines, no shadow</strong></div><div><span>Hover</span><strong>gray-50 highlight</strong></div><div><span>Numeric cols</span><strong>right-aligned, tabular</strong></div></div>
+    <div class="rt-card"><div class="demo-scroll"><table class="rt-table" style="min-width:480px"><thead><tr><th>Asset name</th><th>Category</th><th class="num">Downloads</th><th class="num">Revenue</th></tr></thead><tbody><tr class=""><td class="name">Acid Skull Neon</td><td class="muted">Vector Decal</td><td class="num">1,420</td><td class="num" style="font-weight:500">$2,840.00</td></tr><tr class=""><td class="name">Holographic Cyber Cat</td><td class="muted">Die-Cut Foil</td><td class="num">980</td><td class="num" style="font-weight:500">$1,960.00</td></tr><tr class="is-hover"><td class="name">Dark Skull Chess King <span class="vs-docs-tag">hovered</span></td><td class="muted">Vinyl Matte</td><td class="num">845</td><td class="num" style="font-weight:500">$1,690.00</td></tr><tr class=""><td class="name">Retro Synth Wave</td><td class="muted">Gloss Sticker</td><td class="num">612</td><td class="num" style="font-weight:500">$1,224.00</td></tr></tbody></table></div></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Filter Bar</span><h2>Dropdown Filter Bar</h2></div>
+      <p class="vs-docs-section-desc"><code>$filter-bar</code> — dropdown filters + Clear, above data tables.</p>
+    </div>
+    <div class="rt-filter"><button type="button" class="rt-dd">All Countries <i class="fa-solid fa-chevron-down"></i></button><button type="button" class="rt-dd is-active">Die-Cut Stickers <i class="fa-solid fa-chevron-down"></i></button><button type="button" class="rt-clear">Clear <span style="color:#a1a1aa;font-weight:400">(1 active)</span></button><span style="margin-left:auto;font-family:SFMono-Regular,Consolas,monospace;font-size:11px;color:#a1a1aa">radius 8px · text 12px · border 1px #E5E7EB</span></div>
+    <p style="font-size:13px">For the search + sort bar above the Items and Category tables, see <a href="/components/filter-bar.html">Filter Bar</a>.</p>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">05 // Tab (Segment Control)</span><h2>Segment Tabs</h2></div>
+      <p class="vs-docs-section-desc"><code>$tab-segment</code> — the dashboard's primary tab pattern.</p>
+    </div>
+    <div class="rt-grid2">
+      <div class="rt-panel"><div class="rt-panel-head"><b>$tab-segment (standard)</b><span>track padding 6px · full round</span></div><div class="rt-seg" role="tablist" aria-label="Standard tabs"><button type="button" role="tab" aria-selected="false">Overview</button><button type="button" role="tab" aria-selected="true" class="is-active">Analytics</button><button type="button" role="tab" aria-selected="false">Reports</button></div></div>
+      <div class="rt-panel"><div class="rt-panel-head"><b>$tab-segment-sm (compact)</b><span>used in card headers</span></div><div class="rt-seg rt-seg--sm" role="tablist" aria-label="Period"><button type="button" role="tab" aria-selected="false">7D</button><button type="button" role="tab" aria-selected="true" class="is-active">30D</button><button type="button" role="tab" aria-selected="false">90D</button></div></div>
+    </div>
+    <div class="vs-docs-callout vs-docs-callout--gap"><p><strong>Colour:</strong> the live reports dashboard renders these tabs, the active filter and focus states in its own accent <strong><code>#005C55</code></strong> (<code>src/index.css</code>: <code>.vs-segment-button.is-active { background-color: var(--vs-color-brand, #005c55) }</code>). The design-system <a href="/components/tabs.html"><code>&lt;Tabs&gt;</code></a> component's own stylesheet uses <code>--vs-color-brand-primary</code> (<code>#4CAF50</code>). This page shows the dashboard as it is live; which colour becomes the single standard is still an open decision.</p></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">06 // Cell Alignment</span><h2>Cell Alignment</h2></div>
+      <p class="vs-docs-section-desc">Text left-aligned; money and counts always right-aligned.</p>
+    </div>
+    <div class="rt-grid2">
+      <div class="rt-panel" style="background:#fff"><div class="rt-panel-head"><b>Left-aligned — text / name columns</b><span style="color:#005C55">text-left</span></div><div class="rt-card" style="border-radius:4px"><table class="rt-table"><thead><tr><th>Item label</th><th>Format</th></tr></thead><tbody><tr><td class="name">Cyber Dagger</td><td class="muted">SVG icon</td></tr><tr><td class="name">Glitch Smiley</td><td class="muted">Vinyl raster</td></tr></tbody></table></div></div>
+      <div class="rt-panel" style="background:#fff"><div class="rt-panel-head"><b>Right-aligned — numeric columns</b><span style="color:#005C55">text-right tabular</span></div><div class="rt-card" style="border-radius:4px"><table class="rt-table"><thead><tr><th class="num">Qty</th><th class="num">Gross total</th></tr></thead><tbody><tr><td class="num muted">482</td><td class="num" style="font-weight:500">$1,250.00</td></tr><tr><td class="num muted">1,120</td><td class="num" style="font-weight:500">$3,420.50</td></tr></tbody></table></div></div>
+    </div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">07 // States</span><h2>Row States</h2></div>
+      <p class="vs-docs-section-desc">Default, hover and empty — strictly flat.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;margin:16px 0 24px">
+      <div class="rt-card" style="border-radius:8px"><div class="rt-row"><span style="width:70px;font:11px SFMono-Regular,Consolas,monospace;color:#a1a1aa;text-transform:uppercase">Default</span><span class="name" style="flex:1;font-weight:500">Synth Helmet Gold #01</span><span style="color:#71717a">Decal Pack</span><span style="font-variant-numeric:tabular-nums;font-weight:500">$840.00</span></div></div>
+      <div class="rt-card" style="border-radius:8px"><div class="rt-row" style="background:#F9FAFB"><span style="width:70px;font:600 11px SFMono-Regular,Consolas,monospace;color:#005C55;text-transform:uppercase">Hover</span><span style="flex:1;font-weight:500">Synth Helmet Gold #01</span><span style="color:#52525b">Decal Pack</span><span style="font-variant-numeric:tabular-nums;font-weight:500">$840.00</span></div></div>
+      <div class="rt-card" style="border-radius:8px"><div class="rt-empty"><i class="fa-solid fa-inbox"></i><strong style="color:#52525b;font-weight:500">No data available</strong><span style="font-family:SFMono-Regular,Consolas,monospace;font-size:11px;color:#a1a1aa">This filter returned 0 records</span></div></div>
+    </div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">08 // Usage in Context</span><h2>Usage in Context</h2></div>
+      <p class="vs-docs-section-desc">Illustrative reports dashboard card.</p>
+    </div>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> <i class="fa-solid fa-lock" style="color:var(--vs-color-brand-primary)"></i> reports.vectorsticker.com</div><div class="demo-browser-body"><div class="rt-card" style="width:100%;max-width:720px;padding:24px;display:flex;flex-direction:column;gap:16px;box-sizing:border-box"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px"><div><h3 style="margin:0;font-size:16px">Top Items</h3><p style="margin:2px 0 0;font-size:12px;color:#71717a">Views and downloads for the selected period</p></div><div class="rt-seg rt-seg--sm" role="tablist" aria-label="Period"><button type="button" role="tab" aria-selected="false">7D</button><button type="button" role="tab" aria-selected="true" class="is-active">30D</button><button type="button" role="tab" aria-selected="false">90D</button></div></div>
+ <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center"><button type="button" class="rt-dd">All Countries <i class="fa-solid fa-chevron-down"></i></button><button type="button" class="rt-dd is-active">Die-Cut Stickers <i class="fa-solid fa-chevron-down"></i></button><button type="button" class="rt-clear">Clear</button></div>
+ <div class="rt-card" style="border-radius:8px"><div class="demo-scroll"><table class="rt-table" style="min-width:420px"><thead><tr><th>Item</th><th class="num">Views</th><th class="num">Downloads</th><th class="num">Rate</th></tr></thead><tbody><tr><td class="name">Neon Cyber Skull #09</td><td class="num">4,120</td><td class="num">412</td><td class="num muted">10.0%</td></tr><tr><td class="name">Kawaii Matcha Latte</td><td class="num">3,890</td><td class="num">389</td><td class="num muted">10.0%</td></tr><tr><td class="name">Midnight Tokyo Drift</td><td class="num">2,450</td><td class="num">245</td><td class="num muted">10.0%</td></tr></tbody></table></div></div></div></div></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">09 // Guidelines</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc"><code>$table-guidelines</code></p>
+    </div>
+    <div class="demo-rules">
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Right-align numeric table columns.</div><div class="demo-rule-stage"><div style="display:flex;justify-content:space-between;font-size:12px;font-family:SFMono-Regular,Consolas,monospace"><span style="color:#52525b">Downloads</span><span style="font-variant-numeric:tabular-nums;font-weight:500">1,420</span></div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t left-align numbers.</div><div class="demo-rule-stage"><div style="display:flex;gap:24px;font-size:12px;font-family:SFMono-Regular,Consolas,monospace"><span style="color:#52525b">Downloads</span><span style="font-weight:500">1,420</span></div></div></div>
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Show “Clear” only when a filter is actually active.</div><div class="demo-rule-stage"><div style="display:flex;gap:8px;align-items:center;font-size:12px"><span style="padding:2px 8px;background:#f4f4f5;border:1px solid #e4e4e7;border-radius:4px">Format: SVG</span><span style="color:#005C55;font-weight:500;text-decoration:underline">Clear</span></div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t show “Clear” all the time — it suggests a filter is applied when none is.</div><div class="demo-rule-stage"><div style="display:flex;gap:8px;align-items:center;font-size:12px"><span style="padding:2px 8px;background:#f4f4f5;border:1px solid #e4e4e7;border-radius:4px;color:#a1a1aa">All formats</span><span style="color:#005C55;font-weight:500;text-decoration:underline">Clear</span></div></div></div>
+    </div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">10 // Live</span><h2>Blade — DataTable</h2></div>
       <p class="vs-docs-section-desc">The real .table.datatable pattern used across every admin list view.</p>
     </div>
     <div class="vs-docs-preview">
@@ -159,32 +249,35 @@
     </p>
 
     <h2>Props — Blade</h2>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Values</th></tr></thead>
       <tbody>
         <tr><td><code>columns</code></td><td>array of <code>{ label, width? }</code> — <code>width</code> maps to the real <code>tb-w-{N}x</code> utility classes</td></tr>
         <tr><td><code>variant</code></td><td><code>'datatable'</code> (default sort desc on col 0) | <code>'datatable2'</code> (DataTables' own default order) — matches the site's two real configured variants</td></tr>
         <tr><td><code>card</code></td><td><code>boolean</code>, default <code>true</code> — wraps in the real <code>.card</code> chrome</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">04 // Measurement Guide</span><h2>Measurement Guide</h2></div>
+      <div><span class="vs-docs-section-num">11 // Measurement Guide</span><h2>Measurement Guide</h2></div>
       <p class="vs-docs-section-desc">Real values, from TableWidget.tsx.</p>
     </div>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
       <tbody>
-        <tr><td>Card</td><td>white, 1px border, 8px radius, no shadow</td><td><code>--vs-radius-sm</code> / <code>--vs-shadow-none</code></td></tr>
+        <tr><td>Card</td><td>white, 1px border, 12px radius, no shadow</td><td><code>rounded-xl border border-gray-200</code> (TableWidget.tsx)</td></tr>
         <tr><td>Header</td><td>16px/20px padding, 1px bottom border</td><td><code>px-5 py-4 border-b border-gray-100</code></td></tr>
         <tr><td>Head row</td><td>uppercase, 12px, bold, muted bg tint</td><td><code>text-xs uppercase ... bg-gray-50/50</code></td></tr>
         <tr><td>Cell padding</td><td><code>12px 20px</code></td><td><code>py-3 px-5</code></td></tr>
         <tr><td>Row divider</td><td>1px, very light gray</td><td><code>divide-y divide-gray-100</code></td></tr>
         <tr><td>Row hover</td><td>subtle gray tint</td><td><code>hover:bg-gray-50/60</code></td></tr>
         <tr><td>Metric columns</td><td>right-aligned, tabular numerals</td><td><code>text-right tabular-nums</code></td></tr>
+        <tr><td>Filter dropdown</td><td>32px high, <code>6px 10px</code> padding, 8px radius, 12px text</td><td>dashboard filter bar</td></tr>
+        <tr><td>Tab pill</td><td>track padding 6px, buttons <code>8px 20px</code>, full radius</td><td><code>.vs-segment-control</code> / <code>.vs-segment-button</code></td></tr>
+        <tr><td>Accent</td><td><code>#005C55</code> (active tab, active filter, Clear link)</td><td>reports <code>src/index.css</code> — see section 05</td></tr>
         <tr><td><code>bare</code> variant</td><td>no border/radius/shadow/background</td><td>for embedding inside another card</td></tr>
       </tbody>
-    </table>
+    </table></div>
 
     <h2>Usage — React</h2>
     <div class="vs-docs-code-block"><span class="tag">import</span> { TableWidget } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
@@ -205,7 +298,7 @@
 <span class="tag">/&gt;</span></div>
 
     <h2>Props</h2>
-    <table class="vs-docs-table">
+    <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Required</th><th>Values</th></tr></thead>
       <tbody>
         <tr><td><code>columns</code> / <code>rows</code> / <code>renderItem</code></td><td>yes</td><td>column defs, row data, first-column renderer</td></tr>
@@ -215,7 +308,7 @@
         <tr><td><code>emptyLabel</code></td><td>no</td><td>default <code>'No data available'</code></td></tr>
         <tr><td><code>bare</code></td><td>no</td><td><code>boolean</code>, default <code>false</code></td></tr>
       </tbody>
-    </table>
+    </table></div>
 
   </div>
   </div>

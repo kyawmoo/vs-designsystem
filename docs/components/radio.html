@@ -8,50 +8,71 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
-<style>
-  .demo-check {
-    appearance: none;
-    width: 16px; height: 16px;
-    border: 1px solid var(--vs-color-border);
-    border-radius: 50%;
-    background-color: var(--vs-color-surface);
-    background-repeat: no-repeat; background-position: center;
-    cursor: pointer; flex-shrink: 0;
-  }
-  .demo-check:checked {
-    background-color: var(--vs-color-brand-primary);
-    border-color: var(--vs-color-brand-primary);
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3ccircle cx='4' cy='4' r='2' fill='%23fff'/%3e%3c/svg%3e");
-  }
-  .demo-check-row { display: flex; align-items: center; gap: 8px; font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); color: var(--vs-color-text-body); }
-</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="/assets/demo-kit.css">
 </head>
 <body data-page="radio">
 <div id="vs-docs-sidebar-mount"></div>
 <main class="vs-docs-main">
-  <div class="vs-docs-hero">
+      <div class="vs-docs-hero">
     <div class="vs-docs-hero-inner">
-    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Radio</p>
-    <h1>Radio</h1>
-    <p class="vs-docs-hero-lede">
-      Same shape family as <a href="/components/checkbox.html">Checkbox</a>
-      but circular — real Bootstrap sets <code>border-radius: 50%</code>
-      specifically for <code>[type=radio]</code>. Implemented in
-      <code>react/src/components/Radio.tsx</code> and
-      <code>blade/components/vs-radio.blade.php</code>.
-    </p>
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Radio <span class="vs-docs-tag">Production</span> <span class="vs-docs-tag">#radio-v1</span></p>
+    <h1>Radio Button</h1>
+    <p class="vs-docs-hero-lede">From live code — same checked-state logic as <a href="/components/checkbox.html">Checkbox</a>, circular shape (Bootstrap sets <code>border-radius: 50%</code> for <code>[type=radio]</code>). Implemented in <code>react/src/components/Radio.tsx</code> and <code>blade/components/vs-radio.blade.php</code>.</p>
+    <div class="demo-spec-pills"><span><em>Circle:</em> 16×16px</span><span><em>Border:</em> 1px #ECECEC</span><span><em>Active:</em> #4CAF50</span></div>
     </div>
   </div>
   <div class="vs-docs-canvas">
   <div class="vs-docs-content">
-
     <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
-      <p class="vs-docs-section-desc">Same <code>name</code> = one group.</p>
+      <div><span class="vs-docs-section-num">01 // States</span><h2>States</h2></div>
+      <p class="vs-docs-section-desc"><code>$radio-states</code></p>
     </div>
-    <div class="vs-docs-preview">
-      <label class="demo-check-row"><input class="demo-check" type="radio" name="demo-plan" checked> Monthly</label>
-      <label class="demo-check-row"><input class="demo-check" type="radio" name="demo-plan"> Yearly</label>
+    <div class="demo-states">
+      <div class="demo-state"><div class="demo-state-stage"><label class="demo-check-row"><input type="radio" name="r-s1" class="demo-check demo-check--radio" aria-label="Unchecked example"></label></div><div class="demo-state-meta"><b>Unchecked</b><code>$radio-default</code><span>white bg, #ECECEC border</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><label class="demo-check-row"><input type="radio" name="r-s2" class="demo-check demo-check--radio" checked aria-label="Checked example"></label></div><div class="demo-state-meta"><b>Checked</b><code>$radio-checked</code><span>solid #4CAF50 fill + white dot</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><label class="demo-check-row"><input type="radio" name="r-s3" class="demo-check demo-check--radio is-focus" aria-label="Focus example"></label></div><div class="demo-state-meta"><b>Focus (unchecked)</b><code>$radio-focus</code><span>border #4CAF50, no glow</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><label class="demo-check-row"><input type="radio" name="r-s4" class="demo-check demo-check--radio" disabled aria-label="Disabled example"></label></div><div class="demo-state-meta"><b>Disabled</b><code>$radio-disabled</code><span>50% opacity</span></div></div>
+    </div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Group</span><h2>Group</h2></div>
+      <p class="vs-docs-section-desc"><code>$radio-group</code> — gap 12px, vertical, <code>role="radiogroup"</code></p>
+    </div>
+    <div class="vs-docs-preview" style="flex-direction:column;align-items:flex-start"><div style="font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#71717a;margin-bottom:12px" id="tier-label">Subscription tier</div>
+      <div class="demo-check-group" role="radiogroup" aria-labelledby="tier-label"><label class="demo-check-row"><input type="radio" name="tier" class="demo-check demo-check--radio" >Free</label><label class="demo-check-row"><input type="radio" name="tier" class="demo-check demo-check--radio" checked>Premium <span class="vs-docs-tag">popular</span></label><label class="demo-check-row"><input type="radio" name="tier" class="demo-check demo-check--radio" >Enterprise</label></div></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Redline Specs</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Real Bootstrap 5.3 values.</p>
+    </div>
+    <div class="demo-redline" style="flex-direction:column;align-items:flex-start"><div style="display:flex;align-items:center;gap:8px"><span class="demo-dim">16px</span><label class="demo-check-row"><input type="radio" name="r-m" class="demo-check demo-check--radio" checked tabindex="-1" aria-label="Measured radio"></label><span class="demo-dim">8px</span><span style="font-size:14px;font-weight:500">Option Alpha</span></div><span class="demo-dim">↕ 12px gap</span><div style="display:flex;align-items:center;gap:8px;padding-left:40px"><label class="demo-check-row"><input type="radio" name="r-m" class="demo-check demo-check--radio" tabindex="-1" aria-label="Measured radio 2"></label><span style="font-size:14px;color:#71717a">Option Beta</span></div></div>
+    <div class="demo-metrics"><div><span>Circle size</span><strong>16 × 16px</strong></div><div><span>Option gap</span><strong>12px</strong></div><div><span>Border</span><strong>1px #ECECEC</strong></div><div><span>Active fill</span><strong style="color:var(--vs-color-brand-primary)">#4CAF50</strong></div></div>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Size</td><td>16px × 16px, circle</td><td><code>1em</code>; <code>.form-check-input[type=radio] { border-radius: 50% }</code></td></tr>
+        <tr><td>Dot</td><td>white, 8px across</td><td>Bootstrap's radio icon (<code>circle r=2</code> in an 8-unit box)</td></tr>
+        <tr><td>Border / checked / focus / disabled</td><td colspan="2">same as <a href="/components/checkbox.html">Checkbox</a></td></tr>
+        <tr><td>Option gap (group)</td><td>12px</td><td>spec value for stacked groups</td></tr>
+      </tbody>
+    </table></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Usage in Context</span><h2>Usage in Context</h2></div>
+      <p class="vs-docs-section-desc">Illustrative checkout mockup.</p>
+    </div>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> <i class="fa-solid fa-lock" style="color:var(--vs-color-brand-primary)"></i> vectorsticker.com/checkout</div><div class="demo-browser-body"><div class="demo-form-card" style="max-width:520px"><div><h3 style="font-size:16px">License Type</h3><p style="margin:4px 0 0;font-size:12px;color:#71717a">Choose the license for this purchase.</p></div>
+ <div class="demo-check-group" role="radiogroup" aria-label="License type">
+  <label style="display:flex;justify-content:space-between;gap:12px;padding:14px;border:1px solid var(--vs-color-brand-primary);background:#f0fdf4;border-radius:4px;cursor:pointer"><span style="display:flex;gap:12px"><input type="radio" name="lic" class="demo-check demo-check--radio" checked style="margin-top:2px"><span><strong style="font-size:14px">Regular License</strong><br><span style="font-size:12px;color:#52525b">One personal or commercial end product</span></span></span><strong style="font-size:12px">$0.00</strong></label>
+  <label style="display:flex;justify-content:space-between;gap:12px;padding:14px;border:1px solid var(--vs-color-border);border-radius:4px;cursor:pointer"><span style="display:flex;gap:12px"><input type="radio" name="lic" class="demo-check demo-check--radio" style="margin-top:2px"><span><strong style="font-size:14px">Extended License</strong><br><span style="font-size:12px;color:#71717a">Resale, print on demand, unlimited distribution</span></span></span><strong style="font-size:12px">+$19.00</strong></label>
+ </div><button class="demo-submit" type="button">Continue to Download <i class="fa-solid fa-arrow-right"></i></button></div></div></div>
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">05 // Guidelines</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc"><code>$radio-guidelines</code></p>
+    </div>
+    <div class="demo-rules">
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Use radio buttons only when exactly one option must be selected.</div><div class="demo-rule-stage"><div class="demo-check-group"><label class="demo-check-row"><input type="radio" name="g1" class="demo-check demo-check--radio" checked>Standard shipping (3–5 days)</label><label class="demo-check-row"><input type="radio" name="g1" class="demo-check demo-check--radio" >Express shipping (1–2 days)</label></div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t use radios when several choices are valid — use checkboxes instead.</div><div class="demo-rule-stage"><div class="demo-check-group"><label class="demo-check-row"><input type="radio" name="g2a" class="demo-check demo-check--radio" checked disabled>Include SVG vector pack</label><label class="demo-check-row"><input type="radio" name="g2b" class="demo-check demo-check--radio" checked disabled>Include Figma design tokens</label></div></div></div>
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Pre-select a sensible default when one exists.</div><div class="demo-rule-stage"><div class="demo-check-group"><label class="demo-check-row"><input type="radio" name="g3" class="demo-check demo-check--radio" checked>Annual billing (recommended — save 20%)</label><label class="demo-check-row"><input type="radio" name="g3" class="demo-check demo-check--radio" >Monthly billing</label></div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t leave a required group with nothing selected.</div><div class="demo-rule-stage"><div class="demo-check-group"><label class="demo-check-row"><input type="radio" name="g4" class="demo-check demo-check--radio" style="border-color:#f87171">Credit card</label><label class="demo-check-row"><input type="radio" name="g4" class="demo-check demo-check--radio" style="border-color:#f87171">PayPal</label></div></div></div>
     </div>
 
     <h2>Usage — React</h2>
