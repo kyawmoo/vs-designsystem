@@ -42,8 +42,8 @@
   .demo-btn--secondary:active:not(:disabled), .demo-btn--secondary.is-pressed { background: var(--vs-button-secondary-pressed); border-color: var(--vs-button-secondary-pressed); }
 
   .demo-btn--tertiary { background: var(--vs-color-surface); border-color: var(--vs-button-tertiary-border); color: var(--vs-button-tertiary-text); border-radius: var(--vs-button-radius-soft); }
-  .demo-btn--tertiary:hover:not(:disabled), .demo-btn--tertiary.is-hover { background: var(--vs-button-tertiary-hover-bg); border-color: var(--vs-button-tertiary-active-border); color: var(--vs-button-primary); }
-  .demo-btn--tertiary:active:not(:disabled), .demo-btn--tertiary.is-pressed { background: var(--vs-button-tertiary-pressed-bg); border-color: var(--vs-button-tertiary-active-border); color: var(--vs-button-primary); }
+  .demo-btn--tertiary:hover:not(:disabled), .demo-btn--tertiary.is-hover { background: var(--vs-button-tertiary-hover-bg); border-color: var(--vs-button-tertiary-active-border); color: var(--vs-button-tertiary-text); }
+  .demo-btn--tertiary:active:not(:disabled), .demo-btn--tertiary.is-pressed { background: var(--vs-button-tertiary-pressed-bg); border-color: var(--vs-button-tertiary-active-border); color: var(--vs-button-tertiary-text); }
 
   .demo-btn:active:not(:disabled), .demo-btn.is-pressed { transform: scale(var(--vs-button-pressed-scale)); }
   .demo-btn:disabled { opacity: var(--vs-button-disabled-opacity); cursor: not-allowed; }
@@ -400,7 +400,8 @@
     <div class="demo-scroll"><table class="vs-docs-table">
       <thead><tr><th>Property</th><th>Value</th><th>Token</th></tr></thead>
       <tbody>
-        <tr><td>Primary button text</td><td>#111111 (6.79:1 default, 5.72:1 hover, 4.59:1 pressed; white would be 2.78:1)</td><td><code>--vs-button-primary-text</code></td></tr>
+        <tr><td>Primary button text</td><td>#111111 (6.79:1 default, 5.72:1 hover, 4.59:1 pressed; white would be 2.78:1)</td><td><code>--vs-button-primary-text</code> = <code>--vs-color-text-on-primary</code></td></tr>
+        <tr><td>Tertiary hover / pressed text</td><td>stays #18181B (green text on the light tint is only ~2.6:1); the green border and tint show the state</td><td><code>--vs-button-tertiary-text</code></td></tr>
         <tr><td>Keyboard focus ring</td><td>2px solid #222222, 2px offset (white on dark surfaces)</td><td><code>--vs-focus-ring-*</code></td></tr>
         <tr><td>Height sm / md / lg</td><td>32 / 40 / 48px</td><td><code>--vs-button-height-*</code></td></tr>
         <tr><td>Side padding sm / md / lg</td><td>16 / 28 / 32px</td><td><code>--vs-button-pad-x-*</code></td></tr>
@@ -590,7 +591,8 @@
         '  --vs-button-primary: #4CAF50;',
         '  --vs-button-primary-hover: #43A047;',
         '  --vs-button-primary-pressed: #388E3C;',
-        '  --vs-button-primary-text: #111111;',
+        '  --vs-color-text-on-primary: #111111;',
+        '  --vs-button-primary-text: var(--vs-color-text-on-primary);',
         '  --vs-focus-ring-color: #222222;',
         '  --vs-button-secondary: #222222;',
         '  --vs-button-secondary-hover: #333333;',

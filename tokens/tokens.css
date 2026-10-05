@@ -18,6 +18,9 @@
   --vs-color-text-body: #2B2B2B;
   --vs-color-text-muted: #8E9CBA;
   --vs-color-disabled-bg: #EEEEEE;
+  /* Text/icons placed ON the brand green (active tab, active page, primary button). White is only 2.78:1;
+     #111111 is 6.79:1 (WCAG AA needs 4.5:1). */
+  --vs-color-text-on-primary: #111111;
 
   /* ---- Color: Status ---- */
   --vs-color-success-bg: #E0F9E0;
@@ -77,9 +80,8 @@
 
   /* ---- Button (spec v2, 25 Sep 2026) ---- */
   --vs-button-primary: var(--vs-color-brand-primary);
-  /* Text on the primary button. White on the brand green is only 2.78:1 (fails WCAG AA 4.5:1);
-     #111111 gives 6.79:1 (default), 5.72:1 (hover), 4.59:1 (pressed). */
-  --vs-button-primary-text: #111111;
+  /* Text on the primary button = text on the brand green (6.79:1 default, 5.72:1 hover, 4.59:1 pressed). */
+  --vs-button-primary-text: var(--vs-color-text-on-primary);
   /* Hover/pressed shades and the tertiary tints below are derived from the brand green but kept as
      literal defaults. A product that overrides --vs-color-brand-primary must override these too. */
   --vs-button-primary-hover: #43A047;

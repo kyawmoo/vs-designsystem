@@ -58,7 +58,7 @@ export function InputGroup({
           borderRadius: 'var(--vs-radius-sm)',
           border: '1px solid var(--vs-color-brand-primary)',
           background: 'var(--vs-color-brand-primary)',
-          color: '#ffffff',
+          color: 'var(--vs-color-text-on-primary)',
           cursor: 'pointer',
         }}
       >

@@ -49,12 +49,12 @@
 .vs-btn--tertiary:not(.vs-btn--icon-only):hover:not(:disabled) {
   background: var(--vs-button-tertiary-hover-bg) !important;
   border-color: var(--vs-button-tertiary-active-border) !important;
-  color: var(--vs-button-primary) !important;
+  color: var(--vs-button-tertiary-text) !important; /* green text on the light tint is only ~2.6:1 */
 }
 .vs-btn--tertiary:not(.vs-btn--icon-only):active:not(:disabled) {
   background: var(--vs-button-tertiary-pressed-bg) !important;
   border-color: var(--vs-button-tertiary-active-border) !important;
-  color: var(--vs-button-primary) !important;
+  color: var(--vs-button-tertiary-text) !important; /* green text on the light tint is only ~2.6:1 */
 }
 
 /* Icon-only: light tint on hover */
@@ -73,7 +73,7 @@
    background/color swap inline. */
 .vs-page-item:hover:not(:disabled) {
   background: var(--vs-color-brand-primary) !important;
-  color: #ffffff !important;
+  color: var(--vs-color-text-on-primary) !important; /* white on the brand green is 2.78:1 */
 }
 
 /* Form fields (TextInput/Textarea/Select/SearchInput/InputGroup) — only
@@ -83,6 +83,12 @@
 .vs-field:focus {
   outline: none;
   border-color: var(--vs-color-brand-primary) !important;
+}
+
+/* Keyboard/pointer focus ring from the shared tokens, in addition to the green border. */
+.vs-field:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: var(--vs-focus-ring-offset);
 }
 
 .vs-field::placeholder {
@@ -224,7 +230,7 @@
 
 .vs-segment-button.is-active {
   background-color: var(--vs-color-brand-primary);
-  color: #ffffff;
+  color: var(--vs-color-text-on-primary); /* white on the brand green is 2.78:1 */
 }
 
 .vs-segment-button--sm {
@@ -279,6 +285,11 @@
   border: 1px solid var(--vs-color-border);
   border-radius: var(--vs-radius-sm);
   color: var(--vs-color-text-heading);
+}
+
+.vs-filter-bar-input:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: var(--vs-focus-ring-offset);
 }
 
 .vs-filter-bar-input:focus {

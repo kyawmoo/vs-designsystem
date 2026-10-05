@@ -47,11 +47,11 @@ export function MobilePageHeader({
             onClick={onFilterClick}
             aria-label="Filter"
             className={`w-9 h-9 rounded-lg flex items-center justify-center border transition-colors ${
-              filterActive ? 'text-white' : 'bg-white border-gray-200 text-gray-600 active:bg-gray-50'
+              filterActive ? '' : 'bg-white border-gray-200 text-gray-600 active:bg-gray-50'
             }`}
             style={
               filterActive
-                ? { background: 'var(--vs-color-brand-primary)', borderColor: 'var(--vs-color-brand-primary)' }
+                ? { background: 'var(--vs-color-brand-primary)', borderColor: 'var(--vs-color-brand-primary)', color: 'var(--vs-color-text-on-primary)' }
                 : undefined
             }
           >

@@ -11,6 +11,7 @@
 --vs-color-text-body
 --vs-color-text-muted
 --vs-color-disabled-bg
+--vs-color-text-on-primary
 --vs-color-success-bg
 --vs-color-success-border
 --vs-color-danger-bg
@@ -28,7 +29,6 @@
 --vs-color-item-status-approved
 --vs-color-item-status-hard-rejected
 --vs-color-item-status-deleted
---vs-button-primary-text
 --vs-button-primary-hover
 --vs-button-primary-pressed
 --vs-button-secondary
