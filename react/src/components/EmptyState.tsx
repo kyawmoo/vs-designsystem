@@ -51,7 +51,7 @@ export function EmptyState({ title, description, icon, action, size = 'md', clas
       </span>
       <p style={{ margin: 0, font: 'var(--vs-type-body-02)', color: 'var(--vs-color-text-heading)' }}>{title}</p>
       {description ? (
-        <p style={{ margin: 0, font: 'var(--vs-type-body-01)', color: 'var(--vs-color-text-body)', maxWidth: '36em' }}>
+        <p style={{ margin: 0, font: 'var(--vs-type-body-01)', letterSpacing: 'var(--vs-letter-spacing-body)', color: 'var(--vs-color-text-body)', maxWidth: '36em' }}>
           {description}
         </p>
       ) : null}
