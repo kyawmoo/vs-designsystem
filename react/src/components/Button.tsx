@@ -52,7 +52,7 @@ const EMPHASIS_STYLE: Record<ButtonEmphasis, React.CSSProperties> = {
   primary: {
     background: 'var(--vs-button-primary)',
     borderColor: 'var(--vs-button-primary)',
-    color: '#ffffff',
+    color: 'var(--vs-button-primary-text)',
     borderRadius: 'var(--vs-button-radius)',
   },
   secondary: {

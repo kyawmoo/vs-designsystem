@@ -12,5 +12,8 @@
   },
   "dependencies": {
     "lucide-react": "^0.546.0"
+  },
+  "scripts": {
+    "check:tokens": "node scripts/check-tokens.mjs"
   }
 }
