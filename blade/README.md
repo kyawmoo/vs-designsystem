@@ -80,6 +80,22 @@ Sale/Trending) — was pulled out, as `vs-item-badge`, wrapping the real
 `.item-badge-*` classes whose colors are the exact same `color.badge`
 tokens as `Badge.tsx`'s `BadgeProductTone` on the reports-site side.
 
+### `<x-vs-avatar>` / `<x-vs-empty-state>`
+
+```blade
+<x-vs-avatar :src="$user->getAvatar()" :name="$user->username" size="xl" :href="$user->getProfileLink()" class="me-0" />
+
+<x-vs-empty-state :title="translate('No data found')" size="lg">
+    <x-slot:icon>...optional illustration...</x-slot:icon>
+</x-vs-empty-state>
+```
+
+`vs-avatar` wraps the real `.user-avatar` / `-lg` / `-xl` classes (50 / 72 / 95px; used in 13 places across 12
+views). `vs-empty-state` wraps the real `.dashboard-card-empty` (+ `pd` for `size="lg"`) and has the same markup as
+the workspace `card-empty` partial. The initials fallback, the `sm` size and the `circle` shape exist in the React
+components only. Rendered in a stock Laravel 10 app (all 20 components, with the site's `translate()` helper):
+no errors, and name/title values are HTML-escaped.
+
 ### Form elements (9 types)
 
 ```blade

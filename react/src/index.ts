@@ -70,6 +70,12 @@ export type { FilterBarProps } from './components/FilterBar';
 export { Modal } from './components/Modal';
 export type { ModalProps } from './components/Modal';
 
+export { Avatar, getInitials } from './components/Avatar';
+export type { AvatarProps, AvatarSize, AvatarShape } from './components/Avatar';
+
+export { EmptyState } from './components/EmptyState';
+export type { EmptyStateProps, EmptyStateSize } from './components/EmptyState';
+
 export { Toast } from './components/Toast';
 export type { ToastProps, ToastTone } from './components/Toast';
 
