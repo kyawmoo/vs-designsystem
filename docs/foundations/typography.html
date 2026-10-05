@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
 <style>
   .type-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px; margin: 16px 0; }
   .type-card { border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); background: var(--vs-color-surface); padding: 24px; display: flex; flex-direction: column; gap: 16px; }
@@ -74,7 +74,7 @@
       <div class="type-card">
         <div>
           <span class="type-card-kicker type-card-kicker--light">Weight variants</span>
-          <p class="type-card-meta">400 Regular · 500 Medium · 600 Semibold · 700 Bold</p>
+          <p class="type-card-meta">300 Light (body) · 400 Regular · 500 Medium · 600 Semibold · 700 Bold</p>
         </div>
         <div>
           <div class="type-card-aa" style="font-weight:500">Aa</div>
@@ -135,11 +135,11 @@
           <td><code>$type-body-02</code></td><td>16px / 24px · 500</td><td>Lead body copy, navigation links, prominent items</td>
         </tr>
         <tr>
-          <td><span class="type-size">15px</span><span class="type-specimen" style="font-size:15px;line-height:24px;font-weight:400;color:var(--vs-color-text-body)">Standard descriptive paragraph for articles and guides</span></td>
+          <td><span class="type-size">15px</span><span class="type-specimen" style="font-size:15px;line-height:24px;font-weight:300;letter-spacing:.015em;color:var(--vs-color-text-body)">Standard descriptive paragraph for articles and guides</span></td>
           <td><code>$type-paragraph</code></td><td>15px / 24px · 400</td><td>Long-form body, article copy, documentation content</td>
         </tr>
         <tr>
-          <td><span class="type-size">13px</span><span class="type-specimen" style="font-size:13px;line-height:20px;font-weight:400;color:var(--vs-color-text-body)">Compact interface body text and table cell descriptions</span></td>
+          <td><span class="type-size">13px</span><span class="type-specimen" style="font-size:13px;line-height:20px;font-weight:300;letter-spacing:.015em;color:var(--vs-color-text-body)">Compact interface body text and table cell descriptions</span></td>
           <td><code>$type-body-01</code></td><td>13px / 20px · 400</td><td>Compact UI body text, lists, secondary descriptions</td>
         </tr>
         <tr>
@@ -179,8 +179,9 @@
     </div>
     <div class="type-scroll"><table class="vs-docs-table">
       <tbody>
-        <tr><td><strong>Body text line-height</strong></td><td><code>1.7</code> — relaxed, for descriptive paragraphs and long-form content (<code>--vs-line-height-body</code>)</td></tr>
-        <tr><td><strong>Heading weight</strong></td><td><code>600</code> (semibold) for titles, <code>500</code> (medium) for card/item titles, <code>400</code> (regular) for body (<code>--vs-font-weight-*</code>)</td></tr>
+        <tr><td><strong>Body text line-height</strong></td><td><code>1.6</code> — paragraphs and lists, as on vectorsticker.com (<code>--vs-line-height-body</code>)</td></tr>
+        <tr><td><strong>Heading weight</strong></td><td><code>600</code> (semibold) for titles, <code>500</code> (medium) for card/item titles, <code>300</code> (light) for body text, the live vectorsticker.com look (<code>--vs-font-weight-*</code>). Caption stays <code>400</code>.</td></tr>
+        <tr><td><strong>Letter-spacing</strong></td><td><code>0.015em</code> on body text, <code>0</code> on headings (<code>--vs-letter-spacing-body</code>, <code>--vs-letter-spacing-heading</code>)</td></tr>
       </tbody>
     </table></div>
 
@@ -198,7 +199,7 @@
     var scale = [
       ['display-01', 45, 52, 600], ['heading-01', 36, 44, 700], ['heading-02', 30, 38, 600],
       ['heading-03', 24, 32, 600], ['heading-04', 20, 28, 600], ['body-02', 16, 24, 500],
-      ['paragraph', 15, 24, 400], ['body-01', 13, 20, 400], ['label', 12, 16, 600], ['caption', 11, 15, 400]
+      ['paragraph', 15, 24, 300], ['body-01', 13, 20, 300], ['label', 12, 16, 600], ['caption', 11, 15, 400]
     ];
     var snippets = {
       scss: '$vs-typography: (\n' + scale.map(function (t) {

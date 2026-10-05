@@ -28,6 +28,12 @@ const allow = new Set(read('tokens/raw-colour-allowlist.txt').split('\n').map((l
 for (const n of rawNames) if (!allow.has(n)) fail(`${n} is a raw colour (${tokens.get(n)}). Use an existing token via var(), or add it to tokens/raw-colour-allowlist.txt on purpose`);
 for (const n of allow) if (!rawNames.includes(n)) fail(`allowlist entry ${n} is no longer a raw colour (remove it from tokens/raw-colour-allowlist.txt)`);
 
+// Body type tokens must agree with the body weight token (a weight change must not leave one behind).
+const weightOf = (name) => (tokens.get(name) || '').match(/^(\d{3})\s/)?.[1];
+const bodyWeight = tokens.get('--vs-font-weight-body');
+for (const n of ['--vs-type-paragraph', '--vs-type-body-01']) if (weightOf(n) !== bodyWeight) fail(`${n} weight ${weightOf(n)} differs from --vs-font-weight-body ${bodyWeight}`);
+for (const n of ['--vs-letter-spacing-body', '--vs-letter-spacing-heading']) if (!tokens.has(n)) fail(`${n} is missing`);
+
 const norm = (v) => v.replace(/\s+/g, '').toLowerCase();
 const green = norm(tokens.get('--vs-color-brand-primary') || '');
 for (const [k, v] of tokens) if (k !== '--vs-color-brand-primary' && green && norm(v) === green) fail(`${k} repeats the brand green literal; use var(--vs-color-brand-primary)`);
