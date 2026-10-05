@@ -76,6 +76,9 @@ export type { AvatarProps, AvatarSize, AvatarShape } from './components/Avatar';
 export { EmptyState } from './components/EmptyState';
 export type { EmptyStateProps, EmptyStateSize } from './components/EmptyState';
 
+export { Alert } from './components/Alert';
+export type { AlertProps, AlertTone } from './components/Alert';
+
 export { Toast } from './components/Toast';
 export type { ToastProps, ToastTone } from './components/Toast';
 

@@ -96,6 +96,18 @@ the workspace `card-empty` partial. The initials fallback, the `sm` size and the
 components only. Rendered in a stock Laravel 10 app (all 20 components, with the site's `translate()` helper):
 no errors, and name/title values are HTML-escaped.
 
+### `<x-vs-alert>` / `<x-vs-rating>`
+
+```blade
+<x-vs-alert tone="danger" :title="translate('KYC Verification Required')" class="mb-0">...</x-vs-alert>
+<x-vs-rating :value="$item->avg_rating" :label="translate('Rated :n out of 5', ['n' => $item->avg_rating])" />
+```
+
+`vs-alert` wraps the real Bootstrap `.alert .alert-{tone}` markup (10 uses in 6 workspace views) and adds `role="alert"`
+(warning, danger) or `role="status"` (info, success); `dismissible` uses Bootstrap's own close button. `vs-rating`
+wraps the real `.ratings` / `.rating` / `.rating-active` markup of the `rating-stars` partial (13+ includes in 8 views)
+and adds `role="img"` with a label. React has `Alert`; a React `Rating` is not built (no use in the reports dashboard).
+
 ### Form elements (9 types)
 
 ```blade

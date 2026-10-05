@@ -69,6 +69,7 @@ need('text on the brand green', '--vs-color-text-on-primary', '--vs-color-brand-
 for (const s of ['', '-hover', '-pressed']) need(`primary button text on ${s || 'default'}`, '--vs-button-primary-text', `--vs-button-primary${s}`, 4.5);
 need('brand green as text on surface', '--vs-color-brand-primary-text', '--vs-color-surface', 4.5);
 need('brand green as text on background', '--vs-color-brand-primary-text', '--vs-color-background', 4.5);
+for (const t of ['success', 'warning', 'danger', 'info']) for (const txt of ['text-body', 'text-heading']) need(`alert ${txt} on ${t} fill`, `--vs-color-${txt}`, `--vs-color-${t}-bg`, 4.5);
 for (const t of ['success', 'error', 'warning', 'info']) need(`toast text on ${t}`, '--vs-toast-text', `--vs-toast-${t}`, 4.5);
 need('focus ring on surface', '--vs-focus-ring-color', '--vs-color-surface', 3);
 need('focus ring on background', '--vs-focus-ring-color', '--vs-color-background', 3);

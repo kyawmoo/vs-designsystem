@@ -664,3 +664,29 @@
   outline: var(--vs-focus-ring-width) solid var(--vs-toast-text);
   outline-offset: var(--vs-focus-ring-offset);
 }
+
+/* Alert dismiss button: dark icon on the tone fill, ring from the focus tokens. */
+.vs-alert-dismiss {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin: -4px -8px -4px 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--vs-radius-xs);
+  background: transparent;
+  color: var(--vs-color-text-heading);
+  cursor: pointer;
+}
+
+.vs-alert-dismiss:hover {
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.vs-alert-dismiss:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: var(--vs-focus-ring-offset);
+}
