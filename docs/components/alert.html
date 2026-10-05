@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Alert — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-alert { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; box-sizing: border-box; border-radius: var(--vs-radius-sm); border: 1px solid; border-inline-start-width: 4px; font-family: var(--vs-font-family); color: var(--vs-color-text-body); }
+  .demo-alert--success { background: var(--vs-color-success-bg); border-color: var(--vs-color-success-border); }
+  .demo-alert--warning { background: var(--vs-color-warning-bg); border-color: var(--vs-color-warning-border); }
+  .demo-alert--danger { background: var(--vs-color-danger-bg); border-color: var(--vs-color-danger-border); }
+  .demo-alert--info { background: var(--vs-color-info-bg); border-color: var(--vs-color-info-border); }
+  .demo-alert-icon { display: inline-flex; flex-shrink: 0; margin-top: 2px; color: var(--vs-color-text-heading); }
+  .demo-alert .demo-alert-title { margin: 0 0 4px; font: var(--vs-type-body-02); color: var(--vs-color-text-heading); }
+  .demo-alert .demo-alert-text { margin: 0; font: var(--vs-type-body-01); letter-spacing: var(--vs-letter-spacing-body); }
+  .demo-stack { display: grid; gap: 12px; }
+</style>
+</head>
+<body data-page="alert">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Alert</p>
+    <h1>Alert</h1>
+    <p class="vs-docs-hero-lede">
+      Inline message box in four tones. Implemented in
+      <code>react/src/components/Alert.tsx</code> and
+      <code>blade/components/vs-alert.blade.php</code> (wraps the site's
+      <code>.alert</code>).
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <h2>Tones</h2>
+    <p>Fill and border come from the status tokens. The text and icon use the heading/body text colours, never the border colour (the yellow border is 1.4:1 on its own fill). Text contrast on the fills is 11.0–13.2:1 (body) and 14.0–16.8:1 (heading).</p>
+    <div class="vs-docs-preview demo-stack" style="display:grid">
+      <div class="demo-alert demo-alert--info" role="status"><span class="demo-alert-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></span><div><p class="demo-alert-title">Heads up</p><p class="demo-alert-text">A new report is ready to view.</p></div></div>
+      <div class="demo-alert demo-alert--success" role="status"><span class="demo-alert-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg></span><div><p class="demo-alert-title">Saved</p><p class="demo-alert-text">Your changes were saved successfully.</p></div></div>
+      <div class="demo-alert demo-alert--warning" role="alert"><span class="demo-alert-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></span><div><p class="demo-alert-title">Subscription about to expire</p><p class="demo-alert-text">Renew it before the end of the month to keep your downloads.</p></div></div>
+      <div class="demo-alert demo-alert--danger" role="alert"><span class="demo-alert-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16h.01"/><path d="M12 8v4"/><path d="M15.312 2a2 2 0 0 1 1.414.586l4.688 4.688A2 2 0 0 1 22 8.688v6.624a2 2 0 0 1-.586 1.414l-4.688 4.688a2 2 0 0 1-1.414.586H8.688a2 2 0 0 1-1.414-.586l-4.688-4.688A2 2 0 0 1 2 15.312V8.688a2 2 0 0 1 .586-1.414l4.688-4.688A2 2 0 0 1 8.688 2z"/></svg></span><div><p class="demo-alert-title">Verification required</p><p class="demo-alert-text">Upload your documents to continue.</p></div></div>
+    </div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Alert } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;Alert</span> <span class="attr">tone</span>=<span class="str">"warning"</span> <span class="attr">title</span>=<span class="str">"Subscription about to expire"</span> <span class="attr">onDismiss</span>=<span class="str">{close}</span><span class="tag">&gt;</span>Renew it before the end of the month.<span class="tag">&lt;/Alert&gt;</span></div>
+
+    <h2>Usage — Blade</h2>
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-alert</span> <span class="attr">tone</span>=<span class="str">"danger"</span> <span class="attr">:title</span>=<span class="str">"translate('KYC Verification Required')"</span> <span class="attr">class</span>=<span class="str">"mb-0"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/x-vs-alert&gt;</span></div>
+    <p>Wraps the real Bootstrap <code>.alert .alert-{tone}</code> markup that 6 workspace views use today (10 uses), so it looks the same, and adds <code>role="alert"</code> (warning, danger) or <code>role="status"</code> (info, success). The reports dashboard has about 6 hand-written error/notice boxes this can replace.</p>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td><code>tone</code></td><td><code>info</code> (default) · <code>success</code> · <code>warning</code> · <code>danger</code></td><td><code>--vs-color-{tone}-bg</code>, <code>-border</code></td></tr>
+        <tr><td><code>title</code></td><td>optional bold first line (Blade: <code>&lt;h4 class="alert-heading"&gt;</code>)</td><td></td></tr>
+        <tr><td><code>icon</code></td><td>React only: replaces the tone icon, <code>false</code> hides it</td><td></td></tr>
+        <tr><td><code>onDismiss</code> / <code>dismissible</code></td><td>React: callback shows a dismiss button. Blade: boolean, Bootstrap's own close button</td><td></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Accessibility</h2>
+    <p><code>warning</code> and <code>danger</code> are announced at once (<code>role="alert"</code>); <code>success</code> and <code>info</code> politely (<code>role="status"</code>). The icon is decorative. The dismiss button has an accessible name and the focus ring from the focus tokens.</p>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>
