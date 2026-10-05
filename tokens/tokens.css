@@ -153,6 +153,19 @@
   --vs-focus-ring-width: 2px;
   --vs-focus-ring-offset: 2px;
 
+  /* ---- Avatar (sizes match the live site's .user-avatar: 50 / 72 / 95px; sm is for compact bars) ---- */
+  --vs-avatar-size-sm: 32px;
+  --vs-avatar-size-md: 50px;
+  --vs-avatar-size-lg: 72px;
+  --vs-avatar-size-xl: 95px;
+  --vs-avatar-radius: var(--vs-radius-sm);
+
+  /* ---- Empty state (padding-lg = the live site's .dashboard-card-empty.pd, 8rem) ---- */
+  --vs-empty-state-icon-size: 48px;
+  --vs-empty-state-padding-sm: 24px;
+  --vs-empty-state-padding-md: 48px;
+  --vs-empty-state-padding-lg: 8rem;
+
   /* ---- Shadow (flat design — always none) ---- */
   --vs-shadow-none: none;
 

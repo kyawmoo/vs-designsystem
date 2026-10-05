@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Empty State — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 12px; font-family: var(--vs-font-family); border: 1px dashed var(--vs-color-border); border-radius: var(--vs-radius-sm); background: var(--vs-color-surface); }
+  .demo-empty--sm { padding: var(--vs-empty-state-padding-sm) var(--vs-spacing-md); }
+  .demo-empty--md { padding: var(--vs-empty-state-padding-md) var(--vs-spacing-md); }
+  .demo-empty-icon { display: inline-flex; color: var(--vs-color-text-muted); line-height: 1; }
+  .demo-empty-icon svg { width: var(--vs-empty-state-icon-size); height: var(--vs-empty-state-icon-size); }
+  .demo-empty .demo-empty-title { margin: 0; font: var(--vs-type-body-02); color: var(--vs-color-text-heading); }
+  .demo-empty .demo-empty-desc { margin: 0; font: var(--vs-type-body-01); color: var(--vs-color-text-body); max-width: 36em; }
+</style>
+</head>
+<body data-page="empty-state">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Empty State</p>
+    <h1>Empty State</h1>
+    <p class="vs-docs-hero-lede">
+      "Nothing to show here" message with an optional description and action.
+      Implemented in <code>react/src/components/EmptyState.tsx</code> and
+      <code>blade/components/vs-empty-state.blade.php</code> (wraps the site's
+      <code>.dashboard-card-empty</code>).
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <h2>Default</h2>
+    <div class="vs-docs-preview" style="display:block">
+      <div class="demo-empty demo-empty--md" role="status">
+        <span class="demo-empty-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg></span>
+        <p class="demo-empty-title">No downloads yet</p>
+        <p class="demo-empty-desc">Downloads show up here after the first visitor saves a sticker.</p>
+      </div>
+    </div>
+
+    <h2>Compact, title only</h2>
+    <div class="vs-docs-preview" style="display:block">
+      <div class="demo-empty demo-empty--sm" role="status">
+        <span class="demo-empty-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg></span>
+        <p class="demo-empty-title">No followers found</p>
+      </div>
+    </div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { EmptyState, Button } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;EmptyState</span> <span class="attr">title</span>=<span class="str">"No downloads yet"</span>
+  <span class="attr">description</span>=<span class="str">"Downloads show up here after the first save."</span>
+  <span class="attr">action</span>=<span class="str">{&lt;Button emphasis="tertiary"&gt;Reset filters&lt;/Button&gt;}</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Usage — Blade</h2>
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-empty-state</span> <span class="attr">:title</span>=<span class="str">"translate('No data found')"</span> <span class="attr">size</span>=<span class="str">"lg"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;x-slot:icon&gt;</span><span class="cmt">&lt;!-- optional illustration --&gt;</span><span class="tag">&lt;/x-slot:icon&gt;</span>
+<span class="tag">&lt;/x-vs-empty-state&gt;</span></div>
+    <p>Wraps the real <code>.dashboard-card-empty</code> class (<code>size="lg"</code> adds <code>.pd</code>, 8rem top and bottom). Same markup as the workspace <code>card-empty</code> partial, so it can replace that partial and the 12 copies of <code>&lt;div class="dashboard-card-empty pd"&gt;</code>.</p>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td><code>title</code></td><td>short message (required)</td><td></td></tr>
+        <tr><td><code>description</code></td><td>optional second line (Blade: <code>description</code> slot)</td><td></td></tr>
+        <tr><td><code>icon</code></td><td>replaces the default icon; decorative (Blade: <code>icon</code> slot)</td><td><code>--vs-empty-state-icon-size</code></td></tr>
+        <tr><td><code>action</code></td><td>optional button/link (Blade: default slot)</td><td></td></tr>
+        <tr><td><code>size</code></td><td><code>sm</code> 24px · <code>md</code> 48px (default) · <code>lg</code> 8rem vertical padding</td><td><code>--vs-empty-state-padding-*</code></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Accessibility</h2>
+    <p>The block is <code>role="status"</code>, so a list that becomes empty is announced politely. The title and description use the heading and body text colours; the muted grey (<code>--vs-color-text-muted</code>, about 2.8:1 on white) is used only for the decorative icon. The live site's current block uses <code>.text-muted</code> for all text.</p>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

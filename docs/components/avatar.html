@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Avatar — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-avatar { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; border-radius: var(--vs-avatar-radius); background: var(--vs-color-brand-primary); color: var(--vs-color-text-on-primary); font-family: var(--vs-font-family); font-weight: 600; line-height: 1; }
+  .demo-avatar--circle { border-radius: var(--vs-radius-full); }
+  .demo-avatar--sm { width: var(--vs-avatar-size-sm); height: var(--vs-avatar-size-sm); font-size: 12px; }
+  .demo-avatar--md { width: var(--vs-avatar-size-md); height: var(--vs-avatar-size-md); font-size: 18px; }
+  .demo-avatar--lg { width: var(--vs-avatar-size-lg); height: var(--vs-avatar-size-lg); font-size: 26px; }
+  .demo-avatar--xl { width: var(--vs-avatar-size-xl); height: var(--vs-avatar-size-xl); font-size: 34px; }
+  .demo-avatar--photo { background: var(--vs-color-disabled-bg); }
+  .demo-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+</style>
+</head>
+<body data-page="avatar">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Avatar</p>
+    <h1>Avatar</h1>
+    <p class="vs-docs-hero-lede">
+      Person image with an initials fallback. Implemented in
+      <code>react/src/components/Avatar.tsx</code> and
+      <code>blade/components/vs-avatar.blade.php</code> (wraps the site's
+      <code>.user-avatar</code>).
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <h2>Sizes</h2>
+    <p>Photo avatar at the four sizes. <code>md</code> / <code>lg</code> / <code>xl</code> are the live site's <code>.user-avatar</code> sizes (50 / 72 / 95px, 8px radius); <code>sm</code> (32px) is for compact bars.</p>
+    <div class="vs-docs-preview demo-row">
+      <span class="demo-avatar demo-avatar--sm demo-avatar--photo" role="img" aria-label="Ann Lee"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23BCFD1D'/%3E%3Ccircle cx='20' cy='16' r='7' fill='%23222'/%3E%3Cpath d='M6 40c0-9 6-14 14-14s14 5 14 14z' fill='%23222'/%3E%3C/svg%3E" alt=""></span>
+      <span class="demo-avatar demo-avatar--md demo-avatar--photo" role="img" aria-label="Ann Lee"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23BCFD1D'/%3E%3Ccircle cx='20' cy='16' r='7' fill='%23222'/%3E%3Cpath d='M6 40c0-9 6-14 14-14s14 5 14 14z' fill='%23222'/%3E%3C/svg%3E" alt=""></span>
+      <span class="demo-avatar demo-avatar--lg demo-avatar--photo" role="img" aria-label="Ann Lee"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23BCFD1D'/%3E%3Ccircle cx='20' cy='16' r='7' fill='%23222'/%3E%3Cpath d='M6 40c0-9 6-14 14-14s14 5 14 14z' fill='%23222'/%3E%3C/svg%3E" alt=""></span>
+      <span class="demo-avatar demo-avatar--xl demo-avatar--photo" role="img" aria-label="Ann Lee"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' fill='%23BCFD1D'/%3E%3Ccircle cx='20' cy='16' r='7' fill='%23222'/%3E%3Cpath d='M6 40c0-9 6-14 14-14s14 5 14 14z' fill='%23222'/%3E%3C/svg%3E" alt=""></span>
+    </div>
+
+    <h2>Initials fallback (React)</h2>
+    <p>Shown when there is no image or it fails to load. Initials sit on the brand green with <code>--vs-color-text-on-primary</code> (6.79:1); white would be 2.78:1 and fails WCAG AA.</p>
+    <div class="vs-docs-preview demo-row">
+      <span class="demo-avatar demo-avatar--sm" role="img" aria-label="Ann Lee"><span aria-hidden="true">AL</span></span>
+      <span class="demo-avatar demo-avatar--md" role="img" aria-label="Ann Lee"><span aria-hidden="true">AL</span></span>
+      <span class="demo-avatar demo-avatar--lg" role="img" aria-label="Ann Lee"><span aria-hidden="true">AL</span></span>
+      <span class="demo-avatar demo-avatar--xl" role="img" aria-label="Ann Lee"><span aria-hidden="true">AL</span></span>
+    </div>
+
+    <h2>Shapes (React)</h2>
+    <div class="vs-docs-preview demo-row">
+      <span class="demo-avatar demo-avatar--lg" role="img" aria-label="Ann Lee"><span aria-hidden="true">AL</span></span>
+      <span class="demo-avatar demo-avatar--lg demo-avatar--circle" role="img" aria-label="Ann Lee"><span aria-hidden="true">AL</span></span>
+    </div>
+    <p><code>rounded</code> (default) is the live site's look; <code>circle</code> is fully round, as in the reports sidebar.</p>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Avatar } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;Avatar</span> <span class="attr">src</span>=<span class="str">{user.avatarUrl}</span> <span class="attr">name</span>=<span class="str">"Ann Lee"</span> <span class="attr">size</span>=<span class="str">"lg"</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;Avatar</span> <span class="attr">name</span>=<span class="str">"Ann Lee"</span> <span class="attr">shape</span>=<span class="str">"circle"</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Usage — Blade</h2>
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-avatar</span> <span class="attr">:src</span>=<span class="str">"$user-&gt;getAvatar()"</span> <span class="attr">:name</span>=<span class="str">"$user-&gt;username"</span> <span class="attr">size</span>=<span class="str">"xl"</span> <span class="attr">:href</span>=<span class="str">"$user-&gt;getProfileLink()"</span> <span class="attr">class</span>=<span class="str">"me-0"</span> <span class="tag">/&gt;</span></div>
+    <p>Wraps the real <code>.user-avatar</code> / <code>.user-avatar-lg</code> / <code>.user-avatar-xl</code> classes, so it looks exactly like the current markup (used in 13 places across 12 views). It has no initials fallback and no <code>sm</code> size: those are React-only.</p>
+
+    <h2>Props</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td><code>src</code></td><td>image URL. React: optional (falls back to initials). Blade: required.</td><td></td></tr>
+        <tr><td><code>name</code></td><td>person's name — accessible label, alt text (Blade) and initials source (React)</td><td></td></tr>
+        <tr><td><code>size</code></td><td><code>sm</code> 32 · <code>md</code> 50 (default) · <code>lg</code> 72 · <code>xl</code> 95 px (Blade: no <code>sm</code>)</td><td><code>--vs-avatar-size-*</code></td></tr>
+        <tr><td><code>shape</code></td><td>React only: <code>rounded</code> (default) · <code>circle</code></td><td><code>--vs-avatar-radius</code>, <code>--vs-radius-full</code></td></tr>
+        <tr><td><code>href</code></td><td>Blade only: renders a link instead of a div</td><td></td></tr>
+      </tbody>
+    </table>
+
+    <h2>Accessibility</h2>
+    <p>The wrapper is <code>role="img"</code> labelled with the name and the inner image has an empty <code>alt</code>, so a screen reader says the name once. A broken image switches to the initials automatically (React).</p>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>
