@@ -78,7 +78,7 @@ export function Pagination({ page, totalPages, onPageChange, className }: Pagina
                 style={{
                   ...ITEM_STYLE_BASE,
                   background: item === page ? 'var(--vs-color-brand-primary)' : 'transparent',
-                  color: item === page ? '#ffffff' : 'var(--vs-color-brand-primary)',
+                  color: item === page ? 'var(--vs-color-text-on-primary)' : 'var(--vs-color-brand-primary)',
                 }}
                 className="vs-page-item"
               >

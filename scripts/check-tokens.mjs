@@ -51,6 +51,7 @@ const need = (label, fg, bg, min) => {
   const r = ratio(f, b);
   if (r < min) fail(`${label}: contrast ${r.toFixed(2)}:1 is below ${min}:1 (${fg} ${f} on ${bg} ${b})`);
 };
+need('text on the brand green', '--vs-color-text-on-primary', '--vs-color-brand-primary', 4.5);
 for (const s of ['', '-hover', '-pressed']) need(`primary button text on ${s || 'default'}`, '--vs-button-primary-text', `--vs-button-primary${s}`, 4.5);
 need('focus ring on surface', '--vs-focus-ring-color', '--vs-color-surface', 3);
 need('focus ring on background', '--vs-focus-ring-color', '--vs-color-background', 3);

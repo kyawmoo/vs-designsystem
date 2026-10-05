@@ -97,5 +97,5 @@
    overrides Bootstrap's grey — they just can't be clicked. */
 .demo-pages { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
 .demo-page-link { display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; min-width: 36px; height: 36px; padding: 6px 15px; border: 0; border-radius: var(--vs-radius-xs); background: transparent; color: var(--vs-color-brand-primary); font-family: var(--vs-font-family); font-size: 16px; line-height: 1.5; text-decoration: none; cursor: pointer; }
-.demo-page-link:hover, .demo-page-link.is-active { background: var(--vs-color-brand-primary); color: #fff; }
+.demo-page-link:hover, .demo-page-link.is-active { background: var(--vs-color-brand-primary); color: var(--vs-color-text-on-primary); }
 .demo-page-link.is-disabled { pointer-events: none; cursor: default; }
