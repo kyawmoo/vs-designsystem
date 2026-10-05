@@ -8,19 +8,19 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
 <style>
   .type-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px; margin: 16px 0; }
   .type-card { border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); background: var(--vs-color-surface); padding: 24px; display: flex; flex-direction: column; gap: 16px; }
   .type-card-kicker { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; background: var(--vs-color-brand-secondary); color: #fff; }
   .type-card-kicker--light { background: #e4e4e7; color: #3f3f46; }
   .type-card-meta { margin: 6px 0 0; font-family: 'SFMono-Regular', Consolas, monospace; font-size: 12px; color: var(--vs-color-text-muted); }
-  .type-card-aa { font-family: 'Roboto', sans-serif; font-size: 72px; line-height: 1; color: var(--vs-color-text-heading); }
-  .type-card-sample { font-family: 'Roboto', sans-serif; font-size: 14px; color: var(--vs-color-text-body); margin: 12px 0 0; }
+  .type-card-aa { font-family: 'Poppins', sans-serif; font-size: 72px; line-height: 1; color: var(--vs-color-text-heading); }
+  .type-card-sample { font-family: 'Poppins', sans-serif; font-size: 14px; color: var(--vs-color-text-body); margin: 12px 0 0; }
   .type-card-foot { border-top: 1px solid var(--vs-color-border); padding-top: 12px; }
   .type-card-foot h3 { margin: 0; font-size: 15px; }
   .type-card-foot p { margin: 2px 0 0; font-size: 13px; color: var(--vs-color-text-muted); }
-  .type-specimen { font-family: 'Roboto', sans-serif; color: var(--vs-color-text-heading); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 420px; display: block; }
+  .type-specimen { font-family: 'Poppins', sans-serif; color: var(--vs-color-text-heading); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 420px; display: block; }
   @media (max-width: 640px) { .type-specimen { white-space: normal; } }
   .type-size { display: inline-block; font-family: 'SFMono-Regular', Consolas, monospace; font-size: 11px; padding: 1px 6px; border-radius: 4px; background: #f1f1f4; color: #52525b; margin-bottom: 4px; }
   .type-toolbar { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--vs-color-border); }
@@ -42,10 +42,9 @@
     <h1>Typography</h1>
     <p class="vs-docs-hero-lede">
       Type tokens define the font family, scale, and weight used across
-      VectorSticker.com. <strong>Roboto</strong> is the single primary font
+      VectorSticker.com. <strong>Poppins</strong> is the single primary font
       family for both the public frontend and the admin interfaces —
-      replacing the public site's Montserrat override and the report
-      site's Inter.
+      the font vectorsticker.com has used since 2026-10-04.
     </p>
     </div>
   </div>
@@ -55,20 +54,20 @@
     <!-- 01 -->
     <div class="vs-docs-section-head">
       <div><span class="vs-docs-section-num">01 // Font Selection</span><h2>Font Family</h2></div>
-      <p class="vs-docs-section-desc">Roboto is the standard primary font family across the whole product ecosystem.</p>
+      <p class="vs-docs-section-desc">Poppins is the standard primary font family across the whole product ecosystem.</p>
     </div>
     <div class="type-cards">
       <div class="type-card">
         <div>
           <span class="type-card-kicker">Primary brand font</span>
-          <p class="type-card-meta">font-family: 'Roboto', sans-serif</p>
+          <p class="type-card-meta">font-family: 'Poppins', sans-serif</p>
         </div>
         <div>
           <div class="type-card-aa" style="font-weight:700">Aa</div>
           <p class="type-card-sample">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz 0123456789</p>
         </div>
         <div class="type-card-foot">
-          <h3>Roboto — Public &amp; Admin</h3>
+          <h3>Poppins — Public &amp; Admin</h3>
           <p>One typeface for every customer-facing and management screen, for clean, consistent legibility.</p>
         </div>
       </div>
@@ -83,35 +82,30 @@
         </div>
         <div class="type-card-foot">
           <h3>Fallback stack</h3>
-          <p>Roboto, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif</p>
+          <p>Poppins, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif</p>
         </div>
       </div>
     </div>
     <div class="vs-docs-callout">
       <p>
-        <strong>Decision: Roboto is the unified font family for all interfaces.</strong>
-        Live on reports.vectorsticker.com: the report site's Inter
-        (<code>index.css</code>, <code>index.html</code>), its two
-        standalone <code>/forgot-password</code> and
-        <code>/reset-password</code> pages (previously Plus Jakarta
-        Sans — a third font found only by auditing every real
-        reference), its printable report pages, and its one Canvas
-        chart-label font string have all switched to Roboto.
+        <strong>Decision: Poppins is the unified font family for all interfaces.</strong>
+        Live on vectorsticker.com since 2026-10-04 (self-hosted, replacing
+        Montserrat).
       </p>
     </div>
     <div class="vs-docs-callout vs-docs-callout--gap">
       <p>
-        <strong>Not yet on vectorsticker.com.</strong> The main site's
-        <code>custom.css</code> still sets <code>font-family: Montserrat
-        !important</code>. Switching it is a separate, tracked follow-up
-        on the main production site, not something this repo changes.
+        <strong>Not yet on reports.vectorsticker.com.</strong> The report
+        site still sets its own font (Roboto) in its own code. Switching
+        it is a separate follow-up in that repo, not something this repo
+        changes.
       </p>
     </div>
 
     <!-- 02 -->
     <div class="vs-docs-section-head">
       <div><span class="vs-docs-section-num">02 // Hierarchy &amp; Scale</span><h2>Type Scale</h2></div>
-      <p class="vs-docs-section-desc">Display, headings H1–H4, body variants, paragraph, label and caption — all in Roboto.</p>
+      <p class="vs-docs-section-desc">Display, headings H1–H4, body variants, paragraph, label and caption — all in Poppins.</p>
     </div>
     <div class="type-scroll"><table class="vs-docs-table">
       <thead><tr><th>Specimen</th><th>Token</th><th>Size / weight</th><th>Use for</th></tr></thead>
@@ -211,7 +205,7 @@
         return "  '" + t[0] + "': (size: " + t[1] + 'px, line-height: ' + t[2] + 'px, weight: ' + t[3] + ')';
       }).join(',\n') + '\n);',
       css: ':root {\n' + scale.map(function (t) {
-        return '  --vs-type-' + t[0] + ': ' + t[3] + ' ' + t[1] + 'px/' + t[2] + "px 'Roboto', sans-serif;";
+        return '  --vs-type-' + t[0] + ': ' + t[3] + ' ' + t[1] + 'px/' + t[2] + "px 'Poppins', sans-serif;";
       }).join('\n') + '\n}'
     };
     document.querySelectorAll('[data-copy]').forEach(function (btn) {

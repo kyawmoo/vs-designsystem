@@ -44,7 +44,7 @@
   --vs-color-item-status-deleted: #F44336;
 
   /* ---- Typography ---- */
-  --vs-font-family: 'Roboto', sans-serif;
+  --vs-font-family: 'Poppins', sans-serif;
   --vs-font-size-body-sm: 13px;
   --vs-font-size-body-md: 16px;
   --vs-font-size-heading-sm: 15px;
@@ -76,7 +76,12 @@
   --vs-radius-full: 9999px;
 
   /* ---- Button (spec v2, 25 Sep 2026) ---- */
-  --vs-button-primary: #4CAF50;
+  --vs-button-primary: var(--vs-color-brand-primary);
+  /* Text on the primary button. White on the brand green is only 2.78:1 (fails WCAG AA 4.5:1);
+     #111111 gives 6.79:1 (default), 5.72:1 (hover), 4.59:1 (pressed). */
+  --vs-button-primary-text: #111111;
+  /* Hover/pressed shades and the tertiary tints below are derived from the brand green but kept as
+     literal defaults. A product that overrides --vs-color-brand-primary must override these too. */
   --vs-button-primary-hover: #43A047;
   --vs-button-primary-pressed: #388E3C;
   --vs-button-secondary: #222222;
@@ -86,7 +91,7 @@
   --vs-button-tertiary-text: #18181B;
   --vs-button-tertiary-hover-bg: rgba(76, 175, 80, 0.10);
   --vs-button-tertiary-pressed-bg: rgba(76, 175, 80, 0.20);
-  --vs-button-tertiary-active-border: #4CAF50;
+  --vs-button-tertiary-active-border: var(--vs-color-brand-primary);
   --vs-button-cta-support: #F59E0B;
   --vs-button-cta-support-hover: #F5A623;
   --vs-button-cta-support-pressed: #D97706;
@@ -128,8 +133,8 @@
   --vs-card-price-color: #111827;
   --vs-card-price-old-size: 14px;
   --vs-card-price-old-color: #9CA3AF;
-  --vs-card-price-sale-color: #4CAF50;
-  --vs-card-hover-border: #4CAF50;
+  --vs-card-price-sale-color: var(--vs-color-brand-primary);
+  --vs-card-hover-border: var(--vs-color-brand-primary);
   --vs-card-hover-lift: -4px;
 
   /* ---- Icon size scale (library differs by platform: lucide-react on
@@ -138,6 +143,13 @@
   --vs-icon-size-md: 20px;
   --vs-icon-size-lg: 24px;
   --vs-icon-stroke-width: 2;
+
+  /* ---- Focus ring (keyboard focus). Contrast must be >= 3:1 against the adjacent colours
+     (WCAG 1.4.11): dark ring on light surfaces, white ring on dark surfaces. ---- */
+  --vs-focus-ring-color: var(--vs-color-brand-secondary);
+  --vs-focus-ring-color-on-dark: #FFFFFF;
+  --vs-focus-ring-width: 2px;
+  --vs-focus-ring-offset: 2px;
 
   /* ---- Shadow (flat design — always none) ---- */
   --vs-shadow-none: none;

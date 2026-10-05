@@ -33,7 +33,7 @@
   .demo-btn--md { height: var(--vs-button-height-md); padding: 0 var(--vs-button-pad-x-md); font-size: var(--vs-button-font-size-md); }
   .demo-btn--lg { height: var(--vs-button-height-lg); padding: 0 var(--vs-button-pad-x-lg); font-size: var(--vs-button-font-size-lg); }
 
-  .demo-btn--primary { background: var(--vs-button-primary); border-color: var(--vs-button-primary); color: #fff; border-radius: var(--vs-button-radius); }
+  .demo-btn--primary { background: var(--vs-button-primary); border-color: var(--vs-button-primary); color: var(--vs-button-primary-text); border-radius: var(--vs-button-radius); }
   .demo-btn--primary:hover:not(:disabled), .demo-btn--primary.is-hover { background: var(--vs-button-primary-hover); border-color: var(--vs-button-primary-hover); }
   .demo-btn--primary:active:not(:disabled), .demo-btn--primary.is-pressed { background: var(--vs-button-primary-pressed); border-color: var(--vs-button-primary-pressed); }
 
@@ -354,7 +354,7 @@
             <tr><td>Height</td><td>50–52px</td></tr>
             <tr><td>Radius</td><td>12px (<code>--vs-button-radius-cta</code>)</td></tr>
             <tr><td>Padding</td><td>14px 32px</td></tr>
-            <tr><td>Font</td><td>Roboto 700 (bold)</td></tr>
+            <tr><td>Font</td><td>Poppins 700 (bold)</td></tr>
             <tr><td>Colors</td><td>#f59e0b default · #f5a623 hover · #d97706 pressed · text #18181b</td></tr>
           </tbody>
         </table>
@@ -400,6 +400,8 @@
     <div class="demo-scroll"><table class="vs-docs-table">
       <thead><tr><th>Property</th><th>Value</th><th>Token</th></tr></thead>
       <tbody>
+        <tr><td>Primary button text</td><td>#111111 (6.79:1 default, 5.72:1 hover, 4.59:1 pressed; white would be 2.78:1)</td><td><code>--vs-button-primary-text</code></td></tr>
+        <tr><td>Keyboard focus ring</td><td>2px solid #222222, 2px offset (white on dark surfaces)</td><td><code>--vs-focus-ring-*</code></td></tr>
         <tr><td>Height sm / md / lg</td><td>32 / 40 / 48px</td><td><code>--vs-button-height-*</code></td></tr>
         <tr><td>Side padding sm / md / lg</td><td>16 / 28 / 32px</td><td><code>--vs-button-pad-x-*</code></td></tr>
         <tr><td>Font size sm / md / lg</td><td>13 / 14 / 16px</td><td><code>--vs-button-font-size-*</code></td></tr>
@@ -588,6 +590,8 @@
         '  --vs-button-primary: #4CAF50;',
         '  --vs-button-primary-hover: #43A047;',
         '  --vs-button-primary-pressed: #388E3C;',
+        '  --vs-button-primary-text: #111111;',
+        '  --vs-focus-ring-color: #222222;',
         '  --vs-button-secondary: #222222;',
         '  --vs-button-secondary-hover: #333333;',
         '  --vs-button-secondary-pressed: #151515;',

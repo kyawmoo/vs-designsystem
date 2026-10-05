@@ -54,7 +54,7 @@
 .demo-kicker { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--vs-color-brand-primary); }
 .demo-label { display: block; font-size: 12px; font-weight: 500; color: #71717a; margin-bottom: 4px; }
 .demo-input { width: 100%; box-sizing: border-box; height: 38px; padding: 0 12px; border: 1px solid var(--vs-color-border); border-radius: 8px; background: #fff; font: 14px var(--vs-font-family); color: #18181b; }
-.demo-submit { height: 40px; border: 0; border-radius: var(--vs-button-radius); background: var(--vs-button-primary); color: #fff; font: 500 14px var(--vs-font-family); cursor: pointer; }
+.demo-submit { height: 40px; border: 0; border-radius: var(--vs-button-radius); background: var(--vs-button-primary); color: var(--vs-button-primary-text); font: 500 14px var(--vs-font-family); cursor: pointer; }
 .demo-submit:hover { background: var(--vs-button-primary-hover); }
 
 /* ---- Do / Don't ---- */

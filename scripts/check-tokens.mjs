@@ -1,0 +1,60 @@
+// Static checks for tokens/tokens.css. No dependencies. Run: npm run check:tokens
+//  1. docs/assets/tokens.css is an exact copy of tokens/tokens.css
+//  2. tokens.json parses
+//  3. no raw colour literal outside tokens/raw-colour-allowlist.txt (and no stale allowlist entry)
+//  4. the brand green is defined once: no other token may hold the same literal
+//  5. contrast: primary-button text >= 4.5:1 on default/hover/pressed, focus ring >= 3:1 on the
+//     light surfaces and on the dark brand surface (white ring)
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+
+const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+const read = (p) => readFileSync(join(root, p), 'utf8');
+const errors = [];
+const fail = (m) => errors.push(m);
+
+const css = read('tokens/tokens.css');
+if (css !== read('docs/assets/tokens.css')) fail('docs/assets/tokens.css differs from tokens/tokens.css (copy it)');
+try { JSON.parse(read('tokens/tokens.json')); } catch (e) { fail('tokens/tokens.json is not valid JSON: ' + e.message); }
+
+const body = css.replace(/\/\*[\s\S]*?\*\//g, '');
+const tokens = new Map();
+for (const m of body.matchAll(/(--vs-[a-z0-9-]+)\s*:\s*([^;]+);/g)) tokens.set(m[1], m[2].trim());
+
+const RAW = /#[0-9a-fA-F]{3,8}\b|\brgba?\(|\bhsla?\(/;
+const rawNames = [...tokens].filter(([, v]) => RAW.test(v)).map(([k]) => k);
+const allow = new Set(read('tokens/raw-colour-allowlist.txt').split('\n').map((l) => l.trim()).filter((l) => l && !l.startsWith('#')));
+for (const n of rawNames) if (!allow.has(n)) fail(`${n} is a raw colour (${tokens.get(n)}). Use an existing token via var(), or add it to tokens/raw-colour-allowlist.txt on purpose`);
+for (const n of allow) if (!rawNames.includes(n)) fail(`allowlist entry ${n} is no longer a raw colour (remove it from tokens/raw-colour-allowlist.txt)`);
+
+const norm = (v) => v.replace(/\s+/g, '').toLowerCase();
+const green = norm(tokens.get('--vs-color-brand-primary') || '');
+for (const [k, v] of tokens) if (k !== '--vs-color-brand-primary' && green && norm(v) === green) fail(`${k} repeats the brand green literal; use var(--vs-color-brand-primary)`);
+
+function resolve(name, seen = new Set()) {
+  let v = tokens.get(name);
+  if (v === undefined || seen.has(name)) return undefined;
+  seen.add(name);
+  const m = v.match(/^var\((--vs-[a-z0-9-]+)\)$/);
+  return m ? resolve(m[1], seen) : v;
+}
+const lum = (hex) => {
+  const h = hex.replace('#', '');
+  const [r, g, b] = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+const need = (label, fg, bg, min) => {
+  const f = resolve(fg), b = resolve(bg);
+  if (!/^#[0-9a-fA-F]{6}$/.test(f || '') || !/^#[0-9a-fA-F]{6}$/.test(b || '')) { fail(`${label}: cannot resolve ${fg} / ${bg} to a 6-digit hex`); return; }
+  const r = ratio(f, b);
+  if (r < min) fail(`${label}: contrast ${r.toFixed(2)}:1 is below ${min}:1 (${fg} ${f} on ${bg} ${b})`);
+};
+for (const s of ['', '-hover', '-pressed']) need(`primary button text on ${s || 'default'}`, '--vs-button-primary-text', `--vs-button-primary${s}`, 4.5);
+need('focus ring on surface', '--vs-focus-ring-color', '--vs-color-surface', 3);
+need('focus ring on background', '--vs-focus-ring-color', '--vs-color-background', 3);
+need('focus ring on dark surface', '--vs-focus-ring-color-on-dark', '--vs-color-brand-secondary', 3);
+
+if (errors.length) { console.error('check-tokens FAILED:\n- ' + errors.join('\n- ')); process.exit(1); }
+console.log(`check-tokens OK (${tokens.size} tokens, ${rawNames.length} approved raw colours)`);
