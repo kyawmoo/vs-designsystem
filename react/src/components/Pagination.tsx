@@ -18,7 +18,7 @@ const ITEM_STYLE_BASE: React.CSSProperties = {
   borderRadius: 'var(--vs-radius-xs)',
   border: 'none',
   background: 'transparent',
-  color: 'var(--vs-color-brand-primary)',
+  color: 'var(--vs-color-brand-primary-text)', /* the plain brand green is 2.78:1 on white */
   fontFamily: 'var(--vs-font-family)',
   fontSize: 'var(--vs-font-size-body-sm)',
   cursor: 'pointer',
@@ -78,7 +78,7 @@ export function Pagination({ page, totalPages, onPageChange, className }: Pagina
                 style={{
                   ...ITEM_STYLE_BASE,
                   background: item === page ? 'var(--vs-color-brand-primary)' : 'transparent',
-                  color: item === page ? 'var(--vs-color-text-on-primary)' : 'var(--vs-color-brand-primary)',
+                  color: item === page ? 'var(--vs-color-text-on-primary)' : 'var(--vs-color-brand-primary-text)',
                 }}
                 className="vs-page-item"
               >

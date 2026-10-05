@@ -48,3 +48,7 @@
 --vs-card-price-color
 --vs-card-price-old-color
 --vs-focus-ring-color-on-dark
+--vs-toast-success
+--vs-toast-error
+--vs-toast-warning
+--vs-toast-info

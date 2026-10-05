@@ -45,6 +45,14 @@ function resolve(name, seen = new Set()) {
   const m = v.match(/^var\((--vs-[a-z0-9-]+)\)$/);
   return m ? resolve(m[1], seen) : v;
 }
+const mixBlack = (hex, pct) => '#' + [0, 2, 4].map((i) => Math.round(parseInt(hex.slice(1 + i, 3 + i), 16) * pct / 100).toString(16).padStart(2, '0')).join('');
+function colourOf(name) { // resolve var() chains and color-mix(in srgb, X N%, black) to a 6-digit hex
+  const v = resolve(name);
+  const m = (v || '').match(/^color-mix\(in srgb,\s*(var\(--vs-[a-z0-9-]+\)|#[0-9a-fA-F]{6})\s+(\d+)%,\s*black\)$/);
+  if (!m) return v;
+  const base = m[1].startsWith('var(') ? colourOf(m[1].slice(4, -1)) : m[1];
+  return /^#[0-9a-fA-F]{6}$/.test(base || '') ? mixBlack(base, Number(m[2])) : undefined;
+}
 const lum = (hex) => {
   const h = hex.replace('#', '');
   const [r, g, b] = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
@@ -52,13 +60,16 @@ const lum = (hex) => {
 };
 const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
 const need = (label, fg, bg, min) => {
-  const f = resolve(fg), b = resolve(bg);
+  const f = colourOf(fg), b = colourOf(bg);
   if (!/^#[0-9a-fA-F]{6}$/.test(f || '') || !/^#[0-9a-fA-F]{6}$/.test(b || '')) { fail(`${label}: cannot resolve ${fg} / ${bg} to a 6-digit hex`); return; }
   const r = ratio(f, b);
   if (r < min) fail(`${label}: contrast ${r.toFixed(2)}:1 is below ${min}:1 (${fg} ${f} on ${bg} ${b})`);
 };
 need('text on the brand green', '--vs-color-text-on-primary', '--vs-color-brand-primary', 4.5);
 for (const s of ['', '-hover', '-pressed']) need(`primary button text on ${s || 'default'}`, '--vs-button-primary-text', `--vs-button-primary${s}`, 4.5);
+need('brand green as text on surface', '--vs-color-brand-primary-text', '--vs-color-surface', 4.5);
+need('brand green as text on background', '--vs-color-brand-primary-text', '--vs-color-background', 4.5);
+for (const t of ['success', 'error', 'warning', 'info']) need(`toast text on ${t}`, '--vs-toast-text', `--vs-toast-${t}`, 4.5);
 need('focus ring on surface', '--vs-focus-ring-color', '--vs-color-surface', 3);
 need('focus ring on background', '--vs-focus-ring-color', '--vs-color-background', 3);
 need('focus ring on dark surface', '--vs-focus-ring-color-on-dark', '--vs-color-brand-secondary', 3);

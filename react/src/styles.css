@@ -71,6 +71,11 @@
 /* Pagination — real .page-item .page-link:hover fills solid brand
    primary + white text (audited from app.css); can't express :hover
    background/color swap inline. */
+.vs-page-item:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: var(--vs-focus-ring-offset);
+}
+
 .vs-page-item:hover:not(:disabled) {
   background: var(--vs-color-brand-primary) !important;
   color: var(--vs-color-text-on-primary) !important; /* white on the brand green is 2.78:1 */
@@ -593,24 +598,24 @@
   padding: 24px;
   border-radius: 10px;
   font-family: var(--vs-font-family);
-  color: #ffffff;
+  color: var(--vs-toast-text); /* white would be 1.8-3.7:1 on these fills */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .vs-toast--success {
-  background-color: #8bc34a;
+  background-color: var(--vs-toast-success);
 }
 
 .vs-toast--error {
-  background-color: #f44336;
+  background-color: var(--vs-toast-error);
 }
 
 .vs-toast--warning {
-  background-color: #f6b800;
+  background-color: var(--vs-toast-warning);
 }
 
 .vs-toast--info {
-  background-color: #00bcd4;
+  background-color: var(--vs-toast-info);
 }
 
 .vs-toast-icon {
@@ -618,7 +623,7 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: 2px solid #ffffff;
+  border: 2px solid var(--vs-toast-text);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -640,14 +645,22 @@
   flex-shrink: 0;
   border: none;
   background: transparent;
-  color: #ffffff;
-  opacity: 0.85;
+  color: var(--vs-toast-text);
   cursor: pointer;
   padding: 0;
   display: flex;
   align-items: center;
 }
 
+.vs-toast-close {
+  border-radius: 50%;
+}
+
 .vs-toast-close:hover {
-  opacity: 1;
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.vs-toast-close:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-toast-text);
+  outline-offset: var(--vs-focus-ring-offset);
 }

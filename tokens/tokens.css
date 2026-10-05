@@ -21,6 +21,9 @@
   /* Text/icons placed ON the brand green (active tab, active page, primary button). White is only 2.78:1;
      #111111 is 6.79:1 (WCAG AA needs 4.5:1). */
   --vs-color-text-on-primary: #111111;
+  /* Brand green as TEXT or thin lines on light surfaces: the brand green itself is only 2.78:1 on white. Mixing 30% black
+     into it gives about 5.3:1 on white and 4.8:1 on the 10% green tint, and it still follows an admin colour change. */
+  --vs-color-brand-primary-text: color-mix(in srgb, var(--vs-color-brand-primary) 70%, black);
 
   /* ---- Color: Status ---- */
   --vs-color-success-bg: #E0F9E0;
@@ -169,6 +172,13 @@
   --vs-empty-state-padding-sm: 24px;
   --vs-empty-state-padding-md: 48px;
   --vs-empty-state-padding-lg: 8rem;
+
+  /* ---- Toast (solid tone fills audited from the live vironeer toastr; text/icon are dark: white is 1.8-3.7:1) ---- */
+  --vs-toast-text: var(--vs-color-text-on-primary);
+  --vs-toast-success: #8BC34A;
+  --vs-toast-error: #F44336;
+  --vs-toast-warning: #F6B800;
+  --vs-toast-info: #00BCD4;
 
   /* ---- Shadow (flat design — always none) ---- */
   --vs-shadow-none: none;

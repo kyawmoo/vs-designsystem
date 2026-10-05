@@ -73,8 +73,8 @@ const EMPHASIS_STYLE: Record<ButtonEmphasis, React.CSSProperties> = {
 const ICON_ONLY_STYLE: Record<ButtonEmphasis, React.CSSProperties> = {
   primary: {
     background: 'transparent',
-    border: '2px solid var(--vs-button-primary)',
-    color: 'var(--vs-button-primary)',
+    border: '2px solid var(--vs-color-brand-primary-text)', /* the plain brand green is 2.78:1 on white (3:1 needed) */
+    color: 'var(--vs-color-brand-primary-text)',
   },
   secondary: {
     background: 'transparent',
