@@ -1,0 +1,42 @@
+# Runs on every pull request and on pushes to main.
+#  - tokens: scripts/check-tokens.mjs (docs copy in sync, tokens.json valid, no unapproved raw colour, no second brand
+#    green, body type tokens agree, WCAG contrast of text/ring/toast tokens). No dependencies.
+#  - react: type-checks the React package (tsc --noEmit).
+name: design-system-checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  tokens:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Token checks
+        run: npm run check:tokens
+
+  react:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: react
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: react/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - name: Type-check
+        run: npx tsc --noEmit -p .
