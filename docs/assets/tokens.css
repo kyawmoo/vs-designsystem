@@ -39,7 +39,9 @@
   --vs-color-badge-trending: #0074E4;
   --vs-color-badge-sale: #0BBE9A;
   --vs-color-badge-free: #743CEE;
-  --vs-color-badge-premium: var(--vs-color-brand-primary);
+  /* Premium = dark gold with white text (owner's choice, 6 Oct 2026; was the brand green). White on it is 2.8:1, below
+     WCAG AA 4.5:1: an accepted, documented exception (check-tokens gates premium badge text at >= 2.5:1 only). */
+  --vs-color-badge-premium: #CC8F00;
 
   /* ---- Color: Item Status (admin moderation states) ---- */
   --vs-color-item-status-pending: #FF7A14;
@@ -145,9 +147,9 @@
   --vs-card-price-sale-color: var(--vs-color-brand-primary);
   --vs-card-hover-border: var(--vs-color-brand-primary);
   --vs-card-hover-lift: -4px;
-  /* Item card component (x-vs-item-card, 6 Oct 2026). Badge text per fill so it stays >= 4.5:1: white is only
-     2.78:1 on the premium green and 2.4:1 on the sale teal, so those two use the dark on-primary text. */
-  --vs-card-badge-premium-text: var(--vs-color-text-on-primary);
+  /* Item card component (x-vs-item-card, 6 Oct 2026). Badge text per fill: white is 2.4:1 on the sale teal, so sale
+     uses the dark on-primary text. Premium is white on dark gold by the owner's choice (2.8:1, see badge-premium). */
+  --vs-card-badge-premium-text: var(--vs-color-surface);
   --vs-card-badge-sale-text: var(--vs-color-text-on-primary);
   --vs-card-badge-free-text: var(--vs-color-surface);
   --vs-card-badge-trending-text: var(--vs-color-surface);
