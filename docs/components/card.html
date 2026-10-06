@@ -533,13 +533,12 @@
 
     <div class="vs-docs-callout vs-docs-callout--gap">
       <p>
-        <strong>Rollout status:</strong> the item card on this page is a
-        spec, not a component yet — there is no <code>&lt;ItemCard&gt;</code>
-        in React or Blade, because the real <code>item.blade.php</code> also
-        carries price, cart and download logic (payment-related, needs its
-        own reviewed change). vectorsticker.com's live item card still uses
-        its current CSS (8px radius, edge-ribbon badge) until that site is
-        updated.
+        <strong>Rollout status:</strong> the item card is now a Blade component,
+        <a href="/components/item-card.html"><code>&lt;x-vs-item-card&gt;</code></a> (fluid width, spec v2
+        padding, title and price; the page passes its own download / cart controls, so no payment logic lives
+        in the design system). There is no React <code>&lt;ItemCard&gt;</code>. vectorsticker.com's live item
+        card still uses its current CSS (8px radius, edge-ribbon badge) until that site switches to the
+        component.
       </p>
     </div>
   </div>

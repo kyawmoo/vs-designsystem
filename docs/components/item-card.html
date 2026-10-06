@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Item Card — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<!-- The component's real CSS (exact copy of blade/components.css, kept in sync by npm run check:tokens). -->
+<link rel="stylesheet" href="/assets/blade-components.css">
+<style>
+  /* Demo-only layout. The cards below are the real Blade output of x-vs-item-card. */
+  .demo-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 16px; padding: 24px; background: var(--vs-color-background); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); }
+  .demo-list { padding: 24px; background: var(--vs-color-background); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); }
+  /* Stand-in for the site's Bootstrap row + .rating / .rating-active colours (x-vs-rating keeps the site CSS). */
+  .vs-docs-content .vs-item-card .ratings { display: flex; gap: 2px; margin: 0; }
+  .vs-docs-content .vs-item-card .rating { color: var(--vs-color-border); font-size: 12px; }
+  .vs-docs-content .vs-item-card .rating-active { color: var(--vs-button-cta-support); }
+  .demo-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .demo-scroll > .vs-docs-table { min-width: 560px; }
+  .vs-docs-content p code, .vs-docs-content li code, .vs-docs-hero code { overflow-wrap: anywhere; }
+</style>
+</head>
+<body data-page="item-card">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Item Card <span class="vs-docs-tag">Blade only</span> <span class="vs-docs-tag">card spec v2</span></p>
+    <h1>Item Card</h1>
+    <p class="vs-docs-hero-lede">
+      The listing card for one item on vectorsticker.com, built from the
+      <a href="/components/card.html">Card spec v2</a>. Implemented in
+      <code>blade/components/vs-item-card.blade.php</code> and
+      <code>vs-item-card-action.blade.php</code>, styled by
+      <code>blade/components.css</code> (tokens only). It will replace
+      <code>resources/views/themes/basic/partials/item.blade.php</code>. A React version is not built.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Grid</span><h2>Variants</h2></div>
+      <p class="vs-docs-section-desc">Free · paid with author · sale with heart · own item · external seller. Hover a card; Tab through it.</p>
+    </div>
+<div class="demo-cards">
+<div class="vs-item-card item">
+    <div class="vs-item-card__media">
+            <a href="#" class="vs-item-card__media-link" tabindex="-1" aria-hidden="true" >
+                <img class="vs-item-card__img" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22%23F9FAFB%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2230%22%20fill%3D%22%23743CEE%22%2F%3E%3Crect%20x%3D%2244%22%20y%3D%2212%22%20width%3D%2212%22%20height%3D%2276%22%20fill%3D%22%23222%22%2F%3E%3C%2Fsvg%3E" alt="Dark Skull Chess King Illustration" loading="lazy" decoding="async" width="1000" height="1000">
+            </a>
+                    <span class="vs-item-card__badge vs-item-card__badge--free">
+                <i class="fa-regular fa-heart" aria-hidden="true"></i><span class="vs-item-card__badge-text">Free</span>
+            </span>
+            </div>
+    <div class="vs-item-card__body">
+        <a class="vs-item-card__title" href="#" >Dark Skull Chess King Illustration</a>
+        <p class="vs-item-card__meta"><span class="vs-item-card__category"><a href="#">Skulls, Bones &amp; Anatomy</a></span></p>
+                    <p class="vs-item-card__desc">This striking skull chess king illustration delivers a sinister gothic aesthetic for shirts, stickers and posters.</p>
+        <div class="vs-item-card__footer">
+            <div class="vs-item-card__purchase">
+                                    <div class="vs-item-card__price-row">
+                                                    <span class="vs-item-card__price">Free</span>
+                                            </div>
+                                                    <div class="vs-item-card__stat">
+                        <i class="fa-solid fa-download" aria-hidden="true"></i>
+                        2 Downloads
+                    </div>
+                            </div>
+            <div class="vs-item-card__actions">
+                                <form action="#" method="POST" onsubmit="return false"><button
+        type="submit"
+        aria-label="Download"
+        title="Download"
+                class="vs-item-card__action vs-item-card__action--primary"
+    ><i class="fa-solid fa-download" aria-hidden="true"></i></button>
+</form>
+                <a
+         href="#"                         aria-label="View item"
+        title="View item"
+        class="vs-item-card__action vs-item-card__action--secondary"
+    ><i class="fa-regular fa-eye" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="vs-item-card item">
+    <div class="vs-item-card__media">
+            <a href="#" class="vs-item-card__media-link" tabindex="-1" aria-hidden="true" >
+                <img class="vs-item-card__img" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22%23F9FAFB%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2230%22%20fill%3D%22%234CAF50%22%2F%3E%3Crect%20x%3D%2244%22%20y%3D%2212%22%20width%3D%2212%22%20height%3D%2276%22%20fill%3D%22%23222%22%2F%3E%3C%2Fsvg%3E" alt="Holographic Cyber Cat Sticker" loading="lazy" decoding="async" width="1000" height="1000">
+            </a>
+                    <span class="vs-item-card__badge vs-item-card__badge--premium">
+                <i class="fa-solid fa-crown" aria-hidden="true"></i><span class="vs-item-card__badge-text">Premium</span>
+            </span>
+            </div>
+    <div class="vs-item-card__body">
+        <a class="vs-item-card__title" href="#" >Holographic Cyber Cat Sticker</a>
+        <p class="vs-item-card__meta"><span class="">By </span><span class=""><a href="#">StudioKMO</a></span><span class=""> in </span><span class="vs-item-card__category"><a href="#">Cyberpunk</a></span></p>
+                    <p class="vs-item-card__desc">Durable vinyl die-cut sticker with waterproof coating and a vibrant finish.</p>
+                    <div class="vs-item-card__rating">
+                <div class="row row-cols-auto flex-nowrap g-1 ratings" role="img" aria-label="Rated 5 out of 5">
+            <div class="col rating rating-active" aria-hidden="true">
+            <i class="fa fa-star"></i>
+        </div>
+            <div class="col rating rating-active" aria-hidden="true">
+            <i class="fa fa-star"></i>
+        </div>
+            <div class="col rating rating-active" aria-hidden="true">
+            <i class="fa fa-star"></i>
+        </div>
+            <div class="col rating rating-active" aria-hidden="true">
+            <i class="fa fa-star"></i>
+        </div>
+            <div class="col rating rating-active" aria-hidden="true">
+            <i class="fa fa-star"></i>
+        </div>
+    </div>
+                                    <span class="vs-item-card__reviews">(128)</span>
+                            </div>
+        <div class="vs-item-card__footer">
+            <div class="vs-item-card__purchase">
+                                    <div class="vs-item-card__price-row">
+                                                                                <span class="vs-item-card__price">$12.00</span>
+                                            </div>
+                                                    <div class="vs-item-card__stat">
+                        <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+                        35 Sales
+                    </div>
+                            </div>
+            <div class="vs-item-card__actions">
+                                <form action="#" method="POST" onsubmit="return false"><button
+        type="submit"
+        aria-label="Add to cart"
+        title="Add to cart"
+                class="vs-item-card__action vs-item-card__action--primary"
+    ><i class="fa-solid fa-shopping-cart" aria-hidden="true"></i></button>
+</form>
+                <a
+         href="#"                         aria-label="View item"
+        title="View item"
+        class="vs-item-card__action vs-item-card__action--secondary"
+    ><i class="fa-regular fa-eye" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="vs-item-card item">
+    <div class="vs-item-card__media">
+            <a href="#" class="vs-item-card__media-link" tabindex="-1" aria-hidden="true" >
+                <img class="vs-item-card__img" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22%23F9FAFB%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2230%22%20fill%3D%22%230BBE9A%22%2F%3E%3Crect%20x%3D%2244%22%20y%3D%2212%22%20width%3D%2212%22%20height%3D%2276%22%20fill%3D%22%23222%22%2F%3E%3C%2Fsvg%3E" alt="Brass Chrono Cog" loading="lazy" decoding="async" width="1000" height="1000">
+            </a>
+                    <span class="vs-item-card__badge vs-item-card__badge--sale">
+                <i class="fa-solid fa-tag" aria-hidden="true"></i><span class="vs-item-card__badge-text">On Sale</span>
+            </span>
+            </div>
+    <div class="vs-item-card__body">
+        <a class="vs-item-card__title" href="#" >Brass Chrono Cog</a>
+        <p class="vs-item-card__meta"><span class="vs-item-card__category"><a href="#">Steampunk</a></span></p>
+                    <p class="vs-item-card__desc">Brass clockwork cog sticker with an aged metal finish.</p>
+        <div class="vs-item-card__footer">
+            <div class="vs-item-card__purchase">
+                                    <div class="vs-item-card__price-row">
+                                                                                    <del class="vs-item-card__price-old"><span class="vs-item-card__sr-only">Regular price: </span>$15.00</del>
+                                                        <span class="vs-item-card__price vs-item-card__price--sale">$8.50</span>
+                                            </div>
+                                            </div>
+            <div class="vs-item-card__actions">
+                                                            <button
+        type="button"
+        aria-label="Add to favorites"
+        title="Add to favorites"
+                class="vs-item-card__action vs-item-card__action--neutral vs-item-card__favorite" aria-pressed="true"
+    ><i class="fa-solid fa-heart" aria-hidden="true"></i></button>
+                                                    <form action="#" method="POST" onsubmit="return false"><button
+        type="submit"
+        aria-label="Add to cart"
+        title="Add to cart"
+                class="vs-item-card__action vs-item-card__action--primary"
+    ><i class="fa-solid fa-shopping-cart" aria-hidden="true"></i></button>
+</form>
+                <a
+         href="#"                         aria-label="View item"
+        title="View item"
+        class="vs-item-card__action vs-item-card__action--secondary"
+    ><i class="fa-regular fa-eye" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="vs-item-card item">
+    <div class="vs-item-card__media">
+            <a href="#" class="vs-item-card__media-link" tabindex="-1" aria-hidden="true" >
+                <img class="vs-item-card__img" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22%23F9FAFB%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2230%22%20fill%3D%22%230074E4%22%2F%3E%3Crect%20x%3D%2244%22%20y%3D%2212%22%20width%3D%2212%22%20height%3D%2276%22%20fill%3D%22%23222%22%2F%3E%3C%2Fsvg%3E" alt="My Own Upload" loading="lazy" decoding="async" width="1000" height="1000">
+            </a>
+                    <span class="vs-item-card__badge vs-item-card__badge--trending">
+                <i class="fa-solid fa-bolt" aria-hidden="true"></i><span class="vs-item-card__badge-text">Trending</span>
+            </span>
+            </div>
+    <div class="vs-item-card__body">
+        <a class="vs-item-card__title" href="#" >My Own Upload</a>
+        <p class="vs-item-card__meta"><span class="vs-item-card__category"><a href="#">Space</a></span></p>
+                    <p class="vs-item-card__desc">Add to cart is disabled on the visitor&#039;s own item.</p>
+        <div class="vs-item-card__footer">
+            <div class="vs-item-card__purchase">
+                                    <div class="vs-item-card__price-row">
+                                                                                <span class="vs-item-card__price">$7.00</span>
+                                            </div>
+                                            </div>
+            <div class="vs-item-card__actions">
+                                <form action="#" method="POST" onsubmit="return false"><button
+        type="submit"
+        aria-label="Add to cart"
+        title="Add to cart"
+        disabled        class="vs-item-card__action vs-item-card__action--primary"
+    ><i class="fa-solid fa-shopping-cart" aria-hidden="true"></i></button>
+</form>
+                <a
+         href="#"                         aria-label="View item"
+        title="View item"
+        class="vs-item-card__action vs-item-card__action--secondary"
+    ><i class="fa-regular fa-eye" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="vs-item-card item">
+    <div class="vs-item-card__media">
+            <a href="#" class="vs-item-card__media-link" tabindex="-1" aria-hidden="true"  target="_blank"  rel="noopener noreferrer nofollow" >
+                <img class="vs-item-card__img" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22%23F9FAFB%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2230%22%20fill%3D%22%23F59E0B%22%2F%3E%3Crect%20x%3D%2244%22%20y%3D%2212%22%20width%3D%2212%22%20height%3D%2276%22%20fill%3D%22%23222%22%2F%3E%3C%2Fsvg%3E" alt="Partner Store Pack" loading="lazy" decoding="async" width="1000" height="1000">
+            </a>
+                    <span class="vs-item-card__badge vs-item-card__badge--premium">
+                <i class="fa-solid fa-crown" aria-hidden="true"></i><span class="vs-item-card__badge-text">Premium</span>
+            </span>
+            </div>
+    <div class="vs-item-card__body">
+        <a class="vs-item-card__title" href="#"  target="_blank"  rel="noopener noreferrer nofollow" >Partner Store Pack</a>
+        <p class="vs-item-card__meta"><span class="vs-item-card__category"><a href="#">Partners</a></span></p>
+                    <p class="vs-item-card__desc">External seller: view button only, opens in a new tab.</p>
+        <div class="vs-item-card__footer">
+            <div class="vs-item-card__purchase">
+                                    <div class="vs-item-card__price-row">
+                                                                                <span class="vs-item-card__price">$19.00</span>
+                                            </div>
+                                            </div>
+            <div class="vs-item-card__actions">
+                <a
+         href="#"          target="_blank" rel="noopener noreferrer nofollow"                 aria-label="View item"
+        title="View item"
+        class="vs-item-card__action vs-item-card__action--secondary"
+    ><i class="fa-regular fa-eye" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // List</span><h2>List layout</h2></div>
+      <p class="vs-docs-section-desc">The site's <code>item-inline</code> class. From 768px the preview sits left (320px, at most 40% of the card); below 768px the card stays stacked.</p>
+    </div>
+<div class="demo-list">
+<div class="vs-item-card item-inline item">
+    <div class="vs-item-card__media">
+            <a href="#" class="vs-item-card__media-link" tabindex="-1" aria-hidden="true" >
+                <img class="vs-item-card__img" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Crect%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22%23F9FAFB%22%2F%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2230%22%20fill%3D%22%234CAF50%22%2F%3E%3Crect%20x%3D%2244%22%20y%3D%2212%22%20width%3D%2212%22%20height%3D%2276%22%20fill%3D%22%23222%22%2F%3E%3C%2Fsvg%3E" alt="Holographic Cyber Cat Sticker" loading="lazy" decoding="async" width="1000" height="1000">
+            </a>
+                    <span class="vs-item-card__badge vs-item-card__badge--sale">
+                <i class="fa-solid fa-tag" aria-hidden="true"></i><span class="vs-item-card__badge-text">On Sale</span>
+            </span>
+            </div>
+    <div class="vs-item-card__body">
+        <a class="vs-item-card__title" href="#" >Holographic Cyber Cat Sticker</a>
+        <p class="vs-item-card__meta"><span class="">By </span><span class=""><a href="#">StudioKMO</a></span><span class=""> in </span><span class="vs-item-card__category"><a href="#">Cyberpunk</a></span></p>
+                    <p class="vs-item-card__desc">Durable vinyl die-cut sticker with waterproof coating and a vibrant finish.</p>
+                    <div class="vs-item-card__rating">
+                <div class="row row-cols-auto flex-nowrap g-1 ratings" role="img" aria-label="Rated 4 out of 5">
+            <div class="col rating rating-active" aria-hidden="true">
+            <i class="fa fa-star"></i>
+        </div>
+            <div class="col rating rating-active" aria-hidden="true">
+            <i class="fa fa-star"></i>
+        </div>
+            <div class="col rating rating-active" aria-hidden="true">
+            <i class="fa fa-star"></i>
+        </div>
+            <div class="col rating rating-active" aria-hidden="true">
+            <i class="fa fa-star"></i>
+        </div>
+            <div class="col rating " aria-hidden="true">
+            <i class="fa fa-star"></i>
+        </div>
+    </div>
+                                    <span class="vs-item-card__reviews">(12)</span>
+                            </div>
+        <div class="vs-item-card__footer">
+            <div class="vs-item-card__purchase">
+                                    <div class="vs-item-card__price-row">
+                                                                                    <del class="vs-item-card__price-old"><span class="vs-item-card__sr-only">Regular price: </span>$15.00</del>
+                                                        <span class="vs-item-card__price vs-item-card__price--sale">$8.50</span>
+                                            </div>
+                                            </div>
+            <div class="vs-item-card__actions">
+                                                            <button
+        type="button"
+        aria-label="Add to favorites"
+        title="Add to favorites"
+                class="vs-item-card__action vs-item-card__action--neutral vs-item-card__favorite" aria-pressed="false"
+    ><i class="fa-regular fa-heart" aria-hidden="true"></i></button>
+                                                    <form action="#" method="POST" onsubmit="return false"><button
+        type="submit"
+        aria-label="Add to cart"
+        title="Add to cart"
+                class="vs-item-card__action vs-item-card__action--primary"
+    ><i class="fa-solid fa-shopping-cart" aria-hidden="true"></i></button>
+</form>
+                <a
+         href="#"                         aria-label="View item"
+        title="View item"
+        class="vs-item-card__action vs-item-card__action--secondary"
+    ><i class="fa-regular fa-eye" aria-hidden="true"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Anatomy</span><h2>Spec</h2></div>
+      <p class="vs-docs-section-desc">Spec v2 values; width is fluid.</p>
+    </div>
+    <div class="demo-scroll">
+    <table class="vs-docs-table">
+      <thead><tr><th>Part</th><th>Value</th><th>Token</th></tr></thead>
+      <tbody>
+        <tr><td>Width</td><td>Fluid: fills its grid column (no fixed 344.5px)</td><td>—</td></tr>
+        <tr><td>Card</td><td>1px border, 3px radius, 14px padding, no shadow</td><td><code>--vs-card-border</code>, <code>--vs-card-radius</code>, <code>--vs-card-padding-item</code></td></tr>
+        <tr><td>Media</td><td>1:1 frame, light backdrop, 1px frame; image / video / audio fills it (cover)</td><td><code>--vs-card-media-ratio</code>, <code>--vs-card-media-bg</code>, <code>--vs-card-divider</code></td></tr>
+        <tr><td>Badge</td><td>10px inset, rounded, 11px / 600, one per card, ellipsis if long</td><td><code>--vs-card-badge-inset</code>, <code>--vs-color-badge-*</code>, <code>--vs-card-badge-*-text</code> (new)</td></tr>
+        <tr><td>Title</td><td>16px / 500, one line, ellipsis</td><td><code>--vs-card-title-size</code></td></tr>
+        <tr><td>Meta</td><td>Category link (brand green as text); author only with <code>show-author</code></td><td><code>--vs-color-brand-primary-text</code></td></tr>
+        <tr><td>Price</td><td>18px / 700; sale: old price struck through (14px) + brand-green price</td><td><code>--vs-card-price-size</code>, <code>--vs-card-price-old-*</code>, <code>--vs-color-brand-primary-text</code></td></tr>
+        <tr><td>Buttons</td><td>40px squares: primary filled (download / cart), eye outlined dark, heart outlined light</td><td><code>--vs-button-height-md</code>, <code>--vs-button-primary*</code>, <code>--vs-color-brand-secondary</code></td></tr>
+        <tr><td>Hover</td><td>Brand border + 4px lift; no lift with reduced motion. Keyboard focus inside also shows the brand border.</td><td><code>--vs-card-hover-border</code>, <code>--vs-card-hover-lift</code></td></tr>
+        <tr><td>Focus</td><td>2px ring, 2px offset, on every link and button</td><td><code>--vs-focus-ring-*</code></td></tr>
+        <tr><td>List preview</td><td>320px, at most 40%</td><td><code>--vs-card-list-media-width</code> (new)</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="vs-docs-callout">
+      <p><strong>Two deliberate differences from the spec drawing.</strong> (1) Badge text: the spec shows white on every badge, but white is 2.78:1 on the premium green and 2.4:1 on the sale teal (WCAG AA needs 4.5:1), so those two use the dark on-primary text; <code>npm run check:tokens</code> gates all four. (2) Sale price uses <code>--vs-color-brand-primary-text</code> (about 5.3:1) instead of the plain green <code>--vs-card-price-sale-color</code> (2.78:1). The old struck-through price keeps the spec's <code>--vs-card-price-old-color</code> (about 2.5:1); a hidden “Regular price:” label is read by screen readers.</p>
+    </div>
+
+    <h2>Usage — Blade</h2>
+    <div class="vs-docs-code-block">&lt;x-vs-item-card class=&quot;item&quot; :layout=&quot;$listView ? &#x27;list&#x27; : &#x27;grid&#x27;&quot;
+    :title=&quot;$item-&gt;name&quot; :url=&quot;$vsCard-&gt;href&quot; :external=&quot;$vsCard-&gt;external&quot;
+    :image=&quot;$item-&gt;getPreviewImageLink()&quot; badge=&quot;free&quot;
+    :category=&quot;$item-&gt;subCategory?-&gt;name ?? $item-&gt;category?-&gt;name&quot;
+    :category-url=&quot;$item-&gt;subCategory?-&gt;getLink() ?? $item-&gt;category?-&gt;getLink()&quot;
+    :description=&quot;$item-&gt;description&quot; free
+    :stat=&quot;translate(&#x27;:count Downloads&#x27;, [&#x27;count&#x27; =&gt; numberFormat($item-&gt;free_downloads)])&quot;
+    :view-label=&quot;translate(&#x27;View&#x27;)&quot;&gt;
+    &lt;x-slot:actions&gt;
+        &lt;form action=&quot;{{ route(&#x27;items.free.download&#x27;, hash_encode($item-&gt;id)) }}&quot; method=&quot;POST&quot;&gt;
+            @csrf
+            &lt;x-vs-item-card-action icon=&quot;fa-solid fa-download&quot; :label=&quot;translate(&#x27;Download&#x27;)&quot; /&gt;
+        &lt;/form&gt;
+    &lt;/x-slot:actions&gt;
+&lt;/x-vs-item-card&gt;
+
+{{-- paid item: add to cart, disabled on the visitor&#x27;s own item --}}
+&lt;x-slot:actions&gt;
+    &lt;form data-action=&quot;{{ route(&#x27;cart.add-item&#x27;) }}&quot; class=&quot;add-to-cart-form&quot; method=&quot;POST&quot;&gt;
+        &lt;input type=&quot;hidden&quot; name=&quot;item_id&quot; value=&quot;{{ $item-&gt;id }}&quot;&gt;
+        &lt;input type=&quot;hidden&quot; name=&quot;license_type&quot; value=&quot;1&quot;&gt;
+        &lt;x-vs-item-card-action icon=&quot;fa-solid fa-shopping-cart&quot; :label=&quot;translate(&#x27;Add to cart&#x27;)&quot;
+            :disabled=&quot;authUser() &amp;&amp; authUser()-&gt;id == $item-&gt;author_id&quot; /&gt;
+    &lt;/form&gt;
+&lt;/x-slot:actions&gt;
+
+{{-- video / audio preview: same .item-video / .item-audio-wave markup the site JS uses --}}
+&lt;x-vs-item-card ... preview-type=&quot;video&quot; :image=&quot;$item-&gt;getPreviewImageLink()&quot; :preview-url=&quot;$item-&gt;getPreviewLink()&quot; /&gt;</div>
+
+    <h2>Site contract</h2>
+    <ul>
+      <li><strong>Grid / list toggle</strong> (<code>app.js</code>): pass <code>class="item"</code> and keep the cards inside <code>.items</code>. The toggle adds/removes <code>item-inline</code> on <code>.item</code>, <code>w-100</code> on its parent, and sets the <code>item_view</code> cookie. The card's list layout follows <code>item-inline</code>.</li>
+      <li><strong>Media JS</strong>: <code>.item-video</code> (hover play, volume, fullscreen) and <code>.item-audio-wave</code> (WaveSurfer) markup is kept as on the site, sized to fill the 1:1 frame. Or pass your own markup in the <code>media</code> slot.</li>
+      <li><strong>Do not pass Bootstrap's <code>border</code></strong> class (listing pages pass <code>item_classes =&gt; 'border'</code> today): its <code>!important</code> colour would hide the hover border.</li>
+      <li><strong>Translations</strong>: only keys the old partial already uses go through <code>translate()</code>, so rendering a card never adds rows to the translations table. Button names default to English; pass translated text.</li>
+      <li><strong>Security</strong>: every value is printed with <code>{{ }}</code>; the author/category template is split on its placeholders so no item data passes through <code>{!! !!}</code>.</li>
+    </ul>
+
+    <h2>Props — <code>&lt;x-vs-item-card&gt;</code></h2>
+    <div class="demo-scroll">
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>title</code></td><td>string (required)</td><td>Item name. One line, ellipsis.</td></tr>
+        <tr><td><code>url</code></td><td>string (required)</td><td>Item page; title, image and eye button link here.</td></tr>
+        <tr><td><code>external</code></td><td>bool</td><td>Links open in a new tab with <code>rel="noopener noreferrer nofollow"</code> (external seller).</td></tr>
+        <tr><td><code>preview-type</code></td><td><code>image</code> · <code>video</code> · <code>audio</code></td><td>Built-in preview. Video/audio render the site's <code>.item-video</code> / <code>.item-audio-wave</code> markup.</td></tr>
+        <tr><td><code>image</code></td><td>string|null</td><td>Preview image; also the video poster.</td></tr>
+        <tr><td><code>image-alt</code></td><td>string|null</td><td>Default: the title.</td></tr>
+        <tr><td><code>preview-url</code></td><td>string|null</td><td>Video/audio file.</td></tr>
+        <tr><td><code>badge</code></td><td><code>premium</code> · <code>free</code> · <code>sale</code> · <code>trending</code> · null</td><td>One badge only (priority Premium &gt; Free &gt; On Sale &gt; Trending, picked by the page). Unknown values show none.</td></tr>
+        <tr><td><code>badge-label</code></td><td>string|null</td><td>Default: <code>translate()</code> of Premium / Free / On Sale / Trending.</td></tr>
+        <tr><td><code>category, category-url</code></td><td>string|null</td><td>Category (or sub-category). Missing name: <code>translate('Uncategorized')</code>.</td></tr>
+        <tr><td><code>show-author</code></td><td>bool, default <strong>false</strong></td><td>Show “By author in category” (site key <code>By :username in :category</code>).</td></tr>
+        <tr><td><code>author, author-url</code></td><td>string|null</td><td>Used only with <code>show-author</code>.</td></tr>
+        <tr><td><code>description</code></td><td>string|null</td><td>Tags stripped, entities decoded, cut to 120 characters, escaped, 2-line clamp.</td></tr>
+        <tr><td><code>rating, reviews, rating-label</code></td><td>number|null</td><td>Stars via <code>x-vs-rating</code> plus “(count)”.</td></tr>
+        <tr><td><code>free</code></td><td>bool</td><td>Price shows <code>translate('Free')</code>.</td></tr>
+        <tr><td><code>price, old-price</code></td><td>string|null</td><td>Pre-formatted (<code>getAmount()</code>). <code>old-price</code> is struck through; the price then turns brand green.</td></tr>
+        <tr><td><code>stat, stat-type</code></td><td>string|null · <code>downloads</code> / <code>sales</code></td><td>Formatted count line under the price; the type picks the icon.</td></tr>
+        <tr><td><code>show-favorite, favorited</code></td><td>bool, default <strong>false</strong></td><td>Heart button with <code>aria-pressed</code>. Behaviour is the page's (<code>.vs-item-card__favorite</code> hook or the <code>favorite</code> slot).</td></tr>
+        <tr><td><code>layout</code></td><td><code>grid</code> · <code>list</code></td><td><code>list</code> adds the site's <code>item-inline</code> class.</td></tr>
+        <tr><td><code>view-label, favorite-label, old-price-label, play-label, pause-label, mute-label, fullscreen-label</code></td><td>string</td><td>English defaults: pass translated text.</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Slots: <code>actions</code> (the page's download / add-to-cart controls), <code>media</code> (replaces the preview), <code>favorite</code> (replaces the heart).</p>
+
+    <h2>Props — <code>&lt;x-vs-item-card-action&gt;</code></h2>
+    <div class="demo-scroll">
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>icon</code></td><td>Font Awesome classes</td><td>Required.</td></tr>
+        <tr><td><code>label</code></td><td>string</td><td>Required. <code>aria-label</code> + tooltip.</td></tr>
+        <tr><td><code>variant</code></td><td><code>primary</code> · <code>secondary</code> · <code>neutral</code></td><td>Filled brand · outlined dark (eye) · outlined light (heart).</td></tr>
+        <tr><td><code>href</code>, <code>external</code></td><td>string|null, bool</td><td>Renders a link; <code>external</code> opens a new tab.</td></tr>
+        <tr><td><code>type</code></td><td><code>submit</code> (default) · <code>button</code></td><td>Inside the site's forms, submit.</td></tr>
+        <tr><td><code>disabled</code></td><td>bool</td><td>Button: <code>disabled</code>. Link: no href, <code>aria-disabled</code>.</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="vs-docs-callout vs-docs-callout--gap">
+      <p><strong>Rollout status:</strong> not used on vectorsticker.com yet. Rollout is a separate change on that repo, page group by page group; the old <code>item.blade.php</code> stays until Master KMO signs off.</p>
+    </div>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>
