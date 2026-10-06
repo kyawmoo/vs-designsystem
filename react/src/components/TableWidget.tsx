@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs } from './Tabs';
+import { SegmentedControl } from './SegmentedControl';
 
 export interface TableColumn<T> {
   label: string;
@@ -64,7 +64,7 @@ export function TableWidget<T>({
             )}
           </div>
           {tabs && tabs.length > 0 && (
-            <Tabs
+            <SegmentedControl
               tabs={tabs}
               activeId={activeTabId ?? ''}
               onChange={(id) => onTabChange && onTabChange(id)}
