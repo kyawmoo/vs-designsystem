@@ -1,10 +1,11 @@
 // Static checks for tokens/tokens.css. No dependencies. Run: npm run check:tokens
-//  1. docs/assets/tokens.css is an exact copy of tokens/tokens.css
+//  1. docs/assets/tokens.css is an exact copy of tokens/tokens.css; docs/assets/blade-components.css of
+//     blade/components.css, which holds no raw colour literal (tokens only)
 //  2. tokens.json parses
 //  3. no raw colour literal outside tokens/raw-colour-allowlist.txt (and no stale allowlist entry)
 //  4. the brand green is defined once: no other token may hold the same literal
 //  5. contrast: primary-button text >= 4.5:1 on default/hover/pressed, focus ring >= 3:1 on the
-//     light surfaces and on the dark brand surface (white ring)
+//     light surfaces and on the dark brand surface (white ring), item card badge text >= 4.5:1 on its fill
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -16,6 +17,9 @@ const fail = (m) => errors.push(m);
 
 const css = read('tokens/tokens.css');
 if (css !== read('docs/assets/tokens.css')) fail('docs/assets/tokens.css differs from tokens/tokens.css (copy it)');
+const bladeCss = read('blade/components.css');
+if (bladeCss !== read('docs/assets/blade-components.css')) fail('docs/assets/blade-components.css differs from blade/components.css (copy it)');
+for (const m of bladeCss.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/#[0-9a-fA-F]{3,8}\b|\brgba?\(|\bhsla?\(/g)) fail(`blade/components.css has a raw colour (${m[0]}); use a --vs-* token`);
 try { JSON.parse(read('tokens/tokens.json')); } catch (e) { fail('tokens/tokens.json is not valid JSON: ' + e.message); }
 
 const body = css.replace(/\/\*[\s\S]*?\*\//g, '');
@@ -71,6 +75,7 @@ need('brand green as text on surface', '--vs-color-brand-primary-text', '--vs-co
 need('brand green as text on background', '--vs-color-brand-primary-text', '--vs-color-background', 4.5);
 for (const t of ['success', 'warning', 'danger', 'info']) for (const txt of ['text-body', 'text-heading']) need(`alert ${txt} on ${t} fill`, `--vs-color-${txt}`, `--vs-color-${t}-bg`, 4.5);
 for (const t of ['success', 'error', 'warning', 'info']) need(`toast text on ${t}`, '--vs-toast-text', `--vs-toast-${t}`, 4.5);
+for (const b of ['premium', 'sale', 'free', 'trending']) need(`item card ${b} badge text`, `--vs-card-badge-${b}-text`, `--vs-color-badge-${b}`, 4.5);
 need('focus ring on surface', '--vs-focus-ring-color', '--vs-color-surface', 3);
 need('focus ring on background', '--vs-focus-ring-color', '--vs-color-background', 3);
 need('focus ring on dark surface', '--vs-focus-ring-color-on-dark', '--vs-color-brand-secondary', 3);

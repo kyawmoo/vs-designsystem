@@ -145,6 +145,13 @@
   --vs-card-price-sale-color: var(--vs-color-brand-primary);
   --vs-card-hover-border: var(--vs-color-brand-primary);
   --vs-card-hover-lift: -4px;
+  /* Item card component (x-vs-item-card, 6 Oct 2026). Badge text per fill so it stays >= 4.5:1: white is only
+     2.78:1 on the premium green and 2.4:1 on the sale teal, so those two use the dark on-primary text. */
+  --vs-card-badge-premium-text: var(--vs-color-text-on-primary);
+  --vs-card-badge-sale-text: var(--vs-color-text-on-primary);
+  --vs-card-badge-free-text: var(--vs-color-surface);
+  --vs-card-badge-trending-text: var(--vs-color-surface);
+  --vs-card-list-media-width: 320px; /* list layout (item-inline), same as the live site's list image */
 
   /* ---- Icon size scale (library differs by platform: lucide-react on
      React, Font Awesome on Blade — see tokens.json "icon.principle") ---- */
