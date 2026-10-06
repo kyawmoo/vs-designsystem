@@ -63,9 +63,10 @@ export type { PaginationProps } from './components/Pagination';
 
 export { SegmentedControl } from './components/SegmentedControl';
 export type { SegmentedControlProps, SegmentedControlItem } from './components/SegmentedControl';
-/** Deprecated aliases of SegmentedControl (see components/Tabs.tsx). */
-export { Tabs } from './components/Tabs';
-export type { TabsProps, TabItem } from './components/Tabs';
+
+/** `Tabs` with no `variant` is the deprecated alias of SegmentedControl; `variant="primary" | "secondary"` are real tabs. */
+export { Tabs, TabPanel } from './components/Tabs';
+export type { TabsProps, TabItem, TabsVariant, TabPanelProps } from './components/Tabs';
 
 export { FilterBar } from './components/FilterBar';
 export type { FilterBarProps } from './components/FilterBar';

@@ -243,6 +243,121 @@
   font-size: var(--vs-font-size-body-sm);
 }
 
+/* Tabs — underline variants (primary / secondary). The default segmented variant above is unchanged.
+   Inactive text is --vs-color-text-body (14:1 on white; --vs-color-text-muted is only 2.8:1), the active indicator is
+   --vs-color-brand-primary-text (5.2:1; the plain brand green is 2.8:1). Weight is constant so selecting a tab never
+   shifts the layout. Measurements are proposed, not yet in tokens.json. */
+.vs-tabs {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: nowrap;
+  gap: 0.25rem;
+  max-width: 100%;
+  overflow-x: auto; /* many tabs scroll sideways, they never wrap onto a second row */
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  border-bottom: 1px solid var(--vs-color-border);
+  font-family: var(--vs-font-family);
+}
+
+.vs-tab {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 -1px;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: var(--vs-font-size-body-md);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--vs-color-text-body);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 150ms ease, border-color 150ms ease;
+}
+
+.vs-tab:hover:not(:disabled):not([aria-selected='true']) {
+  color: var(--vs-color-text-heading);
+  border-bottom-color: var(--vs-color-text-muted);
+}
+
+.vs-tab[aria-selected='true'] {
+  color: var(--vs-color-text-heading);
+  border-bottom-color: var(--vs-color-brand-primary-text);
+}
+
+/* Inset ring: the tab list scrolls, so an outer ring would be clipped. */
+.vs-tab:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: calc(var(--vs-focus-ring-offset) * -1);
+}
+
+.vs-tab:disabled {
+  color: var(--vs-color-text-muted);
+  cursor: not-allowed;
+}
+
+.vs-tab__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.vs-tab__icon svg {
+  width: var(--vs-icon-size-sm);
+  height: var(--vs-icon-size-sm);
+}
+
+.vs-tab__badge {
+  display: inline-flex;
+}
+
+.vs-tab:disabled .vs-tab__badge {
+  opacity: var(--vs-button-disabled-opacity);
+}
+
+/* Secondary: sub-sections inside a primary tab. Smaller type, tighter spacing, lighter rule, dark ink indicator. */
+.vs-tabs--secondary {
+  border-bottom-color: var(--vs-card-divider);
+}
+
+.vs-tabs--secondary .vs-tab {
+  padding: 0.5rem 0.75rem;
+  font-size: var(--vs-font-size-body-sm);
+}
+
+.vs-tabs--secondary .vs-tab[aria-selected='true'] {
+  border-bottom-color: var(--vs-color-text-heading);
+}
+
+/* Touch screens: the compact secondary tab grows to a 44px target (it is ~36px with a mouse). */
+@media (pointer: coarse) {
+  .vs-tabs--secondary .vs-tab {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+}
+
+.vs-tab-panel {
+  padding-top: var(--vs-spacing-md);
+}
+
+.vs-tab-panel:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: var(--vs-focus-ring-offset);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vs-tab {
+    transition: none;
+  }
+}
+
 /* Filter Bar (reports dashboard convention — search + sort segment control) */
 .vs-filter-bar {
   display: flex;
