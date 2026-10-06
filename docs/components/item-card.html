@@ -47,7 +47,7 @@
 
     <div class="vs-docs-section-head">
       <div><span class="vs-docs-section-num">01 // Grid</span><h2>Variants</h2></div>
-      <p class="vs-docs-section-desc">Free · paid with author · sale with heart · own item · external seller. Hover a card; Tab through it.</p>
+      <p class="vs-docs-section-desc">Free (view only) · paid with author · sale with heart · own item · external seller. Hover a card; Tab through it.</p>
     </div>
 <div class="demo-cards">
 <div class="vs-item-card item">
@@ -74,13 +74,6 @@
                     </div>
                             </div>
             <div class="vs-item-card__actions">
-                                <form action="#" method="POST" onsubmit="return false"><button
-        type="submit"
-        aria-label="Download"
-        title="Download"
-                class="vs-item-card__action vs-item-card__action--primary"
-    ><i class="fa-solid fa-download" aria-hidden="true"></i></button>
-</form>
                 <a
          href="#"                         aria-label="View item"
         title="View item"
@@ -339,16 +332,16 @@
       <thead><tr><th>Part</th><th>Value</th><th>Token</th></tr></thead>
       <tbody>
         <tr><td>Width</td><td>Fluid: fills its grid column (no fixed 344.5px)</td><td>—</td></tr>
-        <tr><td>Card</td><td>1px border, 3px radius, 14px padding, no shadow</td><td><code>--vs-card-border</code>, <code>--vs-card-radius</code>, <code>--vs-card-padding-item</code></td></tr>
-        <tr><td>Media</td><td>1:1 frame, light backdrop, 1px frame; image / video / audio fills it (cover)</td><td><code>--vs-card-media-ratio</code>, <code>--vs-card-media-bg</code>, <code>--vs-card-divider</code></td></tr>
-        <tr><td>Badge</td><td>10px inset, rounded, 11px / 600, one per card, ellipsis if long</td><td><code>--vs-card-badge-inset</code>, <code>--vs-color-badge-*</code>, <code>--vs-card-badge-*-text</code> (new)</td></tr>
+        <tr><td>Card</td><td>1px border, 8px radius (the live card), no shadow; 14px padding around the text, none around the image</td><td><code>--vs-card-border</code>, <code>--vs-item-card-radius</code> (new), <code>--vs-card-padding-item</code></td></tr>
+        <tr><td>Media</td><td>Square, full card width (no inner padding, like the live card), top corners follow the card; image / video / audio fills it (cover)</td><td><code>--vs-card-media-ratio</code>, <code>--vs-card-media-bg</code>, <code>--vs-item-card-radius</code></td></tr>
+        <tr><td>Badge</td><td>Edge ribbon on the image's left edge like the live card: 25px from the top, 10px 12px padding, 12px uppercase, right corners rounded; one per card, ellipsis if long</td><td><code>--vs-item-card-badge-top</code> (new), <code>--vs-item-card-radius</code>, <code>--vs-color-badge-*</code>, <code>--vs-card-badge-*-text</code></td></tr>
         <tr><td>Title</td><td>16px / 500, one line, ellipsis</td><td><code>--vs-card-title-size</code></td></tr>
         <tr><td>Meta</td><td>Category link (brand green as text); author only with <code>show-author</code></td><td><code>--vs-color-brand-primary-text</code></td></tr>
         <tr><td>Price</td><td>18px / 700; sale: old price struck through (14px) + brand-green price</td><td><code>--vs-card-price-size</code>, <code>--vs-card-price-old-*</code>, <code>--vs-color-brand-primary-text</code></td></tr>
-        <tr><td>Buttons</td><td>40px squares: primary filled (download / cart), eye outlined dark, heart outlined light</td><td><code>--vs-button-height-md</code>, <code>--vs-button-primary*</code>, <code>--vs-color-brand-secondary</code></td></tr>
+        <tr><td>Buttons</td><td>40px squares: primary filled (add to cart), eye outlined dark, heart outlined light. vectorsticker.com shows no download button on listing cards (Master KMO, 6 Oct 2026): free items get the eye button only</td><td><code>--vs-button-height-md</code>, <code>--vs-button-primary*</code>, <code>--vs-color-brand-secondary</code></td></tr>
         <tr><td>Hover</td><td>Brand border + 4px lift; no lift with reduced motion. Keyboard focus inside also shows the brand border.</td><td><code>--vs-card-hover-border</code>, <code>--vs-card-hover-lift</code></td></tr>
         <tr><td>Focus</td><td>2px ring, 2px offset, on every link and button</td><td><code>--vs-focus-ring-*</code></td></tr>
-        <tr><td>List preview</td><td>320px, at most 40%</td><td><code>--vs-card-list-media-width</code> (new)</td></tr>
+        <tr><td>List preview</td><td>320px, at most 40%, all corners rounded; the card gets the 14px padding</td><td><code>--vs-card-list-media-width</code> (new)</td></tr>
       </tbody>
     </table>
     </div>
@@ -364,13 +357,8 @@
     :category-url=&quot;$item-&gt;subCategory?-&gt;getLink() ?? $item-&gt;category?-&gt;getLink()&quot;
     :description=&quot;$item-&gt;description&quot; free
     :stat=&quot;translate(&#x27;:count Downloads&#x27;, [&#x27;count&#x27; =&gt; numberFormat($item-&gt;free_downloads)])&quot;
-    :view-label=&quot;translate(&#x27;View&#x27;)&quot;&gt;
-    &lt;x-slot:actions&gt;
-        &lt;form action=&quot;{{ route(&#x27;items.free.download&#x27;, hash_encode($item-&gt;id)) }}&quot; method=&quot;POST&quot;&gt;
-            @csrf
-            &lt;x-vs-item-card-action icon=&quot;fa-solid fa-download&quot; :label=&quot;translate(&#x27;Download&#x27;)&quot; /&gt;
-        &lt;/form&gt;
-    &lt;/x-slot:actions&gt;
+    :view-label=&quot;translate(&#x27;View Item&#x27;)&quot;&gt;
+    {{-- free item: no actions slot, the eye button only --}}
 &lt;/x-vs-item-card&gt;
 
 {{-- paid item: add to cart, disabled on the visitor&#x27;s own item --}}
@@ -389,7 +377,7 @@
     <h2>Site contract</h2>
     <ul>
       <li><strong>Grid / list toggle</strong> (<code>app.js</code>): pass <code>class="item"</code> and keep the cards inside <code>.items</code>. The toggle adds/removes <code>item-inline</code> on <code>.item</code>, <code>w-100</code> on its parent, and sets the <code>item_view</code> cookie. The card's list layout follows <code>item-inline</code>.</li>
-      <li><strong>Media JS</strong>: <code>.item-video</code> (hover play, volume, fullscreen) and <code>.item-audio-wave</code> (WaveSurfer) markup is kept as on the site, sized to fill the 1:1 frame. Or pass your own markup in the <code>media</code> slot.</li>
+      <li><strong>Media JS</strong>: <code>.item-video</code> (hover play, volume, fullscreen) and <code>.item-audio-wave</code> (WaveSurfer) markup is kept as on the site, sized to fill the square preview. Or pass your own markup in the <code>media</code> slot.</li>
       <li><strong>Do not pass Bootstrap's <code>border</code></strong> class (listing pages pass <code>item_classes =&gt; 'border'</code> today): its <code>!important</code> colour would hide the hover border.</li>
       <li><strong>Translations</strong>: only keys the old partial already uses go through <code>translate()</code>, so rendering a card never adds rows to the translations table. Button names default to English; pass translated text.</li>
       <li><strong>Security</strong>: every value is printed with <code>{{ }}</code>; the author/category template is split on its placeholders so no item data passes through <code>{!! !!}</code>.</li>
@@ -423,7 +411,7 @@
       </tbody>
     </table>
     </div>
-    <p>Slots: <code>actions</code> (the page's download / add-to-cart controls), <code>media</code> (replaces the preview), <code>favorite</code> (replaces the heart).</p>
+    <p>Slots: <code>actions</code> (the page's own controls, e.g. add to cart), <code>media</code> (replaces the preview), <code>favorite</code> (replaces the heart).</p>
 
     <h2>Props — <code>&lt;x-vs-item-card-action&gt;</code></h2>
     <div class="demo-scroll">
