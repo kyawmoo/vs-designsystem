@@ -64,6 +64,32 @@
   .demo-nav-pills { display: flex; gap: 17px; list-style: none; padding: 0; margin: 0; max-width: 100%; overflow-x: auto; flex-wrap: nowrap; }
   .demo-nav-pills .demo-nav-link { display: inline-block; padding: 0.5rem 1.25rem; border-radius: var(--vs-radius-full); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-md); color: var(--vs-color-text-muted); border: 1px solid var(--vs-color-text-muted); text-decoration: none; cursor: pointer; }
   .demo-nav-pills .demo-nav-link.active { font-weight: 500; color: #fff; background: var(--vs-color-brand-primary); border-color: var(--vs-color-brand-primary); }
+
+  /* Rule-of-thumb box (section 06) */
+  .demo-rulebox { margin: 0 0 28px; padding: 24px; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-left: 4px solid var(--vs-color-brand-primary-text); border-radius: var(--vs-radius-sm); font-family: var(--vs-font-family); }
+  .demo-rulebox-kicker { font: 600 11px var(--vs-font-family); letter-spacing: .06em; text-transform: uppercase; color: var(--vs-color-brand-primary-text); }
+  .demo-rulebox-q { margin: 6px 0 14px; font: 600 20px/28px var(--vs-font-family); color: var(--vs-color-text-heading); }
+  .demo-rulebox-answers { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 10px; margin-bottom: 20px; }
+  .demo-answer { padding: 10px 14px; border-radius: var(--vs-radius-xs); font: 500 14px/1.5 var(--vs-font-family); color: var(--vs-color-text-heading); border: 1px solid var(--vs-color-border); background: var(--vs-color-background); }
+  .demo-answer b { display: block; font-size: 15px; }
+  .demo-ex-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .demo-ex { display: flex; flex-direction: column; gap: 10px; padding: 14px; background: var(--vs-color-background); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); min-width: 0; }
+  .demo-ex-head { display: flex; align-items: center; gap: 8px; font: 600 12px var(--vs-font-family); letter-spacing: .04em; text-transform: uppercase; color: var(--vs-color-text-heading); }
+  .demo-ex-num { width: 22px; height: 22px; border-radius: 50%; background: var(--vs-color-brand-secondary); color: var(--vs-color-surface); font: 600 12px/22px var(--vs-font-family); text-align: center; flex-shrink: 0; }
+  .demo-ex-where { font: 11px SFMono-Regular, Consolas, monospace; color: var(--vs-color-text-body); }
+  .demo-ex-stage { background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-xs); padding: 12px 14px 14px; min-height: 150px; }
+  .demo-ex-verdict { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; padding: 4px 10px; border-radius: var(--vs-radius-full); font: 600 12px var(--vs-font-family); }
+  .demo-ex-verdict--tabs { background: var(--vs-color-success-bg); color: var(--vs-color-text-heading); border: 1px solid var(--vs-color-success-border); }
+  .demo-ex-verdict--seg { background: var(--vs-color-info-bg); color: var(--vs-color-text-heading); border: 1px solid var(--vs-color-info-border); }
+  .demo-ex-why { margin: 0; font: 400 13px/1.5 var(--vs-font-family); color: var(--vs-color-text-body); }
+  .demo-ex-list { margin: 12px 0 0; padding: 0; list-style: none; }
+  .demo-ex-list li { display: flex; justify-content: space-between; gap: 8px; padding: 7px 0; border-bottom: 1px solid var(--vs-color-border); font: 400 13px var(--vs-font-family); color: var(--vs-color-text-body); }
+  .demo-ex-list li span { color: var(--vs-color-text-body); font-size: 11px; }
+  .demo-ex-bars { display: flex; align-items: flex-end; gap: 6px; height: 70px; margin-top: 14px; }
+  .demo-ex-bars i { flex: 1; background: var(--vs-color-brand-primary-text); border-radius: 2px 2px 0 0; transition: height 150ms ease; }
+  @media (prefers-reduced-motion: reduce) { .demo-ex-bars i { transition: none; } }
+  .demo-ex-stage .demo-segment-control { max-width: 100%; }
+  .demo-anatomy-key .demo-dim { white-space: normal; }
   .demo-compare td:first-child { white-space: nowrap; }
 </style>
 </head>
@@ -182,6 +208,28 @@
     <div class="vs-docs-section-head">
       <div><span class="vs-docs-section-num">06 // Tabs vs SegmentedControl</span><h2>Tabs vs SegmentedControl</h2></div>
       <p class="vs-docs-section-desc">Two patterns, two jobs. Do not swap them.</p>
+    </div>
+    <div class="demo-rulebox">
+      <div class="demo-rulebox-kicker">The rule</div>
+      <p class="demo-rulebox-q">When I pick an option, does the page show a <u>different part</u> of the content, or the <u>same content</u> arranged differently?</p>
+      <div class="demo-rulebox-answers">
+        <div class="demo-answer"><b>Different part → Tabs</b>Each option has its own panel. Choosing one swaps the content below.</div>
+        <div class="demo-answer"><b>Same content → SegmentedControl</b>Choosing one re-sorts, filters or re-scopes what is already there.</div>
+      </div>
+      <div class="demo-ex-grid">
+        <div class="demo-ex"><div class="demo-ex-head"><span class="demo-ex-num">1</span>Item page</div><div class="demo-ex-where">vectorsticker.com/items/holographic-cat-pack</div>
+          <div class="demo-ex-stage"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Item sections"><button type="button" role="tab" class="demo-tab" id="ex1-details" aria-selected="true" tabindex="0"><span class="demo-tab__label">Details</span></button><button type="button" role="tab" class="demo-tab" id="ex1-performance" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Performance</span></button><button type="button" role="tab" class="demo-tab" id="ex1-history" aria-selected="false" tabindex="-1"><span class="demo-tab__label">History</span></button></div><div class="demo-tab-panel" role="tabpanel" id="ex1-panel-details" aria-labelledby="ex1-details" tabindex="0"><p class="demo-panel-text">Holographic Cat Pack · 48 PNG stickers · free licence.</p></div><div class="demo-tab-panel" role="tabpanel" id="ex1-panel-performance" aria-labelledby="ex1-performance" tabindex="0" hidden><p class="demo-panel-text">1,284 downloads · 9,310 views · last 30 days.</p></div><div class="demo-tab-panel" role="tabpanel" id="ex1-panel-history" aria-labelledby="ex1-history" tabindex="0" hidden><p class="demo-panel-text">Published 12 Sep · last updated 30 Sep.</p></div></div>
+          <span class="demo-ex-verdict demo-ex-verdict--tabs">Use Tabs</span>
+          <p class="demo-ex-why">Details, Performance and History are three different panels. Click them: the whole content below is replaced.</p></div>
+        <div class="demo-ex"><div class="demo-ex-head"><span class="demo-ex-num">2</span>Category list</div><div class="demo-ex-where">vectorsticker.com/categories/animals</div>
+          <div class="demo-ex-stage"><div class="demo-seg-ex" data-kind="sort"><div class="demo-segment-control" role="group" aria-label="Sort and filter"><button class="demo-segment-button is-active" type="button" data-seg="new">Newest</button><button class="demo-segment-button" type="button" data-seg="pop">Popular</button><button class="demo-segment-button" type="button" data-seg="free">Free</button></div><ul class="demo-ex-list"><li data-new="1" data-pop="2" data-free="1">Holographic Cat Pack<span>Free</span></li><li data-new="2" data-pop="1" data-free="0">Retro Wave Icons<span>Premium</span></li><li data-new="3" data-pop="3" data-free="1">Pixel Food Set<span>Free</span></li></ul></div></div>
+          <span class="demo-ex-verdict demo-ex-verdict--seg">Use SegmentedControl</span>
+          <p class="demo-ex-why">Newest, Popular and Free show the same sticker packs, only sorted or filtered. Click them: the list stays, its order changes.</p></div>
+        <div class="demo-ex"><div class="demo-ex-head"><span class="demo-ex-num">3</span>Reports overview</div><div class="demo-ex-where">reports.vectorsticker.com/overview</div>
+          <div class="demo-ex-stage"><div class="demo-seg-ex" data-kind="range"><div class="demo-segment-control" role="group" aria-label="Date range"><button class="demo-segment-button is-active" type="button" data-seg="7">7 days</button><button class="demo-segment-button" type="button" data-seg="30">30 days</button><button class="demo-segment-button" type="button" data-seg="90">90 days</button></div><div class="demo-ex-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div>
+          <span class="demo-ex-verdict demo-ex-verdict--seg">Use SegmentedControl</span>
+          <p class="demo-ex-why">7, 30 and 90 days show the same chart for a different time range. Click them: the chart stays, its numbers change.</p></div>
+      </div>
     </div>
     <div style="overflow-x:auto"><table class="vs-docs-table demo-compare">
       <thead><tr><th></th><th>Tabs (<code>primary</code> / <code>secondary</code>)</th><th><code>SegmentedControl</code> component</th></tr></thead>
@@ -443,6 +491,25 @@
         e.preventDefault();
         select(next, true);
       });
+    });
+
+    /* Rule box examples 2 and 3: SegmentedControl behaviour (same content, re-arranged) */
+    document.querySelectorAll('.demo-seg-ex').forEach(function (ex) {
+      var kind = ex.getAttribute('data-kind');
+      var DATA = { '7': [30, 55, 40, 70, 45, 85, 60, 50, 75, 65], '30': [60, 62, 58, 70, 66, 74, 69, 72, 68, 77], '90': [35, 48, 52, 61, 58, 66, 72, 80, 86, 92] };
+      function apply(key) {
+        ex.querySelectorAll('[data-seg]').forEach(function (b) { b.classList.toggle('is-active', b.getAttribute('data-seg') === key); });
+        if (kind === 'sort') {
+          var list = ex.querySelector('.demo-ex-list'), items = Array.prototype.slice.call(list.children);
+          items.forEach(function (li) { li.hidden = key === 'free' && li.getAttribute('data-free') === '0'; });
+          var attr = key === 'pop' ? 'data-pop' : 'data-new';
+          items.sort(function (a, b) { return a.getAttribute(attr) - b.getAttribute(attr); }).forEach(function (li) { list.appendChild(li); });
+        } else {
+          ex.querySelectorAll('.demo-ex-bars i').forEach(function (bar, i) { bar.style.height = DATA[key][i] + '%'; });
+        }
+      }
+      ex.addEventListener('click', function (e) { var b = e.target.closest('[data-seg]'); if (b) apply(b.getAttribute('data-seg')); });
+      apply(ex.querySelector('.is-active').getAttribute('data-seg'));
     });
   })();
 </script>
