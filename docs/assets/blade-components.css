@@ -62,8 +62,10 @@
   transition: border-color 150ms ease;
 }
 
+/* Keyboard focus inside the card also shows the brand border; a mouse click (e.g. on add to cart) does not leave
+   the border green afterwards, hence :focus-visible rather than :focus-within. */
 .vs-item-card:hover,
-.vs-item-card:focus-within {
+.vs-item-card:has(:focus-visible) {
   border-color: var(--vs-card-hover-border);
 }
 
