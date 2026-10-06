@@ -6,6 +6,13 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-10-06 — Tooltip hover delay 300ms → 150ms
+
+- Master KMO: 0.3 s felt long, make it 0.15 s. `TOOLTIP_OPEN_DELAY` in `Tooltip.tsx` (the unit tests read the constant), the docs text and the docs demo script were changed together. Keyboard focus is still immediate, close grace still 100ms.
+- Checked: `tsc`, `npm test` 89/89, `check:tokens`; the docs page in Chromium: not open at 80ms, open at 300ms.
+
+---
+
 ## 2026-10-06 — Tooltip component and docs (issue 28)
 
 - Asked: an accessible Tooltip component with docs. Nothing existed in the DS; the reports dashboard has a local `InfoTip` stand-in (not touched; migrating it is a separate change). Built on top of the Tabs branch because the test setup lives there: merge the Tabs change first.

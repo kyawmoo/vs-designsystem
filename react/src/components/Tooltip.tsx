@@ -6,7 +6,7 @@ import type { TooltipPlacement, TooltipPosition } from './tooltipPosition';
 export type { TooltipPlacement };
 
 /** Hover delay before the tooltip appears. Keyboard focus shows it at once. Fixed so every tooltip behaves alike. */
-export const TOOLTIP_OPEN_DELAY = 300;
+export const TOOLTIP_OPEN_DELAY = 150;
 /** Grace period so the pointer can travel from the trigger onto the tooltip without it closing (WCAG 1.4.13 hoverable). */
 export const TOOLTIP_CLOSE_DELAY = 100;
 
@@ -107,7 +107,7 @@ function TooltipBubble({ anchorRef, content, placement, arrow, className, onPoin
 }
 
 /**
- * Tooltip: brief supplementary text for a control, shown on pointer hover (after 300ms) and on keyboard focus (at
+ * Tooltip: brief supplementary text for a control, shown on pointer hover (after 150ms) and on keyboard focus (at
  * once), dismissed by Escape, by pressing the control, or by moving away. It describes the trigger
  * (`aria-describedby`); it never names it, so an icon-only control still needs its own `aria-label`. On touch screens
  * it is not shown (a tap must perform the control's action), so nothing essential may live only in a tooltip.
