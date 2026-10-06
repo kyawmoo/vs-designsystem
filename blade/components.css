@@ -330,7 +330,7 @@
   margin: 0;
   padding: 0;
   border: 1px solid transparent;
-  border-radius: var(--vs-card-radius);
+  border-radius: var(--vs-button-radius-soft); /* 6px, like the live site's buttons (owner's choice, 6 Oct 2026) */
   background-color: transparent;
   font-size: var(--vs-icon-size-sm);
   line-height: 1;
