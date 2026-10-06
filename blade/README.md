@@ -122,7 +122,8 @@ tokens only, so the site's token adapter carries the admin colours into it. Docs
   (25px from the top, uppercase), 8px corners (`--vs-item-card-radius`; `--vs-card-radius` stays 3px for the
   reports dashboard). vectorsticker.com shows **no download button** on listing cards: free items get the eye
   button only.
-- Hover: brand border + 4px lift (no lift with reduced motion). Keyboard focus ring on every link and button.
+- Hover: border turns brand colour; the card does not move (no lift, Master KMO 6 Oct 2026). Keyboard focus ring
+  on every link and button.
 - Do **not** pass Bootstrap's `border` class (the listing pages pass `item_classes => 'border'` today): its
   `!important` colour hides the hover border. The card already has its own border.
 - Text: only keys the old partial already uses go through `translate()` (Premium, Free, On Sale, Trending,
@@ -130,7 +131,7 @@ tokens only, so the site's token adapter carries the admin colours into it. Docs
   The button names (`view-label`, `favorite-label`, …) default to English: pass translated text.
 - New tokens: `--vs-card-badge-{premium,sale,free,trending}-text` (badge text that stays ≥ 4.5:1; white was 2.78:1
   on the premium green and 2.4:1 on the sale teal), `--vs-card-list-media-width`, `--vs-item-card-radius`,
-  `--vs-item-card-badge-top`.
+  `--vs-item-card-badge-top`, `--vs-item-card-border` (#F0F0F0, lighter than `--vs-card-border`).
 
 **Not yet used on vectorsticker.com.** Rollout is a separate, page-group-by-page-group change on that repo; the
 old partial stays until Master KMO signs off.

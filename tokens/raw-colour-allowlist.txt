@@ -52,3 +52,4 @@
 --vs-toast-error
 --vs-toast-warning
 --vs-toast-info
+--vs-item-card-border
