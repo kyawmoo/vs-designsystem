@@ -805,3 +805,85 @@
   outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
   outline-offset: var(--vs-focus-ring-offset);
 }
+
+/* Tooltip. Flat design: no shadow, the dark surface alone separates it from the page. Sits above the Modal
+   overlay (z-index 50). Text on --vs-color-brand-secondary is 15.9:1. Measurements are proposed, not yet tokens. */
+.vs-tooltip-trigger {
+  display: inline-flex;
+}
+
+/* Visually hidden but still read by screen readers: the trigger's aria-describedby points here. */
+.vs-tooltip-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.vs-tooltip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 60;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(240px, calc(100vw - 16px));
+  padding: 6px 10px;
+  border-radius: var(--vs-radius-xs);
+  background: var(--vs-color-brand-secondary);
+  color: var(--vs-color-surface);
+  font-family: var(--vs-font-family);
+  font-size: var(--vs-font-size-body-sm);
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: none;
+  overflow-wrap: anywhere;
+  animation: vs-tooltip-in 120ms ease-out;
+}
+
+.vs-tooltip__arrow {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  transform: rotate(45deg);
+}
+
+.vs-tooltip[data-placement='top'] .vs-tooltip__arrow {
+  bottom: -4px;
+}
+
+.vs-tooltip[data-placement='bottom'] .vs-tooltip__arrow {
+  top: -4px;
+}
+
+.vs-tooltip[data-placement='left'] .vs-tooltip__arrow {
+  right: -4px;
+}
+
+.vs-tooltip[data-placement='right'] .vs-tooltip__arrow {
+  left: -4px;
+}
+
+@keyframes vs-tooltip-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vs-tooltip {
+    animation: none;
+  }
+}

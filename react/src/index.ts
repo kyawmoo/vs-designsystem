@@ -82,5 +82,8 @@ export type { AlertProps, AlertTone } from './components/Alert';
 export { Toast } from './components/Toast';
 export type { ToastProps, ToastTone } from './components/Toast';
 
+export { Tooltip } from './components/Tooltip';
+export type { TooltipProps, TooltipPlacement } from './components/Tooltip';
+
 import '../../tokens/tokens.css';
 import './styles.css';
