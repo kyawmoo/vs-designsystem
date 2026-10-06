@@ -6,6 +6,14 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-10-06 — Tabs docs: "Tabs or SegmentedControl?" rule box with 3 examples
+
+- Master KMO asked for the Tabs-vs-SegmentedControl rule to be very clear, highlighted, with 3 examples. Added a highlighted box at the top of section 06 of `docs/components/tabs.html`: one question ("different part of the content, or the same content arranged differently?"), two answers, and three working examples: item page Details/Performance/History (Tabs), category list Newest/Popular/Free (SegmentedControl), reports overview 7/30/90 days (SegmentedControl).
+- Also fixed a mobile bug already on the page: the anatomy key lines did not wrap, so at 375px the page scrolled sideways (417px wide). Now 375px.
+- Checked in Chromium: each example works (panel swap, re-sort, filter, bars), no console errors, no sideways page scroll at 1440px or 375px. Not verified: the docs-site deploy (needs a redeploy).
+
+---
+
 ## 2026-10-06 — Tooltip component and docs (issue 28)
 
 - Asked: an accessible Tooltip component with docs. Nothing existed in the DS; the reports dashboard has a local `InfoTip` stand-in (not touched; migrating it is a separate change). Built on top of the Tabs branch because the test setup lives there: merge the Tabs change first.
