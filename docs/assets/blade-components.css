@@ -52,10 +52,10 @@
   width: 100%;
   min-width: 0;
   height: 100%;
-  padding: var(--vs-card-padding-item);
+  padding: 0;
   background-color: var(--vs-color-surface);
   border: 1px solid var(--vs-card-border);
-  border-radius: var(--vs-card-radius);
+  border-radius: var(--vs-item-card-radius);
   box-shadow: var(--vs-shadow-none);
   font-family: var(--vs-font-family);
   color: var(--vs-color-text-body);
@@ -81,7 +81,8 @@
   }
 }
 
-/* ---- Media: 1:1 frame; image, video or audio fills it ---- */
+/* ---- Media: square, full card width (no inner padding, like the live card); image, video or audio fills it.
+   Top corners follow the card's radius (minus its 1px border). ---- */
 .vs-item-card__media {
   position: relative;
   box-sizing: border-box;
@@ -89,8 +90,8 @@
   aspect-ratio: var(--vs-card-media-ratio);
   overflow: hidden;
   background-color: var(--vs-card-media-bg);
-  border: 1px solid var(--vs-card-divider);
-  border-radius: var(--vs-card-radius);
+  border: 0;
+  border-radius: calc(var(--vs-item-card-radius) - 1px) calc(var(--vs-item-card-radius) - 1px) 0 0;
 }
 
 .vs-item-card__media-link {
@@ -128,19 +129,22 @@
   justify-content: center;
 }
 
-/* ---- Badge: one per card, 10px inset, small text ---- */
+/* ---- Badge: one per card. Edge ribbon attached to the left edge of the image, like the live card
+   (top 25px, 10px 12px padding, 12px uppercase, right corners rounded). ---- */
 .vs-item-card__badge {
   position: absolute;
-  top: var(--vs-card-badge-inset);
-  left: var(--vs-card-badge-inset);
+  top: var(--vs-item-card-badge-top);
+  left: 0;
+  inset-inline-start: 0;
   z-index: 1;
   display: inline-flex;
   align-items: center;
-  gap: var(--vs-spacing-xs);
-  max-width: calc(100% - 2 * var(--vs-card-badge-inset));
-  padding: 2px var(--vs-spacing-sm);
-  border-radius: var(--vs-card-radius);
-  font: 600 11px/16px var(--vs-font-family);
+  gap: 6px;
+  max-width: calc(100% - var(--vs-spacing-md));
+  padding: 10px 12px;
+  border-radius: 0 var(--vs-item-card-radius) var(--vs-item-card-radius) 0;
+  font: 400 12px/1.5 var(--vs-font-family);
+  text-transform: uppercase;
   white-space: nowrap;
   pointer-events: none;
 }
@@ -177,11 +181,12 @@
   flex: 1 1 auto;
   flex-direction: column;
   min-width: 0;
+  padding: var(--vs-card-padding-item);
 }
 
 .vs-item-card .vs-item-card__title {
   display: block;
-  margin: 12px 0 2px;
+  margin: 0 0 2px;
   overflow: hidden;
   font-size: var(--vs-card-title-size);
   font-weight: var(--vs-font-weight-card-title);
@@ -429,9 +434,10 @@
     align-self: flex-start;
     width: var(--vs-card-list-media-width);
     max-width: 40%;
+    border-radius: var(--vs-item-card-radius);
   }
 
-  .vs-item-card.item-inline .vs-item-card__title {
-    margin-top: 0;
+  .vs-item-card.item-inline .vs-item-card__body {
+    padding: 0;
   }
 }

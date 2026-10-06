@@ -84,16 +84,16 @@ tokens as `Badge.tsx`'s `BadgeProductTone` on the reports-site side.
 ### `<x-vs-item-card>` / `<x-vs-item-card-action>`
 
 ```blade
-<x-vs-item-card class="item" :layout="$listView ? 'list' : 'grid'"
+<x-vs-item-card class="item"
     :title="$item->name" :url="$vsCard->href" :external="$vsCard->external"
-    :image="$item->getPreviewImageLink()" badge="free"
-    :category="$item->category?->name" :category-url="$item->category?->getLink()"
-    :description="$item->description" free :stat="translate(':count Downloads', ['count' => 2])"
-    :view-label="translate('View')">
+    :image="$item->getPreviewImageLink()" :category="$item->category?->name"
+    :category-url="$item->category?->getLink()" :description="$item->description"
+    :price="getAmount($item->getRegularPrice())" :view-label="translate('View Item')">
     <x-slot:actions>
-        <form action="{{ route('items.free.download', hash_encode($item->id)) }}" method="POST">
-            @csrf
-            <x-vs-item-card-action icon="fa-solid fa-download" :label="translate('Download')" />
+        <form data-action="{{ route('cart.add-item') }}" class="add-to-cart-form" method="POST">
+            <input type="hidden" name="item_id" value="{{ $item->id }}">
+            <x-vs-item-card-action icon="fa-solid fa-shopping-cart" :label="translate('Add to Cart')"
+                :disabled="authUser()?->id == $item->author_id" />
         </form>
     </x-slot:actions>
 </x-vs-item-card>
@@ -104,8 +104,8 @@ the other components it has **its own CSS** (`blade/components.css`, item-card s
 tokens only, so the site's token adapter carries the admin colours into it. Docs:
 `docs/components/item-card.html`.
 
-- **Presentation only.** It never decides what a visitor may do. The page passes its download / add-to-cart
-  forms or links in the `actions` slot (`x-vs-item-card-action` draws each as a 40px square icon button with an
+- **Presentation only.** It never decides what a visitor may do. The page passes its own controls (add to
+  cart) in the `actions` slot (`x-vs-item-card-action` draws each as a 40px square icon button with an
   accessible name; `disabled` for the visitor's own item). External-seller items pass `external` and no
   actions. Every card gets the view (eye) button. The spec's "Add" text button is not used.
 - **Author** hidden by default (category only); `show-author` prints "By author in category" using the site's
@@ -113,11 +113,15 @@ tokens only, so the site's token adapter carries the admin colours into it. Docs
   (`show-favorite`, `favorited`); its behaviour is the page's (`.vs-item-card__favorite` hook or the `favorite`
   slot).
 - **Media**: `preview-type="image|video|audio"` renders the same `.item-video` / `.item-audio-wave` markup the
-  site's plyr / WaveSurfer JS looks for, filling the 1:1 frame; or pass your own markup in the `media` slot.
+  site's plyr / WaveSurfer JS looks for, filling the square preview; or pass your own markup in the `media` slot.
 - **Grid and list.** Pass the site's `item` class; the site's toggle adds `item-inline` (list) and `w-100` on the
   parent and sets the `item_view` cookie — the card follows `item-inline`. `layout="list"` adds it server-side.
   From 768px the preview sits left (320px, max 40%); below that the card stays stacked, like the site today.
-- **Fluid width** (fills its grid column, no 344.5px); spec v2 padding (14px), title (16px) and price (18px).
+- **Fluid width** (fills its grid column, no 344.5px); spec v2 text padding (14px), title (16px) and price (18px).
+- **Live-card look kept (Master KMO, 6 Oct 2026):** image full card width (no inner padding), edge-ribbon badge
+  (25px from the top, uppercase), 8px corners (`--vs-item-card-radius`; `--vs-card-radius` stays 3px for the
+  reports dashboard). vectorsticker.com shows **no download button** on listing cards: free items get the eye
+  button only.
 - Hover: brand border + 4px lift (no lift with reduced motion). Keyboard focus ring on every link and button.
 - Do **not** pass Bootstrap's `border` class (the listing pages pass `item_classes => 'border'` today): its
   `!important` colour hides the hover border. The card already has its own border.
@@ -125,7 +129,8 @@ tokens only, so the site's token adapter carries the admin colours into it. Docs
   Uncategorized, `By :username in :category`), so rendering a card never adds rows to the translations table.
   The button names (`view-label`, `favorite-label`, …) default to English: pass translated text.
 - New tokens: `--vs-card-badge-{premium,sale,free,trending}-text` (badge text that stays ≥ 4.5:1; white was 2.78:1
-  on the premium green and 2.4:1 on the sale teal) and `--vs-card-list-media-width`.
+  on the premium green and 2.4:1 on the sale teal), `--vs-card-list-media-width`, `--vs-item-card-radius`,
+  `--vs-item-card-badge-top`.
 
 **Not yet used on vectorsticker.com.** Rollout is a separate, page-group-by-page-group change on that repo; the
 old partial stays until Master KMO signs off.

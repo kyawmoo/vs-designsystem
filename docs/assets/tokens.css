@@ -152,6 +152,10 @@
   --vs-card-badge-free-text: var(--vs-color-surface);
   --vs-card-badge-trending-text: var(--vs-color-surface);
   --vs-card-list-media-width: 320px; /* list layout (item-inline), same as the live site's list image */
+  /* Item card corners and badge position = the live vectorsticker.com card (owner's choice, 6 Oct 2026). Separate
+     from --vs-card-radius (3px), which the reports dashboard's cards use. */
+  --vs-item-card-radius: 8px;
+  --vs-item-card-badge-top: 25px;
 
   /* ---- Icon size scale (library differs by platform: lucide-react on
      React, Font Awesome on Blade — see tokens.json "icon.principle") ---- */
