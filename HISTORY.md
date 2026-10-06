@@ -6,6 +6,12 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-10-06 — Tabs docs rule box: yellow border, very light yellow background
+
+- Master KMO: yellow border all round, very light yellow background, no green left border. The box now uses `--vs-color-warning-border` and `--vs-color-warning-bg` (existing tokens); the "THE RULE" label is heading colour instead of green. Checked in Chromium (screenshot), no console errors, no sideways scroll. Docs-only; needs a docs-site redeploy.
+
+---
+
 ## 2026-10-06 — Docs sidebar: two collapsible groups, 14px items
 
 - Master KMO: the left menu should have only Foundations and Components (Form Elements merged into Components), the group titles can be closed, Components open by default, only one open at a time, menu items 14px.
