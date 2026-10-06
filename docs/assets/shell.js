@@ -6,10 +6,6 @@
 (function () {
   const NAV = [
     {
-      group: 'Overview',
-      items: [{ id: 'getting-started', label: 'Getting Started', href: '/', icon: 'rocket' }],
-    },
-    {
       group: 'Foundations',
       items: [
         { id: 'colors', label: 'Colors', href: '/foundations/colors.html', icon: 'palette' },
@@ -39,11 +35,6 @@
         { id: 'modal', label: 'Modal', href: '/components/modal.html', icon: 'app-window' },
         { id: 'toast', label: 'Toast', href: '/components/toast.html', icon: 'bell' },
         { id: 'tooltip', label: 'Tooltip', href: '/components/tooltip.html', icon: 'message-square' },
-      ],
-    },
-    {
-      group: 'Form Elements',
-      items: [
         { id: 'form-elements', label: 'All Form Elements', href: '/components/form-elements.html', icon: 'panels-top-left' },
         { id: 'text-input', label: 'Text Input', href: '/components/text-input.html', icon: 'text-cursor-input' },
         { id: 'textarea', label: 'Textarea', href: '/components/textarea.html', icon: 'square-pen' },
@@ -90,6 +81,7 @@
     'search': '<path d="m21 21-4.34-4.34" /> <circle cx="11" cy="11" r="8" />',
     'upload': '<path d="M12 3v12" /> <path d="m17 8-5-5-5 5" /> <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />',
     'group': '<path d="M3 7V5c0-1.1.9-2 2-2h2" /> <path d="M17 3h2c1.1 0 2 .9 2 2v2" /> <path d="M21 17v2c0 1.1-.9 2-2 2h-2" /> <path d="M7 21H5c-1.1 0-2-.9-2-2v-2" /> <rect width="7" height="5" x="7" y="7" rx="1" /> <rect width="7" height="5" x="10" y="12" rx="1" />',
+    'chevron-right': '<path d="m9 18 6-6-6-6" />',
     'github': '<path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /> <path d="M9 18c-4.51 2-5-2-7-2" />',
   };
 
@@ -99,18 +91,28 @@
     return `<svg class="vs-docs-sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
   }
 
+  // Two collapsible groups, one open at a time (opening one closes the other; the open one can also be closed).
+  // Default open: the group holding the current page, otherwise Components.
   function renderSidebar() {
     const mount = document.getElementById('vs-docs-sidebar-mount');
     if (!mount) return;
     const active = document.body.dataset.page;
+    const slug = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const holder = NAV.find((group) => group.items.some((item) => item.id === active));
+    const openSlug = slug((holder || NAV.find((group) => group.group === 'Components') || NAV[0]).group);
     const groups = NAV.map((group) => {
+      const key = slug(group.group);
+      const isOpen = key === openSlug;
       const links = group.items
         .map((item) => {
           const isActive = item.id === active;
           return `<a href="${item.href}" class="${isActive ? 'is-active' : ''}"${isActive ? ' aria-current="page"' : ''}>${icon(item.icon)}<span>${item.label}</span></a>`;
         })
         .join('');
-      return `<div class="vs-docs-sidebar-group"><p class="vs-docs-sidebar-group-title">${group.group}</p>${links}</div>`;
+      return `<div class="vs-docs-sidebar-group${isOpen ? ' is-open' : ''}">
+        <button type="button" class="vs-docs-sidebar-group-toggle" id="vs-docs-toggle-${key}" aria-expanded="${isOpen}" aria-controls="vs-docs-group-${key}"><span>${group.group}</span>${icon('chevron-right')}</button>
+        <div class="vs-docs-sidebar-group-links" id="vs-docs-group-${key}" role="group" aria-labelledby="vs-docs-toggle-${key}"${isOpen ? '' : ' hidden'}>${links}</div>
+      </div>`;
     }).join('');
     mount.innerHTML = `
       <aside class="vs-docs-sidebar">
@@ -122,6 +124,20 @@
           <a href="https://github.com/kyawmoo/vs-designsystem" target="_blank" rel="noopener">${icon('github')}<span>GitHub</span></a>
         </div>
       </aside>`;
+
+    mount.querySelectorAll('.vs-docs-sidebar-group-toggle').forEach((toggle) => {
+      toggle.addEventListener('click', () => {
+        const wasOpen = toggle.getAttribute('aria-expanded') === 'true';
+        mount.querySelectorAll('.vs-docs-sidebar-group').forEach((group) => {
+          const t = group.querySelector('.vs-docs-sidebar-group-toggle');
+          const panel = group.querySelector('.vs-docs-sidebar-group-links');
+          const open = t === toggle && !wasOpen;
+          t.setAttribute('aria-expanded', String(open));
+          panel.hidden = !open;
+          group.classList.toggle('is-open', open);
+        });
+      });
+    });
   }
 
   document.addEventListener('DOMContentLoaded', renderSidebar);

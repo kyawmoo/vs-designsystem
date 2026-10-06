@@ -12,6 +12,14 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-10-06 — Docs sidebar: two collapsible groups, 14px items
+
+- Master KMO: the left menu should have only Foundations and Components (Form Elements merged into Components), the group titles can be closed, Components open by default, only one open at a time, menu items 14px.
+- `docs/assets/shell.js`: NAV now has two groups (the 10 form pages follow the other Components pages; the "Overview / Getting Started" group is gone, the logo still links to the home page). Group titles are buttons (`aria-expanded` / `aria-controls`, chevron). Opening one closes the other; the open one can also be closed. Default open: the group holding the current page, otherwise Components. `docs/assets/shell.css`: items 15px → 14px, toggle styles. No state is remembered between pages.
+- Checked in Chromium: default state on a component page, on a foundations page and on the home page; open / close / switch by mouse and by keyboard (Enter); item font 14px; 32 links in total; narrow screens still hide the menu as before; no console errors. Needs a docs-site redeploy.
+
+---
+
 ## 2026-10-06 — Tooltip hover delay 300ms → 150ms
 
 - Master KMO: 0.3 s felt long, make it 0.15 s. `TOOLTIP_OPEN_DELAY` in `Tooltip.tsx` (the unit tests read the constant), the docs text and the docs demo script were changed together. Keyboard focus is still immediate, close grace still 100ms.
