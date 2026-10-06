@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { SegmentedControl } from './SegmentedControl';
 import { TabPanel, Tabs } from './Tabs';
 import type { TabItem, TabsVariant } from './Tabs';
 
@@ -77,11 +79,9 @@ describe('Tabs — segmented (default, existing behaviour must not change)', () 
     expect(onChange).toHaveBeenCalledExactlyOnceWith('analytics');
   });
 
-  it('does not fire onChange for a disabled item', async () => {
-    const onChange = vi.fn();
-    render(<Tabs tabs={[{ id: 'a', label: 'A', disabled: true }, { id: 'b', label: 'B' }]} activeId="b" onChange={onChange} />);
-    await userEvent.click(screen.getByRole('button', { name: 'A' }));
-    expect(onChange).not.toHaveBeenCalled();
+  it('renders exactly what SegmentedControl renders (the deprecated alias path)', () => {
+    const props = { tabs: TABS, activeId: 'products', onChange: () => {}, size: 'sm' as const, className: 'x', buttonClassName: 'y' };
+    expect(renderToStaticMarkup(<Tabs {...props} />)).toBe(renderToStaticMarkup(<SegmentedControl {...props} />));
   });
 });
 

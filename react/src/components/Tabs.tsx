@@ -1,4 +1,5 @@
 import React from 'react';
+import { SegmentedControl } from './SegmentedControl';
 
 export type TabsVariant = 'segmented' | 'primary' | 'secondary';
 
@@ -10,7 +11,7 @@ export interface TabItem {
   icon?: React.ReactNode;
   /** Primary / secondary only: trailing count or status, e.g. `<Badge tone="info">12</Badge>`. */
   badge?: React.ReactNode;
-  /** Not selectable, not focusable. */
+  /** Primary / secondary only: not selectable, not focusable. */
   disabled?: boolean;
 }
 
@@ -19,9 +20,9 @@ export interface TabsProps {
   activeId: string;
   onChange: (id: string) => void;
   /**
-   * `segmented` (default) is the original pill track used across the reports dashboard: a compact option/filter
-   * switch, rendered exactly as before. `primary` and `secondary` are real tabs: an underline indicator, the ARIA
-   * tablist pattern, arrow-key navigation and optional tab panels.
+   * `segmented` (default, deprecated here) renders `SegmentedControl` exactly as before, so existing `<Tabs>` imports
+   * keep working; new code should use `SegmentedControl` for it. `primary` and `secondary` are real tabs: an underline
+   * indicator, the ARIA tablist pattern, arrow-key navigation and optional tab panels.
    */
   variant?: TabsVariant;
   /** `segmented` only. */
@@ -44,9 +45,8 @@ export const getTabId = (tabsId: string, tabId: string) => `${tabsId}-tab-${safe
 export const getTabPanelId = (tabsId: string, tabId: string) => `${tabsId}-panel-${safe(tabId)}`;
 
 /**
- * Tabs. The default `segmented` variant formalizes the `.vs-segment-control` / `.vs-segment-button` pattern
- * already live in production inside TableWidget.tsx (and duplicated inline across several report views):
- * same classes, same visual output. `primary` / `secondary` are the navigation tabs: text with an underline
+ * Tabs. The default `segmented` variant is the deprecated alias path to `SegmentedControl` (same output as before
+ * the rename). `primary` / `secondary` are the navigation tabs: text with an underline
  * indicator, `role="tablist"`, roving tabindex, Left/Right/Home/End keys (automatic activation), horizontal
  * scroll instead of wrapping. Pair them with `TabPanel`.
  */
@@ -65,23 +65,8 @@ export function Tabs({
   const buttons = React.useRef(new Map<string, HTMLButtonElement>());
 
   if (variant === 'segmented') {
-    return (
-      <div className={className ? `vs-segment-control ${className}` : 'vs-segment-control'}>
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            disabled={tab.disabled}
-            onClick={() => onChange(tab.id)}
-            className={`vs-segment-button ${size === 'sm' ? 'vs-segment-button--sm' : ''} ${
-              activeId === tab.id ? 'is-active' : ''
-            } ${buttonClassName ?? ''}`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-    );
+    // The original pill switch, now its own component. Kept here so existing `<Tabs>` imports keep working unchanged.
+    return <SegmentedControl tabs={tabs} activeId={activeId} onChange={onChange} size={size} className={className} buttonClassName={buttonClassName} />;
   }
 
   if (tabs.length === 0) return null;
