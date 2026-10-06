@@ -109,12 +109,12 @@
 
     <div class="vs-docs-section-head">
       <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
-      <p class="vs-docs-section-desc">Hover (300ms) · Tab to focus · Esc to dismiss.</p>
+      <p class="vs-docs-section-desc">Hover (150ms) · Tab to focus · Esc to dismiss.</p>
     </div>
     <div class="vs-docs-preview"><div class="demo-live-row"><div class="demo-live-cell"><button type="button" class="demo-icon-btn " aria-label="Download" data-tip="Download as PNG"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button><span>Icon-only action</span></div><div class="demo-live-cell"><button type="button" class="demo-icon-btn " aria-label="Add to favourites" data-tip="Add to favourites" data-placement="bottom"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg></button><span>placement bottom</span></div><div class="demo-live-cell"><span class="demo-trunc" tabindex="0" data-tip="Holographic Cat Sticker Pack — 48 PNG files">Holographic Cat Sticker Pa…</span><span>Truncated label</span></div><div class="demo-live-cell"><button type="button" class="demo-icon-btn demo-icon-btn--bare" aria-label="About the opportunity score" data-tip="Higher score = stronger opportunity to add new content." data-placement="right"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></button><span>Contextual helper</span></div></div></div>
     <div class="vs-docs-callout">
       <p>
-        Pointer hover waits 300ms, keyboard focus shows it at once, Escape
+        Pointer hover waits 150ms, keyboard focus shows it at once, Escape
         or pressing the control hides it, and you can move onto the tooltip
         itself without it closing. On a touch screen it is not shown: a tap
         performs the control’s action (section 07).
@@ -131,7 +131,7 @@
       <div><span class="vs-docs-section-num">03 // States</span><h2>States</h2></div>
       <p class="vs-docs-section-desc">Shown here forced visible.</p>
     </div>
-    <div class="demo-states demo-states--wide"><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button></span></div><div class="demo-state-meta"><b>Hidden</b><code>default</code><span>nothing in the layout; description still read by screen readers</span></div></div><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><span class="demo-hover-ring"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button></span><span class="demo-tt demo-tt--static " data-placement="top" aria-hidden="true">Download as PNG<span class="demo-tt__arrow"></span></span></span></div><div class="demo-state-meta"><b>Visible on hover</b><code>pointer · after 300ms</code><span>moving onto the tooltip keeps it open</span></div></div><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><span class="demo-focus-ring"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button></span><span class="demo-tt demo-tt--static " data-placement="top" aria-hidden="true">Download as PNG<span class="demo-tt__arrow"></span></span></span></div><div class="demo-state-meta"><b>Visible on focus</b><code>keyboard focus · immediately</code><span>focus stays on the trigger</span></div></div><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><button type="button" class="demo-icon-btn " aria-label="Download" data-tip-disabled><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button></span></div><div class="demo-state-meta"><b>Suppressed</b><code>&lt;Tooltip disabled&gt;</code><span>no tooltip, no description; the control itself still works</span></div></div></div>
+    <div class="demo-states demo-states--wide"><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button></span></div><div class="demo-state-meta"><b>Hidden</b><code>default</code><span>nothing in the layout; description still read by screen readers</span></div></div><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><span class="demo-hover-ring"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button></span><span class="demo-tt demo-tt--static " data-placement="top" aria-hidden="true">Download as PNG<span class="demo-tt__arrow"></span></span></span></div><div class="demo-state-meta"><b>Visible on hover</b><code>pointer · after 150ms</code><span>moving onto the tooltip keeps it open</span></div></div><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><span class="demo-focus-ring"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button></span><span class="demo-tt demo-tt--static " data-placement="top" aria-hidden="true">Download as PNG<span class="demo-tt__arrow"></span></span></span></div><div class="demo-state-meta"><b>Visible on focus</b><code>keyboard focus · immediately</code><span>focus stays on the trigger</span></div></div><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><button type="button" class="demo-icon-btn " aria-label="Download" data-tip-disabled><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button></span></div><div class="demo-state-meta"><b>Suppressed</b><code>&lt;Tooltip disabled&gt;</code><span>no tooltip, no description; the control itself still works</span></div></div></div>
 
     <div class="vs-docs-section-head">
       <div><span class="vs-docs-section-num">04 // Anatomy &amp; Measurement</span><h2>Anatomy &amp; Measurement Guide</h2></div>
@@ -163,7 +163,7 @@
         <tr><td>Gap / viewport margin</td><td><code>8px</code> / <code>8px</code></td><td>proposed (matches <code>--vs-spacing-sm</code>)</td></tr>
         <tr><td>Elevation</td><td>none: flat design (<code>--vs-shadow-none</code>); the dark surface separates it from the page</td><td>existing principle</td></tr>
         <tr><td>Layering</td><td><code>position: fixed</code>, <code>z-index: 60</code>, rendered in a portal on <code>document.body</code> so no <code>overflow</code> container can clip it</td><td>proposed</td></tr>
-        <tr><td>Timing</td><td>hover opens after <strong>300ms</strong>; focus opens at <strong>0ms</strong>; close grace <strong>100ms</strong>; 120ms fade-in (none under reduced motion)</td><td>proposed defaults, not configurable</td></tr>
+        <tr><td>Timing</td><td>hover opens after <strong>150ms</strong>; focus opens at <strong>0ms</strong>; close grace <strong>100ms</strong>; 120ms fade-in (none under reduced motion)</td><td>proposed defaults, not configurable</td></tr>
         <tr><td>Layout</td><td>closed = no DOM and no size; open = overlay only, so it never shifts the page</td><td>decision</td></tr>
       </tbody>
     </table></div>
@@ -211,7 +211,7 @@
     <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Input</th><th>Behaviour</th></tr></thead>
       <tbody>
-        <tr><td>Pointer hover (mouse, pen)</td><td>Opens after 300ms. Closes 100ms after the pointer leaves the trigger <em>and</em> the tooltip, so the pointer can move onto it (hoverable).</td></tr>
+        <tr><td>Pointer hover (mouse, pen)</td><td>Opens after 150ms. Closes 100ms after the pointer leaves the trigger <em>and</em> the tooltip, so the pointer can move onto it (hoverable).</td></tr>
         <tr><td>Keyboard focus</td><td>Opens immediately on <code>:focus-visible</code>. Focus stays on the trigger; the tooltip is never focusable and <kbd>Tab</kbd> moves on to the next control. Blur closes it.</td></tr>
         <tr><td><kbd>Esc</kbd></td><td>Closes it without moving focus or the pointer (dismissible).</td></tr>
         <tr><td>Pressing the control</td><td>Closes it so it never covers the action, and it does not reopen until the pointer leaves and returns.</td></tr>
@@ -282,7 +282,7 @@
     <div class="vs-docs-callout">
       <p>
         There is no <code>delay</code> prop on purpose: one consistent timing
-        (300ms hover, 0ms focus) across the product. Blade is not covered;
+        (150ms hover, 0ms focus) across the product. Blade is not covered;
         <code>x-vs-item-card-action</code> keeps its native <code>title</code>
         attribute for now. The reports dashboard’s own <code>InfoTip</code>
         stand-in can move to this component in a separate change.
@@ -296,7 +296,7 @@
         <tr><td>Type</td><td><code>--vs-font-family</code>, <code>--vs-font-size-body-sm</code></td><td>existing</td></tr>
         <tr><td>Trigger focus ring (your control)</td><td><code>--vs-focus-ring-*</code></td><td>existing</td></tr>
         <tr><td>Elevation</td><td><code>--vs-shadow-none</code> (flat)</td><td>existing</td></tr>
-        <tr><td>Padding, max width, arrow size, gap, margin, z-index, delays, fade</td><td><code>6px 10px</code>, <code>240px</code>, <code>8px</code>, <code>8px</code>, <code>8px</code>, <code>60</code>, <code>300 / 0 / 100ms</code>, <code>120ms</code></td><td><strong>proposed</strong> — literals, no tokens yet</td></tr>
+        <tr><td>Padding, max width, arrow size, gap, margin, z-index, delays, fade</td><td><code>6px 10px</code>, <code>240px</code>, <code>8px</code>, <code>8px</code>, <code>8px</code>, <code>60</code>, <code>150 / 0 / 100ms</code>, <code>120ms</code></td><td><strong>proposed</strong> — literals, no tokens yet</td></tr>
       </tbody>
     </table></div>
 
@@ -349,7 +349,7 @@
     }
 
     /* Live tooltips: any [data-tip] */
-    var OPEN = 300, CLOSE = 100, uid = 0;
+    var OPEN = 150, CLOSE = 100, uid = 0;
     document.querySelectorAll('[data-tip]').forEach(function (trigger) {
       if (trigger.hasAttribute('data-tip-disabled')) return;
       var text = trigger.getAttribute('data-tip'), placement = trigger.getAttribute('data-placement') || 'top', arrow = !trigger.hasAttribute('data-no-arrow');
