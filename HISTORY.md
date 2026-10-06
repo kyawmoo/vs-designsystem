@@ -6,6 +6,12 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-10-06 — Tabs docs rule box: yellow border, very light yellow background
+
+- Master KMO: yellow border all round, very light yellow background, no green left border. The box now uses `--vs-color-warning-border` and `--vs-color-warning-bg` (existing tokens); the "THE RULE" label is heading colour instead of green. Checked in Chromium (screenshot), no console errors, no sideways scroll. Docs-only; needs a docs-site redeploy.
+
+---
+
 ## 2026-10-06 — Tooltip hover delay 300ms → 150ms
 
 - Master KMO: 0.3 s felt long, make it 0.15 s. `TOOLTIP_OPEN_DELAY` in `Tooltip.tsx` (the unit tests read the constant), the docs text and the docs demo script were changed together. Keyboard focus is still immediate, close grace still 100ms.
