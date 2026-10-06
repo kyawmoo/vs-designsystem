@@ -346,7 +346,7 @@
     </table>
     </div>
     <div class="vs-docs-callout">
-      <p><strong>Two deliberate differences from the spec drawing.</strong> (1) Badge text: the spec shows white on every badge, but white is 2.78:1 on the premium green and 2.4:1 on the sale teal (WCAG AA needs 4.5:1), so those two use the dark on-primary text; <code>npm run check:tokens</code> gates all four. (2) Sale price uses <code>--vs-color-brand-primary-text</code> (about 5.3:1) instead of the plain green <code>--vs-card-price-sale-color</code> (2.78:1). The old struck-through price keeps the spec's <code>--vs-card-price-old-color</code> (about 2.5:1); a hidden “Regular price:” label is read by screen readers.</p>
+      <p><strong>Badge and price colours.</strong> (1) Badge text: white on Free, Trending and Premium; dark on On Sale (white is 2.4:1 on the sale teal). Premium is dark gold <code>#CC8F00</code> with white text by the owner's choice (6 Oct 2026): 2.8:1, below WCAG AA 4.5:1, an accepted exception that <code>npm run check:tokens</code> gates at &ge; 2.5:1 so it cannot get lighter; the other three are gated at &ge; 4.5:1. (2) Sale price uses <code>--vs-color-brand-primary-text</code> (about 5.3:1) instead of the plain green <code>--vs-card-price-sale-color</code> (2.78:1). The old struck-through price keeps the spec's <code>--vs-card-price-old-color</code> (about 2.5:1); a hidden &ldquo;Regular price:&rdquo; label is read by screen readers.</p>
     </div>
 
     <h2>Usage — Blade</h2>

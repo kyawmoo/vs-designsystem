@@ -129,8 +129,8 @@ tokens only, so the site's token adapter carries the admin colours into it. Docs
 - Text: only keys the old partial already uses go through `translate()` (Premium, Free, On Sale, Trending,
   Uncategorized, `By :username in :category`), so rendering a card never adds rows to the translations table.
   The button names (`view-label`, `favorite-label`, …) default to English: pass translated text.
-- New tokens: `--vs-card-badge-{premium,sale,free,trending}-text` (badge text that stays ≥ 4.5:1; white was 2.78:1
-  on the premium green and 2.4:1 on the sale teal), `--vs-card-list-media-width`, `--vs-item-card-radius`,
+- New tokens: `--vs-card-badge-{premium,sale,free,trending}-text` (dark text on the sale teal, white elsewhere; Premium is
+  dark gold `#CC8F00` with white text by the owner's choice, 2.8:1, an accepted exception gated at ≥ 2.5:1), `--vs-card-list-media-width`, `--vs-item-card-radius`,
   `--vs-item-card-badge-top`, `--vs-item-card-border` (#F0F0F0, lighter than `--vs-card-border`).
 
 **Not yet used on vectorsticker.com.** Rollout is a separate, page-group-by-page-group change on that repo; the

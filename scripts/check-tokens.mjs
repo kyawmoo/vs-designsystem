@@ -75,7 +75,9 @@ need('brand green as text on surface', '--vs-color-brand-primary-text', '--vs-co
 need('brand green as text on background', '--vs-color-brand-primary-text', '--vs-color-background', 4.5);
 for (const t of ['success', 'warning', 'danger', 'info']) for (const txt of ['text-body', 'text-heading']) need(`alert ${txt} on ${t} fill`, `--vs-color-${txt}`, `--vs-color-${t}-bg`, 4.5);
 for (const t of ['success', 'error', 'warning', 'info']) need(`toast text on ${t}`, '--vs-toast-text', `--vs-toast-${t}`, 4.5);
-for (const b of ['premium', 'sale', 'free', 'trending']) need(`item card ${b} badge text`, `--vs-card-badge-${b}-text`, `--vs-color-badge-${b}`, 4.5);
+// Premium: white on dark gold is the owner's choice (6 Oct 2026), 2.8:1. Accepted exception, gated so it cannot get lighter.
+const BADGE_MIN = { premium: 2.5, sale: 4.5, free: 4.5, trending: 4.5 };
+for (const b of Object.keys(BADGE_MIN)) need(`item card ${b} badge text`, `--vs-card-badge-${b}-text`, `--vs-color-badge-${b}`, BADGE_MIN[b]);
 need('focus ring on surface', '--vs-focus-ring-color', '--vs-color-surface', 3);
 need('focus ring on background', '--vs-focus-ring-color', '--vs-color-background', 3);
 need('focus ring on dark surface', '--vs-focus-ring-color-on-dark', '--vs-color-brand-secondary', 3);
