@@ -1,12 +1,12 @@
 import React from 'react';
 import { Search, Filter } from 'lucide-react';
-import { Tabs, TabItem } from './Tabs';
+import { SegmentedControl, SegmentedControlItem } from './SegmentedControl';
 
 export interface FilterBarProps {
   searchValue: string;
   onSearchChange: (value: string) => void;
   searchPlaceholder?: string;
-  tabs?: TabItem[];
+  tabs?: SegmentedControlItem[];
   activeTabId?: string;
   onTabChange?: (id: string) => void;
   sortLabel?: string;
@@ -56,7 +56,7 @@ export function FilterBar({
             <Filter size={14} strokeWidth={2} />
             {sortLabel}
           </span>
-          <Tabs tabs={tabs} activeId={activeTabId ?? ''} onChange={onTabChange ?? (() => {})} size="sm" />
+          <SegmentedControl tabs={tabs} activeId={activeTabId ?? ''} onChange={onTabChange ?? (() => {})} size="sm" />
         </div>
       )}
     </div>

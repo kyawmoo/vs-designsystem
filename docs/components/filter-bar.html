@@ -90,7 +90,7 @@
         <tr><td>Container</td><td>white, 1px border, 8px radius, 16px padding</td><td>bordered card, matches <code>--vs-radius-sm</code></td></tr>
         <tr><td>Search input bg</td><td><code>--vs-color-background</code> (#F8F8F8)</td><td>Tailwind <code>bg-gray-50</code> (#F9FAFB) — rounded to nearest token, 1-unit difference not visually distinguishable</td></tr>
         <tr><td>Search input focus border</td><td><code>#005c55</code></td><td>the reports dashboard's own accent color — used 100+ times across its own UI, deliberately kept as-is rather than forced to <code>--vs-color-brand-primary</code> (the main site's green), since these are two different real, already-live colors</td></tr>
-        <tr><td>Sort group</td><td>reuses the <code>&lt;Tabs&gt;</code> component, <code>size="sm"</code></td><td>same <code>vs-segment-control</code> pattern</td></tr>
+        <tr><td>Sort group</td><td>reuses the <code>&lt;SegmentedControl&gt;</code> component (formerly <code>Tabs</code>), <code>size="sm"</code></td><td>same <code>vs-segment-control</code> pattern</td></tr>
         <tr><td>Layout</td><td>column on mobile, row + space-between from 768px</td><td><code>flex-col md:flex-row</code></td></tr>
       </tbody>
     </table></div>

@@ -79,9 +79,9 @@
       for major sections, secondary tabs for sub-sections. Implemented in
       <code>react/src/components/Tabs.tsx</code>
       (<code>variant="primary"</code> / <code>"secondary"</code> with
-      <code>TabPanel</code>). The original pill-shaped switch is still the
-      default <code>variant="segmented"</code>; see section 06 for when to
-      use which.
+      <code>TabPanel</code>). The pill-shaped switch that used to be exported as
+      <code>Tabs</code> is now its own component,
+      <code>SegmentedControl</code>; see section 06 for when to use which.
     </p>
     </div>
   </div>
@@ -184,7 +184,7 @@
       <p class="vs-docs-section-desc">Two patterns, two jobs. Do not swap them.</p>
     </div>
     <div style="overflow-x:auto"><table class="vs-docs-table demo-compare">
-      <thead><tr><th></th><th>Tabs (<code>primary</code> / <code>secondary</code>)</th><th>SegmentedControl (<code>segmented</code>)</th></tr></thead>
+      <thead><tr><th></th><th>Tabs (<code>primary</code> / <code>secondary</code>)</th><th><code>SegmentedControl</code> component</th></tr></thead>
       <tbody>
         <tr><td>Job</td><td>Navigate between related content panels</td><td>Pick one compact option, filter or sort</td></tr>
         <tr><td>Looks like</td><td>Text with an underline indicator</td><td>One bordered track, solid pill for the selection</td></tr>
@@ -194,19 +194,22 @@
       </tbody>
     </table></div>
     <div class="demo-states demo-states--wide">
-      <div class="demo-state"><div class="demo-state-stage"><div class="demo-segment-control"><button class="demo-segment-button is-active" type="button">Newest</button><button class="demo-segment-button" type="button">Popular</button><button class="demo-segment-button" type="button">Free</button></div></div><div class="demo-state-meta"><b>SegmentedControl</b><code>variant="segmented"</code><span>“Show the same items sorted by…”</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><div class="demo-segment-control"><button class="demo-segment-button is-active" type="button">Newest</button><button class="demo-segment-button" type="button">Popular</button><button class="demo-segment-button" type="button">Free</button></div></div><div class="demo-state-meta"><b>SegmentedControl</b><code>&lt;SegmentedControl&gt;</code><span>“Show the same items sorted by…”</span></div></div>
       <div class="demo-state"><div class="demo-state-stage" style="align-items:flex-end"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Tabs example" data-base="dt30"><button type="button" role="tab" class="demo-tab" id="dt30-overview" data-tab="overview" aria-selected="true" tabindex="0"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt30-products" data-tab="products" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt30-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button></div></div><div class="demo-state-meta"><b>Tabs</b><code>variant="primary"</code><span>“Show a different part of the page”</span></div></div>
     </div>
-    <div class="vs-docs-callout">
+    <div class="vs-docs-callout vs-docs-callout--gap">
       <p>
-        <strong>Naming (existing code).</strong> Before this page, the React
-        <code>&lt;Tabs&gt;</code> export <em>was</em> the segmented switch, and
-        the reports dashboard still uses it that way in many views. To avoid
-        changing any of them, <code>variant="segmented"</code> stays the
-        default and renders exactly as before. A separate
-        <code>SegmentedControl</code> name for it is a possible follow-up.
-        <strong>New tab navigation must pass
-        <code>variant="primary"</code> or <code>"secondary"</code>.</strong>
+        <strong>Renamed (6 Oct 2026):</strong> the React component that
+        was exported as <code>Tabs</code> is a <em>segmented control</em>
+        (it selects one option or filter; it does not switch content
+        panels), so it is now <code>SegmentedControl</code> (types
+        <code>SegmentedControlProps</code>, <code>SegmentedControlItem</code>).
+        Same classes, same output. <code>&lt;Tabs&gt;</code> with no
+        <code>variant</code> still renders it, as a deprecated alias, so the
+        reports dashboard keeps working until it switches.
+        <strong>New segmented switches use <code>SegmentedControl</code>; new
+        tab navigation uses <code>&lt;Tabs variant="primary"&gt;</code> or
+        <code>"secondary"</code>.</strong>
       </p>
     </div>
 
@@ -336,7 +339,7 @@
 <span class="tag">&lt;TabPanel&gt;</span>                  <span class="cmt">role="tabpanel" · aria-labelledby → tab · hidden unless selected</span></div>
 
     <h2>Usage — React</h2>
-    <div class="vs-docs-code-block"><span class="tag">import</span> { Tabs, TabPanel, Badge } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Tabs, TabPanel, SegmentedControl, Badge } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
 
 <span class="tag">&lt;Tabs</span>
   <span class="attr">id</span>=<span class="str">"workspace"</span>
@@ -353,8 +356,8 @@
 <span class="tag">&lt;TabPanel</span> <span class="attr">tabsId</span>=<span class="str">"workspace"</span> <span class="attr">tabId</span>=<span class="str">"overview"</span> <span class="attr">activeId</span>=<span class="tag">{activeId}</span><span class="tag">&gt;</span>…<span class="tag">&lt;/TabPanel&gt;</span>
 <span class="tag">&lt;TabPanel</span> <span class="attr">tabsId</span>=<span class="str">"workspace"</span> <span class="attr">tabId</span>=<span class="str">"products"</span> <span class="attr">activeId</span>=<span class="tag">{activeId}</span><span class="tag">&gt;</span>…<span class="tag">&lt;/TabPanel&gt;</span>
 
-<span class="cmt">// the original switch, unchanged (no variant = segmented):</span>
-<span class="tag">&lt;Tabs</span> <span class="attr">tabs</span>=<span class="tag">{tabs}</span> <span class="attr">activeId</span>=<span class="tag">{activeId}</span> <span class="attr">onChange</span>=<span class="tag">{setActiveId}</span> <span class="tag">/&gt;</span></div>
+<span class="cmt">// the pill switch (formerly Tabs) is its own component; &lt;Tabs&gt; without a variant is a deprecated alias of it:</span>
+<span class="tag">&lt;SegmentedControl</span> <span class="attr">tabs</span>=<span class="tag">{tabs}</span> <span class="attr">activeId</span>=<span class="tag">{activeId}</span> <span class="attr">onChange</span>=<span class="tag">{setActiveId}</span> <span class="tag">/&gt;</span></div>
 
     <h2>Usage — Blade</h2>
     <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-tabs</span>
@@ -368,13 +371,13 @@
     <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Platform</th><th>Values</th></tr></thead>
       <tbody>
-        <tr><td><code>tabs</code></td><td>Both</td><td>array of <code>{ id, label }</code> — React's <code>label</code> accepts a full <code>ReactNode</code>. React only, new: <code>icon</code>, <code>badge</code> (primary / secondary), <code>disabled</code> (all variants). <code>id</code> must be unique and simple (letters, digits, <code>-</code>, <code>_</code>).</td></tr>
+        <tr><td><code>tabs</code></td><td>Both</td><td>array of <code>{ id, label }</code> — React's <code>label</code> accepts a full <code>ReactNode</code>. React only, new: <code>icon</code>, <code>badge</code>, <code>disabled</code> (primary / secondary only; <code>SegmentedControl</code> has none of these). <code>id</code> must be unique and simple (letters, digits, <code>-</code>, <code>_</code>).</td></tr>
         <tr><td><code>activeId</code></td><td>Both</td><td>the selected tab's <code>id</code></td></tr>
         <tr><td><code>onChange</code></td><td>React</td><td><code>(id: string) =&gt; void</code>. Also fired by arrow / Home / End keys (automatic activation).</td></tr>
-        <tr><td><code>variant</code></td><td>React</td><td><code>'segmented'</code> (default, unchanged) · <code>'primary'</code> · <code>'secondary'</code></td></tr>
+        <tr><td><code>variant</code></td><td>React</td><td><code>'segmented'</code> (default; deprecated alias that renders <code>SegmentedControl</code>) · <code>'primary'</code> · <code>'secondary'</code></td></tr>
         <tr><td><code>id</code></td><td>React</td><td>primary / secondary: base for tab and panel ids; set it to get <code>aria-controls</code></td></tr>
         <tr><td><code>label</code></td><td>React</td><td>primary / secondary: <code>aria-label</code> of the tab list</td></tr>
-        <tr><td><code>size</code></td><td>React</td><td>segmented only: <code>'sm' | 'md'</code> (default <code>'md'</code>)</td></tr>
+        <tr><td><code>size</code></td><td>React</td><td>segmented only (same as <code>SegmentedControl</code>): <code>'sm' | 'md'</code> (default <code>'md'</code>)</td></tr>
         <tr><td><code>className</code>, <code>buttonClassName</code></td><td>React</td><td>extra classes on the list / on every tab — e.g. Overview/Social Media's real <code>flex-1 sm:flex-initial py-2 sm:py-1.5</code> responsive padding override</td></tr>
         <tr><td><code>name</code></td><td>Blade</td><td>id/anchor prefix (default <code>'tab'</code>)</td></tr>
       </tbody>

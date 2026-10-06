@@ -122,16 +122,16 @@
 
     <div class="vs-docs-section-head">
       <div><span class="vs-docs-section-num">02 // Composition</span><h2>Built from Tabs</h2></div>
-      <p class="vs-docs-section-desc">The header's tab switcher is the same &lt;Tabs&gt; pattern documented separately.</p>
+      <p class="vs-docs-section-desc">The header's tab switcher is the same &lt;SegmentedControl&gt; pattern documented separately.</p>
     </div>
     <div class="vs-docs-callout">
       <p>
         <code>TableWidget</code>'s optional header-right tab switcher
-        is built directly on the standalone <code>&lt;Tabs&gt;</code>
-        component (<code>size="sm"</code>) — this is in fact where the
+        is built directly on the standalone <code>&lt;SegmentedControl&gt;</code>
+        component (<code>size="sm"</code>; exported as <code>Tabs</code> until 6 Oct 2026) — this is in fact where the
         <code>vs-segment-control</code> pattern was first formalized
         from, and <code>TableWidget</code> was refactored afterward to
-        render <code>&lt;Tabs&gt;</code> internally instead of
+        render <code>&lt;SegmentedControl&gt;</code> internally instead of
         duplicating the markup, so there is now exactly one
         implementation of this pattern.
       </p>
