@@ -54,30 +54,25 @@
   height: 100%;
   padding: 0;
   background-color: var(--vs-color-surface);
-  border: 1px solid var(--vs-card-border);
+  border: 1px solid var(--vs-item-card-border);
   border-radius: var(--vs-item-card-radius);
   box-shadow: var(--vs-shadow-none);
   font-family: var(--vs-font-family);
   color: var(--vs-color-text-body);
-  transition: border-color 150ms ease, transform 150ms ease;
+  transition: border-color 150ms ease;
 }
 
+/* Keyboard focus inside the card also shows the brand border; a mouse click (e.g. on add to cart) does not leave
+   the border green afterwards, hence :focus-visible rather than :focus-within. */
 .vs-item-card:hover,
-.vs-item-card:focus-within {
+.vs-item-card:has(:focus-visible) {
   border-color: var(--vs-card-hover-border);
 }
 
-.vs-item-card:hover {
-  transform: translateY(var(--vs-card-hover-lift));
-}
-
+/* No lift on hover (owner's choice, 6 Oct 2026): only the border colour changes. */
 @media (prefers-reduced-motion: reduce) {
   .vs-item-card {
     transition: none;
-  }
-
-  .vs-item-card:hover {
-    transform: none;
   }
 }
 
@@ -186,7 +181,7 @@
 
 .vs-item-card .vs-item-card__title {
   display: block;
-  margin: 0 0 2px;
+  margin: 0 0 6px;
   overflow: hidden;
   font-size: var(--vs-card-title-size);
   font-weight: var(--vs-font-weight-card-title);
@@ -230,7 +225,7 @@
 
 .vs-item-card .vs-item-card__desc {
   display: -webkit-box;
-  margin: var(--vs-spacing-sm) 0 0;
+  margin: 12px 0 0;
   overflow: hidden;
   font: var(--vs-type-body-01);
   letter-spacing: var(--vs-letter-spacing-body);

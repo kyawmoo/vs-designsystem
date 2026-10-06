@@ -156,6 +156,9 @@
      from --vs-card-radius (3px), which the reports dashboard's cards use. */
   --vs-item-card-radius: 8px;
   --vs-item-card-badge-top: 25px;
+  /* Item card border: lighter than --vs-card-border (#E5E7EB, used by the reports dashboard's Card) so it stays subtle
+     on the light gray listing pages (owner's choice, 6 Oct 2026). Hover still turns it brand colour. */
+  --vs-item-card-border: #F0F0F0;
 
   /* ---- Icon size scale (library differs by platform: lucide-react on
      React, Font Awesome on Blade — see tokens.json "icon.principle") ---- */

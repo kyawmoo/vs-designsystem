@@ -332,14 +332,14 @@
       <thead><tr><th>Part</th><th>Value</th><th>Token</th></tr></thead>
       <tbody>
         <tr><td>Width</td><td>Fluid: fills its grid column (no fixed 344.5px)</td><td>—</td></tr>
-        <tr><td>Card</td><td>1px border, 8px radius (the live card), no shadow; 14px padding around the text, none around the image</td><td><code>--vs-card-border</code>, <code>--vs-item-card-radius</code> (new), <code>--vs-card-padding-item</code></td></tr>
+        <tr><td>Card</td><td>1px light border (#F0F0F0, subtle on the light gray listing page), 8px radius (the live card), no shadow; 14px padding around the text, none around the image. Space under the title 6px, above the description 12px</td><td><code>--vs-item-card-border</code> (new), <code>--vs-item-card-radius</code> (new), <code>--vs-card-padding-item</code></td></tr>
         <tr><td>Media</td><td>Square, full card width (no inner padding, like the live card), top corners follow the card; image / video / audio fills it (cover)</td><td><code>--vs-card-media-ratio</code>, <code>--vs-card-media-bg</code>, <code>--vs-item-card-radius</code></td></tr>
         <tr><td>Badge</td><td>Edge ribbon on the image's left edge like the live card: 25px from the top, 10px 12px padding, 12px uppercase, right corners rounded; one per card, ellipsis if long</td><td><code>--vs-item-card-badge-top</code> (new), <code>--vs-item-card-radius</code>, <code>--vs-color-badge-*</code>, <code>--vs-card-badge-*-text</code></td></tr>
         <tr><td>Title</td><td>16px / 500, one line, ellipsis</td><td><code>--vs-card-title-size</code></td></tr>
         <tr><td>Meta</td><td>Category link (brand green as text); author only with <code>show-author</code></td><td><code>--vs-color-brand-primary-text</code></td></tr>
         <tr><td>Price</td><td>18px / 700; sale: old price struck through (14px) + brand-green price</td><td><code>--vs-card-price-size</code>, <code>--vs-card-price-old-*</code>, <code>--vs-color-brand-primary-text</code></td></tr>
         <tr><td>Buttons</td><td>40px squares: primary filled (add to cart), eye outlined dark, heart outlined light. vectorsticker.com shows no download button on listing cards (Master KMO, 6 Oct 2026): free items get the eye button only</td><td><code>--vs-button-height-md</code>, <code>--vs-button-primary*</code>, <code>--vs-color-brand-secondary</code></td></tr>
-        <tr><td>Hover</td><td>Brand border + 4px lift; no lift with reduced motion. Keyboard focus inside also shows the brand border.</td><td><code>--vs-card-hover-border</code>, <code>--vs-card-hover-lift</code></td></tr>
+        <tr><td>Hover</td><td>Border turns brand colour; the card does not move (no lift, owner's choice 6 Oct 2026). Keyboard focus inside also shows the brand border.</td><td><code>--vs-card-hover-border</code></td></tr>
         <tr><td>Focus</td><td>2px ring, 2px offset, on every link and button</td><td><code>--vs-focus-ring-*</code></td></tr>
         <tr><td>List preview</td><td>320px, at most 40%, all corners rounded; the card gets the 14px padding</td><td><code>--vs-card-list-media-width</code> (new)</td></tr>
       </tbody>
