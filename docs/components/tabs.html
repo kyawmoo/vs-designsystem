@@ -8,19 +8,63 @@
 <link rel="icon" type="image/png" href="/assets/favicon-192.png">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<link rel="stylesheet" href="/assets/demo-kit.css">
 <style>
-  /* React — vs-segment-control / vs-segment-button, live in TableWidget today */
-  .demo-segment-control { display: inline-flex; align-items: center; padding: 0.375rem; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-full); gap: 0.25rem; }
+  /* Tabs (primary / secondary) — same rules as react/src/styles.css (.vs-tabs / .vs-tab), prefixed demo- for this page. */
+  .demo-tabs { display: flex; align-items: flex-end; flex-wrap: nowrap; gap: 0.25rem; max-width: 100%; overflow-x: auto; overflow-y: hidden; scrollbar-width: thin; border-bottom: 1px solid var(--vs-color-border); font-family: var(--vs-font-family); }
+  .demo-tab { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 0.5rem; margin: 0 0 -1px; padding: 0.75rem 1rem; background: transparent; border: 0; border-bottom: 2px solid transparent; border-radius: 0; font-family: inherit; font-size: var(--vs-font-size-body-md); font-weight: 500; line-height: 1.4; color: var(--vs-color-text-body); white-space: nowrap; cursor: pointer; transition: color 150ms ease, border-color 150ms ease; }
+  .demo-tab:hover:not(:disabled):not([aria-selected='true']), .demo-tab.is-hover { color: var(--vs-color-text-heading); border-bottom-color: var(--vs-color-text-muted); }
+  .demo-tab[aria-selected='true'] { color: var(--vs-color-text-heading); border-bottom-color: var(--vs-color-brand-primary-text); }
+  .demo-tab:focus-visible, .demo-tab.is-focus { outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color); outline-offset: calc(var(--vs-focus-ring-offset) * -1); }
+  .demo-tab:disabled { color: var(--vs-color-text-muted); cursor: not-allowed; }
+  .demo-tab__icon { display: inline-flex; flex-shrink: 0; }
+  .demo-tab__icon svg { width: var(--vs-icon-size-sm); height: var(--vs-icon-size-sm); }
+  .demo-tab__badge { display: inline-flex; }
+  .demo-tab:disabled .demo-tab__badge { opacity: var(--vs-button-disabled-opacity); }
+  .demo-tabs--secondary { border-bottom-color: var(--vs-card-divider); }
+  .demo-tabs--secondary .demo-tab { padding: 0.5rem 0.75rem; font-size: var(--vs-font-size-body-sm); }
+  .demo-tabs--secondary .demo-tab[aria-selected='true'] { border-bottom-color: var(--vs-color-text-heading); }
+  @media (pointer: coarse) { .demo-tabs--secondary .demo-tab { padding-top: 0.75rem; padding-bottom: 0.75rem; } }
+  .demo-tab-panel { padding-top: var(--vs-spacing-md); }
+  .demo-tab-panel:focus-visible { outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color); outline-offset: var(--vs-focus-ring-offset); }
+  @media (prefers-reduced-motion: reduce) { .demo-tab { transition: none; } }
+
+  /* The DS Badge look (info tone), for the count examples */
+  .demo-badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: var(--vs-radius-full); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); font-weight: 600; line-height: 1.4; white-space: nowrap; }
+  .demo-badge--info { background: var(--vs-color-info-bg); color: var(--vs-color-info-border); }
+
+  .demo-state-stage .demo-tabs { width: 100%; }
+
+  /* Page-only demo furniture */
+  .demo-live { display: block; }
+  .demo-panel-title { margin: 0 0 4px; font: 600 15px var(--vs-font-family); color: var(--vs-color-text-heading); }
+  .demo-panel-text { margin: 0; font: 400 14px/1.5 var(--vs-font-family); color: var(--vs-color-text-body); }
+  .demo-localnav { display: flex; flex-direction: column; min-width: 150px; border-left: 1px solid var(--vs-color-border); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); }
+  .demo-localnav a { padding: 8px 12px; margin-left: -1px; border-left: 2px solid transparent; color: var(--vs-color-text-body); text-decoration: none; }
+  .demo-localnav a.is-active { border-left-color: var(--vs-color-brand-primary-text); color: var(--vs-color-text-heading); font-weight: 500; }
+  .demo-browser-body--top { align-items: flex-start; }
+  .demo-page { width: 100%; max-width: 720px; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); padding: 20px 24px 24px; font-family: var(--vs-font-family); }
+  .demo-page-head { margin-bottom: 8px; }
+  .demo-page-title { font: 600 20px/28px var(--vs-font-family); color: var(--vs-color-text-heading); }
+  .demo-page-sub { font: 400 13px/20px var(--vs-font-family); color: var(--vs-color-text-body); margin-bottom: 8px; }
+  .demo-ctx-panel { padding-top: 16px; }
+  .demo-ctx-panel .demo-ctx-panel { padding-top: 12px; }
+  .demo-level-label { font: 11px SFMono-Regular, Consolas, monospace; color: var(--vs-color-text-body); margin-bottom: 8px; }
+  .demo-ctx-list > div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--vs-color-border); font: 400 14px var(--vs-font-family); color: var(--vs-color-text-body); }
+  .demo-ctx-list > div span { font-size: 12px; color: var(--vs-color-success-border); }
+  .demo-viewport { border: 1px dashed var(--vs-color-text-muted); border-radius: var(--vs-radius-sm); padding: 12px 16px 4px; background: var(--vs-color-surface); margin: 0 0 16px; }
+  .demo-viewport-label { font: 11px SFMono-Regular, Consolas, monospace; color: var(--vs-color-text-body); margin-bottom: 8px; }
+  .demo-anatomy { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+  .demo-anatomy-key { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .demo-segment-control { display: inline-flex; align-items: center; padding: 0.375rem; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-full); gap: 0.25rem; max-width: 100%; overflow-x: auto; flex-wrap: nowrap; }
   .demo-segment-button { padding: 0.5rem 1.25rem; border-radius: var(--vs-radius-full); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-md); font-weight: 600; color: var(--vs-color-text-muted); background: transparent; border: none; cursor: pointer; white-space: nowrap; }
   .demo-segment-button:hover:not(.is-active) { color: var(--vs-color-text-heading); background: var(--vs-color-background); }
   .demo-segment-button.is-active { background-color: var(--vs-color-brand-primary); color: var(--vs-color-text-on-primary); }
-
-  /* Blade — .tabs-custom .nav-pills, real main-site markup/CSS */
-  .demo-nav-pills { display: flex; gap: 17px; list-style: none; padding: 0; margin: 0; }
+  .demo-nav-pills { display: flex; gap: 17px; list-style: none; padding: 0; margin: 0; max-width: 100%; overflow-x: auto; flex-wrap: nowrap; }
   .demo-nav-pills .demo-nav-link { display: inline-block; padding: 0.5rem 1.25rem; border-radius: var(--vs-radius-full); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-md); color: var(--vs-color-text-muted); border: 1px solid var(--vs-color-text-muted); text-decoration: none; cursor: pointer; }
   .demo-nav-pills .demo-nav-link.active { font-weight: 500; color: #fff; background: var(--vs-color-brand-primary); border-color: var(--vs-color-brand-primary); }
-  /* mobile: scroll inside instead of widening the page */
-  .demo-nav-pills, .demo-segment-control { max-width: 100%; overflow-x: auto; flex-wrap: nowrap; }
+  .demo-compare td:first-child { white-space: nowrap; }
 </style>
 </head>
 <body data-page="tabs">
@@ -31,10 +75,13 @@
     <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Tabs</p>
     <h1>Tabs</h1>
     <p class="vs-docs-hero-lede">
-      A segmented control for switching between related views. React
-      and Blade wrap two different real patterns already live in
-      production — see the platform-difference callout below before
-      picking one.
+      Navigation between related content panels on one page: primary tabs
+      for major sections, secondary tabs for sub-sections. Implemented in
+      <code>react/src/components/Tabs.tsx</code>
+      (<code>variant="primary"</code> / <code>"secondary"</code> with
+      <code>TabPanel</code>). The original pill-shaped switch is still the
+      default <code>variant="segmented"</code>; see section 06 for when to
+      use which.
     </p>
     </div>
   </div>
@@ -42,20 +89,148 @@
   <div class="vs-docs-content">
 
     <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">01 // Live</span><h2>React — Segment Control</h2></div>
-      <p class="vs-docs-section-desc">Already used inside TableWidget's tab switcher.</p>
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">Click a tab, or focus one and use ← → Home End.</p>
     </div>
-    <div class="vs-docs-preview">
-      <div class="demo-segment-control">
-        <button class="demo-segment-button is-active">Overview</button>
-        <button class="demo-segment-button">Items</button>
-        <button class="demo-segment-button">Category</button>
-      </div>
+    <div class="vs-docs-preview demo-live"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Workspace sections" data-base="dt1"><button type="button" role="tab" class="demo-tab" id="dt1-overview" data-tab="overview" aria-selected="true" tabindex="0"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt1-products" data-tab="products" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt1-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button></div><div class="demo-tab-panel" role="tabpanel" id="dt1-panel-overview" aria-labelledby="dt1-overview" tabindex="0" data-panel="overview"><p class="demo-panel-title">Overview</p><p class="demo-panel-text">Downloads, views and revenue for the last 30 days.</p></div><div class="demo-tab-panel" role="tabpanel" id="dt1-panel-products" aria-labelledby="dt1-products" tabindex="0" data-panel="products" hidden><p class="demo-panel-title">Products</p><p class="demo-panel-text">248 sticker packs. Switch to Published or Drafts with the secondary tabs.</p></div><div class="demo-tab-panel" role="tabpanel" id="dt1-panel-analytics" aria-labelledby="dt1-analytics" tabindex="0" data-panel="analytics" hidden><p class="demo-panel-title">Analytics</p><p class="demo-panel-text">Traffic sources, top categories and download trends.</p></div></div>
+    <div class="vs-docs-callout">
+      <p>
+        Primary tabs change what the page shows; they do not filter it. The
+        selected tab has <code>aria-selected="true"</code> and its panel is
+        the only one visible. The same value drives both, so the two never
+        disagree.
+      </p>
     </div>
 
     <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">02 // Live</span><h2>Blade — Nav Pills</h2></div>
-      <p class="vs-docs-section-desc">The main site's existing .tabs-custom .nav-pills pattern.</p>
+      <div><span class="vs-docs-section-num">02 // Variants</span><h2>Variants</h2></div>
+      <p class="vs-docs-section-desc"><code>variant</code>, <code>TabItem.icon</code>, <code>TabItem.badge</code>, <code>TabItem.disabled</code></p>
+    </div>
+    <div class="demo-states demo-states--wide"><div class="demo-state"><div class="demo-state-stage"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Primary tabs" data-static data-base="dt2"><button type="button" role="tab" class="demo-tab" id="dt2-overview" data-tab="overview" aria-selected="true" tabindex="0"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt2-products" data-tab="products" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt2-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button></div></div><div class="demo-state-meta"><b>Primary</b><code>.vs-tabs--primary</code><span>major sections · 16px · 12/16 padding · ink + green indicator</span></div></div><div class="demo-state"><div class="demo-state-stage"><div class="demo-tabs demo-tabs--secondary" role="tablist" aria-label="Secondary tabs" data-static data-base="dt3"><button type="button" role="tab" class="demo-tab" id="dt3-all" data-tab="all" aria-selected="true" tabindex="0"><span class="demo-tab__label">All Items</span></button><button type="button" role="tab" class="demo-tab" id="dt3-published" data-tab="published" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Published</span></button><button type="button" role="tab" class="demo-tab" id="dt3-drafts" data-tab="drafts" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Drafts</span></button></div></div><div class="demo-state-meta"><b>Secondary</b><code>.vs-tabs--secondary</code><span>sub-sections · 13px · 8/12 padding · lighter rule</span></div></div><div class="demo-state"><div class="demo-state-stage"><div class="demo-localnav" aria-label="Local navigation"><a class="is-active" href="#" aria-current="page">Details</a><a href="#">Performance</a><a href="#">History</a><a href="#">Licensing</a></div></div><div class="demo-state-meta"><b>Tertiary → local nav</b><code>not a Tabs variant</code><span>a third level uses a side list or sidebar, not a third tab row</span></div></div><div class="demo-state"><div class="demo-state-stage"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Tabs with icons" data-static data-base="dt4"><button type="button" role="tab" class="demo-tab" id="dt4-overview" data-tab="overview" aria-selected="true" tabindex="0"><span class="demo-tab__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt4-products" data-tab="products" aria-selected="false" tabindex="-1"><span class="demo-tab__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span><span class="demo-tab__label">Products</span></button></div></div><div class="demo-state-meta"><b>With icon</b><code>TabItem.icon</code><span>16px icon · 8px gap · decorative</span></div></div><div class="demo-state"><div class="demo-state-stage"><div class="demo-tabs demo-tabs--secondary" role="tablist" aria-label="Tabs with counts" data-static data-base="dt5"><button type="button" role="tab" class="demo-tab" id="dt5-published" data-tab="published" aria-selected="true" tabindex="0"><span class="demo-tab__label">Published</span> <span class="demo-tab__badge"><span class="demo-badge demo-badge--info">212</span></span></button><button type="button" role="tab" class="demo-tab" id="dt5-drafts" data-tab="drafts" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Drafts</span> <span class="demo-tab__badge"><span class="demo-badge demo-badge--info">36</span></span></button></div></div><div class="demo-state-meta"><b>With badge</b><code>TabItem.badge</code><span>DS Badge · count or status after the label</span></div></div><div class="demo-state"><div class="demo-state-stage"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Tabs with a disabled tab" data-static data-base="dt6"><button type="button" role="tab" class="demo-tab" id="dt6-overview" data-tab="overview" aria-selected="true" tabindex="0"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt6-products" data-tab="products" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt6-billing" data-tab="billing" aria-selected="false" tabindex="-1" disabled><span class="demo-tab__label">Billing</span></button></div></div><div class="demo-state-meta"><b>Disabled</b><code>TabItem.disabled</code><span>muted · not focusable · skipped by arrows</span></div></div></div>
+    <div class="vs-docs-callout">
+      <p>
+        <strong>Tertiary navigation is deliberately not a third tab row.</strong>
+        Three stacked tab rows are hard to scan and push the content down.
+        When a page has a third level, use a local side list (shown above)
+        or move that level into a sidebar. Tabs stay at two levels.
+      </p>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // States</span><h2>States</h2></div>
+      <p class="vs-docs-section-desc">Hover and focus here are forced so you can see them.</p>
+    </div>
+    <div class="demo-states demo-states--wide"><div class="demo-state"><div class="demo-state-stage"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Default state" data-static data-base="dt7"><button type="button" role="tab" class="demo-tab" id="dt7-overview" data-tab="overview" aria-selected="true" tabindex="0"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt7-products" data-tab="products" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt7-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button></div></div><div class="demo-state-meta"><b>Default</b><code>color text-body</code><span>unselected tabs are --vs-color-text-body</span></div></div><div class="demo-state"><div class="demo-state-stage"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Hover state" data-static data-base="dt8"><button type="button" role="tab" class="demo-tab" id="dt8-overview" data-tab="overview" aria-selected="true" tabindex="0"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab is-hover" id="dt8-products" data-tab="products" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt8-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button></div></div><div class="demo-state-meta"><b>Hover</b><code>:hover</code><span>text → heading · 2px muted underline</span></div></div><div class="demo-state"><div class="demo-state-stage"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Selected state" data-static data-base="dt9"><button type="button" role="tab" class="demo-tab" id="dt9-overview" data-tab="overview" aria-selected="true" tabindex="0"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt9-products" data-tab="products" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt9-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button></div></div><div class="demo-state-meta"><b>Active / selected</b><code>aria-selected="true"</code><span>text heading · 2px brand-primary-text indicator</span></div></div><div class="demo-state"><div class="demo-state-stage"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Focus state" data-static data-base="dt10"><button type="button" role="tab" class="demo-tab is-focus" id="dt10-overview" data-tab="overview" aria-selected="true" tabindex="0"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt10-products" data-tab="products" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt10-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button></div></div><div class="demo-state-meta"><b>Keyboard focus</b><code>:focus-visible</code><span>2px ring · inset so the scroll area never clips it</span></div></div><div class="demo-state"><div class="demo-state-stage"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Disabled state" data-static data-base="dt11"><button type="button" role="tab" class="demo-tab" id="dt11-overview" data-tab="overview" aria-selected="true" tabindex="0"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt11-products" data-tab="products" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt11-billing" data-tab="billing" aria-selected="false" tabindex="-1" disabled><span class="demo-tab__label">Billing</span></button></div></div><div class="demo-state-meta"><b>Disabled</b><code>:disabled</code><span>text-muted · not-allowed · no focus</span></div></div></div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Anatomy &amp; Measurement</span><h2>Anatomy &amp; Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Values read from the live component. “Proposed” = not yet in <code>tokens.json</code>.</p>
+    </div>
+    <div class="demo-redline" style="flex-direction:column;align-items:stretch;gap:14px">
+      <div class="demo-anatomy">
+        <span class="demo-dim demo-dim--blue">1 tab list · 1px rule --vs-color-border</span>
+        <div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Anatomy example" data-static data-base="dt12"><button type="button" role="tab" class="demo-tab" id="dt12-overview" data-tab="overview" aria-selected="false" tabindex="-1"><span class="demo-tab__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt12-products" data-tab="products" aria-selected="true" tabindex="0"><span class="demo-tab__icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span><span class="demo-tab__label">Products</span> <span class="demo-tab__badge"><span class="demo-badge demo-badge--info">24</span></span></button><button type="button" role="tab" class="demo-tab" id="dt12-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button></div>
+        <div class="demo-anatomy-key">
+          <span class="demo-dim">2 tab item · padding 12px 16px · gap 4px between tabs</span>
+          <span class="demo-dim">3 icon 16px · 8px gap</span>
+          <span class="demo-dim">4 label 16px / 500</span>
+          <span class="demo-dim">5 badge (DS Badge)</span>
+          <span class="demo-dim">6 active indicator 2px</span>
+          <span class="demo-dim">7 focus ring 2px, inset</span>
+        </div>
+      </div>
+    </div>
+    <div class="demo-metrics">
+      <div><span>Tab item height</span><strong>48px primary · 36px secondary</strong></div>
+      <div><span>Touch target</span><strong>primary 48px · secondary 44px (pointer: coarse)</strong></div>
+      <div><span>Indicator</span><strong>2px primary · 2px secondary</strong></div>
+      <div><span>Tab list rule</span><strong>1px border · 1px divider (secondary)</strong></div>
+    </div>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Part</th><th>Primary</th><th>Secondary</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Padding</td><td><code>12px 16px</code></td><td><code>8px 12px</code> (<code>12px</code> vertical on touch)</td><td>proposed</td></tr>
+        <tr><td>Font</td><td><code>--vs-font-size-body-md</code>, weight 500</td><td><code>--vs-font-size-body-sm</code>, weight 500</td><td>existing tokens</td></tr>
+        <tr><td>Weight change on select</td><td>none (weight is constant: no layout shift)</td><td>none</td><td>decision</td></tr>
+        <tr><td>Indicator colour</td><td><code>--vs-color-brand-primary-text</code> (5.2:1 on white)</td><td><code>--vs-color-text-heading</code> (18:1)</td><td>existing tokens</td></tr>
+        <tr><td>Tab list rule</td><td><code>--vs-color-border</code></td><td><code>--vs-card-divider</code></td><td>existing tokens</td></tr>
+        <tr><td>Gap between tabs</td><td><code>4px</code> (<code>0.25rem</code>)</td><td><code>4px</code></td><td>proposed</td></tr>
+        <tr><td>Icon</td><td><code>--vs-icon-size-sm</code> (16px), 8px gap</td><td>same</td><td>existing token; gap proposed</td></tr>
+        <tr><td>Focus ring</td><td colspan="2"><code>--vs-focus-ring-width</code> / <code>--vs-focus-ring-color</code>, offset <code>-2px</code> (inside the tab)</td><td>existing tokens</td></tr>
+        <tr><td>Panel</td><td colspan="2"><code>padding-top: --vs-spacing-md</code> (16px); focus ring outside, offset 2px</td><td>existing token</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">05 // Usage in Context</span><h2>Usage in Context</h2></div>
+      <p class="vs-docs-section-desc">Realistic VectorSticker workspace pages.</p>
+    </div>
+    <h3>Overview / Products / Analytics (primary)</h3>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> <i class="fa-solid fa-lock" style="color:var(--vs-color-brand-primary)"></i> vectorsticker.com/workspace</div><div class="demo-browser-body demo-browser-body--top"><div class="demo-page"><div class="demo-page-head"><div class="demo-page-title">Neon Cat Studio</div><div class="demo-page-sub">Creator workspace</div></div><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Workspace sections" data-base="dt13"><button type="button" role="tab" class="demo-tab" id="dt13-overview" data-tab="overview" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt13-products" data-tab="products" aria-selected="true" tabindex="0"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt13-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button></div>
+  <div class="demo-ctx-panel"><p class="demo-panel-title">Products</p><p class="demo-panel-text">248 sticker packs · 212 published · 36 drafts</p></div></div></div></div>
+    <h3>All Items / Published / Drafts (secondary)</h3>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> <i class="fa-solid fa-lock" style="color:var(--vs-color-brand-primary)"></i> vectorsticker.com/workspace/items</div><div class="demo-browser-body demo-browser-body--top"><div class="demo-page"><div class="demo-page-title">Items</div><div class="demo-tabs demo-tabs--secondary" role="tablist" aria-label="Item status" data-base="dt14"><button type="button" role="tab" class="demo-tab" id="dt14-all" data-tab="all" aria-selected="false" tabindex="-1"><span class="demo-tab__label">All Items</span> <span class="demo-tab__badge"><span class="demo-badge demo-badge--info">248</span></span></button><button type="button" role="tab" class="demo-tab" id="dt14-published" data-tab="published" aria-selected="true" tabindex="0"><span class="demo-tab__label">Published</span> <span class="demo-tab__badge"><span class="demo-badge demo-badge--info">212</span></span></button><button type="button" role="tab" class="demo-tab" id="dt14-drafts" data-tab="drafts" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Drafts</span> <span class="demo-tab__badge"><span class="demo-badge demo-badge--info">36</span></span></button></div>
+  <div class="demo-ctx-panel demo-ctx-list"><div>Holographic Cat Pack <span>Published</span></div><div>Retro Wave Icons <span>Published</span></div><div>Pixel Food Set <span>Published</span></div></div></div></div></div>
+    <h3>Details / Performance / History (secondary, on an item page)</h3>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> <i class="fa-solid fa-lock" style="color:var(--vs-color-brand-primary)"></i> vectorsticker.com/workspace/items/holographic-cat-pack</div><div class="demo-browser-body demo-browser-body--top"><div class="demo-page"><div class="demo-page-title">Holographic Cat Pack</div><div class="demo-page-sub">Item</div><div class="demo-tabs demo-tabs--secondary" role="tablist" aria-label="Item sections" data-base="dt15"><button type="button" role="tab" class="demo-tab" id="dt15-details" data-tab="details" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Details</span></button><button type="button" role="tab" class="demo-tab" id="dt15-performance" data-tab="performance" aria-selected="true" tabindex="0"><span class="demo-tab__label">Performance</span></button><button type="button" role="tab" class="demo-tab" id="dt15-history" data-tab="history" aria-selected="false" tabindex="-1"><span class="demo-tab__label">History</span></button></div>
+  <div class="demo-ctx-panel"><p class="demo-panel-title">Performance</p><p class="demo-panel-text">1,284 downloads · 9,310 views · last 30 days</p></div></div></div></div>
+    <h3>Two levels together</h3>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> <i class="fa-solid fa-lock" style="color:var(--vs-color-brand-primary)"></i> vectorsticker.com/workspace</div><div class="demo-browser-body demo-browser-body--top"><div class="demo-page"><div class="demo-page-head"><div class="demo-page-title">Neon Cat Studio</div><div class="demo-page-sub">Creator workspace</div></div><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Workspace sections" data-base="dt16"><button type="button" role="tab" class="demo-tab" id="dt16-overview" data-tab="overview" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt16-products" data-tab="products" aria-selected="true" tabindex="0"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt16-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button></div>
+  <div class="demo-ctx-panel"><div class="demo-level-label">Level 2 · secondary tabs inside the selected primary tab</div><div class="demo-tabs demo-tabs--secondary" role="tablist" aria-label="Item status" data-base="dt17"><button type="button" role="tab" class="demo-tab" id="dt17-all" data-tab="all" aria-selected="false" tabindex="-1"><span class="demo-tab__label">All Items</span></button><button type="button" role="tab" class="demo-tab" id="dt17-published" data-tab="published" aria-selected="true" tabindex="0"><span class="demo-tab__label">Published</span></button><button type="button" role="tab" class="demo-tab" id="dt17-drafts" data-tab="drafts" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Drafts</span></button></div>
+  <div class="demo-ctx-panel demo-ctx-list"><div>Holographic Cat Pack <span>Published</span></div><div>Retro Wave Icons <span>Published</span></div></div></div></div></div></div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">06 // Tabs vs SegmentedControl</span><h2>Tabs vs SegmentedControl</h2></div>
+      <p class="vs-docs-section-desc">Two patterns, two jobs. Do not swap them.</p>
+    </div>
+    <div style="overflow-x:auto"><table class="vs-docs-table demo-compare">
+      <thead><tr><th></th><th>Tabs (<code>primary</code> / <code>secondary</code>)</th><th>SegmentedControl (<code>segmented</code>)</th></tr></thead>
+      <tbody>
+        <tr><td>Job</td><td>Navigate between related content panels</td><td>Pick one compact option, filter or sort</td></tr>
+        <tr><td>Looks like</td><td>Text with an underline indicator</td><td>One bordered track, solid pill for the selection</td></tr>
+        <tr><td>Result of choosing</td><td>A different panel replaces the content below</td><td>The same content is re-sorted or filtered</td></tr>
+        <tr><td>Semantics</td><td><code>tablist</code> / <code>tab</code> / <code>tabpanel</code>, arrow keys</td><td>Plain buttons (current <code>.is-active</code> markup)</td></tr>
+        <tr><td>Count</td><td>Few (2–6), short labels</td><td>2–4 short options</td></tr>
+      </tbody>
+    </table></div>
+    <div class="demo-states demo-states--wide">
+      <div class="demo-state"><div class="demo-state-stage"><div class="demo-segment-control"><button class="demo-segment-button is-active" type="button">Newest</button><button class="demo-segment-button" type="button">Popular</button><button class="demo-segment-button" type="button">Free</button></div></div><div class="demo-state-meta"><b>SegmentedControl</b><code>variant="segmented"</code><span>“Show the same items sorted by…”</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage" style="align-items:flex-end"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Tabs example" data-base="dt30"><button type="button" role="tab" class="demo-tab" id="dt30-overview" data-tab="overview" aria-selected="true" tabindex="0"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt30-products" data-tab="products" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt30-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button></div></div><div class="demo-state-meta"><b>Tabs</b><code>variant="primary"</code><span>“Show a different part of the page”</span></div></div>
+    </div>
+    <div class="vs-docs-callout">
+      <p>
+        <strong>Naming (existing code).</strong> Before this page, the React
+        <code>&lt;Tabs&gt;</code> export <em>was</em> the segmented switch, and
+        the reports dashboard still uses it that way in many views. To avoid
+        changing any of them, <code>variant="segmented"</code> stays the
+        default and renders exactly as before. A separate
+        <code>SegmentedControl</code> name for it is a possible follow-up.
+        <strong>New tab navigation must pass
+        <code>variant="primary"</code> or <code>"secondary"</code>.</strong>
+      </p>
+    </div>
+
+    <h3>The existing segmented pattern, as documented before</h3>
+    <div class="vs-docs-preview">
+      <div class="demo-segment-control">
+        <button class="demo-segment-button is-active" type="button">Overview</button>
+        <button class="demo-segment-button" type="button">Items</button>
+        <button class="demo-segment-button" type="button">Category</button>
+      </div>
+    </div>
+    <div class="vs-docs-callout">
+      <p>
+        <strong>React</strong> (<code>vs-segment-control</code> /
+        <code>vs-segment-button</code>) is a single bordered track
+        with a solid brand-primary fill on the active tab — already live in
+        the reports dashboard's <code>TableWidget</code> and several views.
+        <strong>Blade</strong> (<code>.tabs-custom .nav-pills</code>) is
+        individually bordered pills with gaps, no shared track — the main
+        site's own existing CSS, in production. Deliberately not unified: that
+        would mean changing pages that already work correctly today. The
+        underline <code>primary</code> / <code>secondary</code> variants are
+        React only; a Blade equivalent is not part of this change.
+      </p>
     </div>
     <div class="vs-docs-preview">
       <ul class="demo-nav-pills">
@@ -64,37 +239,10 @@
         <li><a class="demo-nav-link">Category</a></li>
       </ul>
     </div>
-
-    <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">03 // Platform Difference</span><h2>React vs. Blade</h2></div>
-      <p class="vs-docs-section-desc">Deliberately not unified — both are real, both already ship.</p>
-    </div>
-    <div class="vs-docs-callout">
-      <p>
-        <strong>React</strong> (<code>vs-segment-control</code> /
-        <code>vs-segment-button</code>) is a single bordered track
-        with a solid brand-primary fill on the active tab — this is
-        already live in the reports dashboard's <code>TableWidget</code>
-        and several views, so the <code>&lt;Tabs&gt;</code> component
-        formalizes it, not invents it.
-        <strong>Blade</strong> (<code>.tabs-custom .nav-pills</code>)
-        is individually bordered pills with gaps between them, no
-        shared track — this is the main site's own existing CSS,
-        already correct and in production.
-      </p>
-      <p>
-        These were audited side by side and found visually different.
-        Per this system's "change the component, not the page"
-        principle, neither was forced to match the other — that would
-        mean changing pages that already work correctly today. Each
-        wrapper simply reuses its platform's real, proven pattern.
-      </p>
-    </div>
-
     <div class="vs-docs-callout vs-docs-callout--gap">
       <p>
         <strong>Correction (25 Sep 2026):</strong> the live reports dashboard
-        does not currently show these tabs in brand green. Its own
+        does not currently show the segmented tabs in brand green. Its own
         <code>src/index.css</code> overrides the active tab to
         <code>var(--vs-color-brand, #005c55)</code> (teal). It loads this
         package's <code>styles.css</code> too, but its own
@@ -105,31 +253,108 @@
         dashboard as it is live.
       </p>
     </div>
-
-    <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">04 // Measurement Guide</span><h2>Measurement Guide</h2></div>
-      <p class="vs-docs-section-desc">Real values for each platform's pattern.</p>
-    </div>
     <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Property</th><th>React (segment control)</th><th>Blade (nav-pills)</th></tr></thead>
       <tbody>
         <tr><td>Shape</td><td>one bordered track, pill buttons inside</td><td>individual bordered pills, no shared track</td></tr>
         <tr><td>Gap</td><td><code>0.25rem</code> inside the track</td><td><code>17px</code> between pills</td></tr>
         <tr><td>Radius</td><td><code>--vs-radius-full</code> (track + buttons)</td><td><code>--vs-radius-full</code> (each pill)</td></tr>
-        <tr><td>Active state</td><td>solid brand-primary bg, white text</td><td>solid brand-primary bg + border, white text, 500 weight</td></tr>
+        <tr><td>Active state</td><td>solid brand-primary bg, dark text (<code>--vs-color-text-on-primary</code>)</td><td>solid brand-primary bg + border, white text, 500 weight</td></tr>
         <tr><td>Inactive border</td><td>none (transparent, track has the border)</td><td><code>1px solid</code> muted text color, per pill</td></tr>
         <tr><td>Source</td><td><code>react/src/styles.css</code> — already shipped in TableWidget</td><td><code>public/themes/basic/assets/css/app.css</code> — <code>.tabs-custom .nav-pills</code></td></tr>
       </tbody>
     </table></div>
 
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">07 // Guidelines</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc">Short labels, two levels at most, tabs for content, not for filters.</p>
+    </div>
+    <div class="demo-rules"><div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Use primary tabs for the few major sections of one page; keep labels to 1–2 words.</div><div class="demo-rule-stage"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Good: short labels" data-static data-base="dt19"><button type="button" role="tab" class="demo-tab" id="dt19-overview" data-tab="overview" aria-selected="true" tabindex="0"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt19-products" data-tab="products" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt19-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button></div></div></div><div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t write long, sentence-like labels or squeeze in more than about 6 tabs.</div><div class="demo-rule-stage"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Bad: long labels" data-static data-base="dt20"><button type="button" role="tab" class="demo-tab" id="dt20-a" data-tab="a" aria-selected="true" tabindex="0"><span class="demo-tab__label">Everything about your products</span></button><button type="button" role="tab" class="demo-tab" id="dt20-b" data-tab="b" aria-selected="false" tabindex="-1"><span class="demo-tab__label">How the analytics work</span></button><button type="button" role="tab" class="demo-tab" id="dt20-c" data-tab="c" aria-selected="false" tabindex="-1"><span class="demo-tab__label">More</span></button></div></div></div><div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Use secondary tabs for sub-sections of the selected primary tab; the two levels read differently.</div><div class="demo-rule-stage"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Good: level 1" data-static data-base="dt21"><button type="button" role="tab" class="demo-tab" id="dt21-overview" data-tab="overview" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt21-products" data-tab="products" aria-selected="true" tabindex="0"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt21-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button></div><div style="height:10px"></div><div class="demo-tabs demo-tabs--secondary" role="tablist" aria-label="Good: level 2" data-static data-base="dt22"><button type="button" role="tab" class="demo-tab" id="dt22-all" data-tab="all" aria-selected="true" tabindex="0"><span class="demo-tab__label">All Items</span></button><button type="button" role="tab" class="demo-tab" id="dt22-published" data-tab="published" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Published</span></button><button type="button" role="tab" class="demo-tab" id="dt22-drafts" data-tab="drafts" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Drafts</span></button></div></div></div><div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t add a third tab row. Use a local side list or a sidebar for the third level.</div><div class="demo-rule-stage"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Bad: level 1" data-static data-base="dt23"><button type="button" role="tab" class="demo-tab" id="dt23-overview" data-tab="overview" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt23-products" data-tab="products" aria-selected="true" tabindex="0"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt23-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button></div><div style="height:6px"></div><div class="demo-tabs demo-tabs--secondary" role="tablist" aria-label="Bad: level 2" data-static data-base="dt24"><button type="button" role="tab" class="demo-tab" id="dt24-all" data-tab="all" aria-selected="true" tabindex="0"><span class="demo-tab__label">All Items</span></button><button type="button" role="tab" class="demo-tab" id="dt24-published" data-tab="published" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Published</span></button><button type="button" role="tab" class="demo-tab" id="dt24-drafts" data-tab="drafts" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Drafts</span></button></div><div style="height:6px"></div><div class="demo-tabs demo-tabs--secondary" role="tablist" aria-label="Bad: level 3" data-static data-base="dt25"><button type="button" role="tab" class="demo-tab" id="dt25-details" data-tab="details" aria-selected="true" tabindex="0"><span class="demo-tab__label">Details</span></button><button type="button" role="tab" class="demo-tab" id="dt25-performance" data-tab="performance" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Performance</span></button><button type="button" role="tab" class="demo-tab" id="dt25-history" data-tab="history" aria-selected="false" tabindex="-1"><span class="demo-tab__label">History</span></button></div></div></div><div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Use Tabs when each option shows a different panel of related content.</div><div class="demo-rule-stage"><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Good: content panels" data-static data-base="dt26"><button type="button" role="tab" class="demo-tab" id="dt26-details" data-tab="details" aria-selected="true" tabindex="0"><span class="demo-tab__label">Details</span></button><button type="button" role="tab" class="demo-tab" id="dt26-performance" data-tab="performance" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Performance</span></button><button type="button" role="tab" class="demo-tab" id="dt26-history" data-tab="history" aria-selected="false" tabindex="-1"><span class="demo-tab__label">History</span></button></div></div></div><div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t use Tabs as a compact filter or sort switch. That is a SegmentedControl.</div><div class="demo-rule-stage"><div class="demo-segment-control"><button class="demo-segment-button is-active" type="button">Newest</button><button class="demo-segment-button" type="button">Popular</button></div></div></div><div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Show a count with a Badge when it helps people choose the tab. Use one tone for all counts.</div><div class="demo-rule-stage"><div class="demo-tabs demo-tabs--secondary" role="tablist" aria-label="Good: counts" data-static data-base="dt27"><button type="button" role="tab" class="demo-tab" id="dt27-published" data-tab="published" aria-selected="true" tabindex="0"><span class="demo-tab__label">Published</span> <span class="demo-tab__badge"><span class="demo-badge demo-badge--info">212</span></span></button><button type="button" role="tab" class="demo-tab" id="dt27-drafts" data-tab="drafts" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Drafts</span> <span class="demo-tab__badge"><span class="demo-badge demo-badge--info">36</span></span></button></div></div></div><div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t style tabs as pills or buttons. The underline is what marks them as tabs.</div><div class="demo-rule-stage"><div class="demo-segment-control"><button class="demo-segment-button is-active" type="button">Overview</button><button class="demo-segment-button" type="button">Products</button><button class="demo-segment-button" type="button">Analytics</button></div></div></div></div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">08 // Accessibility</span><h2>Accessibility &amp; Keyboard</h2></div>
+      <p class="vs-docs-section-desc">WAI-ARIA tabs pattern, automatic activation.</p>
+    </div>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Key</th><th>Behaviour</th></tr></thead>
+      <tbody>
+        <tr><td><kbd>Tab</kbd></td><td>Moves into the tab list onto the <em>selected</em> tab (the only tab in the page tab order), then out to the tab panel.</td></tr>
+        <tr><td><kbd>→</kbd> / <kbd>←</kbd></td><td>Focus moves to the next / previous enabled tab and selects it. Wraps from last to first and back. Disabled tabs are skipped.</td></tr>
+        <tr><td><kbd>Home</kbd> / <kbd>End</kbd></td><td>First / last enabled tab, selected.</td></tr>
+        <tr><td><kbd>Enter</kbd> / <kbd>Space</kbd></td><td>Select the focused tab (each tab is a real <code>&lt;button&gt;</code>).</td></tr>
+        <tr><td>Alt / Ctrl / ⌘ + arrows</td><td>Ignored, so browser shortcuts (for example Alt+← back) keep working.</td></tr>
+      </tbody>
+    </table></div>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Requirement</th><th>How it is met</th></tr></thead>
+      <tbody>
+        <tr><td>Roles and relationships</td><td>List <code>role="tablist"</code>; tab <code>role="tab"</code> with <code>aria-selected</code>; panel <code>role="tabpanel"</code> with <code>aria-labelledby</code> → its tab. Pass <code>id</code> to <code>Tabs</code> and the same value as <code>tabsId</code> to each <code>TabPanel</code> to add <code>aria-controls</code>. Without <code>id</code> there is no <code>aria-controls</code> (never a dangling reference).</td></tr>
+        <tr><td>Accessible name</td><td>Give the list a <code>label</code> (<code>aria-label</code>), especially when a page has two tab lists. A badge becomes part of the tab’s name (“Products 24”); icons are <code>aria-hidden</code>.</td></tr>
+        <tr><td>Selected is not colour-only</td><td>Selected tab = darker text <em>and</em> a 2px indicator; the state is also exposed as <code>aria-selected</code>.</td></tr>
+        <tr><td>Contrast (WCAG 2.2 AA)</td><td>Unselected text <code>--vs-color-text-body</code> 14.2:1; selected text <code>--vs-color-text-heading</code> 18.1:1; primary indicator <code>--vs-color-brand-primary-text</code> 5.2:1 (needs 3:1); focus ring 15.9:1 (needs 3:1). <code>--vs-color-text-muted</code> (2.8:1) is used only for disabled tabs, which are exempt.</td></tr>
+        <tr><td>Focus visibility</td><td>2px ring from the focus-ring tokens, drawn <em>inside</em> the tab because the list scrolls and would clip an outer ring. The panel has its own ring.</td></tr>
+        <tr><td>Disabled</td><td>A real <code>disabled</code> button: not focusable, not clickable, skipped by arrows.</td></tr>
+        <tr><td>Motion</td><td>Only a 150ms colour transition; removed under <code>prefers-reduced-motion</code>.</td></tr>
+        <tr><td>Touch</td><td>Primary tabs are about 48px tall. Secondary tabs grow from about 36px to 44px on touch screens (<code>pointer: coarse</code>).</td></tr>
+        <tr><td>Direction</td><td>Horizontal, left-to-right only. Right-to-left layouts are not handled (arrow keys are not mirrored).</td></tr>
+      </tbody>
+    </table></div>
+    <div class="vs-docs-callout vs-docs-callout--gap">
+      <p>
+        <strong>Not verified:</strong> real screen readers (NVDA, VoiceOver,
+        TalkBack). The ARIA structure follows the WAI-ARIA Authoring
+        Practices tabs pattern and is covered by automated tests, but spoken
+        output has not been listened to.
+      </p>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">09 // Responsive</span><h2>Desktop, Tablet &amp; Mobile</h2></div>
+      <p class="vs-docs-section-desc">One row always; overflow scrolls sideways.</p>
+    </div>
+    <div class="demo-viewport" style="max-width:100%"><div class="demo-viewport-label">Desktop · 1200px and up · all tabs visible, content-width</div><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Desktop tabs" data-static data-base="dt28"><button type="button" role="tab" class="demo-tab" id="dt28-overview" data-tab="overview" aria-selected="true" tabindex="0"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt28-products" data-tab="products" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt28-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button><button type="button" role="tab" class="demo-tab" id="dt28-downloads" data-tab="downloads" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Downloads</span></button><button type="button" role="tab" class="demo-tab" id="dt28-reviews" data-tab="reviews" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Reviews</span></button></div></div>
+    <div class="demo-viewport" style="max-width:640px"><div class="demo-viewport-label">Tablet · about 768px · same tabs, tighter page margins</div><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Tablet tabs" data-static data-base="dt29"><button type="button" role="tab" class="demo-tab" id="dt29-overview" data-tab="overview" aria-selected="true" tabindex="0"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt29-products" data-tab="products" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt29-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button><button type="button" role="tab" class="demo-tab" id="dt29-downloads" data-tab="downloads" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Downloads</span></button><button type="button" role="tab" class="demo-tab" id="dt29-reviews" data-tab="reviews" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Reviews</span></button></div></div>
+    <div class="demo-viewport" style="max-width:320px"><div class="demo-viewport-label">Mobile · 320–480px · one row, scrolls sideways</div><div class="demo-tabs demo-tabs--primary" role="tablist" aria-label="Many sections" data-static data-base="dt18"><button type="button" role="tab" class="demo-tab" id="dt18-overview" data-tab="overview" aria-selected="true" tabindex="0"><span class="demo-tab__label">Overview</span></button><button type="button" role="tab" class="demo-tab" id="dt18-products" data-tab="products" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Products</span></button><button type="button" role="tab" class="demo-tab" id="dt18-analytics" data-tab="analytics" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Analytics</span></button><button type="button" role="tab" class="demo-tab" id="dt18-downloads" data-tab="downloads" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Downloads</span></button><button type="button" role="tab" class="demo-tab" id="dt18-reviews" data-tab="reviews" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Reviews</span></button><button type="button" role="tab" class="demo-tab" id="dt18-collections" data-tab="collections" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Collections</span></button><button type="button" role="tab" class="demo-tab" id="dt18-settings" data-tab="settings" aria-selected="false" tabindex="-1"><span class="demo-tab__label">Settings</span></button></div></div>
+    <div class="vs-docs-callout">
+      <p>
+        Tabs never wrap onto a second row (that would look like two levels).
+        When they do not fit, the tab list scrolls horizontally and moving
+        focus with the arrow keys scrolls the focused tab into view. Keep
+        labels short and the count low so scrolling stays the exception, and
+        do not rely on a hidden scrollbar.
+      </p>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">10 // Structure &amp; API</span><h2>Component Structure, API &amp; Tokens</h2></div>
+      <p class="vs-docs-section-desc"><code>react/src/components/Tabs.tsx</code></p>
+    </div>
+    <div class="vs-docs-code-block"><span class="cmt">// structure</span>
+<span class="tag">&lt;Tabs&gt;</span>                      <span class="cmt">role="tablist" · .vs-tabs .vs-tabs--primary|secondary</span>
+  <span class="tag">&lt;button role="tab"&gt;</span>          <span class="cmt">.vs-tab · aria-selected · roving tabindex</span>
+    <span class="tag">icon</span> · <span class="tag">label</span> · <span class="tag">badge</span>   <span class="cmt">.vs-tab__icon (aria-hidden) · .vs-tab__label · .vs-tab__badge</span>
+<span class="tag">&lt;TabPanel&gt;</span>                  <span class="cmt">role="tabpanel" · aria-labelledby → tab · hidden unless selected</span></div>
+
     <h2>Usage — React</h2>
-    <div class="vs-docs-code-block"><span class="tag">import</span> { Tabs } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Tabs, TabPanel, Badge } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
 
 <span class="tag">&lt;Tabs</span>
-  <span class="attr">tabs</span>=<span class="tag">{[</span>{ id: <span class="str">'overview'</span>, label: <span class="str">'Overview'</span> }, { id: <span class="str">'items'</span>, label: <span class="str">'Items'</span> }<span class="tag">]}</span>
+  <span class="attr">id</span>=<span class="str">"workspace"</span>
+  <span class="attr">label</span>=<span class="str">"Workspace sections"</span>
+  <span class="attr">variant</span>=<span class="str">"primary"</span>
+  <span class="attr">tabs</span>=<span class="tag">{[</span>
+    { id: <span class="str">'overview'</span>, label: <span class="str">'Overview'</span> },
+    { id: <span class="str">'products'</span>, label: <span class="str">'Products'</span>, badge: <span class="tag">&lt;Badge</span> <span class="attr">tone</span>=<span class="str">"info"</span><span class="tag">&gt;</span>24<span class="tag">&lt;/Badge&gt;</span> },
+    { id: <span class="str">'billing'</span>, label: <span class="str">'Billing'</span>, disabled: true },
+  <span class="tag">]}</span>
   <span class="attr">activeId</span>=<span class="tag">{activeId}</span>
   <span class="attr">onChange</span>=<span class="tag">{setActiveId}</span>
-<span class="tag">/&gt;</span></div>
+<span class="tag">/&gt;</span>
+<span class="tag">&lt;TabPanel</span> <span class="attr">tabsId</span>=<span class="str">"workspace"</span> <span class="attr">tabId</span>=<span class="str">"overview"</span> <span class="attr">activeId</span>=<span class="tag">{activeId}</span><span class="tag">&gt;</span>…<span class="tag">&lt;/TabPanel&gt;</span>
+<span class="tag">&lt;TabPanel</span> <span class="attr">tabsId</span>=<span class="str">"workspace"</span> <span class="attr">tabId</span>=<span class="str">"products"</span> <span class="attr">activeId</span>=<span class="tag">{activeId}</span><span class="tag">&gt;</span>…<span class="tag">&lt;/TabPanel&gt;</span>
+
+<span class="cmt">// the original switch, unchanged (no variant = segmented):</span>
+<span class="tag">&lt;Tabs</span> <span class="attr">tabs</span>=<span class="tag">{tabs}</span> <span class="attr">activeId</span>=<span class="tag">{activeId}</span> <span class="attr">onChange</span>=<span class="tag">{setActiveId}</span> <span class="tag">/&gt;</span></div>
 
     <h2>Usage — Blade</h2>
     <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-tabs</span>
@@ -137,18 +362,45 @@
   <span class="attr">:activeId</span>=<span class="str">"'overview'"</span>
 <span class="tag">/&gt;</span>
 
-<span class="cmt">&lt;!-- pair with Bootstrap's data-bs-toggle="pill" tab-content panes --&gt;</span></div>
+<span class="cmt">&lt;!-- Blade stays the Bootstrap nav-pills pattern; pair with data-bs-toggle="pill" tab-content panes --&gt;</span></div>
 
-    <h2>Props</h2>
+    <h2>Props — Tabs</h2>
     <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Platform</th><th>Values</th></tr></thead>
       <tbody>
-        <tr><td><code>tabs</code></td><td>Both</td><td>array of <code>{ id, label }</code> — React's <code>label</code> accepts a full <code>ReactNode</code> (icon + text), not just a string, for tabs like CategoryView's "Main Category" that carry an icon</td></tr>
-        <tr><td><code>activeId</code></td><td>Both</td><td>the active tab's <code>id</code></td></tr>
-        <tr><td><code>onChange</code></td><td>React</td><td><code>(id: string) =&gt; void</code></td></tr>
-        <tr><td><code>size</code></td><td>React</td><td><code>'sm' | 'md'</code> (default <code>'md'</code>)</td></tr>
-        <tr><td><code>buttonClassName</code></td><td>React</td><td>extra classes appended to every button — e.g. Overview/Social Media's real <code>flex-1 sm:flex-initial py-2 sm:py-1.5</code> responsive padding override</td></tr>
+        <tr><td><code>tabs</code></td><td>Both</td><td>array of <code>{ id, label }</code> — React's <code>label</code> accepts a full <code>ReactNode</code>. React only, new: <code>icon</code>, <code>badge</code> (primary / secondary), <code>disabled</code> (all variants). <code>id</code> must be unique and simple (letters, digits, <code>-</code>, <code>_</code>).</td></tr>
+        <tr><td><code>activeId</code></td><td>Both</td><td>the selected tab's <code>id</code></td></tr>
+        <tr><td><code>onChange</code></td><td>React</td><td><code>(id: string) =&gt; void</code>. Also fired by arrow / Home / End keys (automatic activation).</td></tr>
+        <tr><td><code>variant</code></td><td>React</td><td><code>'segmented'</code> (default, unchanged) · <code>'primary'</code> · <code>'secondary'</code></td></tr>
+        <tr><td><code>id</code></td><td>React</td><td>primary / secondary: base for tab and panel ids; set it to get <code>aria-controls</code></td></tr>
+        <tr><td><code>label</code></td><td>React</td><td>primary / secondary: <code>aria-label</code> of the tab list</td></tr>
+        <tr><td><code>size</code></td><td>React</td><td>segmented only: <code>'sm' | 'md'</code> (default <code>'md'</code>)</td></tr>
+        <tr><td><code>className</code>, <code>buttonClassName</code></td><td>React</td><td>extra classes on the list / on every tab — e.g. Overview/Social Media's real <code>flex-1 sm:flex-initial py-2 sm:py-1.5</code> responsive padding override</td></tr>
         <tr><td><code>name</code></td><td>Blade</td><td>id/anchor prefix (default <code>'tab'</code>)</td></tr>
+      </tbody>
+    </table></div>
+    <h2>Props — TabPanel</h2>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td><code>tabsId</code>, <code>tabId</code></td><td>the <code>id</code> of the <code>Tabs</code>, and of the tab this panel belongs to</td></tr>
+        <tr><td><code>activeId</code></td><td>the same <code>activeId</code> given to <code>Tabs</code>; the panel is visible only while it equals <code>tabId</code></td></tr>
+        <tr><td><code>keepMounted</code></td><td><code>false</code> (default): inactive content is not rendered. <code>true</code>: it stays mounted but hidden, so its state survives a switch.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Design tokens</h2>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Use</th><th>Token</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Unselected / selected text</td><td><code>--vs-color-text-body</code> / <code>--vs-color-text-heading</code></td><td>existing</td></tr>
+        <tr><td>Hover indicator, disabled text</td><td><code>--vs-color-text-muted</code></td><td>existing</td></tr>
+        <tr><td>Primary indicator</td><td><code>--vs-color-brand-primary-text</code></td><td>existing</td></tr>
+        <tr><td>Tab list rule</td><td><code>--vs-color-border</code>, <code>--vs-card-divider</code> (secondary)</td><td>existing</td></tr>
+        <tr><td>Type</td><td><code>--vs-font-family</code>, <code>--vs-font-size-body-md</code>, <code>--vs-font-size-body-sm</code></td><td>existing</td></tr>
+        <tr><td>Focus ring</td><td><code>--vs-focus-ring-width</code>, <code>--vs-focus-ring-color</code>, <code>--vs-focus-ring-offset</code></td><td>existing</td></tr>
+        <tr><td>Icon, panel gap, disabled badge</td><td><code>--vs-icon-size-sm</code>, <code>--vs-spacing-md</code>, <code>--vs-button-disabled-opacity</code></td><td>existing</td></tr>
+        <tr><td>Tab padding, tab gap, indicator width</td><td><code>12px 16px</code> / <code>8px 12px</code>, <code>4px</code>, <code>2px</code></td><td><strong>proposed</strong> — literals in CSS, no tokens yet</td></tr>
       </tbody>
     </table></div>
 
@@ -156,5 +408,40 @@
   </div>
 </main>
 <script src="/assets/shell.js"></script>
+<script>
+  /* Docs-only behaviour for the examples above: the same keyboard model as Tabs.tsx. */
+  (function () {
+    document.querySelectorAll('.demo-tabs[role="tablist"]').forEach(function (list) {
+      if (list.querySelector('.is-hover, .is-focus') || list.closest('.demo-redline')) return;
+      var tabs = function () { return Array.prototype.slice.call(list.querySelectorAll('[role="tab"]:not(:disabled)')); };
+      function select(tab, focus) {
+        list.querySelectorAll('[role="tab"]').forEach(function (t) {
+          var on = t === tab;
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          t.tabIndex = on ? 0 : -1;
+          var panel = document.getElementById(t.id.replace(/-([^-]+)$/, '-panel-$1'));
+          if (panel && panel.getAttribute('role') === 'tabpanel') panel.hidden = !on;
+        });
+        if (focus) tab.focus();
+      }
+      list.addEventListener('click', function (e) {
+        var tab = e.target.closest('[role="tab"]');
+        if (tab && !tab.disabled) select(tab, false);
+      });
+      list.addEventListener('keydown', function (e) {
+        if (e.altKey || e.ctrlKey || e.metaKey) return;
+        var enabled = tabs(), i = enabled.indexOf(document.activeElement), n = enabled.length, next;
+        if (i === -1) return;
+        if (e.key === 'ArrowRight') next = enabled[(i + 1) % n];
+        else if (e.key === 'ArrowLeft') next = enabled[(i - 1 + n) % n];
+        else if (e.key === 'Home') next = enabled[0];
+        else if (e.key === 'End') next = enabled[n - 1];
+        else return;
+        e.preventDefault();
+        select(next, true);
+      });
+    });
+  })();
+</script>
 </body>
 </html>

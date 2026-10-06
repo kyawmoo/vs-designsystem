@@ -61,8 +61,8 @@ export type { BreadcrumbProps, BreadcrumbItem } from './components/Breadcrumb';
 export { Pagination } from './components/Pagination';
 export type { PaginationProps } from './components/Pagination';
 
-export { Tabs } from './components/Tabs';
-export type { TabsProps, TabItem } from './components/Tabs';
+export { Tabs, TabPanel } from './components/Tabs';
+export type { TabsProps, TabItem, TabsVariant, TabPanelProps } from './components/Tabs';
 
 export { FilterBar } from './components/FilterBar';
 export type { FilterBarProps } from './components/FilterBar';

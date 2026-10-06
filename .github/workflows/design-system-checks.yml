@@ -1,7 +1,7 @@
 # Runs on every pull request and on pushes to main.
 #  - tokens: scripts/check-tokens.mjs (docs copy in sync, tokens.json valid, no unapproved raw colour, no second brand
 #    green, body type tokens agree, WCAG contrast of text/ring/toast tokens). No dependencies.
-#  - react: type-checks the React package (tsc --noEmit).
+#  - react: type-checks the React package (tsc --noEmit) and runs its unit tests (vitest).
 name: design-system-checks
 
 on:
@@ -40,3 +40,5 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - name: Type-check
         run: npx tsc --noEmit -p .
+      - name: Unit tests
+        run: npm test
