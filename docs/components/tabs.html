@@ -75,8 +75,8 @@
         <code>vs-segment-button</code>) is a single bordered track
         with a solid brand-primary fill on the active tab — this is
         already live in the reports dashboard's <code>TableWidget</code>
-        and several views, so the <code>&lt;Tabs&gt;</code> component
-        formalizes it, not invents it.
+        and several views, so the <code>&lt;SegmentedControl&gt;</code> component
+        (exported as <code>Tabs</code> until 6 Oct 2026) formalizes it, not invents it.
         <strong>Blade</strong> (<code>.tabs-custom .nav-pills</code>)
         is individually bordered pills with gaps between them, no
         shared track — this is the main site's own existing CSS,
@@ -88,6 +88,17 @@
         principle, neither was forced to match the other — that would
         mean changing pages that already work correctly today. Each
         wrapper simply reuses its platform's real, proven pattern.
+      </p>
+    </div>
+
+    <div class="vs-docs-callout vs-docs-callout--gap">
+      <p>
+        <strong>Renamed (6 Oct 2026):</strong> the React component on this page is a
+        <em>segmented control</em> (it selects one option or filter; it does not switch content panels),
+        so it is now exported as <code>SegmentedControl</code> (types <code>SegmentedControlProps</code>,
+        <code>SegmentedControlItem</code>). Same classes, same output. The old names <code>Tabs</code>,
+        <code>TabsProps</code> and <code>TabItem</code> still work as deprecated aliases until consumers switch;
+        after that, <code>Tabs</code> becomes real underline tabs with panels (issue #27), with different props.
       </p>
     </div>
 
@@ -123,9 +134,9 @@
     </table></div>
 
     <h2>Usage — React</h2>
-    <div class="vs-docs-code-block"><span class="tag">import</span> { Tabs } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+    <div class="vs-docs-code-block"><span class="tag">import</span> { SegmentedControl } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
 
-<span class="tag">&lt;Tabs</span>
+<span class="tag">&lt;SegmentedControl</span>
   <span class="attr">tabs</span>=<span class="tag">{[</span>{ id: <span class="str">'overview'</span>, label: <span class="str">'Overview'</span> }, { id: <span class="str">'items'</span>, label: <span class="str">'Items'</span> }<span class="tag">]}</span>
   <span class="attr">activeId</span>=<span class="tag">{activeId}</span>
   <span class="attr">onChange</span>=<span class="tag">{setActiveId}</span>

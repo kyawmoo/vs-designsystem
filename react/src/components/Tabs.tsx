@@ -1,40 +1,17 @@
-import React from 'react';
+import { SegmentedControl } from './SegmentedControl';
+import type { SegmentedControlItem, SegmentedControlProps } from './SegmentedControl';
 
-export interface TabItem {
-  id: string;
-  label: React.ReactNode;
-}
-
-export interface TabsProps {
-  tabs: TabItem[];
-  activeId: string;
-  onChange: (id: string) => void;
-  size?: 'sm' | 'md';
-  className?: string;
-  buttonClassName?: string;
-}
-
-/**
- * Formalizes the `.vs-segment-control` / `.vs-segment-button` pattern
- * already live in production inside TableWidget.tsx (and duplicated
- * inline across several report views) as its own standalone,
- * reusable component — same classes, same visual output.
+/*
+ * Deprecated aliases (2026-10-06). The component formerly exported as `Tabs` is a segmented control and is
+ * now `SegmentedControl`. These aliases keep existing imports working, with identical output, until consumers
+ * switch; the name `Tabs` will then be reused for real underline tabs (issue #27), with different props.
  */
-export function Tabs({ tabs, activeId, onChange, size = 'md', className, buttonClassName }: TabsProps) {
-  return (
-    <div className={className ? `vs-segment-control ${className}` : 'vs-segment-control'}>
-      {tabs.map((tab) => (
-        <button
-          key={tab.id}
-          type="button"
-          onClick={() => onChange(tab.id)}
-          className={`vs-segment-button ${size === 'sm' ? 'vs-segment-button--sm' : ''} ${
-            activeId === tab.id ? 'is-active' : ''
-          } ${buttonClassName ?? ''}`}
-        >
-          {tab.label}
-        </button>
-      ))}
-    </div>
-  );
-}
+
+/** @deprecated Use `SegmentedControl` — same component, same output. `Tabs` will become underline tabs. */
+export const Tabs = SegmentedControl;
+
+/** @deprecated Use `SegmentedControlProps`. */
+export type TabsProps = SegmentedControlProps;
+
+/** @deprecated Use `SegmentedControlItem`. */
+export type TabItem = SegmentedControlItem;
