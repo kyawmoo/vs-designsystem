@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tooltip — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="/assets/demo-kit.css">
+<style>
+  /* Tooltip — same rules as react/src/styles.css (.vs-tooltip), prefixed demo- for this page. */
+  .demo-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
+  .demo-tt { position: fixed; top: 0; left: 0; z-index: 60; box-sizing: border-box; width: max-content; max-width: min(240px, calc(100vw - 16px)); padding: 6px 10px; border-radius: var(--vs-radius-xs); background: var(--vs-color-brand-secondary); color: var(--vs-color-surface); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); font-weight: 400; line-height: 1.4; letter-spacing: normal; text-align: left; text-transform: none; overflow-wrap: anywhere; animation: demo-tt-in 120ms ease-out; }
+  .demo-tt__arrow { position: absolute; width: 8px; height: 8px; background: inherit; transform: rotate(45deg); }
+  .demo-tt[data-placement='top'] .demo-tt__arrow { bottom: -4px; }
+  .demo-tt[data-placement='bottom'] .demo-tt__arrow { top: -4px; }
+  .demo-tt[data-placement='left'] .demo-tt__arrow { right: -4px; }
+  .demo-tt[data-placement='right'] .demo-tt__arrow { left: -4px; }
+  @keyframes demo-tt-in { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { .demo-tt { animation: none; } }
+
+  /* Static copies (forced visible) for the examples */
+  .demo-tt-anchor { position: relative; display: inline-flex; }
+  .demo-tt--static, .demo-tt--frame { position: absolute; top: auto; left: auto; animation: none; }
+  .demo-tt--static[data-placement='top'] { bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); }
+  .demo-tt--static[data-placement='bottom'] { top: calc(100% + 8px); left: 50%; transform: translateX(-50%); }
+  .demo-tt--static[data-placement='left'] { right: calc(100% + 8px); top: 50%; transform: translateY(-50%); }
+  .demo-tt--static[data-placement='right'] { left: calc(100% + 8px); top: 50%; transform: translateY(-50%); }
+  .demo-tt--static[data-placement='top'] .demo-tt__arrow, .demo-tt--static[data-placement='bottom'] .demo-tt__arrow { left: calc(50% - 4px); }
+  .demo-tt--static[data-placement='left'] .demo-tt__arrow, .demo-tt--static[data-placement='right'] .demo-tt__arrow { top: calc(50% - 4px); }
+  .demo-tt--static.demo-tt--wide { width: 240px; }
+  .demo-state-stage--tt, .demo-rule-stage--tt { min-height: 110px; padding: 52px 12px 12px; align-items: center; justify-content: center; display: flex; }
+  .demo-state-stage--tt:has([data-placement='left']), .demo-state-stage--tt:has([data-placement='right']) { padding-top: 28px; }
+  .demo-state-stage--tt:has([data-placement='bottom']) { padding: 12px 12px 52px; }
+  .demo-state-stage--tt:has(.demo-tt--wide) { padding-top: 112px; }
+  .demo-rule-stage--tt { min-height: 120px; }
+  .demo-rule-stage--tt:has(.demo-tt--wide) { padding-top: 96px; }
+
+  /* Triggers */
+  .demo-icon-btn { display: inline-flex; align-items: center; justify-content: center; width: var(--vs-button-icon-only-md); height: var(--vs-button-icon-only-md); padding: 0; border: 1px solid var(--vs-button-tertiary-border); border-radius: var(--vs-button-radius-icon); background: var(--vs-color-surface); color: var(--vs-color-text-body); cursor: pointer; font: inherit; }
+  .demo-icon-btn:hover:not(:disabled) { border-color: var(--vs-color-brand-primary); }
+  .demo-icon-btn:focus-visible { outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color); outline-offset: var(--vs-focus-ring-offset); }
+  .demo-icon-btn--bare { width: 24px; height: 24px; border: 0; background: transparent; border-radius: var(--vs-radius-full); vertical-align: middle; }
+  .demo-icon-btn:disabled { opacity: var(--vs-button-disabled-opacity); cursor: not-allowed; }
+  .demo-focus-ring .demo-icon-btn { outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color); outline-offset: var(--vs-focus-ring-offset); }
+  .demo-hover-ring .demo-icon-btn { border-color: var(--vs-color-brand-primary); }
+  .demo-trunc, .demo-card-title { display: inline-block; max-width: 100%; font: 500 14px var(--vs-font-family); color: var(--vs-color-text-heading); cursor: help; border-bottom: 1px dotted var(--vs-color-text-muted); }
+  .demo-trunc:focus-visible, .demo-card-title:focus-visible, .demo-abbr:focus-visible { outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color); outline-offset: var(--vs-focus-ring-offset); }
+  .demo-abbr { text-decoration: none; border-bottom: 1px dotted var(--vs-color-text-muted); cursor: help; }
+  .demo-bad { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; }
+  .demo-bad em { font: 11px SFMono-Regular, Consolas, monospace; color: var(--vs-color-text-body); font-style: normal; }
+  .demo-fake-tt { display: inline-block; padding: 6px 10px; border-radius: var(--vs-radius-xs); background: var(--vs-color-brand-secondary); color: var(--vs-color-surface); font: 400 13px var(--vs-font-family); }
+  .demo-fake-tt u { color: var(--vs-color-surface); }
+
+  /* Page furniture */
+  .demo-live-row { display: flex; flex-wrap: wrap; gap: 28px 40px; padding: 28px 8px 20px; }
+  .demo-live-cell { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .demo-live-cell > span:last-child { font: 11px SFMono-Regular, Consolas, monospace; color: var(--vs-color-text-body); }
+  .demo-browser-body--top { align-items: flex-start; }
+  .demo-url { font-family: SFMono-Regular, Consolas, monospace; font-size: 11px; color: #71717a; }
+  .demo-page { width: 100%; max-width: 720px; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); padding: 20px 24px 24px; font-family: var(--vs-font-family); }
+  .demo-page-title { font: 600 20px/28px var(--vs-font-family); color: var(--vs-color-text-heading); margin-bottom: 12px; }
+  .demo-note { margin: 14px 0 0; font: 400 12px/1.5 var(--vs-font-family); color: var(--vs-color-text-body); }
+  .demo-item { display: flex; gap: 16px; align-items: flex-start; padding-top: 24px; }
+  .demo-item-thumb, .demo-card-thumb { width: 96px; height: 96px; display: flex; align-items: center; justify-content: center; font-size: 44px; background: var(--vs-card-media-bg); border: 1px solid var(--vs-item-card-border); border-radius: var(--vs-item-card-radius); flex-shrink: 0; }
+  .demo-item-title { font: 600 18px/26px var(--vs-font-family); color: var(--vs-color-text-heading); }
+  .demo-item-meta { font: 400 13px/20px var(--vs-font-family); color: var(--vs-color-text-body); margin-bottom: 14px; }
+  .demo-item-actions { display: flex; gap: 8px; }
+  .demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; }
+  .demo-card { min-width: 0; }
+  .demo-card-thumb { width: 100%; height: 90px; margin-bottom: 8px; }
+  .demo-card-title { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; border-bottom: 0; }
+  .demo-kv { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--vs-color-border); font: 400 14px var(--vs-font-family); color: var(--vs-color-text-body); }
+  .demo-kv-value { color: var(--vs-color-text-heading); font-weight: 600; }
+  .demo-frame-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)); gap: 16px; margin: 16px 0 24px; }
+  .demo-frame-wrap { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .demo-frame { position: relative; overflow: hidden; background: var(--vs-color-surface); border: 1px dashed var(--vs-color-text-muted); border-radius: var(--vs-radius-sm); }
+  .demo-frame-trigger { position: absolute; }
+  .demo-frame-cap { display: flex; flex-direction: column; gap: 2px; }
+  .demo-frame-cap b { font: 600 11px var(--vs-font-family); letter-spacing: .04em; text-transform: uppercase; color: var(--vs-color-text-heading); }
+  .demo-frame-cap span { font: 12px var(--vs-font-family); color: var(--vs-color-text-body); }
+  .demo-anatomy { display: flex; flex-direction: column; align-items: center; gap: 28px; padding: 64px 12px 24px; }
+  .demo-anatomy-pins { position: relative; }
+  .demo-pin { position: absolute; width: 18px; height: 18px; border-radius: 50%; background: #dc2626; color: #fff; font: 700 11px/18px var(--vs-font-family); text-align: center; font-style: normal; }
+  .demo-pin--blue { background: #2563eb; }
+  .demo-anatomy-key { display: flex; flex-wrap: wrap; gap: 6px 18px; justify-content: center; }
+  .demo-compare td:first-child { white-space: nowrap; }
+</style>
+</head>
+<body data-page="tooltip">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Tooltip</p>
+    <h1>Tooltip</h1>
+    <p class="vs-docs-hero-lede">
+      A short, supplementary hint for a control, shown on hover and keyboard
+      focus. Implemented in <code>react/src/components/Tooltip.tsx</code>.
+      It describes a control; it never replaces its name, and nothing
+      essential may live only in a tooltip.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">Hover (300ms) · Tab to focus · Esc to dismiss.</p>
+    </div>
+    <div class="vs-docs-preview"><div class="demo-live-row"><div class="demo-live-cell"><button type="button" class="demo-icon-btn " aria-label="Download" data-tip="Download as PNG"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button><span>Icon-only action</span></div><div class="demo-live-cell"><button type="button" class="demo-icon-btn " aria-label="Add to favourites" data-tip="Add to favourites" data-placement="bottom"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg></button><span>placement bottom</span></div><div class="demo-live-cell"><span class="demo-trunc" tabindex="0" data-tip="Holographic Cat Sticker Pack — 48 PNG files">Holographic Cat Sticker Pa…</span><span>Truncated label</span></div><div class="demo-live-cell"><button type="button" class="demo-icon-btn demo-icon-btn--bare" aria-label="About the opportunity score" data-tip="Higher score = stronger opportunity to add new content." data-placement="right"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></button><span>Contextual helper</span></div></div></div>
+    <div class="vs-docs-callout">
+      <p>
+        Pointer hover waits 300ms, keyboard focus shows it at once, Escape
+        or pressing the control hides it, and you can move onto the tooltip
+        itself without it closing. On a touch screen it is not shown: a tap
+        performs the control’s action (section 07).
+      </p>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Variants</span><h2>Variants &amp; Placement</h2></div>
+      <p class="vs-docs-section-desc"><code>placement</code>, <code>arrow</code></p>
+    </div>
+    <div class="demo-states demo-states--wide"><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button><span class="demo-tt demo-tt--static " data-placement="top" aria-hidden="true">Download as PNG<span class="demo-tt__arrow"></span></span></span></div><div class="demo-state-meta"><b>Top (default)</b><code>placement="top"</code><span>centred above · 8px gap</span></div></div><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button><span class="demo-tt demo-tt--static " data-placement="bottom" aria-hidden="true">Download as PNG<span class="demo-tt__arrow"></span></span></span></div><div class="demo-state-meta"><b>Bottom</b><code>placement="bottom"</code><span>centred below</span></div></div><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button><span class="demo-tt demo-tt--static " data-placement="left" aria-hidden="true">Download as PNG<span class="demo-tt__arrow"></span></span></span></div><div class="demo-state-meta"><b>Left</b><code>placement="left"</code><span>left of the trigger</span></div></div><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button><span class="demo-tt demo-tt--static " data-placement="right" aria-hidden="true">Download as PNG<span class="demo-tt__arrow"></span></span></span></div><div class="demo-state-meta"><b>Right</b><code>placement="right"</code><span>right of the trigger</span></div></div><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button><span class="demo-tt demo-tt--static " data-placement="top" aria-hidden="true">Download as PNG</span></span></div><div class="demo-state-meta"><b>Without arrow</b><code>arrow={false}</code><span>plain surface</span></div></div><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button><span class="demo-tt demo-tt--static demo-tt--wide" data-placement="top" aria-hidden="true">Packs are free for personal and commercial use with a link back to the author, as described in the licence.<span class="demo-tt__arrow"></span></span></span></div><div class="demo-state-meta"><b>Long text</b><code>max-width 240px</code><span>wraps, never truncates</span></div></div></div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // States</span><h2>States</h2></div>
+      <p class="vs-docs-section-desc">Shown here forced visible.</p>
+    </div>
+    <div class="demo-states demo-states--wide"><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button></span></div><div class="demo-state-meta"><b>Hidden</b><code>default</code><span>nothing in the layout; description still read by screen readers</span></div></div><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><span class="demo-hover-ring"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button></span><span class="demo-tt demo-tt--static " data-placement="top" aria-hidden="true">Download as PNG<span class="demo-tt__arrow"></span></span></span></div><div class="demo-state-meta"><b>Visible on hover</b><code>pointer · after 300ms</code><span>moving onto the tooltip keeps it open</span></div></div><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><span class="demo-focus-ring"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button></span><span class="demo-tt demo-tt--static " data-placement="top" aria-hidden="true">Download as PNG<span class="demo-tt__arrow"></span></span></span></div><div class="demo-state-meta"><b>Visible on focus</b><code>keyboard focus · immediately</code><span>focus stays on the trigger</span></div></div><div class="demo-state"><div class="demo-state-stage demo-state-stage--tt"><span class="demo-tt-anchor"><button type="button" class="demo-icon-btn " aria-label="Download" data-tip-disabled><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button></span></div><div class="demo-state-meta"><b>Suppressed</b><code>&lt;Tooltip disabled&gt;</code><span>no tooltip, no description; the control itself still works</span></div></div></div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Anatomy &amp; Measurement</span><h2>Anatomy &amp; Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Values read from the live component. “Proposed” = not yet in <code>tokens.json</code>.</p>
+    </div>
+    <div class="demo-redline" style="flex-direction:column"><div class="demo-anatomy"><span class="demo-tt-anchor demo-tt-anchor--anatomy"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button><span class="demo-tt demo-tt--static" data-placement="top" aria-hidden="true">Download as PNG<span class="demo-tt__arrow"></span></span><i class="demo-pin demo-pin--blue" style="left:10px;top:48px">1</i><i class="demo-pin" style="left:-78px;top:-32px">2</i><i class="demo-pin" style="left:98px;top:-32px">3</i><i class="demo-pin" style="left:-34px;top:-6px">4</i><i class="demo-pin" style="left:48px;top:-6px">5</i></span>
+      <div class="demo-anatomy-key">
+        <span class="demo-dim demo-dim--blue">1 trigger (focusable control, keeps its own name)</span>
+        <span class="demo-dim">2 tooltip surface</span>
+        <span class="demo-dim">3 content (plain text)</span>
+        <span class="demo-dim">4 arrow (optional)</span>
+        <span class="demo-dim">5 gap 8px</span>
+        <span class="demo-dim">elevation: none (flat, no shadow)</span>
+      </div></div></div>
+    <div class="demo-metrics">
+      <div><span>Surface (one line)</span><strong>30px high · max 240px wide</strong></div>
+      <div><span>Gap to trigger</span><strong>8px</strong></div>
+      <div><span>Viewport margin</span><strong>8px</strong></div>
+      <div><span>Layer</span><strong>z-index 60 (Modal is 50)</strong></div>
+    </div>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Part</th><th>Value</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Surface</td><td><code>--vs-color-brand-secondary</code>, radius <code>--vs-radius-xs</code></td><td>existing tokens</td></tr>
+        <tr><td>Text</td><td><code>--vs-color-surface</code> on the surface = 15.9:1; <code>--vs-font-size-body-sm</code>, weight 400, line-height 1.4</td><td>existing tokens</td></tr>
+        <tr><td>Padding</td><td><code>6px 10px</code></td><td>proposed</td></tr>
+        <tr><td>Max width</td><td><code>min(240px, 100vw − 16px)</code>; long words break (<code>overflow-wrap: anywhere</code>)</td><td>proposed</td></tr>
+        <tr><td>Arrow</td><td>8px square rotated 45°, same fill; centred on the trigger, kept 12px from the corners</td><td>proposed</td></tr>
+        <tr><td>Gap / viewport margin</td><td><code>8px</code> / <code>8px</code></td><td>proposed (matches <code>--vs-spacing-sm</code>)</td></tr>
+        <tr><td>Elevation</td><td>none: flat design (<code>--vs-shadow-none</code>); the dark surface separates it from the page</td><td>existing principle</td></tr>
+        <tr><td>Layering</td><td><code>position: fixed</code>, <code>z-index: 60</code>, rendered in a portal on <code>document.body</code> so no <code>overflow</code> container can clip it</td><td>proposed</td></tr>
+        <tr><td>Timing</td><td>hover opens after <strong>300ms</strong>; focus opens at <strong>0ms</strong>; close grace <strong>100ms</strong>; 120ms fade-in (none under reduced motion)</td><td>proposed defaults, not configurable</td></tr>
+        <tr><td>Layout</td><td>closed = no DOM and no size; open = overlay only, so it never shifts the page</td><td>decision</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">05 // Usage in Context</span><h2>Usage in Context</h2></div>
+      <p class="vs-docs-section-desc">Realistic VectorSticker screens. Hover or Tab to try them.</p>
+    </div>
+    <h3>Icon-only action</h3>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> <span class="demo-url">vectorsticker.com/items/holographic-cat-pack</span></div><div class="demo-browser-body demo-browser-body--top"><div class="demo-page">
+  <div class="demo-item"><div class="demo-item-thumb" aria-hidden="true">🐱</div><div class="demo-item-body"><div class="demo-item-title">Holographic Cat Pack</div><div class="demo-item-meta">48 PNG stickers · Free</div>
+  <div class="demo-item-actions"><button type="button" class="demo-icon-btn " aria-label="Download pack" data-tip="Download pack"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button><button type="button" class="demo-icon-btn " aria-label="Add to favourites" data-tip="Add to favourites"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg></button></div></div></div></div></div></div>
+    <h3>Abbreviated label (truncated name)</h3>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> <span class="demo-url">vectorsticker.com/categories/animals</span></div><div class="demo-browser-body demo-browser-body--top"><div class="demo-page"><div class="demo-page-title">Animals</div><div class="demo-grid">
+  <div class="demo-card"><div class="demo-card-thumb" aria-hidden="true">🦊</div><div class="demo-card-title" tabindex="0" data-tip="Holographic Fox Sticker Pack — Limited Edition 2026">Holographic Fox Sticker Pack — Limited…</div></div>
+  <div class="demo-card"><div class="demo-card-thumb" aria-hidden="true">🐙</div><div class="demo-card-title" tabindex="0" data-tip="Retro Octopus Icon Set — 120 vectors">Retro Octopus Icon Set — 120 vec…</div></div>
+  <div class="demo-card"><div class="demo-card-thumb" aria-hidden="true">🦉</div><div class="demo-card-title">Night Owl Pack</div></div></div>
+  <p class="demo-note">Full name only when the label is cut off. Short names get no tooltip.</p></div></div></div>
+    <h3>Contextual helper and abbreviation</h3>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> <span class="demo-url">reports.vectorsticker.com/opportunities</span></div><div class="demo-browser-body demo-browser-body--top"><div class="demo-page"><div class="demo-page-title">Opportunities</div>
+  <div class="demo-kv"><span class="demo-kv-label">Opportunity score <button type="button" class="demo-icon-btn demo-icon-btn--bare" aria-label="About the opportunity score" data-tip="Higher score = stronger opportunity to add new content." data-placement="right"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></button></span><strong class="demo-kv-value">82 / 100</strong></div>
+  <div class="demo-kv"><span class="demo-kv-label"><abbr class="demo-abbr" tabindex="0" data-tip="Downloads in the last 30 days" title="">DL 30d</abbr></span><strong class="demo-kv-value">1,284</strong></div>
+  <p class="demo-note">The score and its meaning are always visible; the tooltip only explains how it is read.</p></div></div></div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">06 // Content Guidelines</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc">Brief and supplementary. Never essential.</p>
+    </div>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Appropriate</th><th>Not appropriate</th></tr></thead>
+      <tbody>
+        <tr><td>The name of an icon-only action (“Download pack”), on top of its own accessible name</td><td>The only label of a control</td></tr>
+        <tr><td>The full text of a truncated label</td><td>Instructions or steps the user needs to finish a task</td></tr>
+        <tr><td>What an abbreviation or metric means (“Downloads in the last 30 days”)</td><td>Errors, warnings, validation messages or status the user must notice</td></tr>
+        <tr><td>One short phrase, at most two lines</td><td>Paragraphs, lists, links, buttons, images or forms (use a popover or dialog; out of scope here)</td></tr>
+        <tr><td>Plain text</td><td>Anything that must stay readable on a touch screen</td></tr>
+      </tbody>
+    </table></div>
+    <div class="demo-rules"><div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span><span>Label an icon-only control that would otherwise be unclear. The control keeps its own <code>aria-label</code>.</span></div><div class="demo-rule-stage demo-rule-stage--tt"><span class="demo-tt-anchor"><button type="button" class="demo-icon-btn " aria-label="Download pack"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button><span class="demo-tt demo-tt--static " data-placement="top" aria-hidden="true">Download pack<span class="demo-tt__arrow"></span></span></span></div></div><div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span><span>Don’t use a tooltip as the only name of an icon button. It needs an accessible name of its own.</span></div><div class="demo-rule-stage demo-rule-stage--tt"><span class="demo-bad"><button type="button" class="demo-icon-btn " aria-label="" data-tip="Download pack"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button><em>no aria-label</em></span></div></div><div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span><span>Keep it to a short phrase, one or two lines.</span></div><div class="demo-rule-stage demo-rule-stage--tt"><span class="demo-tt-anchor"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button><span class="demo-tt demo-tt--static " data-placement="top" aria-hidden="true">Add to favourites<span class="demo-tt__arrow"></span></span></span></div></div><div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span><span>Don’t put instructions, warnings or long explanations in a tooltip. Show them on the page.</span></div><div class="demo-rule-stage demo-rule-stage--tt"><span class="demo-tt-anchor"><button type="button" class="demo-icon-btn " aria-label="Download"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button><span class="demo-tt demo-tt--static demo-tt--wide" data-placement="top" aria-hidden="true">To download, first sign in, then pick a size, then press the button and wait for the file. Pro packs need a plan.<span class="demo-tt__arrow"></span></span></span></div></div><div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span><span>Show the full text of a truncated label.</span></div><div class="demo-rule-stage demo-rule-stage--tt"><span class="demo-trunc" tabindex="0" data-tip="Holographic Cat Sticker Pack — 48 PNG files">Holographic Cat Sticker Pa…</span></div></div><div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span><span>Don’t add links, buttons or forms. Use a popover or a dialog (not part of this component).</span></div><div class="demo-rule-stage demo-rule-stage--tt"><span class="demo-bad"><span class="demo-fake-tt">Need help? <u>Contact us</u></span><em>interactive content</em></span></div></div></div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">07 // Accessibility</span><h2>Accessibility, Keyboard, Screen Reader &amp; Touch</h2></div>
+      <p class="vs-docs-section-desc">WAI-ARIA tooltip pattern · WCAG 1.4.13.</p>
+    </div>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Input</th><th>Behaviour</th></tr></thead>
+      <tbody>
+        <tr><td>Pointer hover (mouse, pen)</td><td>Opens after 300ms. Closes 100ms after the pointer leaves the trigger <em>and</em> the tooltip, so the pointer can move onto it (hoverable).</td></tr>
+        <tr><td>Keyboard focus</td><td>Opens immediately on <code>:focus-visible</code>. Focus stays on the trigger; the tooltip is never focusable and <kbd>Tab</kbd> moves on to the next control. Blur closes it.</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>Closes it without moving focus or the pointer (dismissible).</td></tr>
+        <tr><td>Pressing the control</td><td>Closes it so it never covers the action, and it does not reopen until the pointer leaves and returns.</td></tr>
+        <tr><td><strong>Touch</strong></td><td><strong>Not shown.</strong> A tap must perform the control’s own action, and long-press is unreliable across browsers. So nothing essential may exist only in a tooltip; the screen-reader description below is unaffected.</td></tr>
+        <tr><td>Screen reader</td><td>The trigger has <code>aria-describedby</code> pointing at a visually hidden <code>role="tooltip"</code> element holding the same text. It is always in the page, so the description is read on focus whether or not the visual tooltip is showing. The visible copy is <code>aria-hidden</code> to avoid reading it twice.</td></tr>
+        <tr><td>Accessible name</td><td>The tooltip <em>describes</em>; it never names. An icon-only control must carry its own <code>aria-label</code> (or visible text).</td></tr>
+        <tr><td>Contrast</td><td>Text 15.9:1 on the surface; surface 15.9:1 against a white page (needs 3:1 for UI).</td></tr>
+        <tr><td>Motion</td><td>A 120ms fade only; none under <code>prefers-reduced-motion</code>.</td></tr>
+        <tr><td>Persistent</td><td>Stays until pointer or focus leaves, Esc or press (it does not time out).</td></tr>
+      </tbody>
+    </table></div>
+    <div class="vs-docs-callout vs-docs-callout--gap">
+      <p>
+        <strong>Disabled controls.</strong> Browsers do not reliably send hover
+        or focus to a disabled button, so a tooltip on one is not dependable.
+        Explain <em>why</em> it is disabled in visible text instead.
+      </p>
+    </div>
+    <div class="vs-docs-callout vs-docs-callout--gap">
+      <p>
+        <strong>Not verified:</strong> real screen readers (NVDA, VoiceOver,
+        TalkBack) and real touch devices. Behaviour is covered by automated
+        tests and checked in desktop Chromium only.
+      </p>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">08 // Responsive &amp; Edges</span><h2>Responsive &amp; Viewport-Edge Behaviour</h2></div>
+      <p class="vs-docs-section-desc">The frames below act as small viewports.</p>
+    </div>
+    <div class="demo-frame-grid"><div class="demo-frame-wrap"><div class="demo-frame" style="height:150px"><button type="button" class="demo-icon-btn demo-frame-trigger" style="left:calc(50% - 18px);top:8px;" aria-label="Download" data-frame-tip="Download as PNG" data-placement="top"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button></div><div class="demo-frame-cap"><b>top → bottom</b><span>no room above the trigger</span></div></div><div class="demo-frame-wrap"><div class="demo-frame" style="height:150px"><button type="button" class="demo-icon-btn demo-frame-trigger" style="left:calc(50% - 18px);bottom:8px;" aria-label="Download" data-frame-tip="Download as PNG" data-placement="bottom"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button></div><div class="demo-frame-cap"><b>bottom → top</b><span>no room below the trigger</span></div></div><div class="demo-frame-wrap"><div class="demo-frame" style="height:150px"><button type="button" class="demo-icon-btn demo-frame-trigger" style="left:6px;top:55px;" aria-label="Download" data-frame-tip="Download as PNG" data-placement="left"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button></div><div class="demo-frame-cap"><b>left → right</b><span>no room on the left</span></div></div><div class="demo-frame-wrap"><div class="demo-frame" style="height:150px"><button type="button" class="demo-icon-btn demo-frame-trigger" style="right:6px;top:55px;" aria-label="Download" data-frame-tip="Download as PNG" data-placement="right"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg></button></div><div class="demo-frame-cap"><b>right → left</b><span>no room on the right</span></div></div><div class="demo-frame-wrap"><div class="demo-frame" style="height:150px"><button type="button" class="demo-icon-btn demo-frame-trigger" style="left:2px;top:60px;" aria-label="Add to favourites" data-frame-tip="Add to favourites" data-placement="top"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg></button></div><div class="demo-frame-cap"><b>slides along the edge</b><span>arrow still points at the trigger</span></div></div><div class="demo-frame-wrap"><div class="demo-frame" style="height:190px;max-width:230px"><button type="button" class="demo-icon-btn demo-frame-trigger" style="left:100px;top:75px;" aria-label="More information" data-frame-tip="Narrow screens use top or bottom instead." data-placement="left"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></button></div><div class="demo-frame-cap"><b>narrow viewport</b><span>left/right fall back to top/bottom</span></div></div></div>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Situation</th><th>Behaviour</th></tr></thead>
+      <tbody>
+        <tr><td>Preferred side has no room</td><td>Flips to the opposite side; if that has no room either, tries the two other sides, then takes the roomiest.</td></tr>
+        <tr><td>Near a left/right edge</td><td>Slides along the edge to stay 8px inside the viewport; the arrow keeps pointing at the trigger’s centre.</td></tr>
+        <tr><td>Page or container scrolls, window resizes</td><td>Repositions while open.</td></tr>
+        <tr><td>Clipping parents (<code>overflow: hidden</code>, scroll areas, modals)</td><td>Not clipped: the tooltip lives in a portal on <code>document.body</code>.</td></tr>
+        <tr><td>Phones (≈ 320px)</td><td>Width is capped at <code>100vw − 16px</code>; left/right fall back to top/bottom when they cannot fit.</td></tr>
+        <tr><td>Long text</td><td>Wraps at 240px; unbroken strings break anywhere. Keep it short anyway.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">09 // API &amp; Tokens</span><h2>Component API &amp; Tokens</h2></div>
+      <p class="vs-docs-section-desc"><code>react/src/components/Tooltip.tsx</code></p>
+    </div>
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Tooltip } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;Tooltip</span> <span class="attr">content</span>=<span class="str">"Download as PNG"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="str">"button"</span> <span class="attr">aria-label</span>=<span class="str">"Download"</span><span class="tag">&gt;</span>…<span class="tag">&lt;/button&gt;</span>   <span class="cmt">{/* the control keeps its own name */}</span>
+<span class="tag">&lt;/Tooltip&gt;</span>
+
+<span class="tag">&lt;Tooltip</span> <span class="attr">content</span>=<span class="str">"Full name of the pack"</span> <span class="attr">placement</span>=<span class="str">"bottom"</span> <span class="attr">arrow</span>=<span class="tag">{false}</span><span class="tag">&gt;</span>…<span class="tag">&lt;/Tooltip&gt;</span></div>
+    <h2>Props</h2>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>content</code></td><td>string. Short plain text; markup is shown as text, never interpreted.</td><td>required</td></tr>
+        <tr><td><code>children</code></td><td>exactly one element that is focusable or operable (button, link …). It is wrapped in an inline-flex <code>span</code> and receives <code>aria-describedby</code> (merged with any it already has).</td><td>required</td></tr>
+        <tr><td><code>placement</code></td><td><code>'top' | 'bottom' | 'left' | 'right'</code>. Preferred side; flips automatically.</td><td><code>'top'</code></td></tr>
+        <tr><td><code>arrow</code></td><td>boolean</td><td><code>true</code></td></tr>
+        <tr><td><code>disabled</code></td><td>boolean. Suppresses the tooltip and its description entirely.</td><td><code>false</code></td></tr>
+        <tr><td><code>className</code></td><td>extra class on the tooltip surface</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <div class="vs-docs-callout">
+      <p>
+        There is no <code>delay</code> prop on purpose: one consistent timing
+        (300ms hover, 0ms focus) across the product. Blade is not covered;
+        <code>x-vs-item-card-action</code> keeps its native <code>title</code>
+        attribute for now. The reports dashboard’s own <code>InfoTip</code>
+        stand-in can move to this component in a separate change.
+      </p>
+    </div>
+    <h2>Design tokens</h2>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Use</th><th>Token</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Surface, text, radius</td><td><code>--vs-color-brand-secondary</code>, <code>--vs-color-surface</code>, <code>--vs-radius-xs</code></td><td>existing</td></tr>
+        <tr><td>Type</td><td><code>--vs-font-family</code>, <code>--vs-font-size-body-sm</code></td><td>existing</td></tr>
+        <tr><td>Trigger focus ring (your control)</td><td><code>--vs-focus-ring-*</code></td><td>existing</td></tr>
+        <tr><td>Elevation</td><td><code>--vs-shadow-none</code> (flat)</td><td>existing</td></tr>
+        <tr><td>Padding, max width, arrow size, gap, margin, z-index, delays, fade</td><td><code>6px 10px</code>, <code>240px</code>, <code>8px</code>, <code>8px</code>, <code>8px</code>, <code>60</code>, <code>300 / 0 / 100ms</code>, <code>120ms</code></td><td><strong>proposed</strong> — literals, no tokens yet</td></tr>
+      </tbody>
+    </table></div>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+<script>
+  /* Docs-only behaviour: a plain-JS copy of Tooltip.tsx + tooltipPosition.ts for the examples above. */
+  (function () {
+    /* computeTooltipPosition:start */
+    function computeTooltipPosition(o) {
+      var gap = o.gap === undefined ? 8 : o.gap, margin = o.margin === undefined ? 8 : o.margin, arrowInset = o.arrowInset === undefined ? 12 : o.arrowInset;
+      var a = o.anchor, size = o.size, vp = o.viewport;
+      var space = { top: a.top - margin, bottom: vp.height - (a.top + a.height) - margin, left: a.left - margin, right: vp.width - (a.left + a.width) - margin };
+      var OPP = { top: 'bottom', bottom: 'top', left: 'right', right: 'left' };
+      var PERP = { top: ['left', 'right'], bottom: ['left', 'right'], left: ['top', 'bottom'], right: ['top', 'bottom'] };
+      var needs = function (s) { return (s === 'top' || s === 'bottom' ? size.height : size.width) + gap; };
+      var candidates = [o.placement, OPP[o.placement]].concat(PERP[o.placement]);
+      var fitting = candidates.find(function (s) { return space[s] >= needs(s); });
+      var side = fitting || candidates.reduce(function (best, cur) { return space[cur] > space[best] ? cur : best; });
+      var cx = a.left + a.width / 2, cy = a.top + a.height / 2, top, left;
+      if (side === 'top' || side === 'bottom') { top = side === 'top' ? a.top - size.height - gap : a.top + a.height + gap; left = cx - size.width / 2; }
+      else { left = side === 'left' ? a.left - size.width - gap : a.left + a.width + gap; top = cy - size.height / 2; }
+      var clamp = function (v, min, max) { return Math.max(min, Math.min(v, max)); };
+      top = clamp(top, margin, Math.max(margin, vp.height - size.height - margin));
+      left = clamp(left, margin, Math.max(margin, vp.width - size.width - margin));
+      var arrow = (side === 'top' || side === 'bottom')
+        ? clamp(cx - left, arrowInset, Math.max(arrowInset, size.width - arrowInset))
+        : clamp(cy - top, arrowInset, Math.max(arrowInset, size.height - arrowInset));
+      return { placement: side, top: top, left: left, arrow: arrow };
+    }
+    /* computeTooltipPosition:end */
+    window.__vsComputeTooltipPosition = computeTooltipPosition;
+
+    function bubbleHtml(text, arrow) {
+      var el = document.createElement('div');
+      el.setAttribute('aria-hidden', 'true');
+      el.textContent = text;
+      if (arrow) { var s = document.createElement('span'); s.className = 'demo-tt__arrow'; el.appendChild(s); }
+      return el;
+    }
+    function place(el, pos, arrowEl) {
+      el.style.top = pos.top + 'px'; el.style.left = pos.left + 'px';
+      el.setAttribute('data-placement', pos.placement);
+      if (arrowEl) {
+        arrowEl.style.left = arrowEl.style.top = '';
+        if (pos.placement === 'top' || pos.placement === 'bottom') arrowEl.style.left = (pos.arrow - 4) + 'px'; else arrowEl.style.top = (pos.arrow - 4) + 'px';
+      }
+    }
+
+    /* Live tooltips: any [data-tip] */
+    var OPEN = 300, CLOSE = 100, uid = 0;
+    document.querySelectorAll('[data-tip]').forEach(function (trigger) {
+      if (trigger.hasAttribute('data-tip-disabled')) return;
+      var text = trigger.getAttribute('data-tip'), placement = trigger.getAttribute('data-placement') || 'top', arrow = !trigger.hasAttribute('data-no-arrow');
+      var id = 'demo-tip-' + (++uid);
+      var sr = document.createElement('span'); sr.id = id; sr.className = 'demo-sr'; sr.setAttribute('role', 'tooltip'); sr.textContent = text;
+      trigger.setAttribute('aria-describedby', ((trigger.getAttribute('aria-describedby') || '') + ' ' + id).trim());
+      trigger.parentNode.insertBefore(sr, trigger.nextSibling);
+      var bubble = null, timer = null;
+      function clear() { if (timer) { clearTimeout(timer); timer = null; } }
+      function update() {
+        if (!bubble) return;
+        var r = trigger.getBoundingClientRect();
+        place(bubble, computeTooltipPosition({ anchor: { top: r.top, left: r.left, width: r.width, height: r.height }, size: { width: bubble.offsetWidth, height: bubble.offsetHeight }, placement: placement, viewport: { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight } }), bubble.querySelector('.demo-tt__arrow'));
+      }
+      function show() {
+        if (bubble) return;
+        if (window.__vsCloseTip) window.__vsCloseTip();
+        window.__vsCloseTip = hideNow;
+        bubble = bubbleHtml(text, arrow); bubble.className = 'demo-tt'; bubble.style.visibility = 'hidden';
+        document.body.appendChild(bubble); update(); bubble.style.visibility = '';
+        bubble.addEventListener('pointerenter', clear);
+        bubble.addEventListener('pointerleave', hideSoon);
+        document.addEventListener('keydown', onKey);
+        window.addEventListener('resize', update); window.addEventListener('scroll', update, true);
+      }
+      function hideNow() {
+        clear();
+        if (window.__vsCloseTip === hideNow) window.__vsCloseTip = null;
+        if (!bubble) return;
+        bubble.remove(); bubble = null;
+        document.removeEventListener('keydown', onKey);
+        window.removeEventListener('resize', update); window.removeEventListener('scroll', update, true);
+      }
+      function hideSoon() { clear(); timer = setTimeout(hideNow, CLOSE); }
+      function onKey(e) { if (e.key === 'Escape') hideNow(); }
+      trigger.addEventListener('pointerenter', function (e) { if (e.pointerType === 'touch') return; clear(); timer = setTimeout(show, OPEN); });
+      trigger.addEventListener('pointerleave', function (e) { if (e.pointerType === 'touch') return; hideSoon(); });
+      trigger.addEventListener('pointerdown', hideNow);
+      trigger.addEventListener('focus', function () { var vis; try { vis = trigger.matches(':focus-visible'); } catch (e) { vis = true; } if (vis) { clear(); show(); } });
+      trigger.addEventListener('blur', hideNow);
+    });
+
+    /* Edge frames: the frame is the viewport, the tooltip stays visible */
+    document.querySelectorAll('.demo-frame-trigger').forEach(function (trigger) {
+      var frame = trigger.parentNode, text = trigger.getAttribute('data-frame-tip'), placement = trigger.getAttribute('data-placement');
+      var bubble = bubbleHtml(text, true); bubble.className = 'demo-tt demo-tt--frame'; bubble.style.maxWidth = Math.min(240, frame.clientWidth - 16) + 'px'; /* the real cap is min(240px, 100vw - 16px) */
+      frame.appendChild(bubble);
+      function layout() {
+        var fr = frame.getBoundingClientRect(), r = trigger.getBoundingClientRect();
+        var pos = computeTooltipPosition({ anchor: { top: r.top - fr.top - frame.clientTop, left: r.left - fr.left - frame.clientLeft, width: r.width, height: r.height }, size: { width: bubble.offsetWidth, height: bubble.offsetHeight }, placement: placement, viewport: { width: frame.clientWidth, height: frame.clientHeight } });
+        place(bubble, pos, bubble.querySelector('.demo-tt__arrow'));
+        trigger.setAttribute('data-used', pos.placement);
+      }
+      layout(); window.addEventListener('resize', layout);
+    });
+  })();
+</script>
+</body>
+</html>
