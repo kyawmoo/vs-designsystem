@@ -65,7 +65,7 @@ export function Tabs({
   const buttons = React.useRef(new Map<string, HTMLButtonElement>());
 
   if (variant === 'segmented') {
-    // The original pill switch, now its own component. Kept here so existing `<Tabs>` imports keep working unchanged.
+    // The original segmented switch, now its own component. Kept here so existing `<Tabs>` imports keep working unchanged.
     return <SegmentedControl tabs={tabs} activeId={activeId} onChange={onChange} size={size} className={className} buttonClassName={buttonClassName} />;
   }
 

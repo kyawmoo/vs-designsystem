@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-10-11 — SegmentedControl: 8px track, 5px buttons (was full pill)
+
+- Master KMO (2026-10-11): the `7 Days / 30 Days / 90 Days` toggle did not follow the design system's radius value; chose "track `--vs-radius-sm`, buttons `--vs-radius-xs`" (the 5px button value was Claude's pick, Master KMO accepted it by trying it).
+- Changed: `.vs-segment-control` -> `var(--vs-radius-sm)` (8px), `.vs-segment-button` -> `var(--vs-radius-xs)` (5px) in `react/src/styles.css`; the demo copies in `docs/components/tabs.html` and `table.html`; wording ("pill") in those docs and the `Tabs.tsx` comment. Blade nav-pills (`.demo-nav-pills`) stay full pills on purpose.
+- Checked: `npm run check:tokens` OK. Chromium on the Tabs and Table docs pages: track 8px / button 5px, no page errors; screenshot looks right.
+- Not verified: the React `SegmentedControl` on the reports site (its own CSS copy and 2 hand-made pill toggles follow in a separate Report PR). Docs-site redeploy.
+
+---
+
 ## 2026-10-11 — Card radius 3px -> 8px (`--vs-card-radius` = `--vs-radius-sm`)
 
 - Master KMO: every box on the reports site must use one radius. `Card` (inline `--vs-card-radius`, 3px) was the odd one next to `SummaryCard` / `TableWidget` (`--vs-radius-sm`, 8px).
