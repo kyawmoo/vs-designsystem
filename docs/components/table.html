@@ -25,8 +25,8 @@
   .demo-table .rank { color: var(--vs-color-text-muted); }
   .demo-table .name { color: var(--vs-color-text-heading); font-weight: 500; }
   .demo-table .strong { font-weight: 600; color: var(--vs-color-text-heading); }
-  .demo-segment-control { display: inline-flex; align-items: center; padding: 0.375rem; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-full); gap: 0.25rem; }
-  .demo-segment-button { padding: 0.375rem 1rem; border-radius: var(--vs-radius-full); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); font-weight: 600; color: var(--vs-color-text-muted); background: transparent; border: none; cursor: pointer; white-space: nowrap; }
+  .demo-segment-control { display: inline-flex; align-items: center; padding: 0.375rem; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); gap: 0.25rem; }
+  .demo-segment-button { padding: 0.375rem 1rem; border-radius: var(--vs-radius-xs); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); font-weight: 600; color: var(--vs-color-text-muted); background: transparent; border: none; cursor: pointer; white-space: nowrap; }
   .demo-segment-button.is-active { background-color: var(--vs-color-brand-primary); color: var(--vs-color-text-on-primary); }
 
   /* Blade — real Bootstrap .table (no striping applied on the real site) + DataTables footer strip */
@@ -273,7 +273,7 @@
         <tr><td>Row hover</td><td>subtle gray tint</td><td><code>hover:bg-gray-50/60</code></td></tr>
         <tr><td>Metric columns</td><td>right-aligned, tabular numerals</td><td><code>text-right tabular-nums</code></td></tr>
         <tr><td>Filter dropdown</td><td>32px high, <code>6px 10px</code> padding, 8px radius, 12px text</td><td>dashboard filter bar</td></tr>
-        <tr><td>Tab pill</td><td>track padding 6px, buttons <code>8px 20px</code>, full radius</td><td><code>.vs-segment-control</code> / <code>.vs-segment-button</code></td></tr>
+        <tr><td>Tab pill</td><td>track padding 6px, buttons <code>8px 20px</code>, track 8px radius, buttons 5px</td><td><code>.vs-segment-control</code> / <code>.vs-segment-button</code></td></tr>
         <tr><td>Accent</td><td><code>#005C55</code> (active tab, active filter, Clear link)</td><td>reports <code>src/index.css</code> — see section 05</td></tr>
         <tr><td><code>bare</code> variant</td><td>no border/radius/shadow/background</td><td>for embedding inside another card</td></tr>
       </tbody>

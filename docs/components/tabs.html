@@ -57,8 +57,8 @@
   .demo-viewport-label { font: 11px SFMono-Regular, Consolas, monospace; color: var(--vs-color-text-body); margin-bottom: 8px; }
   .demo-anatomy { width: 100%; display: flex; flex-direction: column; gap: 10px; }
   .demo-anatomy-key { display: flex; flex-wrap: wrap; gap: 6px 18px; }
-  .demo-segment-control { display: inline-flex; align-items: center; padding: 0.375rem; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-full); gap: 0.25rem; max-width: 100%; overflow-x: auto; flex-wrap: nowrap; }
-  .demo-segment-button { padding: 0.5rem 1.25rem; border-radius: var(--vs-radius-full); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-md); font-weight: 600; color: var(--vs-color-text-muted); background: transparent; border: none; cursor: pointer; white-space: nowrap; }
+  .demo-segment-control { display: inline-flex; align-items: center; padding: 0.375rem; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); gap: 0.25rem; max-width: 100%; overflow-x: auto; flex-wrap: nowrap; }
+  .demo-segment-button { padding: 0.5rem 1.25rem; border-radius: var(--vs-radius-xs); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-md); font-weight: 600; color: var(--vs-color-text-muted); background: transparent; border: none; cursor: pointer; white-space: nowrap; }
   .demo-segment-button:hover:not(.is-active) { color: var(--vs-color-text-heading); background: var(--vs-color-background); }
   .demo-segment-button.is-active { background-color: var(--vs-color-brand-primary); color: var(--vs-color-text-on-primary); }
   .demo-nav-pills { display: flex; gap: 17px; list-style: none; padding: 0; margin: 0; max-width: 100%; overflow-x: auto; flex-wrap: nowrap; }
@@ -105,7 +105,7 @@
       for major sections, secondary tabs for sub-sections. Implemented in
       <code>react/src/components/Tabs.tsx</code>
       (<code>variant="primary"</code> / <code>"secondary"</code> with
-      <code>TabPanel</code>). The pill-shaped switch that used to be exported as
+      <code>TabPanel</code>). The segmented switch (a rounded track with a filled selection) that used to be exported as
       <code>Tabs</code> is now its own component,
       <code>SegmentedControl</code>; see section 06 for when to use which.
     </p>
@@ -235,7 +235,7 @@
       <thead><tr><th></th><th>Tabs (<code>primary</code> / <code>secondary</code>)</th><th><code>SegmentedControl</code> component</th></tr></thead>
       <tbody>
         <tr><td>Job</td><td>Navigate between related content panels</td><td>Pick one compact option, filter or sort</td></tr>
-        <tr><td>Looks like</td><td>Text with an underline indicator</td><td>One bordered track, solid pill for the selection</td></tr>
+        <tr><td>Looks like</td><td>Text with an underline indicator</td><td>One bordered track, solid fill for the selection</td></tr>
         <tr><td>Result of choosing</td><td>A different panel replaces the content below</td><td>The same content is re-sorted or filtered</td></tr>
         <tr><td>Semantics</td><td><code>tablist</code> / <code>tab</code> / <code>tabpanel</code>, arrow keys</td><td>Plain buttons (current <code>.is-active</code> markup)</td></tr>
         <tr><td>Count</td><td>Few (2–6), short labels</td><td>2–4 short options</td></tr>
@@ -307,9 +307,9 @@
     <div style="overflow-x:auto"><table class="vs-docs-table">
       <thead><tr><th>Property</th><th>React (segment control)</th><th>Blade (nav-pills)</th></tr></thead>
       <tbody>
-        <tr><td>Shape</td><td>one bordered track, pill buttons inside</td><td>individual bordered pills, no shared track</td></tr>
+        <tr><td>Shape</td><td>one bordered track, rounded buttons inside</td><td>individual bordered pills, no shared track</td></tr>
         <tr><td>Gap</td><td><code>0.25rem</code> inside the track</td><td><code>17px</code> between pills</td></tr>
-        <tr><td>Radius</td><td><code>--vs-radius-full</code> (track + buttons)</td><td><code>--vs-radius-full</code> (each pill)</td></tr>
+        <tr><td>Radius</td><td><code>--vs-radius-sm</code> track, <code>--vs-radius-xs</code> buttons</td><td><code>--vs-radius-full</code> (each pill)</td></tr>
         <tr><td>Active state</td><td>solid brand-primary bg, dark text (<code>--vs-color-text-on-primary</code>)</td><td>solid brand-primary bg + border, white text, 500 weight</td></tr>
         <tr><td>Inactive border</td><td>none (transparent, track has the border)</td><td><code>1px solid</code> muted text color, per pill</td></tr>
         <tr><td>Source</td><td><code>react/src/styles.css</code> — already shipped in TableWidget</td><td><code>public/themes/basic/assets/css/app.css</code> — <code>.tabs-custom .nav-pills</code></td></tr>
@@ -404,7 +404,7 @@
 <span class="tag">&lt;TabPanel</span> <span class="attr">tabsId</span>=<span class="str">"workspace"</span> <span class="attr">tabId</span>=<span class="str">"overview"</span> <span class="attr">activeId</span>=<span class="tag">{activeId}</span><span class="tag">&gt;</span>…<span class="tag">&lt;/TabPanel&gt;</span>
 <span class="tag">&lt;TabPanel</span> <span class="attr">tabsId</span>=<span class="str">"workspace"</span> <span class="attr">tabId</span>=<span class="str">"products"</span> <span class="attr">activeId</span>=<span class="tag">{activeId}</span><span class="tag">&gt;</span>…<span class="tag">&lt;/TabPanel&gt;</span>
 
-<span class="cmt">// the pill switch (formerly Tabs) is its own component; &lt;Tabs&gt; without a variant is a deprecated alias of it:</span>
+<span class="cmt">// the segmented switch (formerly Tabs) is its own component; &lt;Tabs&gt; without a variant is a deprecated alias of it:</span>
 <span class="tag">&lt;SegmentedControl</span> <span class="attr">tabs</span>=<span class="tag">{tabs}</span> <span class="attr">activeId</span>=<span class="tag">{activeId}</span> <span class="attr">onChange</span>=<span class="tag">{setActiveId}</span> <span class="tag">/&gt;</span></div>
 
     <h2>Usage — Blade</h2>
