@@ -119,7 +119,7 @@ tokens only, so the site's token adapter carries the admin colours into it. Docs
   From 768px the preview sits left (320px, max 40%); below that the card stays stacked, like the site today.
 - **Fluid width** (fills its grid column, no 344.5px); spec v2 text padding (14px), title (16px) and price (18px).
 - **Live-card look kept (Master KMO, 6 Oct 2026):** image full card width (no inner padding), edge-ribbon badge
-  (25px from the top, uppercase), 8px corners (`--vs-item-card-radius`; `--vs-card-radius` stays 3px for the
+  (25px from the top, uppercase), 8px corners (`--vs-item-card-radius`; `--vs-card-radius` is also 8px since 11 Oct 2026, for the
   reports dashboard). vectorsticker.com shows **no download button** on listing cards: free items get the eye
   button only.
 - Hover: border turns brand colour; the card does not move (no lift, Master KMO 6 Oct 2026). Keyboard focus ring

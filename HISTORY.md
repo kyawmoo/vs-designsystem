@@ -6,6 +6,16 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-10-11 — Card radius 3px -> 8px (`--vs-card-radius` = `--vs-radius-sm`)
+
+- Master KMO: every box on the reports site must use one radius. `Card` (inline `--vs-card-radius`, 3px) was the odd one next to `SummaryCard` / `TableWidget` (`--vs-radius-sm`, 8px).
+- Changed: `--vs-card-radius` is now `var(--vs-radius-sm)` (8px) in `tokens/tokens.css` (copied to `docs/assets/tokens.css`); `tokens.json` card.radius and item-card-radius notes; the 3px statements in `docs/components/card.html`, `docs/foundations/spacing-radius.html`, `blade/README.md` and the `Card.tsx` comment. `Card.tsx` code is unchanged (it reads the token); its `style` prop can still override.
+- Open question from the ticket, decided by keeping one token: the card image and badge corners that use `--vs-card-radius` also become 8px (they match the live item card, which already uses `--vs-item-card-radius` 8px).
+- Checked: `npm run check:tokens` OK. Chromium on the docs Card page: the token and the demo card, item card, image, badge and panel all compute to 8px, no page errors (icon CDN blocked in the sandbox).
+- Not verified: the React `Card` rendered on the reports site (the reports site must update its DS pin first).
+
+---
+
 ## 2026-10-06 — Tabs docs rule box: yellow border, very light yellow background
 
 - Master KMO: yellow border all round, very light yellow background, no green left border. The box now uses `--vs-color-warning-border` and `--vs-color-warning-bg` (existing tokens); the "THE RULE" label is heading colour instead of green. Checked in Chromium (screenshot), no console errors, no sideways scroll. Docs-only; needs a docs-site redeploy.

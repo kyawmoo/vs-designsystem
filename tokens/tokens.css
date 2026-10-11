@@ -130,7 +130,7 @@
   --vs-button-pressed-scale: 0.98;
 
   /* ---- Card (spec v2, 25 Sep 2026) ---- */
-  --vs-card-radius: 3px;
+  --vs-card-radius: var(--vs-radius-sm); /* 8px; was 3px until 11 Oct 2026 (one radius for every box) */
   --vs-card-width: 344.5px; /* real vectorsticker.com item card at >=1600px */
   --vs-card-media-ratio: 1 / 1;
   --vs-card-border: #E5E7EB;
@@ -155,7 +155,7 @@
   --vs-card-badge-trending-text: var(--vs-color-surface);
   --vs-card-list-media-width: 320px; /* list layout (item-inline), same as the live site's list image */
   /* Item card corners and badge position = the live vectorsticker.com card (owner's choice, 6 Oct 2026). Separate
-     from --vs-card-radius (3px), which the reports dashboard's cards use. */
+     from --vs-card-radius, which the reports dashboard's cards use (both are 8px now). */
   --vs-item-card-radius: 8px;
   --vs-item-card-badge-top: 25px;
   /* Item card border: lighter than --vs-card-border (#E5E7EB, used by the reports dashboard's Card) so it stays subtle

@@ -15,7 +15,7 @@ export interface CardProps {
 
 /**
  * VectorSticker Card — generic content container for the reports
- * dashboard. Card spec v2: 1px #E5E7EB border, 3px radius, flat. Keeps
+ * dashboard. Card spec v2: 1px #E5E7EB border, 8px radius (--vs-card-radius = --vs-radius-sm), flat. Keeps
  * the bordered, white-surface convention
  * already used by SummaryCard/TableWidget (not the public site's
  * borderless .card-v — that sits on a white page background and relies

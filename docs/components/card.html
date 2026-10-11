@@ -132,7 +132,7 @@
 <main class="vs-docs-main">
   <div class="vs-docs-hero">
     <div class="vs-docs-hero-inner">
-    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Card <span class="vs-docs-tag">$card-item-v2</span> <span class="vs-docs-tag">3px / #e5e7eb</span></p>
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Card <span class="vs-docs-tag">$card-item-v2</span> <span class="vs-docs-tag">8px / #e5e7eb</span></p>
     <h1>Card</h1>
     <p class="vs-docs-hero-lede">
       The item card used across VectorSticker.com listings, plus a generic
@@ -244,7 +244,7 @@
         </div>
       </div>
       <ol class="demo-legend">
-        <li><b>1</b><div><strong>Image</strong><span>1:1 ratio, neutral light-gray backdrop (<code>#f9fafb</code>), 3px radius.</span></div></li>
+        <li><b>1</b><div><strong>Image</strong><span>1:1 ratio, neutral light-gray backdrop (<code>#f9fafb</code>), 8px radius.</span></div></li>
         <li><b>2</b><div><strong>Badge</strong><span>Top-left, overlapping the image, 10px inset, solid badge color.</span></div></li>
         <li><b>3</b><div><strong>Title</strong><span>16px / 500, one line, truncated with an ellipsis.</span></div></li>
         <li><b>4</b><div><strong>Meta</strong><span>“By [author] in [category]”, subdued secondary text.</span></div></li>
@@ -446,7 +446,7 @@
         <div class="vs-docs-example-stage" style="height: auto; padding: 20px; justify-content: flex-start;">
           <div class="demo-card" style="width: 100%;">
             <p class="demo-card-title">React Card</p>
-            <p class="demo-card-body">Bordered — 1px #e5e7eb, 3px radius.</p>
+            <p class="demo-card-body">Bordered — 1px #e5e7eb, 8px radius.</p>
           </div>
         </div>
         <p class="vs-docs-example-label">React <code>&lt;Card&gt;</code><span class="vs-docs-tag">bordered</span></p>
@@ -490,12 +490,12 @@
     <table class="vs-docs-table">
       <thead><tr><th>Property</th><th>Spec v2 (React + tokens)</th><th>Blade today (real site CSS)</th></tr></thead>
       <tbody>
-        <tr><td>Radius</td><td>3px — <code>--vs-card-radius</code></td><td>item card 8px (<code>.item</code>); <code>.card-v</code> 6px</td></tr>
+        <tr><td>Radius</td><td>8px — <code>--vs-card-radius</code> (= <code>--vs-radius-sm</code>)</td><td>item card 8px (<code>.item</code>); <code>.card-v</code> 6px</td></tr>
         <tr><td>Border</td><td>1px solid #e5e7eb — <code>--vs-card-border</code></td><td><code>.card-v</code>: none (blog variant only)</td></tr>
         <tr><td>Padding</td><td>item card 14px · content card 45px (24px mobile) · React Card 20px</td><td>item card body 24px (<code>.item-body</code>); <code>.card-v</code> 35px (45px ≥1200px or blog)</td></tr>
         <tr><td>Width</td><td>344.5px at ≥1600px — <code>--vs-card-width</code></td><td>same (see 00 // Real Size for every breakpoint)</td></tr>
         <tr><td>Image</td><td>1:1, <code>#f9fafb</code> backdrop</td><td>1:1 (<code>custom.css</code>), object-fit: cover</td></tr>
-        <tr><td>Badge</td><td>10px inset, 3px radius, 11px / 600</td><td>edge ribbon: top 25px, left 0, 10px 12px padding</td></tr>
+        <tr><td>Badge</td><td>10px inset, 8px radius, 11px / 600</td><td>edge ribbon: top 25px, left 0, 10px 12px padding</td></tr>
         <tr><td>Title / price</td><td>16px / 500 · 18px / 700</td><td>—</td></tr>
         <tr><td>Hover</td><td>border #4caf50, translateY(-4px)</td><td>—</td></tr>
         <tr><td>Shadow</td><td colspan="2">none — <a href="/foundations/shadow.html">flat design</a> (admin panel is the exception, see section 06)</td></tr>
