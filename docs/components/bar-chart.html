@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bar Chart — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="/assets/demo-kit.css">
+<style>
+  /* Same layout as .vs-line-chart in react/src/styles.css */
+  .demo-chart { width: 100%; min-width: 0; font-family: var(--vs-font-family); }
+  .demo-chart-legend { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px 16px; margin-bottom: 4px; font-size: 12px; color: var(--vs-chart-axis-text); }
+  .demo-chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .demo-chart-swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .demo-chart-canvas { position: relative; width: 100%; height: 280px; }
+  .demo-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 8px; flex-wrap: wrap; }
+  .demo-head strong { font-size: 14px; color: var(--vs-color-text-heading); }
+  .demo-replay { font-family: var(--vs-font-family); font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: var(--vs-radius-xs); border: 1px solid var(--vs-color-border); background: var(--vs-color-surface); color: var(--vs-color-text-heading); cursor: pointer; }
+  .demo-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .demo-kpi { border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); padding: 16px 16px 8px; background: var(--vs-color-surface); min-width: 0; }
+  .demo-kpi-label { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--vs-color-text-muted); }
+  .demo-kpi-value { font-size: 28px; font-weight: 700; color: var(--vs-color-text-heading); font-variant-numeric: tabular-nums; }
+  .demo-kpi-spark { position: relative; height: 56px; }
+  @media (max-width: 760px) { .demo-kpis { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body data-page="bar-chart">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Bar Chart</p>
+    <h1>Bar Chart</h1>
+    <p class="vs-docs-hero-lede">
+      Daily bars on Chart.js with the same chart rules as Line Chart (one
+      column per day, today marked, one empty day after today, missing days
+      left empty). Bars grow in from left to right; parts of a total can be
+      stacked with the day total on top, and a line can be drawn over the bars.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Examples</h2></div>
+      <p class="vs-docs-section-desc">Sample data. Press Replay to watch the animation again.</p>
+    </div>
+    <div class="vs-docs-preview">
+      <div class="demo-head"><strong>stacked + showValues — parts of a day's total, total on top</strong><button class="demo-replay" type="button" data-replay="stacked">↻ Replay</button></div>
+      <div class="demo-chart"><div class="demo-chart-legend"><span><i class="demo-chart-swatch" style="background:var(--vs-chart-series-1)"></i>Free downloads</span><span><i class="demo-chart-swatch" style="background:var(--vs-chart-series-2)"></i>Premium downloads</span></div><div class="demo-chart-canvas"><canvas id="demo-stacked" role="img" aria-label="Free and premium downloads per day, sample data"></canvas></div></div>
+    </div>
+    <div class="vs-docs-preview">
+      <div class="demo-head"><strong>bars + a line (type: 'line') on its own axis</strong><button class="demo-replay" type="button" data-replay="combo">↻ Replay</button></div>
+      <div class="demo-chart"><div class="demo-chart-legend"><span><i class="demo-chart-swatch" style="background:var(--vs-chart-series-2)"></i>Downloads</span><span><i class="demo-chart-swatch" style="background:var(--vs-chart-series-1);height:3px;width:14px"></i>Active users</span></div><div class="demo-chart-canvas"><canvas id="demo-combo" role="img" aria-label="Downloads and active users per day, sample data"></canvas></div></div>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // When to use</span><h2>Bar or Line?</h2></div>
+    </div>
+    <div class="vs-docs-callout">
+      <p><strong>Bar Chart</strong> — counts per day, especially parts of a total (free + premium, Google + Facebook + Email).
+      <strong>Line Chart</strong> — a smooth trend over time where the shape matters more than each day's count.</p>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Behaviour</span><h2>Details</h2></div>
+    </div>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Part</th><th>Behaviour</th></tr></thead>
+      <tbody>
+        <tr><td>Stacked columns</td><td>Rounded corners only on the top part; a 2px surface gap between parts; tooltip footer shows the day total</td></tr>
+        <tr><td>Value labels</td><td>Stacked: the day total above each column. Not stacked: each value above its bar or point. Shown only while every label fits its column; a label that would overlap another is left out</td></tr>
+        <tr><td>Line series</td><td>Drawn over the bars with a soft area, draws left to right; usually on the right axis</td></tr>
+        <tr><td>Animation</td><td>Bars grow from the bottom, one day after another (900ms in total); none with reduced motion</td></tr>
+        <tr><td>Colours</td><td>Same <code>--vs-chart-*</code> tokens as Line Chart</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { BarChart } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;BarChart</span> <span class="attr">stacked</span> <span class="attr">showValues</span>
+  <span class="attr">ariaLabel</span>=<span class="str">"Daily downloads"</span>
+  <span class="attr">dates</span>=<span class="tag">{dates}</span>
+  <span class="attr">series</span>=<span class="tag">{[</span>
+    <span class="tag">{</span> id: <span class="str">'free'</span>, label: <span class="str">'Free downloads'</span>, data: free <span class="tag">}</span>,
+    <span class="tag">{</span> id: <span class="str">'premium'</span>, label: <span class="str">'Premium downloads'</span>, data: premium <span class="tag">}</span>,
+  <span class="tag">]}</span>
+<span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Type</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>dates</code></td><td><code>string[]</code></td><td>"YYYY-MM-DD", one per value, any order</td></tr>
+        <tr><td><code>series</code></td><td><code>{ id, label, data, type?, color?, axis? }[]</code></td><td><code>type</code>: <code>'bar'</code> (default) or <code>'line'</code>; <code>axis: 'right'</code> for a second axis</td></tr>
+        <tr><td><code>stacked</code></td><td><code>boolean</code></td><td>Stack the bar series of a day</td></tr>
+        <tr><td><code>showValues</code></td><td><code>boolean</code></td><td>Totals (stacked) or values above bars / points</td></tr>
+        <tr><td><code>ariaLabel</code></td><td><code>string</code></td><td>Required</td></tr>
+        <tr><td><code>height</code>, <code>showLegend</code>, <code>formatValue</code>, <code>today</code></td><td></td><td>As Line Chart (height default 280)</td></tr>
+      </tbody>
+    </table></div>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+// Docs demo only: the configuration the React BarChart builds, in plain JS.
+(function () {
+  if (!window.Chart) return;
+  var root = getComputedStyle(document.documentElement);
+  var cc = document.createElement('canvas').getContext('2d');
+  function token(n) { cc.fillStyle = '#000'; cc.fillStyle = root.getPropertyValue(n).trim(); return cc.fillStyle; }
+  function alpha(hex, a) { var n = parseInt(hex.slice(1), 16); return 'rgba(' + ((n >> 16) & 255) + ',' + ((n >> 8) & 255) + ',' + (n & 255) + ',' + a + ')'; }
+  var T = { s1: token('--vs-chart-series-1'), s2: token('--vs-chart-series-2'), today: token('--vs-chart-today'), grid: token('--vs-chart-grid'), axis: token('--vs-chart-axis-text'), tip: token('--vs-color-text-heading'), text: token('--vs-color-text-body') };
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var now = new Date(), N = 14, labels = [], todayIndex = N - 1;
+  for (var i = 0; i <= N; i++) { var d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - (N - 1) + i); var l = d.getDate() + ' ' + M[d.getMonth()]; labels.push(i === todayIndex ? l + ' (Today)' : l); }
+  function s(f) { var o = []; for (var i = 0; i <= N; i++) o.push(i > todayIndex ? null : f(i)); return o; }
+  var free = s(function (i) { return 40 + (i * 17) % 30; }); free[8] = null;
+  var prem = s(function (i) { return i % 3; });
+  var users = s(function (i) { return 300 + (i * 53) % 120; });
+  var step = (reduce ? 0 : 900) / labels.length;
+  var anim = reduce ? false : { duration: 600, easing: 'easeOutQuart', delay: function (c) { return c.type === 'data' && c.mode === 'default' ? c.dataIndex * step : 0; } };
+  var todayLine = { id: 'today', afterDatasetsDraw: function (ch) { var x = ch.scales.x.getPixelForValue(todayIndex), a = ch.chartArea, c = ch.ctx; c.save(); c.setLineDash([4, 4]); c.strokeStyle = T.today; c.beginPath(); c.moveTo(x, a.top); c.lineTo(x, a.bottom); c.stroke(); c.restore(); } };
+  function totalsPlugin(totals) { return { id: 'totals', afterDatasetsDraw: function (ch) { var c = ch.ctx; c.save(); c.font = '600 11px Poppins, sans-serif'; c.textAlign = 'center'; c.textBaseline = 'bottom'; c.fillStyle = T.text; totals.forEach(function (t, d) { if (t) c.fillText(t, ch.scales.x.getPixelForValue(d), ch.scales.y.getPixelForValue(t) - 4); }); c.restore(); } }; }
+  function xAxis(stacked) { return { stacked: stacked, grid: { display: false }, border: { display: false }, ticks: { autoSkip: false, maxRotation: 0, color: function (c) { return c.index === todayIndex ? T.today : T.axis; }, font: function (c) { return { size: 11, weight: c.index === todayIndex ? 'bold' : 'normal' }; }, callback: function (v, i) { var st = Math.ceil(labels.length / Math.max(1, Math.floor((this.chart.width || 600) / 100))); return ((todayIndex - i) % st + st) % st === 0 ? labels[i] : ''; } } }; }
+  function yAxis(pos, grid, stacked) { return { position: pos, stacked: stacked, beginAtZero: true, border: { display: false }, grid: { display: grid, color: T.grid }, ticks: { color: T.axis, maxTicksLimit: 5, font: { size: 11 } } }; }
+  var tip = { backgroundColor: T.tip, padding: 10, cornerRadius: 6, usePointStyle: true, boxWidth: 8, boxHeight: 8, filter: function (i) { return i.raw !== null; } };
+  var charts = {};
+  var build = {
+    stacked: function () {
+      var totals = free.map(function (f, i) { return f === null && prem[i] === null ? null : (f || 0) + (prem[i] || 0); });
+      return new Chart(document.getElementById('demo-stacked'), { type: 'bar', data: { labels: labels, datasets: [
+        { label: 'Free downloads', data: free, stack: 't', backgroundColor: T.s1, borderColor: '#fff', borderWidth: function (c) { return (prem[c.dataIndex] || 0) > 0 ? { top: 2 } : 0; }, borderRadius: function (c) { return (prem[c.dataIndex] || 0) > 0 ? 0 : 4; }, borderSkipped: 'bottom', maxBarThickness: 34 },
+        { label: 'Premium downloads', data: prem, stack: 't', backgroundColor: T.s2, borderRadius: 4, borderSkipped: 'bottom', maxBarThickness: 34 }] },
+        options: { maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, animation: anim, layout: { padding: { top: 20, right: 40 } }, plugins: { legend: { display: false }, tooltip: Object.assign({}, tip, { callbacks: { footer: function (it) { var t = totals[it[0].dataIndex]; return t === null ? '' : 'Total: ' + t; } } }) }, scales: { x: xAxis(true), y: yAxis('left', true, true) } },
+        plugins: [todayLine, totalsPlugin(totals)] });
+    },
+    combo: function () {
+      return new Chart(document.getElementById('demo-combo'), { type: 'bar', data: { labels: labels, datasets: [
+        { label: 'Downloads', data: free, yAxisID: 'y1', backgroundColor: T.s2, borderRadius: 4, borderSkipped: 'bottom', maxBarThickness: 34 },
+        { type: 'line', label: 'Active users', data: users, order: -1, borderColor: T.s1, borderWidth: 2.5, tension: .35, fill: 'origin', pointRadius: 0, backgroundColor: function (c) { var a = c.chart.chartArea; if (!a) return 'transparent'; var g = c.chart.ctx.createLinearGradient(0, a.top, 0, a.bottom); g.addColorStop(0, alpha(T.s1, .22)); g.addColorStop(1, alpha(T.s1, 0)); return g; } }] },
+        options: { maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, animation: anim, layout: { padding: { top: 8, right: 8 } }, plugins: { legend: { display: false }, tooltip: tip }, scales: { x: xAxis(false), y: yAxis('left', true, false), y1: yAxis('right', false, false) } },
+        plugins: [todayLine] });
+    }
+  };
+  function run(k) { if (charts[k]) charts[k].destroy(); charts[k] = build[k](); }
+  Object.keys(build).forEach(run);
+  document.querySelectorAll('[data-replay]').forEach(function (b) { b.addEventListener('click', function () { run(b.getAttribute('data-replay')); }); });
+})();
+</script>
+</body>
+</html>

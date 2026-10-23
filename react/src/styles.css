@@ -1022,6 +1022,12 @@
   flex-shrink: 0;
 }
 
+.vs-line-chart-swatch--line {
+  height: 3px;
+  width: 14px;
+  border-radius: 2px;
+}
+
 .vs-line-chart-canvas {
   position: relative;
   width: 100%;
