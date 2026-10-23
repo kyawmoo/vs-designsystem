@@ -6,6 +6,22 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-10-23 — BarChart style A: slim bars, rounded tops, gradient, hover fade
+
+- Asked: Master KMO found the bar design not good (big gaps between bars, especially with few days); from a demo of styles chose A (slim and rounded).
+- Changed (`BarChart.tsx`): bars fill with a soft top-to-bottom gradient, 6px rounded top corners (stacked: only the top part), no 2px gap between stacked parts. Up to 10 days (`BAR_CHART_FEW_DAYS`): wide bars, no width cap (0.94/0.94); more days: up to 28px (0.82/0.9). Hovering a day fades the other days (no redraw animation). Docs `bar-chart.html` demo and behaviour table updated to match.
+- Tests: `BarChart.test.tsx` updated (+2: few vs many days; gradient and hover fade); `npm test` 133/133, `tsc` clean, `check:tokens` OK. Real component bundled and checked in Chromium (30-day stacked with hover, 5-day bars + line); docs page, no page errors.
+
+---
+
+## 2026-10-23 — Charts: whole-number y-axis ticks for counts
+
+- Found while switching the reports Users page to `BarChart`: a chart of small counts (0-2 sign-ups a day) showed y ticks 0.5 and 1.5.
+- Changed: `BarChart` and `LineChart` set `precision: 0` on the y ticks when every value is a whole number (counts); data with decimals keeps decimal ticks.
+- Tests: +1 each in `BarChart.test.tsx` / `LineChart.test.tsx`; `npm test` 131/131, `tsc` clean.
+
+---
+
 ## 2026-10-23 — BarChart (stacked, totals, line overlay, animated); sidebar icons for Drawer / charts
 
 - Asked: Master KMO chose (c): build a design-system bar chart first, then switch the reports dashboard's daily charts (all three are bars or bars + line, so `LineChart` alone could not replace them without losing the stacked totals).

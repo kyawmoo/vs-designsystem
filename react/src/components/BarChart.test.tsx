@@ -67,16 +67,46 @@ describe('BarChart', () => {
     expect(footer([{ dataIndex: 1 }])).toBe('');
   });
 
-  it('rounds only the top part of a stacked column and separates the parts', () => {
+  it('rounds only the top part of a stacked column', () => {
     render(<BarChart dates={DATES} series={[FREE, PREMIUM]} stacked ariaLabel="x" today={TODAY} />);
     const [free, premium] = last().data.datasets;
+    const ROUND = { topLeft: 6, topRight: 6 };
     // 20 Oct: free 3 + premium 1 -> premium is on top
     expect(free.borderRadius(ctxFor(0, 0))).toBe(0);
-    expect(premium.borderRadius(ctxFor(1, 0))).toBe(4);
-    expect(free.borderWidth(ctxFor(0, 0))).toEqual({ top: 2 });
+    expect(premium.borderRadius(ctxFor(1, 0))).toEqual(ROUND);
     // 22 Oct: premium is 0 -> free is the top
-    expect(free.borderRadius(ctxFor(0, 2))).toBe(4);
-    expect(free.borderWidth(ctxFor(0, 2))).toBe(0);
+    expect(free.borderRadius(ctxFor(0, 2))).toEqual(ROUND);
+  });
+
+  it('few days get wide bars without a cap, many days slim capped bars', () => {
+    render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} />);
+    expect(last().data.datasets[0].maxBarThickness).toBeUndefined();
+    expect(last().data.datasets[0].barPercentage).toBe(0.94);
+    cleanup();
+    const many = Array.from({ length: 30 }, (_, i) => `2026-09-${String(i + 1).padStart(2, '0')}`);
+    render(<BarChart dates={many} series={[{ id: 'f', label: 'F', data: many.map(() => 1) }]} ariaLabel="x" today={TODAY} />);
+    expect(last().data.datasets[0].maxBarThickness).toBe(28);
+    expect(last().data.datasets[0].barPercentage).toBe(0.82);
+  });
+
+  it('fills bars with a gradient, and fades the other days while one day is hovered', () => {
+    render(<BarChart dates={DATES} series={[{ ...FREE, color: '#005c55' }]} ariaLabel="x" today={TODAY} />);
+    const c = last();
+    const bg = c.data.datasets[0].backgroundColor;
+    const gradient = { addColorStop: vi.fn() };
+    const ctxOf = (dataIndex: number) => ({ dataIndex, chart: { chartArea: { top: 0, bottom: 100 }, ctx: { createLinearGradient: () => gradient } } });
+    expect(bg(ctxOf(0))).toBe(gradient);
+    expect(gradient.addColorStop).toHaveBeenCalledWith(0, '#005c55');
+    expect(gradient.addColorStop).toHaveBeenCalledWith(1, 'rgba(0, 92, 85, 0.55)');
+    const chart = { update: vi.fn() };
+    c.options.onHover({}, [{ index: 2 }], chart);
+    expect(chart.update).toHaveBeenCalledWith('none');
+    expect(bg(ctxOf(0))).toBe('rgba(0, 92, 85, 0.18)');
+    expect(bg(ctxOf(2))).toBe(gradient);
+    c.options.onHover({}, [{ index: 2 }], chart);
+    expect(chart.update).toHaveBeenCalledTimes(1);
+    c.options.onHover({}, [], chart);
+    expect(bg(ctxOf(0))).toBe(gradient);
   });
 
   it('draws a line series over the bars on its own right axis', () => {
@@ -132,5 +162,13 @@ describe('BarChart', () => {
   it('leaves room for value labels and the (Today) label', () => {
     render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} showValues />);
     expect(last().options.layout.padding).toEqual({ top: 20, right: 40 });
+  });
+
+  it('uses whole-number ticks for counts only', () => {
+    render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} />);
+    expect(last().options.scales.y.ticks.precision).toBe(0);
+    cleanup();
+    render(<BarChart dates={DATES} series={[{ id: 'r', label: 'Rate', data: [0.5, 1.25] }]} ariaLabel="x" today={TODAY} />);
+    expect(last().options.scales.y.ticks.precision).toBeUndefined();
   });
 });
