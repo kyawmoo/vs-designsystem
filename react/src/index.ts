@@ -80,7 +80,7 @@ export type { DrawerProps, DrawerWidth } from './components/Drawer';
 export { LineChart, DEFAULT_SERIES_COLORS, LINE_CHART_DRAW_MS } from './components/LineChart';
 export type { LineChartProps, LineChartSeries, LineChartVariant } from './components/LineChart';
 
-export { BarChart, BAR_CHART_GROW_MS } from './components/BarChart';
+export { BarChart, BAR_CHART_GROW_MS, BAR_CHART_FEW_DAYS } from './components/BarChart';
 export type { BarChartProps, BarChartSeries } from './components/BarChart';
 
 export { AnimatedNumber, ANIMATED_NUMBER_MS } from './components/AnimatedNumber';

@@ -72,7 +72,8 @@
     <div class="demo-scroll"><table class="vs-docs-table">
       <thead><tr><th>Part</th><th>Behaviour</th></tr></thead>
       <tbody>
-        <tr><td>Stacked columns</td><td>Rounded corners only on the top part; a 2px surface gap between parts; tooltip footer shows the day total</td></tr>
+        <tr><td>Bar style</td><td>Slim bars with 6px rounded tops and a soft top-to-bottom gradient. Up to 10 days: wide bars with no width cap; more days: bars up to 28px wide. Hovering a day fades the other days</td></tr>
+        <tr><td>Stacked columns</td><td>Rounded corners only on the top part; tooltip footer shows the day total</td></tr>
         <tr><td>Value labels</td><td>Stacked: the day total above each column. Not stacked: each value above its bar or point. Shown only while every label fits its column; a label that would overlap another is left out</td></tr>
         <tr><td>Line series</td><td>Drawn over the bars with a soft area, draws left to right; usually on the right axis</td></tr>
         <tr><td>Animation</td><td>Bars grow from the bottom, one day after another (900ms in total); none with reduced motion</td></tr>
@@ -134,21 +135,25 @@
   function xAxis(stacked) { return { stacked: stacked, grid: { display: false }, border: { display: false }, ticks: { autoSkip: false, maxRotation: 0, color: function (c) { return c.index === todayIndex ? T.today : T.axis; }, font: function (c) { return { size: 11, weight: c.index === todayIndex ? 'bold' : 'normal' }; }, callback: function (v, i) { var st = Math.ceil(labels.length / Math.max(1, Math.floor((this.chart.width || 600) / 100))); return ((todayIndex - i) % st + st) % st === 0 ? labels[i] : ''; } } }; }
   function yAxis(pos, grid, stacked) { return { position: pos, stacked: stacked, beginAtZero: true, border: { display: false }, grid: { display: grid, color: T.grid }, ticks: { color: T.axis, maxTicksLimit: 5, font: { size: 11 } } }; }
   var tip = { backgroundColor: T.tip, padding: 10, cornerRadius: 6, usePointStyle: true, boxWidth: 8, boxHeight: 8, filter: function (i) { return i.raw !== null; } };
+  // Style A (matches the component): slim bars, rounded tops, gradient, hovering a day fades the others.
+  var TOP = { topLeft: 6, topRight: 6 }, BAR = { borderSkipped: false, maxBarThickness: 28, barPercentage: .82, categoryPercentage: .9 };
+  function fill(col) { return function (c) { var h = c.chart.$hovered; if (h != null && c.dataIndex !== h) return alpha(col, .18); var a = c.chart.chartArea; if (!a) return col; var g = c.chart.ctx.createLinearGradient(0, a.top, 0, a.bottom); g.addColorStop(0, col); g.addColorStop(1, alpha(col, .55)); return g; }; }
+  function onHover(e, act, ch) { var n = act.length ? act[0].index : null; if (n === ch.$hovered) return; ch.$hovered = n; ch.update('none'); }
   var charts = {};
   var build = {
     stacked: function () {
       var totals = free.map(function (f, i) { return f === null && prem[i] === null ? null : (f || 0) + (prem[i] || 0); });
       return new Chart(document.getElementById('demo-stacked'), { type: 'bar', data: { labels: labels, datasets: [
-        { label: 'Free downloads', data: free, stack: 't', backgroundColor: T.s1, borderColor: '#fff', borderWidth: function (c) { return (prem[c.dataIndex] || 0) > 0 ? { top: 2 } : 0; }, borderRadius: function (c) { return (prem[c.dataIndex] || 0) > 0 ? 0 : 4; }, borderSkipped: 'bottom', maxBarThickness: 34 },
-        { label: 'Premium downloads', data: prem, stack: 't', backgroundColor: T.s2, borderRadius: 4, borderSkipped: 'bottom', maxBarThickness: 34 }] },
-        options: { maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, animation: anim, layout: { padding: { top: 20, right: 40 } }, plugins: { legend: { display: false }, tooltip: Object.assign({}, tip, { callbacks: { footer: function (it) { var t = totals[it[0].dataIndex]; return t === null ? '' : 'Total: ' + t; } } }) }, scales: { x: xAxis(true), y: yAxis('left', true, true) } },
+        Object.assign({ label: 'Free downloads', data: free, stack: 't', backgroundColor: fill(T.s1), borderRadius: function (c) { return (prem[c.dataIndex] || 0) > 0 ? 0 : TOP; } }, BAR),
+        Object.assign({ label: 'Premium downloads', data: prem, stack: 't', backgroundColor: fill(T.s2), borderRadius: TOP }, BAR)] },
+        options: { maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, onHover: onHover, animation: anim, layout: { padding: { top: 20, right: 40 } }, plugins: { legend: { display: false }, tooltip: Object.assign({}, tip, { callbacks: { footer: function (it) { var t = totals[it[0].dataIndex]; return t === null ? '' : 'Total: ' + t; } } }) }, scales: { x: xAxis(true), y: yAxis('left', true, true) } },
         plugins: [todayLine, totalsPlugin(totals)] });
     },
     combo: function () {
       return new Chart(document.getElementById('demo-combo'), { type: 'bar', data: { labels: labels, datasets: [
-        { label: 'Downloads', data: free, yAxisID: 'y1', backgroundColor: T.s2, borderRadius: 4, borderSkipped: 'bottom', maxBarThickness: 34 },
+        Object.assign({ label: 'Downloads', data: free, yAxisID: 'y1', backgroundColor: fill(T.s2), borderRadius: TOP }, BAR),
         { type: 'line', label: 'Active users', data: users, order: -1, borderColor: T.s1, borderWidth: 2.5, tension: .35, fill: 'origin', pointRadius: 0, backgroundColor: function (c) { var a = c.chart.chartArea; if (!a) return 'transparent'; var g = c.chart.ctx.createLinearGradient(0, a.top, 0, a.bottom); g.addColorStop(0, alpha(T.s1, .22)); g.addColorStop(1, alpha(T.s1, 0)); return g; } }] },
-        options: { maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, animation: anim, layout: { padding: { top: 8, right: 8 } }, plugins: { legend: { display: false }, tooltip: tip }, scales: { x: xAxis(false), y: yAxis('left', true, false), y1: yAxis('right', false, false) } },
+        options: { maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, onHover: onHover, animation: anim, layout: { padding: { top: 8, right: 8 } }, plugins: { legend: { display: false }, tooltip: tip }, scales: { x: xAxis(false), y: yAxis('left', true, false), y1: yAxis('right', false, false) } },
         plugins: [todayLine] });
     }
   };

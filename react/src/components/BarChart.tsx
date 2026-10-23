@@ -53,6 +53,8 @@ export interface BarChartProps {
 
 /** How long the bars take to grow in, left to right (ms). */
 export const BAR_CHART_GROW_MS = 900;
+/** Up to this many day slots the bars have no width cap (so 5 days fill the chart). */
+export const BAR_CHART_FEW_DAYS = 10;
 const VALUE_FONT = '600 11px Poppins, -apple-system, sans-serif';
 
 /**
@@ -190,6 +192,9 @@ export function BarChart({
     };
 
     const step = (reduce ? 0 : BAR_CHART_GROW_MS) / Math.max(1, count);
+    /** Few days (a short range) get wide bars; FEW_DAYS or fewer slots counts as few. */
+    const few = count <= BAR_CHART_FEW_DAYS;
+    let hovered: number | null = null;
     const allIntegers = rows.every((row) => row.every((v) => v === null || Number.isInteger(v)));
     const yScale = (position: 'left' | 'right', grid: boolean, stack: boolean) => ({
       position,
@@ -241,14 +246,23 @@ export function BarChart({
             data: rows[i],
             yAxisID: axis,
             stack: stacked && s.axis !== 'right' ? 'total' : s.id,
-            backgroundColor: colors[i],
-            hoverBackgroundColor: withAlpha(colors[i], 0.85),
-            borderColor: theme.surface,
-            // A thin surface-coloured gap between stacked parts; round corners only on the top part.
-            borderWidth: (c: any) => (stacked && !isTop(i, c.dataIndex) ? { top: 2 } : 0),
-            borderRadius: (c: any) => (isTop(i, c.dataIndex) ? 4 : 0),
-            borderSkipped: 'bottom',
-            maxBarThickness: 34,
+            // Gradient from the full colour at the top; while one day is hovered, the other days fade.
+            backgroundColor: (c: any) => {
+              if (hovered !== null && c.dataIndex !== hovered) return withAlpha(colors[i], 0.18);
+              const area = c.chart.chartArea;
+              if (!area) return colors[i];
+              const g = c.chart.ctx.createLinearGradient(0, area.top, 0, area.bottom);
+              g.addColorStop(0, colors[i]);
+              g.addColorStop(1, withAlpha(colors[i], 0.55));
+              return g;
+            },
+            // Rounded top only on the top part of a column.
+            borderRadius: (c: any) => (isTop(i, c.dataIndex) ? { topLeft: 6, topRight: 6 } : 0),
+            borderSkipped: false,
+            // Many days: slim bars with a cap. Few days: no cap and a thin gap, so the bars fill the chart.
+            maxBarThickness: few ? undefined : 28,
+            barPercentage: few ? 0.94 : 0.82,
+            categoryPercentage: few ? 0.94 : 0.9,
           } as any;
         }),
       },
@@ -256,6 +270,12 @@ export function BarChart({
         responsive: true,
         maintainAspectRatio: false,
         interaction: { mode: 'index', intersect: false },
+        onHover: (_e: any, active: any[], chart: any) => {
+          const next = active.length ? active[0].index : null;
+          if (next === hovered) return;
+          hovered = next;
+          chart.update('none');
+        },
         animation: reduce
           ? false
           : ({ duration: 600, easing: 'easeOutQuart', delay: (c: any) => (c.type === 'data' && c.mode === 'default' ? c.dataIndex * step : 0) } as any),
