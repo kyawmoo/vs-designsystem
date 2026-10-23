@@ -51,6 +51,15 @@
   --vs-color-item-status-hard-rejected: #D60C0C;
   --vs-color-item-status-deleted: #F44336;
 
+  /* Charts (LineChart). Aliases of existing colours, so no new raw colour; a site may override them
+     (e.g. the reports dashboard's own green). Series are used in order: 1, 2, 3. */
+  --vs-chart-series-1: var(--vs-color-brand-primary);
+  --vs-chart-series-2: var(--vs-color-badge-trending);
+  --vs-chart-series-3: var(--vs-color-badge-free);
+  --vs-chart-today: var(--vs-color-item-status-pending);
+  --vs-chart-grid: var(--vs-color-border);
+  --vs-chart-axis-text: var(--vs-color-text-muted);
+
   /* ---- Typography ---- */
   --vs-font-family: 'Poppins', sans-serif;
   --vs-font-size-body-sm: 13px;

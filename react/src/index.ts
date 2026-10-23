@@ -77,6 +77,12 @@ export type { ModalProps } from './components/Modal';
 export { Drawer, DRAWER_WIDTH } from './components/Drawer';
 export type { DrawerProps, DrawerWidth } from './components/Drawer';
 
+export { LineChart, DEFAULT_SERIES_COLORS, LINE_CHART_DRAW_MS } from './components/LineChart';
+export type { LineChartProps, LineChartSeries, LineChartVariant } from './components/LineChart';
+
+export { AnimatedNumber, ANIMATED_NUMBER_MS } from './components/AnimatedNumber';
+export type { AnimatedNumberProps } from './components/AnimatedNumber';
+
 export { Avatar, getInitials } from './components/Avatar';
 export type { AvatarProps, AvatarSize, AvatarShape } from './components/Avatar';
 

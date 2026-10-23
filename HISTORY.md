@@ -6,6 +6,18 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-10-23 — LineChart (animated, chart rules built in), AnimatedNumber, chart tokens
+
+- Asked: Master KMO liked the look of daisyUI's line charts (a paid product built on ApexCharts) and wants a pretty, animated chart in the design system. Chose (a): rebuild the look on Chart.js (already used by the reports dashboard; no purchase, no second chart library), as a DS component, after approving a demo page.
+- Added: `LineChart` (`react/src/components/LineChart.tsx`): variants `area` (gradient fill, line draws left to right), `line` (lines rise into place, hover crosshair, optional right axis), `sparkline` (no axes/legend/tooltip). Chart rules built in through the pure `lineChartTimeline.ts`: one point per calendar day, today marked (dotted line + bold "(Today)" label, never thinned out), exactly one empty day after today, missing day = null gap (`spanGaps: false`), regular legend. No animation with reduced motion. Equal inline props do not redraw. `AnimatedNumber` (count-up, ease-out, screen readers get the final value, reduced motion shows it at once). `.vs-line-chart*` CSS.
+- Tokens: `--vs-chart-series-1/2/3`, `--vs-chart-today`, `--vs-chart-grid`, `--vs-chart-axis-text` in `tokens/tokens.css` (+ docs copy, `tokens.json`) — aliases of existing colours (brand-primary, badge-trending, badge-free, item-status-pending, border, text-muted), so no new raw colour; a site may override them.
+- Package: `chart.js` `^4.4.0` is a peer dependency (root and `react/package.json`); dev dependency in `react/` for tests.
+- Docs: `docs/components/line-chart.html` (live demos with Replay, rules, tokens, usage, props) and a sidebar entry.
+- Tests: new `lineChartTimeline.test.ts` (10) and `LineChart.test.tsx` (11, Chart.js replaced by a recorder in jsdom); `npm test` 121/121, `tsc` clean, `check:tokens` OK. Mutation checks: no future day (6 fail), gap as 0 (2), spanGaps on (1), reduced motion ignored (1), redraw on every render (1), no "(Today)" label (1). The real component bundled and checked in Chromium (area/line/sparkline, animation mid-way and finished, hover tooltip); docs page at 1400px and 390px, no page errors, no sideways scroll.
+- Not verified: the docs-site redeploy; the reports dashboard using it (switching its charts is a separate change there, chart by chart).
+
+---
+
 ## 2026-10-23 — Drawer component (right-side slide-over panel) and docs (issue 50)
 
 - Asked: Master KMO, "do the design system task for the side panel": the ticket opened on 2026-10-22 when the reports Users page needed a right-side panel (the reports site has a temporary local stand-in, approved by Master KMO).
