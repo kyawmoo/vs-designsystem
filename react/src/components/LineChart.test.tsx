@@ -131,6 +131,16 @@ describe('LineChart', () => {
   });
 });
 
+describe('LineChart ticks', () => {
+  it('uses whole-number ticks for counts only', () => {
+    render(<LineChart dates={DATES} series={SERIES} ariaLabel="x" today={TODAY} />);
+    expect(last().options.scales.y.ticks.precision).toBe(0);
+    cleanup();
+    render(<LineChart dates={DATES} series={[{ id: 'r', label: 'Rate', data: [0.5, 1, 2.5] }]} ariaLabel="x" today={TODAY} />);
+    expect(last().options.scales.y.ticks.precision).toBeUndefined();
+  });
+});
+
 describe('withAlpha', () => {
   it('adds an alpha to hex and rgb colours and leaves anything else alone', () => {
     expect(withAlpha('#005c55', 0.3)).toBe('rgba(0, 92, 85, 0.3)');

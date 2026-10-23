@@ -6,6 +6,14 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-10-23 — Charts: whole-number y-axis ticks for counts
+
+- Found while switching the reports Users page to `BarChart`: a chart of small counts (0-2 sign-ups a day) showed y ticks 0.5 and 1.5.
+- Changed: `BarChart` and `LineChart` set `precision: 0` on the y ticks when every value is a whole number (counts); data with decimals keeps decimal ticks.
+- Tests: +1 each in `BarChart.test.tsx` / `LineChart.test.tsx`; `npm test` 131/131, `tsc` clean.
+
+---
+
 ## 2026-10-23 — BarChart (stacked, totals, line overlay, animated); sidebar icons for Drawer / charts
 
 - Asked: Master KMO chose (c): build a design-system bar chart first, then switch the reports dashboard's daily charts (all three are bars or bars + line, so `LineChart` alone could not replace them without losing the stacked totals).

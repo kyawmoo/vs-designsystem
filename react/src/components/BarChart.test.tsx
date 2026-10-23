@@ -133,4 +133,12 @@ describe('BarChart', () => {
     render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} showValues />);
     expect(last().options.layout.padding).toEqual({ top: 20, right: 40 });
   });
+
+  it('uses whole-number ticks for counts only', () => {
+    render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} />);
+    expect(last().options.scales.y.ticks.precision).toBe(0);
+    cleanup();
+    render(<BarChart dates={DATES} series={[{ id: 'r', label: 'Rate', data: [0.5, 1.25] }]} ariaLabel="x" today={TODAY} />);
+    expect(last().options.scales.y.ticks.precision).toBeUndefined();
+  });
 });

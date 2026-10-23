@@ -190,13 +190,15 @@ export function BarChart({
     };
 
     const step = (reduce ? 0 : BAR_CHART_GROW_MS) / Math.max(1, count);
+    const allIntegers = rows.every((row) => row.every((v) => v === null || Number.isInteger(v)));
     const yScale = (position: 'left' | 'right', grid: boolean, stack: boolean) => ({
       position,
       stacked: stack,
       beginAtZero: true,
       border: { display: false },
       grid: { display: grid, color: theme.grid },
-      ticks: { color: theme.axis, maxTicksLimit: 5, font: { size: 11 }, callback: (v: string | number) => formatRef.current(Number(v)) },
+      // Whole-number data (counts) gets whole-number ticks: no 0.5 users.
+      ticks: { color: theme.axis, maxTicksLimit: 5, precision: allIntegers ? 0 : undefined, font: { size: 11 }, callback: (v: string | number) => formatRef.current(Number(v)) },
     });
 
     const config: ChartConfiguration<'bar', (number | null)[], string> = {
