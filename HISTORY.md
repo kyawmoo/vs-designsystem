@@ -6,6 +6,16 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-10-23 — BarChart (stacked, totals, line overlay, animated); sidebar icons for Drawer / charts
+
+- Asked: Master KMO chose (c): build a design-system bar chart first, then switch the reports dashboard's daily charts (all three are bars or bars + line, so `LineChart` alone could not replace them without losing the stacked totals).
+- Added: `BarChart` (`react/src/components/BarChart.tsx`), sharing the timeline rules with LineChart (one column per day, today dotted line + bold "(Today)", one empty day after today, missing days empty). Options: `stacked` (parts of a day's total; rounded corners only on the top part, 2px surface gap, tooltip footer "Total"), `showValues` (stacked: day totals; else each value; shown only while every label fits its column, overlapping labels left out), series `type: 'line'` drawn over the bars with a soft area (draws left to right), `axis: 'right'`. Bars grow from the bottom one day after another (900ms in total); no animation with reduced motion. Equal inline props do not redraw. Shared helpers moved to `chartShared.ts` (LineChart unchanged in behaviour).
+- Docs: `docs/components/bar-chart.html` (stacked and bars + line demos with Replay, bar or line?, behaviour, usage, props); sidebar entries. Fixed: the sidebar icons for Drawer, Line Chart and Bar Chart were missing from the docs icon set (`panel-right`, `chart-line`, `chart-column` added, lucide 0.546).
+- Tests: new `BarChart.test.tsx` (8); `npm test` 129/129, `tsc` clean, `check:tokens` OK. The real component bundled and checked in Chromium (stacked with totals, bars + line with value labels, three-part stack, tooltip with Total; mid-animation and finished); docs page at 1400px and 390px, no page errors, no sideways scroll.
+- Not verified: the docs-site redeploy.
+
+---
+
 ## 2026-10-23 — LineChart (animated, chart rules built in), AnimatedNumber, chart tokens
 
 - Asked: Master KMO liked the look of daisyUI's line charts (a paid product built on ApexCharts) and wants a pretty, animated chart in the design system. Chose (a): rebuild the look on Chart.js (already used by the reports dashboard; no purchase, no second chart library), as a DS component, after approving a demo page.
