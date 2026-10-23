@@ -33,6 +33,7 @@
         { id: 'filter-bar', label: 'Filter Bar', href: '/components/filter-bar.html', icon: 'filter' },
         { id: 'navigation', label: 'Navigation', href: '/components/navigation.html', icon: 'chevrons-right' },
         { id: 'modal', label: 'Modal', href: '/components/modal.html', icon: 'app-window' },
+        { id: 'drawer', label: 'Drawer', href: '/components/drawer.html', icon: 'panel-right' },
         { id: 'toast', label: 'Toast', href: '/components/toast.html', icon: 'bell' },
         { id: 'tooltip', label: 'Tooltip', href: '/components/tooltip.html', icon: 'message-square' },
         { id: 'form-elements', label: 'All Form Elements', href: '/components/form-elements.html', icon: 'panels-top-left' },
