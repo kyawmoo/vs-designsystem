@@ -6,6 +6,17 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-10-23 — Drawer component (right-side slide-over panel) and docs (issue 50)
+
+- Asked: Master KMO, "do the design system task for the side panel": the ticket opened on 2026-10-22 when the reports Users page needed a right-side panel (the reports site has a temporary local stand-in, approved by Master KMO).
+- Added: `Drawer` (`react/src/components/Drawer.tsx`, exported with `DRAWER_WIDTH`, `DrawerProps`, `DrawerWidth`) and `.vs-drawer-*` CSS in `react/src/styles.css` (tokens; overlay and shadow are the same literals as Modal; reuses `.vs-modal-close`). Props: `open`, `onClose`, `title` (required; heading and dialog name), optional `header` (custom header, title then only names the dialog), `footer` (stays at the bottom), `width` `sm` 400px / `md` 520px (default; the ticket's open question, chosen to match the approved reports mockup), `className`. Overlay click / Escape / close button close; focus goes in on open, Tab wraps inside, focus returns to the opener; page scroll locked while open; 200ms slide-in, none with reduced motion; full width on narrow screens; safe-area insets.
+- Docs: `docs/components/drawer.html` (live demo md/sm, anatomy, Drawer or Modal?, measurements, behaviour, usage, props) and a sidebar entry in `docs/assets/shell.js`.
+- Tests: new `Drawer.test.tsx` (11); `npm test` 100/100, `tsc` clean, `check:tokens` OK. Mutation checks: no Escape (3 fail), no focus return (1), no Tab trap (1), no scroll lock (1), click inside closes (1), focus stolen on re-render (1). Docs page in Chromium at 1400px and 390px: opens, focus on close, Escape closes, panel full width at 390px, no sideways scroll, no page errors.
+- Not verified: the docs-site redeploy; the reports site using it (replacing its stand-in is a separate change there).
+- React only; no Blade drawer (out of scope).
+
+---
+
 ## 2026-10-11 — SegmentedControl: 8px track, 5px buttons (was full pill)
 
 - Master KMO (2026-10-11): the `7 Days / 30 Days / 90 Days` toggle did not follow the design system's radius value; chose "track `--vs-radius-sm`, buttons `--vs-radius-xs`" (the 5px button value was Claude's pick, Master KMO accepted it by trying it).

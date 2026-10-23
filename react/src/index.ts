@@ -74,6 +74,9 @@ export type { FilterBarProps } from './components/FilterBar';
 export { Modal } from './components/Modal';
 export type { ModalProps } from './components/Modal';
 
+export { Drawer, DRAWER_WIDTH } from './components/Drawer';
+export type { DrawerProps, DrawerWidth } from './components/Drawer';
+
 export { Avatar, getInitials } from './components/Avatar';
 export type { AvatarProps, AvatarSize, AvatarShape } from './components/Avatar';
 

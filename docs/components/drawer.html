@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Drawer — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="/assets/demo-kit.css">
+<style>
+  /* Same values as .vs-drawer-* in react/src/styles.css */
+  .demo-drawer-root { position: fixed; inset: 0; z-index: 50; }
+  .demo-drawer-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(2px); animation: demo-fade 200ms ease-out; }
+  .demo-drawer-panel { position: absolute; top: 0; right: 0; bottom: 0; width: 520px; max-width: 100%; display: flex; flex-direction: column; box-sizing: border-box; background: var(--vs-color-surface); border-left: 1px solid var(--vs-color-border); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); font-family: var(--vs-font-family); animation: demo-slide 200ms ease-out; }
+  .demo-drawer-panel.is-sm { width: 400px; }
+  .demo-drawer-header { display: flex; align-items: flex-start; gap: 0.75rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--vs-color-border); }
+  .demo-drawer-title { flex: 1; min-width: 0; margin: 0; font-size: 20px; font-weight: 700; color: var(--vs-color-text-heading); }
+  .demo-drawer-close { flex-shrink: 0; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: none; border-radius: var(--vs-radius-xs); background: transparent; color: var(--vs-color-text-muted); cursor: pointer; font-size: 18px; }
+  .demo-drawer-close:hover { color: var(--vs-color-text-heading); background: var(--vs-color-background); }
+  .demo-drawer-body { flex: 1; min-height: 0; overflow-y: auto; padding: 1.25rem; color: var(--vs-color-text-body); font-size: var(--vs-font-size-body-sm); }
+  .demo-drawer-footer { padding: 0.75rem 1.25rem; border-top: 1px solid var(--vs-color-border); font-size: 12px; color: var(--vs-color-text-muted); }
+  .demo-drawer-row { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--vs-color-border); }
+  .demo-drawer-row strong { color: var(--vs-color-text-heading); }
+  .demo-open-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .demo-open-btn { font-family: var(--vs-font-family); font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: var(--vs-radius-sm); border: 1px solid var(--vs-color-border); background: var(--vs-color-surface); color: var(--vs-color-text-heading); cursor: pointer; }
+  .demo-stage { position: relative; height: 260px; overflow: hidden; border-radius: var(--vs-radius-sm); background: var(--vs-color-background); border: 1px solid var(--vs-color-border); }
+  .demo-stage .demo-drawer-overlay, .demo-stage .demo-drawer-panel { animation: none; }
+  .demo-stage .demo-drawer-panel { width: 55%; }
+  @keyframes demo-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes demo-slide { from { transform: translateX(100%); } to { transform: translateX(0); } }
+  @media (prefers-reduced-motion: reduce) { .demo-drawer-overlay, .demo-drawer-panel { animation: none; } }
+</style>
+</head>
+<body data-page="drawer">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Drawer</p>
+    <h1>Drawer</h1>
+    <p class="vs-docs-hero-lede">
+      A full-height panel that slides in from the right edge over a dimmed
+      overlay — for the details of one row (a user, an event) without leaving
+      the page. Same overlay and close button as <code>Modal</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">Open it, then close with ✕, Escape or a click on the dimmed area.</p>
+    </div>
+    <div class="vs-docs-preview">
+      <div class="demo-open-row">
+        <button type="button" class="demo-open-btn" data-open="md">Open drawer (md, 520px)</button>
+        <button type="button" class="demo-open-btn" data-open="sm">Open drawer (sm, 400px)</button>
+      </div>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Anatomy</span><h2>Anatomy</h2></div>
+      <p class="vs-docs-section-desc">Header (title or custom header + close), scrolling body, optional fixed footer.</p>
+    </div>
+    <div class="vs-docs-preview">
+      <div class="demo-stage" aria-hidden="true">
+        <div class="demo-drawer-overlay"></div>
+        <div class="demo-drawer-panel">
+          <div class="demo-drawer-header"><p class="demo-drawer-title">Header</p><span class="demo-drawer-close">✕</span></div>
+          <div class="demo-drawer-body">Body — scrolls on its own when the content is long.</div>
+          <div class="demo-drawer-footer">Footer — stays at the bottom (e.g. pagination)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // When to use</span><h2>Drawer or Modal?</h2></div>
+    </div>
+    <div class="vs-docs-callout">
+      <p>
+        <strong>Drawer</strong> — details or a long list about one row, read
+        next to the page it came from (a user's downloaded images, an event's
+        history). <strong>Modal</strong> — a short, focused task or message
+        (reset a password, confirm a delete).
+      </p>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Measurement Guide</span><h2>Measurement Guide</h2></div>
+    </div>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Width</td><td><code>sm</code> 400px / <code>md</code> 520px (default); full width on narrower screens</td><td><code>width</code> prop, <code>max-width: 100%</code></td></tr>
+        <tr><td>Overlay</td><td><code>rgba(0,0,0,0.5)</code> + 2px blur</td><td>same as Modal</td></tr>
+        <tr><td>Panel</td><td>surface, 1px left border, full height</td><td><code>--vs-color-surface</code>, <code>--vs-color-border</code></td></tr>
+        <tr><td>Shadow</td><td><code>0 25px 50px -12px rgba(0,0,0,0.25)</code></td><td>same as Modal (floating overlay)</td></tr>
+        <tr><td>Header / footer padding</td><td><code>16px 20px</code> / <code>12px 20px</code></td><td>divided by <code>--vs-color-border</code></td></tr>
+        <tr><td>Body padding</td><td><code>20px</code>, scrolls</td><td></td></tr>
+        <tr><td>Close button</td><td>32×32px, 5px radius</td><td><code>.vs-modal-close</code>, <code>--vs-radius-xs</code></td></tr>
+        <tr><td>Open animation</td><td>200ms slide-in, none with reduced motion</td><td><code>prefers-reduced-motion</code></td></tr>
+        <tr><td>Phone edges</td><td>safe-area insets top / bottom / right</td><td><code>env(safe-area-inset-*)</code></td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">05 // Accessibility</span><h2>Behaviour</h2></div>
+    </div>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Action</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Open</td><td>Focus moves to the close button; the page behind stops scrolling</td></tr>
+        <tr><td>Tab / Shift+Tab</td><td>Stays inside the panel (wraps around)</td></tr>
+        <tr><td>Escape, ✕, click on the overlay</td><td>Calls <code>onClose</code></td></tr>
+        <tr><td>Close</td><td>Focus returns to the element that opened it; page scroll restored</td></tr>
+        <tr><td>Screen readers</td><td><code>role="dialog"</code>, <code>aria-modal="true"</code>, named by <code>title</code> (also when a custom <code>header</code> is shown)</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Drawer, Pagination } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;Drawer</span>
+  <span class="attr">open</span>=<span class="tag">{selected !== null}</span>
+  <span class="attr">onClose</span>=<span class="tag">{()</span> =&gt; setSelected(<span class="tag">null</span>)<span class="tag">}</span>
+  <span class="attr">title</span>=<span class="str">"member4"</span>
+  <span class="attr">footer</span>=<span class="tag">{&lt;Pagination</span> <span class="attr">page</span>=<span class="tag">{page}</span> <span class="attr">totalPages</span>=<span class="tag">{25}</span> <span class="attr">onPageChange</span>=<span class="tag">{setPage}</span> <span class="tag">/&gt;}</span>
+<span class="tag">&gt;</span>
+  <span class="cmt">{/* the user's downloaded images */}</span>
+<span class="tag">&lt;/Drawer&gt;</span></div>
+
+    <h2>Props</h2>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Type</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>open</code> / <code>onClose</code></td><td><code>boolean</code> / <code>() =&gt; void</code></td><td>Renders nothing while closed</td></tr>
+        <tr><td><code>title</code></td><td><code>ReactNode</code></td><td>Required. Header heading, and the dialog's name</td></tr>
+        <tr><td><code>header</code></td><td><code>ReactNode</code></td><td>Optional custom header (avatar, badges) shown instead of the title heading</td></tr>
+        <tr><td><code>footer</code></td><td><code>ReactNode</code></td><td>Optional; stays at the bottom while the body scrolls</td></tr>
+        <tr><td><code>width</code></td><td><code>'sm' | 'md'</code></td><td>400px / 520px, default <code>'md'</code></td></tr>
+        <tr><td><code>className</code></td><td><code>string</code></td><td>Added to the panel</td></tr>
+      </tbody>
+    </table></div>
+    <p class="vs-docs-section-desc">React only for now. The main site (Blade) has no drawer yet.</p>
+
+  </div>
+  </div>
+</main>
+
+<div class="demo-drawer-root" id="demo-drawer" hidden>
+  <div class="demo-drawer-overlay" data-close></div>
+  <div class="demo-drawer-panel" role="dialog" aria-modal="true" aria-labelledby="demo-drawer-title">
+    <div class="demo-drawer-header">
+      <h2 class="demo-drawer-title" id="demo-drawer-title">member4</h2>
+      <button type="button" class="demo-drawer-close" aria-label="Close" data-close>✕</button>
+    </div>
+    <div class="demo-drawer-body">
+      <div class="demo-drawer-row"><span>Downloads</span><strong>510</strong></div>
+      <div class="demo-drawer-row"><span>Different images</span><strong>500</strong></div>
+      <div class="demo-drawer-row"><span>Favorites</span><strong>3</strong></div>
+      <p>Sample content. The body scrolls on its own; the footer stays put.</p>
+    </div>
+    <div class="demo-drawer-footer">1–20 of 500 images</div>
+  </div>
+</div>
+
+<script src="/assets/shell.js"></script>
+<script>
+(function () {
+  var root = document.getElementById('demo-drawer');
+  var panel = root.querySelector('.demo-drawer-panel');
+  var closeBtn = root.querySelector('.demo-drawer-close');
+  var opener = null;
+  function close() {
+    root.hidden = true;
+    document.body.style.overflow = '';
+    if (opener) opener.focus();
+  }
+  document.querySelectorAll('[data-open]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      opener = btn;
+      panel.classList.toggle('is-sm', btn.getAttribute('data-open') === 'sm');
+      root.hidden = false;
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    });
+  });
+  root.querySelectorAll('[data-close]').forEach(function (el) { el.addEventListener('click', close); });
+  document.addEventListener('keydown', function (e) {
+    if (root.hidden) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'Tab') { e.preventDefault(); closeBtn.focus(); }
+  });
+})();
+</script>
+</body>
+</html>
