@@ -6,6 +6,14 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-10-23 — Docs site deployed (ds.vectorsticker.com at `43823a8`)
+
+- Master KMO asked to deploy everything done today. The docs site is not a git clone (see the reports repo archive, 2026-09-24): ran on the server a shallow clone of `main` (`43823a8`) to a temp dir, backup `/var/www/ds.vectorsticker.com.bak-<date-time>`, `rsync -rt docs/` into `/var/www/ds.vectorsticker.com`, `chown -R www-data:www-data`, temp dir removed. `components/bar-chart.html` HTTP 200.
+- This brings the docs-site redeploys flagged as "not verified" in earlier entries (Drawer, Line Chart, Bar Chart, sidebar icons and older docs-only changes) up to date. No Apache restart; the main site and reports site were not touched by this step.
+- Not verified by Claude: the pages in a browser.
+
+---
+
 ## 2026-10-23 — BarChart style A: slim bars, rounded tops, gradient, hover fade
 
 - Asked: Master KMO found the bar design not good (big gaps between bars, especially with few days); from a demo of styles chose A (slim and rounded).
