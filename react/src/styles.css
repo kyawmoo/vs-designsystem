@@ -1331,3 +1331,102 @@
   background: linear-gradient(90deg, var(--vs-rc-band-preview) 50%, transparent 50%);
 }
 
+/* Date Range Selector: Custom button and the picker (Popover with a RangeCalendar). */
+.vs-date-range__sep {
+  flex-shrink: 0;
+  width: 1px;
+  height: 20px;
+  margin: 0 0.125rem;
+  background: var(--vs-color-border);
+}
+
+.vs-drp {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.vs-drp-fields {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.vs-drp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 9rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--vs-color-border);
+  border-radius: var(--vs-radius-sm);
+}
+
+.vs-drp-field-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--vs-color-text-body);
+}
+
+.vs-drp-field-value {
+  font-size: var(--vs-font-size-body-sm);
+  font-weight: 500;
+  color: var(--vs-color-text-heading);
+}
+
+.vs-drp-arrow {
+  flex-shrink: 0;
+  color: var(--vs-color-text-body);
+}
+
+.vs-drp-count {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--vs-color-brand-primary-text);
+}
+
+.vs-drp-count:empty {
+  display: none;
+}
+
+.vs-drp-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--vs-color-border);
+}
+
+.vs-drp-help {
+  display: flex;
+  flex: 1 1 220px;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: var(--vs-font-size-body-sm);
+  color: var(--vs-color-text-body);
+}
+
+.vs-drp-help svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.vs-drp-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.vs-popover--sheet .vs-drp-actions {
+  width: 100%;
+}
+
+.vs-popover--sheet .vs-drp-actions > * {
+  flex: 1;
+}
+

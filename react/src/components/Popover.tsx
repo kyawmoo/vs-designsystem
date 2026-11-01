@@ -28,7 +28,7 @@ const MARGIN = 8;
 const cx = (...parts: Array<string | false | null | undefined>) => parts.filter(Boolean).join(' ');
 
 /** True while the viewport is narrower than `below` px. Both mode and listener are safe without `matchMedia` (tests, old browsers). */
-function useIsNarrow(below: number): boolean {
+export function useIsNarrow(below: number): boolean {
   const query = `(max-width: ${below - 1}px)`;
   const read = () => (typeof window !== 'undefined' && typeof window.matchMedia === 'function' ? window.matchMedia(query).matches : false);
   const [narrow, setNarrow] = React.useState(read);
