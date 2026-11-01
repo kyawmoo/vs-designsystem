@@ -79,7 +79,7 @@ export {
 } from './components/rangeCalendarDates';
 export type { IsoDate, WeekStart } from './components/rangeCalendarDates';
 
-export { DateRangeSelector, DATE_RANGE_PRESETS } from './components/DateRangeSelector';
+export { DateRangeSelector, DATE_RANGE_PRESETS, DATE_RANGE_CUSTOM_ID } from './components/DateRangeSelector';
 export type { DateRangeSelectorProps, DateRangeOption } from './components/DateRangeSelector';
 
 /** `Tabs` with no `variant` is the deprecated alias of SegmentedControl; `variant="primary" | "secondary"` are real tabs. */
