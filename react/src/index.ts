@@ -67,6 +67,18 @@ export type { SegmentedControlProps, SegmentedControlItem } from './components/S
 export { Popover } from './components/Popover';
 export type { PopoverProps, PopoverAlign } from './components/Popover';
 
+export { RangeCalendar } from './components/RangeCalendar';
+export type { RangeCalendarProps, DateRangeValue } from './components/RangeCalendar';
+export {
+  addDays,
+  daysInclusive,
+  formatDMY,
+  formatRangeLabel,
+  isIsoDate,
+  todayIsoDate,
+} from './components/rangeCalendarDates';
+export type { IsoDate, WeekStart } from './components/rangeCalendarDates';
+
 export { DateRangeSelector, DATE_RANGE_PRESETS } from './components/DateRangeSelector';
 export type { DateRangeSelectorProps, DateRangeOption } from './components/DateRangeSelector';
 

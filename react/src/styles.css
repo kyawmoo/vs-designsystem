@@ -1179,3 +1179,155 @@
   }
 }
 
+/* Range Calendar: From / To day picker, one or two months side by side. Days are 40px circles in 44px rows (touch size);
+   the band behind a range is a tint of the brand colour. */
+.vs-range-calendar {
+  --vs-rc-band: color-mix(in srgb, var(--vs-color-brand-primary) 22%, var(--vs-color-surface));
+  --vs-rc-band-preview: color-mix(in srgb, var(--vs-color-brand-primary) 10%, var(--vs-color-surface));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2.5rem;
+  font-family: var(--vs-font-family);
+}
+
+.vs-rc-month {
+  flex: 1 1 280px;
+  min-width: 0;
+  max-width: 360px;
+}
+
+.vs-rc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vs-rc-nav,
+.vs-rc-nav-spacer {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.vs-rc-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--vs-radius-sm);
+  background: transparent;
+  color: var(--vs-color-text-heading);
+  cursor: pointer;
+}
+
+.vs-rc-nav:hover:not(:disabled) {
+  background: var(--vs-color-background);
+}
+
+.vs-rc-nav:disabled {
+  color: var(--vs-color-text-muted);
+  cursor: not-allowed;
+}
+
+.vs-rc-nav:focus-visible,
+.vs-rc-day:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: var(--vs-focus-ring-offset);
+}
+
+.vs-rc-title {
+  font-size: var(--vs-font-size-body-sm);
+  font-weight: 600;
+  color: var(--vs-color-text-heading);
+}
+
+.vs-rc-weekdays,
+.vs-rc-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.vs-rc-weekday {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--vs-color-text-body);
+}
+
+.vs-rc-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+}
+
+.vs-rc-day {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--vs-radius-full);
+  background: transparent;
+  font-family: var(--vs-font-family);
+  font-size: var(--vs-font-size-body-sm);
+  font-weight: 500;
+  color: var(--vs-color-text-body);
+  cursor: pointer;
+}
+
+.vs-rc-day:hover:not(:disabled):not(.is-selected) {
+  background: var(--vs-color-background);
+}
+
+.vs-rc-day.is-today:not(.is-selected),
+.vs-rc-day.is-hover:not(.is-selected) {
+  box-shadow: inset 0 0 0 1.5px var(--vs-color-brand-primary);
+}
+
+.vs-rc-day.is-selected {
+  background: var(--vs-color-brand-primary);
+  color: var(--vs-color-text-on-primary);
+  font-weight: 600;
+}
+
+.vs-rc-day:disabled {
+  color: var(--vs-color-text-muted);
+  cursor: not-allowed;
+}
+
+/* The band: the days between the two ends, rounded at the start and end of each week row; the two end cells are half a band. */
+.vs-rc-cell.is-in {
+  background: var(--vs-rc-band);
+}
+
+.vs-rc-cell.is-in.is-row-start {
+  border-radius: 22px 0 0 22px;
+}
+
+.vs-rc-cell.is-in.is-row-end {
+  border-radius: 0 22px 22px 0;
+}
+
+.vs-rc-cell.is-start:not(.is-end):not(.is-row-end) {
+  background: linear-gradient(90deg, transparent 50%, var(--vs-rc-band) 50%);
+}
+
+.vs-rc-cell.is-end:not(.is-start):not(.is-row-start) {
+  background: linear-gradient(90deg, var(--vs-rc-band) 50%, transparent 50%);
+}
+
+.vs-rc-cell.is-preview.is-in {
+  background: var(--vs-rc-band-preview);
+}
+
+.vs-rc-cell.is-preview.is-start:not(.is-end):not(.is-row-end) {
+  background: linear-gradient(90deg, transparent 50%, var(--vs-rc-band-preview) 50%);
+}
+
+.vs-rc-cell.is-preview.is-end:not(.is-start):not(.is-row-start) {
+  background: linear-gradient(90deg, var(--vs-rc-band-preview) 50%, transparent 50%);
+}
+

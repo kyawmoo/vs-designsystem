@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Range Calendar — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="/assets/demo-kit.css">
+<style>
+  /* Same rules as .vs-range-calendar / .vs-rc-* in react/src/styles.css (copied). The markup below is the real component rendered to HTML. */
+/* Range Calendar: From / To day picker, one or two months side by side. Days are 40px circles in 44px rows (touch size);
+   the band behind a range is a tint of the brand colour. */
+.vs-range-calendar {
+  --vs-rc-band: color-mix(in srgb, var(--vs-color-brand-primary) 22%, var(--vs-color-surface));
+  --vs-rc-band-preview: color-mix(in srgb, var(--vs-color-brand-primary) 10%, var(--vs-color-surface));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2.5rem;
+  font-family: var(--vs-font-family);
+}
+
+.vs-rc-month {
+  flex: 1 1 280px;
+  min-width: 0;
+  max-width: 360px;
+}
+
+.vs-rc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vs-rc-nav,
+.vs-rc-nav-spacer {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.vs-rc-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--vs-radius-sm);
+  background: transparent;
+  color: var(--vs-color-text-heading);
+  cursor: pointer;
+}
+
+.vs-rc-nav:hover:not(:disabled) {
+  background: var(--vs-color-background);
+}
+
+.vs-rc-nav:disabled {
+  color: var(--vs-color-text-muted);
+  cursor: not-allowed;
+}
+
+.vs-rc-nav:focus-visible,
+.vs-rc-day:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: var(--vs-focus-ring-offset);
+}
+
+.vs-rc-title {
+  font-size: var(--vs-font-size-body-sm);
+  font-weight: 600;
+  color: var(--vs-color-text-heading);
+}
+
+.vs-rc-weekdays,
+.vs-rc-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.vs-rc-weekday {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--vs-color-text-body);
+}
+
+.vs-rc-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+}
+
+.vs-rc-day {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--vs-radius-full);
+  background: transparent;
+  font-family: var(--vs-font-family);
+  font-size: var(--vs-font-size-body-sm);
+  font-weight: 500;
+  color: var(--vs-color-text-body);
+  cursor: pointer;
+}
+
+.vs-rc-day:hover:not(:disabled):not(.is-selected) {
+  background: var(--vs-color-background);
+}
+
+.vs-rc-day.is-today:not(.is-selected),
+.vs-rc-day.is-hover:not(.is-selected) {
+  box-shadow: inset 0 0 0 1.5px var(--vs-color-brand-primary);
+}
+
+.vs-rc-day.is-selected {
+  background: var(--vs-color-brand-primary);
+  color: var(--vs-color-text-on-primary);
+  font-weight: 600;
+}
+
+.vs-rc-day:disabled {
+  color: var(--vs-color-text-muted);
+  cursor: not-allowed;
+}
+
+/* The band: the days between the two ends, rounded at the start and end of each week row; the two end cells are half a band. */
+.vs-rc-cell.is-in {
+  background: var(--vs-rc-band);
+}
+
+.vs-rc-cell.is-in.is-row-start {
+  border-radius: 22px 0 0 22px;
+}
+
+.vs-rc-cell.is-in.is-row-end {
+  border-radius: 0 22px 22px 0;
+}
+
+.vs-rc-cell.is-start:not(.is-end):not(.is-row-end) {
+  background: linear-gradient(90deg, transparent 50%, var(--vs-rc-band) 50%);
+}
+
+.vs-rc-cell.is-end:not(.is-start):not(.is-row-start) {
+  background: linear-gradient(90deg, var(--vs-rc-band) 50%, transparent 50%);
+}
+
+.vs-rc-cell.is-preview.is-in {
+  background: var(--vs-rc-band-preview);
+}
+
+.vs-rc-cell.is-preview.is-start:not(.is-end):not(.is-row-end) {
+  background: linear-gradient(90deg, transparent 50%, var(--vs-rc-band-preview) 50%);
+}
+
+.vs-rc-cell.is-preview.is-end:not(.is-start):not(.is-row-start) {
+  background: linear-gradient(90deg, var(--vs-rc-band-preview) 50%, transparent 50%);
+}
+  .demo-rc-frame { background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-lg); padding: 12px; max-width: 100%; box-sizing: border-box; overflow-x: auto; }
+  .demo-rc-out { margin-top: 10px; font-size: 13px; color: var(--vs-color-text-body); }
+</style>
+</head>
+<body data-page="range-calendar">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Range Calendar</p>
+    <h1>Range Calendar</h1>
+    <p class="vs-docs-hero-lede">
+      Pick a From and a To day: click one day, then another. One or two months side by side. Implemented in
+      <code style="overflow-wrap:anywhere">react/src/components/RangeCalendar.tsx</code> (React only; no Blade version).
+      It shows the calendar only: Apply / Cancel and the From / To fields belong to whatever opens it (a Popover).
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">Click a day, move the pointer, click another. Example dates (today is fixed at 1 Nov 2026, so later days are off). The real component also works from the keyboard.</p>
+    </div>
+    <div class="vs-docs-preview" style="justify-content:flex-start">
+      <div>
+        <div class="demo-rc-frame" id="rc-live"><div class="vs-range-calendar" role="group" aria-label="Calendar"><div class="vs-rc-month"><div class="vs-rc-head"><button type="button" class="vs-rc-nav" aria-label="Previous month"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></button><div class="vs-rc-title" aria-live="polite">October 2026</div><span class="vs-rc-nav-spacer" aria-hidden="true"></span></div><div class="vs-rc-weekdays" aria-hidden="true"><div class="vs-rc-weekday">Su</div><div class="vs-rc-weekday">Mo</div><div class="vs-rc-weekday">Tu</div><div class="vs-rc-weekday">We</div><div class="vs-rc-weekday">Th</div><div class="vs-rc-weekday">Fr</div><div class="vs-rc-weekday">Sa</div></div><div class="vs-rc-grid"><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="1 October 2026" aria-pressed="false">1</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="2 October 2026" aria-pressed="false">2</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="3 October 2026" aria-pressed="false">3</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="4 October 2026" aria-pressed="false">4</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="5 October 2026" aria-pressed="false">5</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="6 October 2026" aria-pressed="false">6</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="7 October 2026" aria-pressed="false">7</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="8 October 2026" aria-pressed="false">8</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="9 October 2026" aria-pressed="false">9</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="10 October 2026" aria-pressed="false">10</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="11 October 2026" aria-pressed="false">11</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="12 October 2026" aria-pressed="false">12</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="13 October 2026" aria-pressed="false">13</button></div><div class="vs-rc-cell is-start"><button type="button" class="vs-rc-day is-selected" tabindex="0" aria-label="14 October 2026" aria-pressed="true">14</button></div><div class="vs-rc-cell is-in"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="15 October 2026" aria-pressed="false">15</button></div><div class="vs-rc-cell is-in"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="16 October 2026" aria-pressed="false">16</button></div><div class="vs-rc-cell is-in is-row-end"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="17 October 2026" aria-pressed="false">17</button></div><div class="vs-rc-cell is-in is-row-start"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="18 October 2026" aria-pressed="false">18</button></div><div class="vs-rc-cell is-in"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="19 October 2026" aria-pressed="false">19</button></div><div class="vs-rc-cell is-end"><button type="button" class="vs-rc-day is-selected" tabindex="-1" aria-label="20 October 2026" aria-pressed="true">20</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="21 October 2026" aria-pressed="false">21</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="22 October 2026" aria-pressed="false">22</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="23 October 2026" aria-pressed="false">23</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="24 October 2026" aria-pressed="false">24</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="25 October 2026" aria-pressed="false">25</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="26 October 2026" aria-pressed="false">26</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="27 October 2026" aria-pressed="false">27</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="28 October 2026" aria-pressed="false">28</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="29 October 2026" aria-pressed="false">29</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="30 October 2026" aria-pressed="false">30</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="31 October 2026" aria-pressed="false">31</button></div></div></div><div class="vs-rc-month"><div class="vs-rc-head"><span class="vs-rc-nav-spacer" aria-hidden="true"></span><div class="vs-rc-title" aria-live="polite">November 2026</div><button type="button" class="vs-rc-nav" aria-label="Next month" disabled=""><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></button></div><div class="vs-rc-weekdays" aria-hidden="true"><div class="vs-rc-weekday">Su</div><div class="vs-rc-weekday">Mo</div><div class="vs-rc-weekday">Tu</div><div class="vs-rc-weekday">We</div><div class="vs-rc-weekday">Th</div><div class="vs-rc-weekday">Fr</div><div class="vs-rc-weekday">Sa</div></div><div class="vs-rc-grid"><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day is-today" tabindex="-1" aria-label="1 November 2026" aria-pressed="false" aria-current="date">1</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="2 November 2026" aria-pressed="false">2</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="3 November 2026" aria-pressed="false">3</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="4 November 2026" aria-pressed="false">4</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="5 November 2026" aria-pressed="false">5</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="6 November 2026" aria-pressed="false">6</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="7 November 2026" aria-pressed="false">7</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="8 November 2026" aria-pressed="false">8</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="9 November 2026" aria-pressed="false">9</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="10 November 2026" aria-pressed="false">10</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="11 November 2026" aria-pressed="false">11</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="12 November 2026" aria-pressed="false">12</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="13 November 2026" aria-pressed="false">13</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="14 November 2026" aria-pressed="false">14</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="15 November 2026" aria-pressed="false">15</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="16 November 2026" aria-pressed="false">16</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="17 November 2026" aria-pressed="false">17</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="18 November 2026" aria-pressed="false">18</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="19 November 2026" aria-pressed="false">19</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="20 November 2026" aria-pressed="false">20</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="21 November 2026" aria-pressed="false">21</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="22 November 2026" aria-pressed="false">22</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="23 November 2026" aria-pressed="false">23</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="24 November 2026" aria-pressed="false">24</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="25 November 2026" aria-pressed="false">25</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="26 November 2026" aria-pressed="false">26</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="27 November 2026" aria-pressed="false">27</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="28 November 2026" aria-pressed="false">28</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="29 November 2026" aria-pressed="false">29</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="30 November 2026" aria-pressed="false">30</button></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div></div></div></div></div>
+        <div class="demo-rc-out" id="rc-out" aria-live="polite">14 Oct 2026 to 20 Oct 2026 (7 days)</div>
+      </div>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // States</span><h2>States</h2></div>
+      <p class="vs-docs-section-desc">The real component, rendered to HTML.</p>
+    </div>
+    <div class="demo-states demo-states--wide" style="align-items:start">
+      <div class="demo-state"><div class="demo-state-stage" style="align-items:flex-start"><div class="demo-rc-frame" style="width:100%"><div class="vs-range-calendar" role="group" aria-label="Calendar"><div class="vs-rc-month"><div class="vs-rc-head"><button type="button" class="vs-rc-nav" aria-label="Previous month"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></button><div class="vs-rc-title" aria-live="polite">October 2026</div><button type="button" class="vs-rc-nav" aria-label="Next month"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></button></div><div class="vs-rc-weekdays" aria-hidden="true"><div class="vs-rc-weekday">Su</div><div class="vs-rc-weekday">Mo</div><div class="vs-rc-weekday">Tu</div><div class="vs-rc-weekday">We</div><div class="vs-rc-weekday">Th</div><div class="vs-rc-weekday">Fr</div><div class="vs-rc-weekday">Sa</div></div><div class="vs-rc-grid"><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="1 October 2026" aria-pressed="false">1</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="2 October 2026" aria-pressed="false">2</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="3 October 2026" aria-pressed="false">3</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="4 October 2026" aria-pressed="false">4</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="5 October 2026" aria-pressed="false">5</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="6 October 2026" aria-pressed="false">6</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="7 October 2026" aria-pressed="false">7</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="8 October 2026" aria-pressed="false">8</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="9 October 2026" aria-pressed="false">9</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="10 October 2026" aria-pressed="false">10</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="11 October 2026" aria-pressed="false">11</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="12 October 2026" aria-pressed="false">12</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="13 October 2026" aria-pressed="false">13</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="14 October 2026" aria-pressed="false">14</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="15 October 2026" aria-pressed="false">15</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="16 October 2026" aria-pressed="false">16</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="17 October 2026" aria-pressed="false">17</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="18 October 2026" aria-pressed="false">18</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="19 October 2026" aria-pressed="false">19</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="20 October 2026" aria-pressed="false">20</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="21 October 2026" aria-pressed="false">21</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="22 October 2026" aria-pressed="false">22</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="23 October 2026" aria-pressed="false">23</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="24 October 2026" aria-pressed="false">24</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="25 October 2026" aria-pressed="false">25</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="26 October 2026" aria-pressed="false">26</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="27 October 2026" aria-pressed="false">27</button></div><div class="vs-rc-cell is-start"><button type="button" class="vs-rc-day is-selected" tabindex="0" aria-label="28 October 2026" aria-pressed="true">28</button></div><div class="vs-rc-cell is-in"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="29 October 2026" aria-pressed="false">29</button></div><div class="vs-rc-cell is-end"><button type="button" class="vs-rc-day is-selected" tabindex="-1" aria-label="30 October 2026" aria-pressed="true">30</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="31 October 2026" aria-pressed="false">31</button></div></div></div></div></div></div><div class="demo-state-meta"><b>One month (phone)</b><code>months={1}</code><span>a range of 3 days; today has a ring</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage" style="align-items:flex-start"><div class="demo-rc-frame" style="width:100%"><div class="vs-range-calendar" role="group" aria-label="Calendar"><div class="vs-rc-month"><div class="vs-rc-head"><button type="button" class="vs-rc-nav" aria-label="Previous month"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></button><div class="vs-rc-title" aria-live="polite">October 2026</div><button type="button" class="vs-rc-nav" aria-label="Next month"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></button></div><div class="vs-rc-weekdays" aria-hidden="true"><div class="vs-rc-weekday">Su</div><div class="vs-rc-weekday">Mo</div><div class="vs-rc-weekday">Tu</div><div class="vs-rc-weekday">We</div><div class="vs-rc-weekday">Th</div><div class="vs-rc-weekday">Fr</div><div class="vs-rc-weekday">Sa</div></div><div class="vs-rc-grid"><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="1 October 2026" aria-pressed="false">1</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="2 October 2026" aria-pressed="false">2</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="3 October 2026" aria-pressed="false">3</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="4 October 2026" aria-pressed="false">4</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="5 October 2026" aria-pressed="false">5</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="6 October 2026" aria-pressed="false">6</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="7 October 2026" aria-pressed="false">7</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="8 October 2026" aria-pressed="false">8</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="9 October 2026" aria-pressed="false">9</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="10 October 2026" aria-pressed="false">10</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="11 October 2026" aria-pressed="false">11</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="12 October 2026" aria-pressed="false">12</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="13 October 2026" aria-pressed="false">13</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day is-selected" tabindex="0" aria-label="14 October 2026" aria-pressed="true">14</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="15 October 2026" aria-pressed="false">15</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="16 October 2026" aria-pressed="false">16</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="17 October 2026" aria-pressed="false">17</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="18 October 2026" aria-pressed="false">18</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="19 October 2026" aria-pressed="false">19</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" tabindex="-1" aria-label="20 October 2026" aria-pressed="false">20</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="21 October 2026" aria-pressed="false">21</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="22 October 2026" aria-pressed="false">22</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="23 October 2026" aria-pressed="false">23</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="24 October 2026" aria-pressed="false">24</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="25 October 2026" aria-pressed="false">25</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="26 October 2026" aria-pressed="false">26</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="27 October 2026" aria-pressed="false">27</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="28 October 2026" aria-pressed="false">28</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="29 October 2026" aria-pressed="false">29</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="30 October 2026" aria-pressed="false">30</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="31 October 2026" aria-pressed="false">31</button></div></div></div></div></div></div><div class="demo-state-meta"><b>Second date pending, <code>maxDays={7}</code></b><span>days that would make a range longer than 7 are disabled on both sides</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage" style="align-items:flex-start"><div class="demo-rc-frame" style="width:100%"><div class="vs-range-calendar" role="group" aria-label="Calendar"><div class="vs-rc-month"><div class="vs-rc-head"><button type="button" class="vs-rc-nav" aria-label="Previous month"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-left" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg></button><div class="vs-rc-title" aria-live="polite">November 2026</div><button type="button" class="vs-rc-nav" aria-label="Next month" disabled=""><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg></button></div><div class="vs-rc-weekdays" aria-hidden="true"><div class="vs-rc-weekday">Mo</div><div class="vs-rc-weekday">Tu</div><div class="vs-rc-weekday">We</div><div class="vs-rc-weekday">Th</div><div class="vs-rc-weekday">Fr</div><div class="vs-rc-weekday">Sa</div><div class="vs-rc-weekday">Su</div></div><div class="vs-rc-grid"><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day is-today" tabindex="0" aria-label="1 November 2026" aria-pressed="false" aria-current="date">1</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="2 November 2026" aria-pressed="false">2</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="3 November 2026" aria-pressed="false">3</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="4 November 2026" aria-pressed="false">4</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="5 November 2026" aria-pressed="false">5</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="6 November 2026" aria-pressed="false">6</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="7 November 2026" aria-pressed="false">7</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="8 November 2026" aria-pressed="false">8</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="9 November 2026" aria-pressed="false">9</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="10 November 2026" aria-pressed="false">10</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="11 November 2026" aria-pressed="false">11</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="12 November 2026" aria-pressed="false">12</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="13 November 2026" aria-pressed="false">13</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="14 November 2026" aria-pressed="false">14</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="15 November 2026" aria-pressed="false">15</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="16 November 2026" aria-pressed="false">16</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="17 November 2026" aria-pressed="false">17</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="18 November 2026" aria-pressed="false">18</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="19 November 2026" aria-pressed="false">19</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="20 November 2026" aria-pressed="false">20</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="21 November 2026" aria-pressed="false">21</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="22 November 2026" aria-pressed="false">22</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="23 November 2026" aria-pressed="false">23</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="24 November 2026" aria-pressed="false">24</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="25 November 2026" aria-pressed="false">25</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="26 November 2026" aria-pressed="false">26</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="27 November 2026" aria-pressed="false">27</button></div><div class="vs-rc-cell"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="28 November 2026" aria-pressed="false">28</button></div><div class="vs-rc-cell is-row-end"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="29 November 2026" aria-pressed="false">29</button></div><div class="vs-rc-cell is-row-start"><button type="button" class="vs-rc-day" disabled="" tabindex="-1" aria-label="30 November 2026" aria-pressed="false">30</button></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div><div class="vs-rc-cell" aria-hidden="true"></div></div></div></div></div></div><div class="demo-state-meta"><b>Monday first</b><code>weekStartsOn={1}</code><span>nothing picked; days after today are disabled</span></div></div>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Behaviour</span><h2>Behaviour</h2></div>
+      <p class="vs-docs-section-desc">What the component does for you.</p>
+    </div>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Situation</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td>First click</td><td><code>onChange({ from, to: null })</code>; moving over other days shades a preview.</td></tr>
+        <tr><td>Second click</td><td><code>onChange({ from, to })</code>, always in order: picked in reverse they swap by themselves. The same day twice is a one-day range.</td></tr>
+        <tr><td>Click after a finished range</td><td>Starts a new range.</td></tr>
+        <tr><td>Days outside <code>minDate</code>..<code>maxDate</code></td><td>Disabled: not clickable and skipped by the keyboard. <code>maxDate</code> defaults to today.</td></tr>
+        <tr><td><code>maxDays</code> (default 365)</td><td>While the second date is pending, days that would make a longer range are disabled, so a too-long range cannot be picked.</td></tr>
+        <tr><td>Month arrows</td><td>The next arrow is off on the last month that can be picked, the previous arrow on the first.</td></tr>
+        <tr><td>Keyboard</td><td>One tab stop; arrows move a day / a week; Home / End the week's start / end; PageUp / PageDown a month; Enter or Space picks. The month scrolls into view.</td></tr>
+        <tr><td>Names</td><td>Each day button is named by its full date ("14 October 2026"); <code>aria-pressed</code> on the picked ends, <code>aria-current="date"</code> on today.</td></tr>
+        <tr><td>Dates</td><td>Calendar days as <code>'YYYY-MM-DD'</code> text (no time, no time zone). Helpers exported: <code>formatDMY</code> (<code>14 Oct 2026</code>), <code>formatRangeLabel</code> (<code>14–20 Oct</code>), <code>daysInclusive</code>, <code>addDays</code>, <code>isIsoDate</code>, <code>todayIsoDate</code>.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Measurement Guide</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Tokens only.</p>
+    </div>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Property</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Day</td><td>40px circle in a 44px row (touch size); 13px / 500</td></tr>
+        <tr><td>Picked ends</td><td><code>--vs-color-brand-primary</code> with <code>--vs-color-text-on-primary</code></td></tr>
+        <tr><td>Band between the ends</td><td>22% of the brand colour on the surface (10% for the preview), rounded at the week edges</td></tr>
+        <tr><td>Today / hovered day</td><td>1.5px brand ring</td></tr>
+        <tr><td>Disabled day</td><td><code>--vs-color-text-muted</code></td></tr>
+        <tr><td>Focus ring</td><td><code>--vs-focus-ring-*</code></td></tr>
+        <tr><td>Month</td><td>up to 360px wide; two months sit side by side with a 2.5rem gap and wrap on a narrow screen</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { RangeCalendar } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">const</span> [range, setRange] = useState&lt;DateRangeValue&gt;({ from: <span class="tag">null</span>, to: <span class="tag">null</span> });
+
+<span class="tag">&lt;RangeCalendar</span> <span class="attr">value</span>=<span class="tag">{range}</span> <span class="attr">onChange</span>=<span class="tag">{setRange}</span> <span class="attr">maxDays</span>=<span class="tag">{92}</span> <span class="attr">minDate</span>=<span class="str">"2026-08-01"</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>value</code></td><td>required, <code>{ from: string | null, to: string | null }</code> (controlled)</td><td>—</td></tr>
+        <tr><td><code>onChange</code></td><td>required, called on every pick</td><td>—</td></tr>
+        <tr><td><code>minDate</code> / <code>maxDate</code></td><td><code>'YYYY-MM-DD'</code>, inclusive</td><td>— / today</td></tr>
+        <tr><td><code>maxDays</code></td><td>longest range, both ends counted</td><td><code>365</code></td></tr>
+        <tr><td><code>weekStartsOn</code></td><td><code>0</code> Sunday · <code>1</code> Monday</td><td><code>0</code></td></tr>
+        <tr><td><code>months</code></td><td><code>1</code> · <code>2</code></td><td><code>2</code></td></tr>
+        <tr><td><code>today</code></td><td><code>'YYYY-MM-DD'</code>, for the ring and the default <code>maxDate</code></td><td>today, local</td></tr>
+        <tr><td><code>defaultMonth</code></td><td>a day in the month to open on</td><td>month of <code>from</code>, else the latest months</td></tr>
+        <tr><td><code>label</code> / <code>className</code></td><td>string</td><td><code>'Calendar'</code> / —</td></tr>
+      </tbody>
+    </table></div>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+<script>
+(function () {
+  /* Click / hover demo of the pick rules (the real component also has the keyboard). Same rules as RangeCalendar. */
+  var root = document.getElementById('rc-live'), out = document.getElementById('rc-out');
+  var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], TODAY = '2026-11-01';
+  var names = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var from = '2026-10-14', to = '2026-10-20', hover = null;
+  var map = {}; root.querySelectorAll('.vs-rc-day').forEach(function (b) {
+    var m = /^(\d+) (\w+) (\d{4})$/.exec(b.getAttribute('aria-label')); var iso = m[3] + '-' + ('0' + (names.indexOf(m[2]) + 1)).slice(-2) + '-' + ('0' + m[1]).slice(-2);
+    b.dataset.iso = iso; map[iso] = b; });
+  function dmy(i) { return i.slice(8) + ' ' + MONTHS[Number(i.slice(5, 7)) - 1] + ' ' + i.slice(0, 4); }
+  function days(a, b) { return Math.abs(Math.round((Date.UTC(+b.slice(0,4), +b.slice(5,7)-1, +b.slice(8)) - Date.UTC(+a.slice(0,4), +a.slice(5,7)-1, +a.slice(8))) / 864e5)) + 1; }
+  function paint() {
+    var pending = from && !to, end = to || (pending && hover ? hover : null);
+    var lo = from && end ? (from <= end ? from : end) : null, hi = from && end ? (from <= end ? end : from) : null;
+    root.querySelectorAll('.vs-rc-cell').forEach(function (c) { c.classList.remove('is-in', 'is-start', 'is-end', 'is-preview'); });
+    Object.keys(map).forEach(function (iso) {
+      var b = map[iso], cell = b.parentNode;
+      var sel = iso === from || iso === to; b.classList.toggle('is-selected', sel); b.setAttribute('aria-pressed', sel ? 'true' : 'false');
+      b.classList.toggle('is-hover', pending && iso === hover && !b.disabled);
+      if (lo && iso >= lo && iso <= hi) { cell.classList.add(iso === lo ? 'is-start' : iso === hi ? 'is-end' : 'is-in'); if (pending) cell.classList.add('is-preview'); }
+    });
+    out.textContent = !from ? 'Nothing picked' : to ? dmy(from) + ' to ' + dmy(to) + ' (' + days(from, to) + ' days)' : dmy(from) + ' picked, now pick the second date';
+  }
+  root.addEventListener('click', function (e) {
+    var b = e.target.closest('.vs-rc-day'); if (!b || b.disabled) return; var iso = b.dataset.iso;
+    if (!from || to) { from = iso; to = null; } else if (iso < from) { to = from; from = iso; } else { to = iso; }
+    hover = null; paint();
+  });
+  root.addEventListener('mouseover', function (e) { var b = e.target.closest('.vs-rc-day'); if (b && from && !to) { hover = b.dataset.iso; paint(); } });
+  root.addEventListener('mouseleave', function () { hover = null; paint(); });
+  paint();
+})();
+</script>
+</body>
+</html>
