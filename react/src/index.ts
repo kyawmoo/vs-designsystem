@@ -64,6 +64,9 @@ export type { PaginationProps } from './components/Pagination';
 export { SegmentedControl } from './components/SegmentedControl';
 export type { SegmentedControlProps, SegmentedControlItem } from './components/SegmentedControl';
 
+export { DateRangeSelector, DATE_RANGE_PRESETS } from './components/DateRangeSelector';
+export type { DateRangeSelectorProps, DateRangeOption } from './components/DateRangeSelector';
+
 /** `Tabs` with no `variant` is the deprecated alias of SegmentedControl; `variant="primary" | "secondary"` are real tabs. */
 export { Tabs, TabPanel } from './components/Tabs';
 export type { TabsProps, TabItem, TabsVariant, TabPanelProps } from './components/Tabs';

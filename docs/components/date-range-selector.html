@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Date Range Selector — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="/assets/demo-kit.css">
+<style>
+  /* Same values as .vs-segment-* and .vs-date-range* in react/src/styles.css */
+  .demo-dr { display: inline-flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; max-width: 100%; }
+  .demo-dr-group { display: inline-flex; align-items: center; padding: 0.375rem; gap: 0.25rem; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); }
+  .demo-dr-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.375rem; padding: 0.375rem 1rem; border: 0; border-radius: var(--vs-radius-xs); background: transparent; font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); font-weight: 600; color: var(--vs-color-text-muted); cursor: pointer; white-space: nowrap; transition: all 150ms ease; }
+  .demo-dr-btn:hover:not(.is-active), .demo-dr-btn.is-hover:not(.is-active) { color: var(--vs-color-text-heading); background: var(--vs-color-background); }
+  .demo-dr-btn.is-active { background-color: var(--vs-color-brand-primary); color: var(--vs-color-text-on-primary); }
+  .demo-dr-btn:focus-visible, .demo-dr-btn.is-focus, .demo-dr-trigger:focus-visible { outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color); outline-offset: var(--vs-focus-ring-offset); }
+  .demo-dr-summary { font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); color: var(--vs-color-text-body); }
+  .demo-dr-spin { animation: demo-dr-spin 0.9s linear infinite; }
+  @keyframes demo-dr-spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .demo-dr-spin { animation: none; } }
+  .demo-dr-trigger { display: inline-flex; align-items: center; gap: 0.375rem; min-height: 44px; padding: 0 0.75rem; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); font-family: var(--vs-font-family); font-size: var(--vs-font-size-body-sm); font-weight: 600; color: var(--vs-color-text-heading); white-space: nowrap; cursor: pointer; }
+  .demo-dr-trigger[aria-expanded='true'] { border-color: var(--vs-color-brand-primary); }
+  /* Mobile frame: a 360px phone-width box so both modes can be seen on a wide screen. */
+  .demo-phone { position: relative; width: 360px; max-width: 100%; height: 420px; overflow: hidden; border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-lg); background: var(--vs-color-background); }
+  .demo-phone-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; }
+  .demo-phone-title { margin: 0; font-size: 20px; font-weight: 700; color: var(--vs-color-text-heading); min-width: 0; }
+  .demo-phone-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); }
+  .demo-phone-sheet { position: absolute; left: 0; right: 0; bottom: 0; background: var(--vs-color-surface); border-radius: 1rem 1rem 0 0; padding: 0.625rem 0.75rem 1rem; box-shadow: 0 -8px 32px rgba(0,0,0,0.18); }
+  .demo-phone-sheet[hidden], .demo-phone-overlay[hidden] { display: none; }
+  .demo-phone-grab { width: 40px; height: 4px; border-radius: 9999px; background: var(--vs-color-border); margin: 0 auto 0.5rem; }
+  .demo-phone-sheet h3 { margin: 0 0.5rem 0.25rem; font-size: 14px; font-weight: 700; color: var(--vs-color-text-heading); }
+  .demo-phone-opt { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0.75rem 0.875rem; border: 0; border-radius: 0.75rem; background: transparent; font-family: var(--vs-font-family); font-size: 14px; font-weight: 600; color: var(--vs-color-text-body); text-align: left; cursor: pointer; }
+  .demo-phone-opt.is-active { background: var(--vs-color-success-bg); color: var(--vs-color-brand-primary-text); }
+  .demo-head-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .demo-head-row h4 { margin: 0; font-size: 24px; font-weight: 700; color: var(--vs-color-text-heading); }
+  .demo-card-head { background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); padding: 20px 24px; }
+</style>
+</head>
+<body data-page="date-range-selector">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Date Range Selector</p>
+    <h1>Date Range Selector</h1>
+    <p class="vs-docs-hero-lede">
+      Picks how many days a report page shows: Today, 3D, 7D, 90D. A compact segmented control on desktop; on a phone it is
+      one button that opens a bottom sheet. Implemented in
+      <code style="overflow-wrap:anywhere">react/src/components/DateRangeSelector.tsx</code> (React only; there is no Blade version).
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">Click a range. The dates under the control are worked out from today (the page’s job, not the component’s).</p>
+    </div>
+    <div class="vs-docs-preview" style="justify-content:flex-end">
+      <div class="demo-dr" id="dr-desktop">
+        <div class="demo-dr-group" role="group" aria-label="Date range">
+          <button type="button" class="demo-dr-btn" data-id="today" data-days="1" aria-pressed="false">Today</button>
+          <button type="button" class="demo-dr-btn" data-id="3d" data-days="3" aria-pressed="false" aria-label="3D, 3 Days">3D</button>
+          <button type="button" class="demo-dr-btn is-active" data-id="7d" data-days="7" aria-pressed="true" aria-label="7D, 7 Days">7D</button>
+          <button type="button" class="demo-dr-btn" data-id="90d" data-days="90" aria-pressed="false" aria-label="90D, 90 Days">90D</button>
+        </div>
+        <div class="demo-dr-summary" aria-live="polite" id="dr-summary"></div>
+      </div>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Phone</span><h2>On a phone</h2></div>
+      <p class="vs-docs-section-desc">Under 768px the buttons are replaced by one trigger (calendar icon, current range, chevron) and a bottom sheet. Same breakpoint as <code>FilterSheet</code>.</p>
+    </div>
+    <div class="vs-docs-preview" style="justify-content:center">
+      <div class="demo-phone" id="dr-phone">
+        <div class="demo-phone-head">
+          <h4 class="demo-phone-title">Social Traffic &amp; ROI</h4>
+          <div class="demo-dr">
+            <button type="button" class="demo-dr-trigger" id="dr-trigger" aria-haspopup="dialog" aria-expanded="false" aria-label="Date range: 7 Days">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></svg>
+              <span id="dr-trigger-label">7D</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="demo-phone-overlay" id="dr-overlay" hidden></div>
+        <div class="demo-phone-sheet" id="dr-sheet" role="dialog" aria-modal="true" aria-label="Date range" hidden>
+          <div class="demo-phone-grab"></div>
+          <h3>Date range</h3>
+          <button type="button" class="demo-phone-opt" data-id="today" data-short="Today" data-full="Today">Today</button>
+          <button type="button" class="demo-phone-opt" data-id="3d" data-short="3D" data-full="3 Days">3 Days</button>
+          <button type="button" class="demo-phone-opt is-active" data-id="7d" data-short="7D" data-full="7 Days">7 Days</button>
+          <button type="button" class="demo-phone-opt" data-id="90d" data-short="90D" data-full="90 Days">90 Days</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Measurement Guide</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">All from existing tokens. No new colour or token.</p>
+    </div>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Property</th><th>Value</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Desktop control</td><td>the segmented control, small buttons</td><td><code>.vs-segment-control</code> + <code>.vs-segment-button--sm</code> (padding <code>0.375rem 1rem</code>, 13px)</td></tr>
+        <tr><td>Selected button</td><td>brand green, dark text</td><td><code>--vs-color-brand-primary</code> / <code>--vs-color-text-on-primary</code></td></tr>
+        <tr><td>Phone trigger</td><td>min height 44px, 13px / 600, 8px radius</td><td><code>--vs-radius-sm</code>, <code>--vs-font-size-body-sm</code></td></tr>
+        <tr><td>Focus ring</td><td>2px, 2px offset</td><td><code>--vs-focus-ring-*</code></td></tr>
+        <tr><td>Summary text</td><td>13px, body colour</td><td><code>--vs-color-text-body</code> (the muted colour is too light for this text)</td></tr>
+        <tr><td>Breakpoint</td><td>768px</td><td>Tailwind <code>md</code>, same as <code>FilterSheet</code></td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // States</span><h2>States</h2></div>
+      <p class="vs-docs-section-desc">Real markup, forced classes for hover and focus.</p>
+    </div>
+    <div class="demo-states demo-states--wide">
+      <div class="demo-state"><div class="demo-state-stage"><div class="demo-dr-group"><button type="button" class="demo-dr-btn">Today</button><button type="button" class="demo-dr-btn">3D</button><button type="button" class="demo-dr-btn is-active">7D</button><button type="button" class="demo-dr-btn">90D</button></div></div><div class="demo-state-meta"><b>Default</b><span>one option selected</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><div class="demo-dr-group"><button type="button" class="demo-dr-btn">Today</button><button type="button" class="demo-dr-btn is-hover">3D</button><button type="button" class="demo-dr-btn is-active">7D</button><button type="button" class="demo-dr-btn">90D</button></div></div><div class="demo-state-meta"><b>Hover</b><span>text darkens, light background</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><div class="demo-dr-group"><button type="button" class="demo-dr-btn">Today</button><button type="button" class="demo-dr-btn is-focus">3D</button><button type="button" class="demo-dr-btn is-active">7D</button><button type="button" class="demo-dr-btn">90D</button></div></div><div class="demo-state-meta"><b>Keyboard focus</b><span>2px ring, <code>focus-visible</code> only</span></div></div>
+      <div class="demo-state"><div class="demo-state-stage"><div class="demo-dr-group"><button type="button" class="demo-dr-btn">Today</button><button type="button" class="demo-dr-btn">3D</button><button type="button" class="demo-dr-btn is-active" aria-busy="true"><svg class="demo-dr-spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.8-8.7"/></svg>7D</button><button type="button" class="demo-dr-btn">90D</button></div></div><div class="demo-state-meta"><b>Loading</b><code>loading</code><span>spinner on the selected button; others stay clickable, the latest click wins</span></div></div>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">05 // Usage in Context</span><h2>Usage in Context</h2></div>
+      <p class="vs-docs-section-desc">On the right of a page title or a card title.</p>
+    </div>
+    <div class="demo-browser"><div class="demo-browser-bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i> reports.vectorsticker.com</div><div class="demo-browser-body" style="flex-direction:column;gap:16px;align-items:stretch">
+      <div class="demo-head-row"><h4>Server Health</h4><div class="demo-dr"><div class="demo-dr-group"><button type="button" class="demo-dr-btn">Today</button><button type="button" class="demo-dr-btn">3D</button><button type="button" class="demo-dr-btn is-active">7D</button><button type="button" class="demo-dr-btn">90D</button></div></div></div>
+      <div class="demo-card-head"><div class="demo-head-row"><h4 style="font-size:20px">Server Load</h4><div class="demo-dr"><div class="demo-dr-group"><button type="button" class="demo-dr-btn is-active">Today</button><button type="button" class="demo-dr-btn">3D</button><button type="button" class="demo-dr-btn">7D</button></div></div></div></div>
+    </div></div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">06 // Guidelines</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc">Short rules.</p>
+    </div>
+    <div class="demo-rules">
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Show the real dates under the control (<code>summary</code>), so “7D” is never a guess.</div><div class="demo-rule-stage"><div class="demo-dr"><div class="demo-dr-group"><button type="button" class="demo-dr-btn">Today</button><button type="button" class="demo-dr-btn">3D</button><button type="button" class="demo-dr-btn is-active">7D</button><button type="button" class="demo-dr-btn">90D</button></div><div class="demo-dr-summary">26 Oct – 1 Nov 2026 · 7 days</div></div></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t use it for choosing between different content. That is Tabs.</div><div class="demo-rule-stage"><div class="demo-dr-group"><button type="button" class="demo-dr-btn is-active">Overview</button><button type="button" class="demo-dr-btn">Products</button><button type="button" class="demo-dr-btn">Analytics</button></div></div></div>
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Give every option a full label (<code>fullLabel</code>). Screen readers and the phone sheet use it.</div><div class="demo-rule-stage"><code style="white-space:normal;overflow-wrap:anywhere">{ id: '3d', label: '3D', fullLabel: '3 Days' }</code></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t add more than about 5 options. Use a date picker instead.</div><div class="demo-rule-stage" style="overflow-x:auto"><div class="demo-dr-group"><button type="button" class="demo-dr-btn">1D</button><button type="button" class="demo-dr-btn">2D</button><button type="button" class="demo-dr-btn">3D</button><button type="button" class="demo-dr-btn">5D</button><button type="button" class="demo-dr-btn">7D</button><button type="button" class="demo-dr-btn">14D</button><button type="button" class="demo-dr-btn is-active">30D</button></div></div></div>
+    </div>
+
+    <h2>Not included (yet)</h2>
+    <div class="vs-docs-callout"><p><strong>Custom date range:</strong> the calendar and its popover do not exist in this design system yet. This component has presets only. A custom range will be a separate component, added later without changing these props. <strong>Blade:</strong> there is no Blade version.</p></div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { DateRangeSelector } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;DateRangeSelector</span>
+  <span class="attr">value</span>=<span class="tag">{range}</span>               <span class="cmt">// '7d'</span>
+  <span class="attr">onChange</span>=<span class="tag">{setRange}</span>
+  <span class="attr">loading</span>=<span class="tag">{isFetching}</span>
+  <span class="attr">summary</span>=<span class="str">"26 Oct – 1 Nov 2026 · 7 days"</span>
+<span class="tag">/&gt;</span>
+
+<span class="cmt">// own list for a page that needs other presets:</span>
+<span class="tag">&lt;DateRangeSelector</span> <span class="attr">options</span>=<span class="tag">{[{ id: 'today', label: 'Today', fullLabel: 'Today' }, { id: '7d', label: '7D', fullLabel: '7 Days' }]}</span> <span class="attr">value</span>=<span class="tag">{range}</span> <span class="attr">onChange</span>=<span class="tag">{setRange}</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>value</code></td><td>required, the selected option’s <code>id</code> (controlled)</td><td>—</td></tr>
+        <tr><td><code>onChange</code></td><td>required, called with the new <code>id</code>; not called for the option already selected</td><td>—</td></tr>
+        <tr><td><code>options</code></td><td>array of <code>{ id, label, fullLabel }</code>; <code>id</code>s must be unique</td><td><code>DATE_RANGE_PRESETS</code> (<code>today</code>, <code>3d</code>, <code>7d</code>, <code>90d</code>)</td></tr>
+        <tr><td><code>loading</code></td><td>boolean</td><td><code>false</code></td></tr>
+        <tr><td><code>summary</code></td><td>node, shown under the control (live region); nothing is rendered when empty</td><td>—</td></tr>
+        <tr><td><code>label</code></td><td>group name and phone sheet title</td><td><code>'Date range'</code></td></tr>
+        <tr><td><code>className</code></td><td>string, on the wrapper</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+<script>
+(function () {
+  var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function fmt(d, withYear) { return d.getDate() + ' ' + MONTHS[d.getMonth()] + (withYear ? ' ' + d.getFullYear() : ''); }
+  function summaryFor(days) {
+    var end = new Date(); var start = new Date(); start.setDate(end.getDate() - (days - 1));
+    if (days === 1) return fmt(end, true) + ' · so far';
+    return fmt(start, false) + ' – ' + fmt(end, true) + ' · ' + days + ' days';
+  }
+  var group = document.querySelector('#dr-desktop .demo-dr-group');
+  var summary = document.getElementById('dr-summary');
+  summary.textContent = summaryFor(7);
+  group.addEventListener('click', function (e) {
+    var b = e.target.closest('.demo-dr-btn'); if (!b || b.classList.contains('is-active')) return;
+    group.querySelectorAll('.demo-dr-btn').forEach(function (x) { x.classList.remove('is-active'); x.setAttribute('aria-pressed', 'false'); });
+    b.classList.add('is-active'); b.setAttribute('aria-pressed', 'true');
+    summary.textContent = summaryFor(Number(b.getAttribute('data-days')));
+  });
+
+  var trigger = document.getElementById('dr-trigger'), label = document.getElementById('dr-trigger-label');
+  var sheet = document.getElementById('dr-sheet'), overlay = document.getElementById('dr-overlay');
+  function setOpen(open) { sheet.hidden = !open; overlay.hidden = !open; trigger.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+  trigger.addEventListener('click', function () { setOpen(true); });
+  overlay.addEventListener('click', function () { setOpen(false); });
+  sheet.addEventListener('click', function (e) {
+    var o = e.target.closest('.demo-phone-opt'); if (!o) return;
+    sheet.querySelectorAll('.demo-phone-opt').forEach(function (x) { x.classList.remove('is-active'); });
+    o.classList.add('is-active');
+    label.textContent = o.getAttribute('data-short');
+    trigger.setAttribute('aria-label', 'Date range: ' + o.getAttribute('data-full'));
+    setOpen(false);
+  });
+})();
+</script>
+</body>
+</html>
