@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Popover — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="/assets/demo-kit.css">
+<style>
+  /* Same values as .vs-popover* in react/src/styles.css (the real component is fixed + portalled; here the stage is positioned). */
+  .demo-pop-stage { position: relative; min-height: 250px; width: 100%; }
+  .demo-pop-btn { font-family: var(--vs-font-family); font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: var(--vs-radius-sm); border: 1px solid var(--vs-color-border); background: var(--vs-color-surface); color: var(--vs-color-text-heading); cursor: pointer; }
+  .demo-pop-btn:focus-visible { outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color); outline-offset: var(--vs-focus-ring-offset); }
+  .demo-pop-panel { position: absolute; z-index: 5; box-sizing: border-box; max-width: calc(100% - 16px); background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-lg); box-shadow: 0 12px 32px rgba(0,0,0,0.12); font-family: var(--vs-font-family); color: var(--vs-color-text-body); }
+  .demo-pop-panel[hidden] { display: none; }
+  .demo-pop-panel:focus { outline: none; }
+  .demo-pop-body { padding: 16px; font-size: var(--vs-font-size-body-sm); display: flex; flex-direction: column; gap: 10px; width: 280px; max-width: 100%; box-sizing: border-box; }
+  .demo-pop-body strong { color: var(--vs-color-text-heading); }
+  .demo-phone { position: relative; width: 360px; max-width: 100%; height: 360px; overflow: hidden; border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-lg); background: var(--vs-color-background); }
+  .demo-phone-top { display: flex; justify-content: flex-end; padding: 16px; }
+  .demo-phone-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.4); }
+  .demo-phone-sheet { position: absolute; left: 0; right: 0; bottom: 0; background: var(--vs-color-surface); border-radius: 1rem 1rem 0 0; border-top: 1px solid var(--vs-color-border); }
+  .demo-phone-backdrop[hidden], .demo-phone-sheet[hidden] { display: none; }
+  .demo-phone-grab { display: block; width: 40px; height: 4px; margin: 0.625rem auto 0.25rem; border-radius: 9999px; background: var(--vs-color-border); }
+</style>
+</head>
+<body data-page="popover">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Popover</p>
+    <h1>Popover</h1>
+    <p class="vs-docs-hero-lede">
+      A panel that opens under a button, for content too big for a tooltip and too small for a Modal, for example a
+      calendar. On a phone it becomes a bottom sheet. Implemented in
+      <code style="overflow-wrap:anywhere">react/src/components/Popover.tsx</code> (React only; no Blade version).
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">01 // Live</span><h2>Example</h2></div>
+      <p class="vs-docs-section-desc">Click the button. Escape or a click outside closes it; focus goes in and comes back.</p>
+    </div>
+    <div class="vs-docs-preview" style="justify-content:flex-end">
+      <div class="demo-pop-stage" id="pop-stage">
+        <div style="display:flex;justify-content:flex-end">
+          <button type="button" class="demo-pop-btn" id="pop-btn" aria-haspopup="dialog" aria-expanded="false">Open popover</button>
+        </div>
+        <div class="demo-pop-panel" id="pop-panel" role="dialog" aria-label="Example popover" tabindex="-1" hidden style="right:0;top:52px">
+          <div class="demo-pop-body">
+            <strong>Any content</strong>
+            <span>The panel lines up with the right edge of the button (<code>align="end"</code>, the default).</span>
+            <button type="button" class="demo-pop-btn" id="pop-inner">A control inside</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">02 // Phone</span><h2>On a phone</h2></div>
+      <p class="vs-docs-section-desc">Under 768px (<code>sheetBelow</code>, same as <code>FilterSheet</code>) the panel is a bottom sheet with a backdrop; the page behind does not scroll.</p>
+    </div>
+    <div class="vs-docs-preview" style="justify-content:center">
+      <div class="demo-phone" id="phone">
+        <div class="demo-phone-top"><button type="button" class="demo-pop-btn" id="phone-btn" aria-haspopup="dialog" aria-expanded="true">Open sheet</button></div>
+        <div class="demo-phone-backdrop" id="phone-backdrop"></div>
+        <div class="demo-phone-sheet" id="phone-sheet" role="dialog" aria-modal="true" aria-label="Example sheet">
+          <span class="demo-phone-grab"></span>
+          <div class="demo-pop-body" style="width:100%"><strong>Any content</strong><span>Tap the backdrop or press Escape to close.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">03 // Behaviour</span><h2>Behaviour</h2></div>
+      <p class="vs-docs-section-desc">What the component does for you.</p>
+    </div>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Situation</th><th>What happens</th></tr></thead>
+      <tbody>
+        <tr><td>Open</td><td>Focus moves to the first control inside (or the panel itself). Tab and Shift+Tab stay inside the panel.</td></tr>
+        <tr><td>Escape / click outside</td><td><code>onClose</code> is called. A click on the anchor is not "outside": the anchor's own click should toggle <code>open</code>.</td></tr>
+        <tr><td>Close</td><td>Focus returns to the anchor, unless the viewer clicked another control (it keeps the focus).</td></tr>
+        <tr><td>Position</td><td>Under the anchor (above it when there is no room), lined up with its right edge (<code>align="end"</code>) or left edge (<code>"start"</code>), always inside the viewport; re-placed on scroll and resize.</td></tr>
+        <tr><td>Clipping</td><td>Drawn in a portal (<code>document.body</code>), so a card's <code>overflow: hidden</code> cannot cut it off. <code>z-index: 60</code>, above Modal, Drawer and FilterSheet (50).</td></tr>
+        <tr><td>Phone</td><td>Bottom sheet with a backdrop, <code>aria-modal="true"</code>, page scroll locked while open.</td></tr>
+        <tr><td>Reduced motion</td><td>No slide or fade.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">04 // Measurement Guide</span><h2>Measurement Guide</h2></div>
+      <p class="vs-docs-section-desc">Tokens only.</p>
+    </div>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Property</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Surface, border</td><td><code>--vs-color-surface</code>, 1px <code>--vs-color-border</code></td></tr>
+        <tr><td>Radius</td><td><code>--vs-radius-lg</code>; the sheet has <code>1rem</code> top corners</td></tr>
+        <tr><td>Gap to the anchor / viewport margin</td><td>8px / 8px</td></tr>
+        <tr><td>Shadow</td><td><code>0 12px 32px</code> at 12% black (a literal, like Modal's)</td></tr>
+        <tr><td>Backdrop (phone)</td><td>40% black, like <code>FilterSheet</code></td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">05 // Guidelines</span><h2>Do’s and Don’ts</h2></div>
+      <p class="vs-docs-section-desc">Short rules.</p>
+    </div>
+    <div class="demo-rules">
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Use it for a small interactive panel that belongs to one button (a calendar, a few options).</div><div class="demo-rule-stage"><code>&lt;Popover anchorRef={ref} …&gt;</code></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t use it for a short hint on hover. That is a Tooltip.</div><div class="demo-rule-stage"><code>Tooltip</code></div></div>
+      <div class="demo-rule demo-rule--do"><div class="demo-rule-head"><span class="demo-pill">DO</span>Give it a name (<code>label</code>) and let the anchor toggle <code>open</code>.</div><div class="demo-rule-stage"><code>aria-haspopup="dialog" aria-expanded={open}</code></div></div>
+      <div class="demo-rule demo-rule--dont"><div class="demo-rule-head"><span class="demo-pill">DON’T</span>Don’t use it for a task that needs the whole page. That is a Modal or a Drawer.</div><div class="demo-rule-stage"><code>Modal</code> · <code>Drawer</code></div></div>
+    </div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Popover } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">const</span> ref = useRef&lt;HTMLButtonElement&gt;(<span class="tag">null</span>);
+<span class="tag">const</span> [open, setOpen] = useState(<span class="tag">false</span>);
+
+<span class="tag">&lt;button</span> <span class="attr">ref</span>=<span class="tag">{ref}</span> <span class="attr">aria-haspopup</span>=<span class="str">"dialog"</span> <span class="attr">aria-expanded</span>=<span class="tag">{open}</span> <span class="attr">onClick</span>=<span class="tag">{() =&gt; setOpen((o) =&gt; !o)}</span><span class="tag">&gt;</span>Open<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;Popover</span> <span class="attr">open</span>=<span class="tag">{open}</span> <span class="attr">onClose</span>=<span class="tag">{() =&gt; setOpen(false)}</span> <span class="attr">anchorRef</span>=<span class="tag">{ref}</span> <span class="attr">label</span>=<span class="str">"Pick a range"</span><span class="tag">&gt;</span>
+  …content…
+<span class="tag">&lt;/Popover&gt;</span></div>
+
+    <h2>Props</h2>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>open</code></td><td>required, controlled</td><td>—</td></tr>
+        <tr><td><code>onClose</code></td><td>required; called on Escape and a click outside</td><td>—</td></tr>
+        <tr><td><code>anchorRef</code></td><td>required; ref to the button or group the panel opens from</td><td>—</td></tr>
+        <tr><td><code>label</code></td><td>required; the panel's accessible name</td><td>—</td></tr>
+        <tr><td><code>align</code></td><td><code>'end'</code> (right edge) · <code>'start'</code> (left edge)</td><td><code>'end'</code></td></tr>
+        <tr><td><code>sheetBelow</code></td><td>viewport width in px under which it becomes a bottom sheet</td><td><code>768</code></td></tr>
+        <tr><td><code>className</code></td><td>string, on the panel</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+<script>
+(function () {
+  var btn = document.getElementById('pop-btn'), panel = document.getElementById('pop-panel'), inner = document.getElementById('pop-inner');
+  function setOpen(o) {
+    panel.hidden = !o; btn.setAttribute('aria-expanded', o ? 'true' : 'false');
+    if (o) inner.focus(); else btn.focus();
+  }
+  btn.addEventListener('click', function () { setOpen(panel.hidden); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) setOpen(false); });
+  document.addEventListener('pointerdown', function (e) { if (!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) { panel.hidden = true; btn.setAttribute('aria-expanded', 'false'); } });
+  var pb = document.getElementById('phone-btn'), ps = document.getElementById('phone-sheet'), pbd = document.getElementById('phone-backdrop');
+  function phone(o) { ps.hidden = !o; pbd.hidden = !o; pb.setAttribute('aria-expanded', o ? 'true' : 'false'); }
+  pb.addEventListener('click', function () { phone(ps.hidden); });
+  pbd.addEventListener('click', function () { phone(false); });
+})();
+</script>
+</body>
+</html>

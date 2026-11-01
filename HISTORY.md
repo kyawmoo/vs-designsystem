@@ -6,6 +6,17 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-01 — Popover (panel under a button; bottom sheet on a phone); not deployed
+
+- Asked: Master KMO chose to build the custom date range in the design system first (his answers: phone = bottom sheet, week starts Sunday, no typing in the date fields in v1, dates shown as `DD MMM YYYY`, values passed as `'YYYY-MM-DD'` text, page sets `maxDays` / `minDate` / `maxDate`; each DS PR merged by Claude after CI). Three PRs in order: Popover (this one), RangeCalendar, Custom option in `DateRangeSelector`.
+- Added: `Popover` (`react/src/components/Popover.tsx`, exported with `PopoverProps`, `PopoverAlign`) and `.vs-popover*` CSS in `react/src/styles.css` (tokens; the shadow and the 40% backdrop are literals, like Modal's and FilterSheet's). Props: `open` (controlled), `onClose`, `anchorRef`, `label` (required), `align` (`end` default / `start`), `sheetBelow` (768), `className`. Escape and a click outside call `onClose` (a click on the anchor does not); focus goes into the panel and Tab stays inside; focus returns to the anchor on close unless the viewer clicked another control; placed under the anchor (above when there is no room), clamped to the viewport, re-placed on scroll / resize / panel size change; drawn in a portal with `z-index: 60`; under 768px a bottom sheet with backdrop, `aria-modal`, page scroll locked; no motion with reduced motion.
+- Docs: `docs/components/popover.html` (live desktop demo, phone demo, behaviour, measurements, do/don't, usage, props) and a sidebar entry.
+- Tests: new `Popover.test.tsx` (13); `npm test` 165/165 (was 152), `tsc` clean, `check:tokens` OK. Mutation checks, each fails at least one test: no Escape, outside click ignored, anchor counted as outside, no focus into the panel, no focus return, no Tab trap, no viewport clamp, no flip above, no scroll lock. The real component bundled and checked in Chromium (1000px and 390px): the panel's right edge equals the anchor's right edge and it sits 8px below it, it is not cut by a card with `overflow: hidden`, focus goes to the first control, Escape and a tap outside close it, focus goes back to the anchor (or stays on the control that was clicked), the sheet sits at the bottom with the page scroll locked and released. Docs page at 1400px and 390px: no sideways scroll, no page errors.
+- Found while checking: a tap on empty page space moves the focus to `<body>` right after the pointer event, so the first version left the focus nowhere on a phone; the close effect now puts it back on the anchor after that (`setTimeout 0`, only if the focus is still on `<body>`).
+- Not verified: screen readers; iOS/Android keyboards and real touch; the docs-site redeploy; the reports site using it.
+
+---
+
 ## 2026-11-01 — DateRangeSelector fix: buttons stayed visible on a phone in the reports site; not deployed
 
 - Found while putting the component on the reports Overview page (built app in Chromium at 390px): the desktop buttons were still shown next to the phone trigger. Cause (confirmed): the reports site's own `src/index.css` redefines `.vs-segment-control { display: inline-flex }` and loads after this package's CSS; the phone rule `.vs-date-range__desktop { display: none }` had the same specificity and lost.
