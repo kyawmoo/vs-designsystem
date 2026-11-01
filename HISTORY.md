@@ -6,6 +6,16 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-01 — MobilePageHeader: optional `trailing` slot (a control next to the title on a phone); not deployed
+
+- Asked: Master KMO chose (a)+(c): the title and the date-range selector on one row on the phone headers of the reports pages that still show the old filter icon (Social, Download Activity, Users). `MobilePageHeader` had no place for a control next to the title (title on 80%, one filter icon on 20%), and it also holds the back arrow, so a page could not build this without a custom header. This is the design-system half (ticket "Add trailing slot to MobilePageHeader"); the reports pages follow in a separate change there.
+- Added (`react/src/components/MobilePageHeader.tsx`): optional `trailing?: React.ReactNode`. With it, the title takes the rest of the row (`flex-1 min-w-0`, cut with an ellipsis when too long) instead of 80%, the control sits on the right (`shrink-0`) and keeps its size, the back arrow stays; if `onFilterClick` is also given the filter button comes after the control. A `null`, `false` or missing `trailing` changes nothing.
+- Regression guard: the new `MobilePageHeader.test.tsx` holds the exact HTML the component produced BEFORE the change for four combinations (plain, no back arrow, with filter, active calendar filter) and asserts the new code produces the same strings without `trailing`.
+- Tests: `MobilePageHeader.test.tsx` (6); `npm test` 223/223 (was 217), `tsc` clean, `check:tokens` OK. Mutation checks, each fails a test: null counts as trailing, control can shrink, filter button before the control, title stays 80%, back arrow dropped with trailing, filter button lost without trailing.
+- Not verified here: the look in a browser. `MobilePageHeader` is built from Tailwind classes, so it is checked in the reports site build (which has Tailwind), in that change. There is no docs page for `MobilePageHeader` in this repo (there was none before either); this prop is described in its code comment only.
+
+---
+
 ## 2026-11-01 — DateRangeSelector gets a Custom date range (Popover + RangeCalendar); docs deployed (`0138f16`)
 
 - Asked: third and last design-system PR for the custom date range (after Popover and RangeCalendar), as decided by Master KMO (phone = bottom sheet, week starts Sunday, no typing in the date fields in v1, dates shown `DD MMM YYYY`, values `'YYYY-MM-DD'` text, the page sets `maxDays` / `minDate` / `maxDate`).
