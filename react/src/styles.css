@@ -1097,12 +1097,14 @@
   }
 }
 
+/* `.vs-date-range >` raises the specificity on purpose: a site that redefines `.vs-segment-control { display: ... }`
+   after this file (the reports dashboard does) must not be able to keep the buttons visible on a phone. */
 @media (max-width: 767px) {
-  .vs-date-range__desktop {
+  .vs-date-range > .vs-date-range__desktop {
     display: none;
   }
 
-  .vs-date-range__trigger {
+  .vs-date-range > .vs-date-range__trigger {
     display: inline-flex;
   }
 }

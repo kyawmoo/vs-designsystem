@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-01 — DateRangeSelector fix: buttons stayed visible on a phone in the reports site; not deployed
+
+- Found while putting the component on the reports Overview page (built app in Chromium at 390px): the desktop buttons were still shown next to the phone trigger. Cause (confirmed): the reports site's own `src/index.css` redefines `.vs-segment-control { display: inline-flex }` and loads after this package's CSS; the phone rule `.vs-date-range__desktop { display: none }` had the same specificity and lost.
+- Changed (`react/src/styles.css`): the phone-width rules now use `.vs-date-range > .vs-date-range__desktop` / `> .vs-date-range__trigger` (higher specificity, comment says why). No markup or prop change.
+- Checked: the fixed CSS applied to the reports build in Chromium: 1280px shows the buttons and no trigger, 390px shows the trigger and no buttons, title and trigger on one row, sheet opens and picks; `npm test` 152/152, `tsc` clean, `check:tokens` OK. The same sheet now seen with the reports site's Tailwind: it slides in from the bottom, styled.
+- Not verified / no automated test: jsdom does not run media queries, and a test reading `styles.css` as text did not work in vitest (the `?raw` import returned an empty string), so this fix is covered by the browser check only.
+
+---
+
 ## 2026-11-01 — DateRangeSelector (Today / 3D / 7D / 90D, presets only); not deployed
 
 - Asked: Master KMO wants the redesigned day-range selector (made as a canvas design first) in this design system so the reports site can reuse it. Decisions (his answers): (a) build the presets part first, the custom date range (calendar + popover, which this DS does not have) later as a separate task; selected colour = DS `--vs-color-brand-primary` (the reports site's own teal override is its own matter); short labels `3D / 7D / 90D`; ranges include today (the page works out the dates; the component only hands back the chosen `id`).
