@@ -64,6 +64,9 @@ export type { PaginationProps } from './components/Pagination';
 export { SegmentedControl } from './components/SegmentedControl';
 export type { SegmentedControlProps, SegmentedControlItem } from './components/SegmentedControl';
 
+export { Popover } from './components/Popover';
+export type { PopoverProps, PopoverAlign } from './components/Popover';
+
 export { DateRangeSelector, DATE_RANGE_PRESETS } from './components/DateRangeSelector';
 export type { DateRangeSelectorProps, DateRangeOption } from './components/DateRangeSelector';
 

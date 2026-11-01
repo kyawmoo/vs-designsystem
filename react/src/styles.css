@@ -1108,3 +1108,74 @@
     display: inline-flex;
   }
 }
+
+/* Popover: a panel under a button; a bottom sheet under 768px (same breakpoint as FilterSheet's `md`). Drawn in a portal,
+   position: fixed, so z-index 60 puts it above Modal / Drawer / FilterSheet (50). */
+.vs-popover {
+  position: fixed;
+  z-index: 60;
+  box-sizing: border-box;
+  max-width: calc(100vw - 16px);
+  max-height: calc(100vh - 16px);
+  overflow: auto;
+  background: var(--vs-color-surface);
+  border: 1px solid var(--vs-color-border);
+  border-radius: var(--vs-radius-lg);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+  font-family: var(--vs-font-family);
+  color: var(--vs-color-text-body);
+}
+
+.vs-popover:focus {
+  outline: none;
+}
+
+.vs-popover--sheet {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: auto;
+  max-width: none;
+  max-height: 85vh;
+  border-width: 1px 0 0;
+  border-radius: 1rem 1rem 0 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  animation: vs-popover-up 200ms ease-out;
+}
+
+.vs-popover-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(0, 0, 0, 0.4);
+  animation: vs-popover-fade 200ms ease-out;
+}
+
+.vs-popover-grab {
+  display: block;
+  width: 40px;
+  height: 4px;
+  margin: 0.625rem auto 0.25rem;
+  border-radius: var(--vs-radius-full);
+  background: var(--vs-color-border);
+}
+
+@keyframes vs-popover-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes vs-popover-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vs-popover--sheet,
+  .vs-popover-backdrop {
+    animation: none;
+  }
+}
+

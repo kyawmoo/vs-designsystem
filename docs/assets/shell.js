@@ -39,6 +39,7 @@
         { id: 'drawer', label: 'Drawer', href: '/components/drawer.html', icon: 'panel-right' },
         { id: 'toast', label: 'Toast', href: '/components/toast.html', icon: 'bell' },
         { id: 'tooltip', label: 'Tooltip', href: '/components/tooltip.html', icon: 'message-square' },
+        { id: 'popover', label: 'Popover', href: '/components/popover.html', icon: 'app-window' },
         { id: 'form-elements', label: 'All Form Elements', href: '/components/form-elements.html', icon: 'panels-top-left' },
         { id: 'text-input', label: 'Text Input', href: '/components/text-input.html', icon: 'text-cursor-input' },
         { id: 'textarea', label: 'Textarea', href: '/components/textarea.html', icon: 'square-pen' },
