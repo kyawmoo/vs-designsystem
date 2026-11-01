@@ -1032,3 +1032,77 @@
   position: relative;
   width: 100%;
 }
+
+/* Date Range Selector: desktop = the segmented control above (small buttons); phones = one trigger button + the
+   FilterSheet. Breakpoint 768px = Tailwind `md`, the same one FilterSheet uses (`md:hidden`). */
+.vs-date-range {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+  max-width: 100%;
+}
+
+.vs-date-range__trigger {
+  display: none;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 44px;
+  padding: 0 0.75rem;
+  background: var(--vs-color-surface);
+  border: 1px solid var(--vs-color-border);
+  border-radius: var(--vs-radius-sm);
+  font-family: var(--vs-font-family);
+  font-size: var(--vs-font-size-body-sm);
+  font-weight: 600;
+  color: var(--vs-color-text-heading);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.vs-date-range__trigger[aria-expanded='true'] {
+  border-color: var(--vs-color-brand-primary);
+}
+
+.vs-date-range__trigger:focus-visible,
+.vs-date-range__button:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: var(--vs-focus-ring-offset);
+}
+
+.vs-date-range__button {
+  gap: 0.375rem;
+}
+
+.vs-date-range__summary {
+  font-family: var(--vs-font-family);
+  font-size: var(--vs-font-size-body-sm);
+  color: var(--vs-color-text-body);
+}
+
+.vs-date-range__spinner {
+  flex-shrink: 0;
+  animation: vs-date-range-spin 0.9s linear infinite;
+}
+
+@keyframes vs-date-range-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vs-date-range__spinner {
+    animation: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .vs-date-range__desktop {
+    display: none;
+  }
+
+  .vs-date-range__trigger {
+    display: inline-flex;
+  }
+}
