@@ -1,4 +1,6 @@
 # RULES v2 (DRAFT). Owner: Master KMO. Apply to every project.
+
+Precedence (Master KMO, 2026-11-03): If an older rule in this file and RULES v2 conflict, apply the stricter one (more checks, more asking). v2 never lowers an older requirement.
 Reply to Master KMO in Burmese. Keep anything meant for copy-paste (commands, code, prompts) in English.
 
 ## CORE (always apply)
