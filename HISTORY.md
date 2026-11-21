@@ -6,6 +6,13 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-21 - Reveal Blade components (PR 6a of the Reveal plan: design system side); not deployed
+
+- Asked: Master KMO chose "a": start PR 6 (Blade components, then the main-site copy). This entry is the design-system half; the main-site copy-sync is the next step.
+- Added: `blade/components/vs-reveal.blade.php` (curtain `div.vs-reveal-curtain`, `aria-hidden`, when `play` is true, then the slot) and `blade/components/vs-reveal-item.blade.php` (the element itself: `as` from a fixed list of tags, `variant` slide-left | fade | rise, with fallbacks; sets `data-vs-reveal` only while the parent plays, read with `@aware`; outside a `vs-reveal` it plays, like React). Docs: "Usage: Blade" in `docs/components/reveal.html`, a section in `blade/README.md`. The CSS is the `vs-reveal` block that already is in `blade/components.css` (PR 2).
+- Checked: rendered with a real Laravel view engine (illuminate/view 10 in a scratch directory, anonymous component path = `blade/components`): the full page renders one curtain and the two items with the attributes; `:play="false"` gives no curtain and no attribute; a bad `as` (`script`) renders `div`; a bad variant renders `fade`; an item outside `x-vs-reveal` plays; extra attributes (class, id) are passed through; a nested item renders its own attribute (the CSS makes it inert, as in React).
+- Not verified: inside the main site's Laravel app (version, Livewire), in a browser with this markup (the CSS is the same block checked in Chromium, WebKit and Firefox by the browser check on the plain HTML demo, not on Blade output). `npm run check:tokens`: OK (161 tokens).
+
 ## 2026-11-21 - Reveal React components (PR 4 of the Reveal plan; on top of the browser check PR); not deployed
 
 - Asked: Master KMO approved the plan, then (2a) to wait for the CI result of the first three PRs before starting this one. CI result first: all five checks of PR 78 were green, and the job logs of webkit and firefox each show all 10 checks as PASS (WebKit's side menu started 924ms after the curtain's start event, Chromium and Firefox 1049ms; the cause was not looked into).

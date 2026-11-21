@@ -136,6 +136,22 @@ tokens only, so the site's token adapter carries the admin colours into it. Docs
 **Not yet used on vectorsticker.com.** Rollout is a separate, page-group-by-page-group change on that repo; the
 old partial stays until Master KMO signs off.
 
+### `<x-vs-reveal>` / `<x-vs-reveal-item>`
+
+```blade
+<x-vs-reveal>
+    <x-vs-reveal-item as="aside" variant="slide-left" class="sidebar">...</x-vs-reveal-item>
+    <x-vs-reveal-item as="main" variant="fade">...</x-vs-reveal-item>
+</x-vs-reveal>
+```
+
+The page-opening animation (design system ticket #75): a dark curtain with a hole growing from the top-left, then the
+side menu slides in and the page body fades in. `x-vs-reveal` adds the curtain (`play` default true; `:play="false"`
+renders the content with no animation). `x-vs-reveal-item` is the element itself (`as`, one of a fixed list of tags;
+`variant` `slide-left` | `fade` | `rise`; anything else falls back to `div` / `fade`). It has **its own CSS**, the
+`vs-reveal` block of `blade/components.css` (token only). Opt in per page: nothing animates on a page that does not use
+it. Docs: `docs/components/reveal.html`.
+
 ### `<x-vs-avatar>` / `<x-vs-empty-state>`
 
 ```blade

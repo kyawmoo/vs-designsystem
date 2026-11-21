@@ -42,7 +42,7 @@
 
 <span class="tag">&lt;aside</span> <span class="attr">data-vs-reveal</span>=<span class="str">"slide-left"</span><span class="tag">&gt;</span>…<span class="tag">&lt;/aside&gt;</span>
 <span class="tag">&lt;main</span> <span class="attr">data-vs-reveal</span>=<span class="str">"fade"</span><span class="tag">&gt;</span>…<span class="tag">&lt;/main&gt;</span></div>
-    <p>The attribute goes on the element itself, not on a wrapper, so sticky and flex layouts keep working. The React components that write this markup for you are below; the Blade components come in a later change.</p>
+    <p>The attribute goes on the element itself, not on a wrapper, so sticky and flex layouts keep working. The React and Blade components that write this markup for you are below.</p>
 
     <h2>Usage: React</h2>
     <div class="vs-docs-code-block"><span class="tag">import</span> { Reveal, RevealItem } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
@@ -61,6 +61,22 @@
       </tbody>
     </table>
     <p><code>Reveal</code> renders no wrapper element: it adds the curtain (a fixed layer, <code>aria-hidden</code>) next to its children. Use one per page, around the page shell. With <code>play</code> off, or on a later mount, there is no curtain and the items carry no attribute, so everything is shown at once. The jsdom unit tests check this markup; how it looks and moves is checked in real browsers by <code>npm run test:browser</code> (in <code>react/</code>).</p>
+
+    <h2>Usage: Blade</h2>
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-reveal&gt;</span>
+  <span class="tag">&lt;x-vs-reveal-item</span> <span class="attr">as</span>=<span class="str">"aside"</span> <span class="attr">variant</span>=<span class="str">"slide-left"</span><span class="tag">&gt;</span>…<span class="tag">&lt;/x-vs-reveal-item&gt;</span>
+  <span class="tag">&lt;x-vs-reveal-item</span> <span class="attr">as</span>=<span class="str">"main"</span> <span class="attr">variant</span>=<span class="str">"fade"</span><span class="tag">&gt;</span>…<span class="tag">&lt;/x-vs-reveal-item&gt;</span>
+<span class="tag">&lt;/x-vs-reveal&gt;</span></div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Component</th><th>Prop</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td><code>x-vs-reveal</code></td><td><code>play</code></td><td>Default <code>true</code>. <code>:play="false"</code> renders the content with no curtain and the items inside stay still. A page opts in by using the component; nothing animates on a page that does not.</td></tr>
+        <tr><td><code>x-vs-reveal-item</code></td><td><code>variant</code></td><td><code>slide-left</code> · <code>fade</code> (default) · <code>rise</code>. Any other value falls back to <code>fade</code>.</td></tr>
+        <tr><td><code>x-vs-reveal-item</code></td><td><code>as</code></td><td><code>div</code> (default), <code>aside</code>, <code>main</code>, <code>header</code>, <code>footer</code>, <code>section</code>, <code>nav</code>, <code>article</code>, <code>ul</code>, <code>ol</code>, <code>li</code>, <code>p</code>, <code>span</code>. Any other value falls back to <code>div</code>, so a tag name cannot be injected. The item is this element, not a wrapper.</td></tr>
+        <tr><td><code>x-vs-reveal-item</code></td><td>others</td><td>Passed to the element (<code>class</code>, <code>id</code>, <code>aria-*</code>).</td></tr>
+      </tbody>
+    </table>
+    <p>The Blade page renders on the server for every page load, so there is no "once per session" memory: the opening plays each time a page that uses <code>x-vs-reveal</code> is opened. Put it only on the pages that should open this way. The curtain markup is the same as in React. The CSS is the <code>vs-reveal</code> block in <code>blade/components.css</code>; the host page must load that file.</p>
 
     <h2>Variants</h2>
     <table class="vs-docs-table">
