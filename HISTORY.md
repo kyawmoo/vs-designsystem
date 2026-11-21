@@ -6,6 +6,14 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-21 - Reveal browser check: measure the start of each animation from the animation, not from the event; branch fix/reveal-check-webkit-timing; not merged
+
+- Asked: Master KMO chose (a) after the WebKit job of `reveal-browser-check` was red on `main` (run 44917216902, #80 merge): "order: the side menu starts about 1 second after the curtain" measured +774ms, the check wanted more than 800ms (the PR run before it measured +924ms and passed; Chromium and Firefox measured +1049/+1050).
+- Cause (partly known): the check took the times of the `animationstart` events. An event reaches the page in some later frame, so the measured gap between two animations depends on when each event was delivered. Only that the check's measurement is unreliable is shown by the three numbers above; WebKit could not be run here (the Playwright WebKit download is blocked in this environment), so whether WebKit's real animations start earlier than the CSS says is NOT known yet.
+- Changed (`react/browser/reveal-check.mjs` only): an init script samples `document.getAnimations()` every frame and records, per animation, `startTime + delay` on the document timeline. The order check now uses these times and expects the CSS contract: side menu 900 to 1200ms after the curtain (1050ms from the token), body and header 100 to 250ms after the side menu (150ms). The event times are kept in the message of the check for comparison, not used. If an animation time is missing the check fails.
+- Checked in Chromium: all checks pass (animation start +1050/+1200/+1200; events +1050/+1199/+1199). Two deliberate breaks of the CSS are caught: `--vs-motion-delay-body` 150ms to 600ms (3 checks fail) and `--vs-motion-duration-curtain` 1050ms to 600ms (1 check fails); both restored, `git status` clean apart from the script.
+- Not verified: WebKit (CI is the first run: it will show both measures in its message, so a real WebKit offset, if there is one, will show up there and the check will stay red rather than hide it); Firefox after the change.
+
 ## 2026-11-21 - Reveal Blade components (PR 6a of the Reveal plan: design system side); not deployed
 
 - Asked: Master KMO chose "a": start PR 6 (Blade components, then the main-site copy). This entry is the design-system half; the main-site copy-sync is the next step.
