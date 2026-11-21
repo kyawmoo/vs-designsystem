@@ -6,6 +6,12 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-21 - Docs site redeployed (ds.vectorsticker.com at `a3e2b4d`); Reveal page live
+
+- Master KMO ran on the VPS (hostname `vectorsticker`, user `deploy`): shallow clone of `main` over HTTPS into a temp dir (SSH `git@github.com` was refused with "Permission denied (publickey)", so the first attempt changed nothing), backup `/var/www/ds.vectorsticker.com.bak-<date-time>`, `rsync -rt docs/` into `/var/www/ds.vectorsticker.com`, `chown -R www-data:www-data`, temp dir removed. Output: clone of `a3e2b4d` (#81 merge) and `reveal.html HTTP 200`; the command ran under `set -e`, so the `curl` at the end ran only after the copy steps succeeded. Master KMO then opened `components/reveal.html` and said it is ok. Ticket #75 closed.
+- Also that day: the `deploy` user's password was changed by Master KMO after it was pasted into the chat by mistake (not recorded here).
+- Not verified by Claude: the live page in a browser (this session's network cannot reach ds.vectorsticker.com); other docs pages after the sync (rsync has no `--delete`).
+
 ## 2026-11-21 - RevealText: per-letter title wipe for the Reveal (V2, ticket #82); branch feat/reveal-text; not merged
 
 - Asked: Master KMO chose (a): move the title wipe prototyped in the reports repo (`feat/reveal-entrance`, `WipeText.tsx`) into the design system, and (while away for an hour) do everything that is left. Ticket kyawmoo/vs-designsystem#82 opened first.
