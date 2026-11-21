@@ -119,5 +119,8 @@ export type { ToastProps, ToastTone } from './components/Toast';
 export { Tooltip } from './components/Tooltip';
 export type { TooltipProps, TooltipPlacement } from './components/Tooltip';
 
+export { Reveal, RevealItem } from './components/Reveal';
+export type { RevealProps, RevealItemProps, RevealVariant } from './components/Reveal';
+
 import '../../tokens/tokens.css';
 import './styles.css';
