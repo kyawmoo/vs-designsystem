@@ -167,6 +167,24 @@ is escaped; words stay together so the title can wrap; letters are grapheme clus
 CSS and tokens (`--vs-motion-text-duration`, `--vs-motion-text-stagger`) are in `blade/components.css` and
 `tokens.css`; a site that copies the CSS must also have those two tokens. Docs: `docs/components/reveal.html`.
 
+### `<x-vs-animated-number>`
+
+```blade
+<script src="{{ asset('js/animated-number.js') }}" defer></script>   {{-- once per page: copy of blade/animated-number.js --}}
+<x-vs-animated-number :value="$downloads" />
+<x-vs-animated-number :value="$rate" :decimals="2" :duration="800" />
+<x-vs-animated-number :value="null" />   {{-- shows the fallback, nothing moves --}}
+```
+
+A figure that counts up from 0 when it first scrolls into view (a text effect; docs: `docs/components/text-effects.html`).
+The server writes the FINAL figure (`number_format`), so the page is right with JavaScript off, for search engines and
+for reduced motion; `blade/animated-number.js` (no dependency) counts it up and puts the server text back at the end.
+Props: `value` (number or null; anything that is not a finite number shows `fallback`), `decimals` (0 to 6),
+`duration` (ms, default 1000, 0 = at once), `fallback` (default —, escaped), `locale` (default `en-US`, for the separators
+while it counts; a bad tag falls back to `en-US`). Screen readers get the final figure (`aria-label`). PHP's `number_format`
+rounds half up and JavaScript's `toFixed` works on the binary value, so for a value like 12.35 shown with one decimal the two
+can differ in the last digit: pass a value with the decimals you show. Elements added later: `VsAnimatedNumber.init(container)`.
+
 ### `<x-vs-avatar>` / `<x-vs-empty-state>`
 
 ```blade
