@@ -11,7 +11,7 @@ export interface AnimatedNumberProps {
    */
   format?: (value: number) => string;
   className?: string;
-  /** Digits after the decimal point, 0 to 6 (default 0). The figure then moves in steps of 10^-decimals (cents for 2). */
+  /** Digits after the decimal point, 0 to 6 (default 0). The figure moves in steps of 10^-decimals: whole numbers by default, cents for 2. */
   decimals?: number;
   /** Shown when `value` is `null` or `undefined` (default "—"). */
   fallback?: React.ReactNode;
@@ -59,7 +59,7 @@ export function AnimatedNumber({ value, duration = ANIMATED_NUMBER_MS, format, c
       }
       const eased = 1 - Math.pow(1 - t, 3);
       const current = from + (target - from) * eased;
-      const stepped = places > 0 ? Math.round(current * scale) / scale : current;
+      const stepped = Math.round(current * scale) / scale; // whole numbers when decimals is 0, so a custom `format` (String, ...) never sees 123.456 on the way
       fromRef.current = stepped;
       setShown(stepped);
       frame = requestAnimationFrame(step);
