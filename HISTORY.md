@@ -6,6 +6,14 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-21 - Reveal React components (PR 4 of the Reveal plan; on top of the browser check PR); not deployed
+
+- Asked: Master KMO approved the plan, then (2a) to wait for the CI result of the first three PRs before starting this one. CI result first: all five checks of PR 78 were green, and the job logs of webkit and firefox each show all 10 checks as PASS (WebKit's side menu started 924ms after the curtain's start event, Chromium and Firefox 1049ms; the cause was not looked into).
+- Added (`react/src/components/Reveal.tsx`, exported from `react/src/index.ts`): `Reveal` (adds the curtain `div.vs-reveal-curtain`, `aria-hidden`, and no wrapper element; prop `play`, read once at mount: default true for the first `Reveal` of the page load and false for later ones, so a second mount after a logout and login does not replay; the flag is module state set in an effect, so StrictMode's double mount does not matter) and `RevealItem` (the element itself: `as` default `div`, `variant` `slide-left | fade | rise` default `fade`, other props pass through, writes `data-vs-reveal` only while the opening plays). Rules from the earlier decisions: variant not kind (the design system uses variant/tone/emphasis/shape/size, "kind" is not used), the item is the element not a wrapper, `RevealText` and cascade are not in V1.
+- Docs: `docs/components/reveal.html` gets "Usage: React" with the props table.
+- Tests: `Reveal.test.tsx` (9) and `RevealOnce.test.tsx` (4, its own file because the once-per-page-load flag is module state and every test file has fresh modules; the tests walk one page load in order, the first under StrictMode). `npm test` 236 (was 223), `tsc --noEmit` clean. Seven deliberate breaks of `Reveal.tsx` are each caught (guard removed, item attribute always set, curtain not `aria-hidden`, a wrapper added, `as` ignored, curtain rendered when not playing, guard never set).
+- Not verified: the component in a real browser (jsdom runs no CSS; the demo page of the browser check is plain HTML, not React output; the first real check is the reports site in PR 5); the GitHub run of this PR; the typing of `as` for components that do not accept the extra props (only a component that spreads them was tried).
+
 ## 2026-11-21 - Reveal browser check and CI job (PR 3 of the Reveal plan; on top of the Reveal CSS PR); not deployed
 
 - Asked: Master KMO approved the Reveal V1 plan, decision 3a: Playwright as a development dependency plus one CI job, instead of a manual script (this machine has Chromium only, so WebKit and Firefox can only be checked on GitHub).
