@@ -6,6 +6,7 @@
 //  4. the brand green is defined once: no other token may hold the same literal
 //  5. contrast: primary-button text >= 4.5:1 on default/hover/pressed, focus ring >= 3:1 on the
 //     light surfaces and on the dark brand surface (white ring), item card badge text >= 4.5:1 on its fill
+//  6. motion tokens: durations in ms, easings are cubic-bezier(), rise distance in px, and tokens.json holds the same values
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -81,6 +82,20 @@ for (const b of Object.keys(BADGE_MIN)) need(`item card ${b} badge text`, `--vs-
 need('focus ring on surface', '--vs-focus-ring-color', '--vs-color-surface', 3);
 need('focus ring on background', '--vs-focus-ring-color', '--vs-color-background', 3);
 need('focus ring on dark surface', '--vs-focus-ring-color-on-dark', '--vs-color-brand-secondary', 3);
+
+// Motion tokens (page-opening Reveal). Shape check, and tokens.json must say the same as tokens.css.
+const MOTION = { 'duration-curtain': /^\d+ms$/, 'duration-enter': /^\d+ms$/, 'delay-body': /^\d+ms$/, 'ease-standard': /^cubic-bezier\(\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*\)$/, 'ease-decelerate': /^cubic-bezier\(\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*\)$/, 'rise-distance': /^\d+px$/ };
+let tokensJson = {};
+try { tokensJson = JSON.parse(read('tokens/tokens.json')); } catch { /* already reported above */ }
+for (const [name, shape] of Object.entries(MOTION)) {
+  const cssName = `--vs-motion-${name}`;
+  const cssValue = tokens.get(cssName);
+  if (cssValue === undefined) { fail(`${cssName} is missing from tokens.css`); continue; }
+  if (!shape.test(cssValue)) fail(`${cssName} has an unexpected value (${cssValue})`);
+  const jsonValue = tokensJson.motion?.[name]?.value;
+  if (jsonValue === undefined) fail(`motion.${name} is missing from tokens.json`);
+  else if (norm(jsonValue) !== norm(cssValue)) fail(`motion.${name} in tokens.json (${jsonValue}) differs from ${cssName} in tokens.css (${cssValue})`);
+}
 
 if (errors.length) { console.error('check-tokens FAILED:\n- ' + errors.join('\n- ')); process.exit(1); }
 console.log(`check-tokens OK (${tokens.size} tokens, ${rawNames.length} approved raw colours)`);

@@ -6,6 +6,14 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-21 - Motion tokens for the Reveal (PR 1 of the Reveal plan); not deployed
+
+- Asked: Master KMO approved the Reveal V1 plan (kyawmoo/vs-designsystem#75): the page-opening animation becomes a small design system module. PR 1 only adds the timing tokens; no component, no CSS rule, no visible change.
+- Added: `--vs-motion-duration-curtain` 1050ms, `--vs-motion-duration-enter` 700ms, `--vs-motion-delay-body` 150ms, `--vs-motion-ease-standard`, `--vs-motion-ease-decelerate`, `--vs-motion-rise-distance` 14px, in `tokens/tokens.css`, `tokens/tokens.json` (new "motion" group) and the docs copy `docs/assets/tokens.css`. The values come from the prototype Master KMO tried in the reports site (1050ms was his choice after asking for faster; 700ms, 150ms, the curves and 14px are my Estimate, none was measured against a target). Before this there was no motion token (checked: no duration/easing/transition in `tokens.css`).
+- `scripts/check-tokens.mjs`: check 6: durations are `Nms`, easings are `cubic-bezier()`, rise distance is `Npx`, and `tokens.json` holds the same value as `tokens.css`.
+- Checked: `npm run check:tokens` OK (161 tokens, was 155). Four deliberate breaks are each caught (a duration without its unit, json and css disagreeing, a token missing, an easing that is not a cubic-bezier).
+- Not verified: the CI run on GitHub (only run locally); nothing uses the tokens yet.
+
 ## 2026-11-01 — MobilePageHeader: optional `trailing` slot (a control next to the title on a phone); not deployed
 
 - Asked: Master KMO chose (a)+(c): the title and the date-range selector on one row on the phone headers of the reports pages that still show the old filter icon (Social, Download Activity, Users). `MobilePageHeader` had no place for a control next to the title (title on 80%, one filter icon on 20%), and it also holds the back arrow, so a page could not build this without a custom header. This is the design-system half (ticket "Add trailing slot to MobilePageHeader"); the reports pages follow in a separate change there.
