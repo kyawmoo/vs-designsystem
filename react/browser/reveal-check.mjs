@@ -57,6 +57,10 @@ const snapshot = (page) => page.evaluate(() => {
 });
 // Waits until the curtain is hidden. A curtain that never ends must show up as a failed check, not as a crash.
 const waitForEnd = (page) => page.waitForFunction(() => getComputedStyle(document.querySelector('.vs-reveal-curtain')).visibility === 'hidden', null, { timeout: 8000 }).catch(() => undefined);
+// Waits until every entrance (side menu, body, header, title letters) has finished, whatever the browser's frame rate. A fixed sleep was too
+// short in WebKit once the title letters (blur filters) were added: its frames came late and the animations were not yet at the end. An entrance
+// that never ends is not hidden by this: the wait stops after 10 seconds and the snapshot that follows shows it (a failed check).
+const waitForEntrances = (page) => page.waitForFunction(() => document.getAnimations().every((a) => a.animationName === 'vs-reveal-curtain'), null, { timeout: 10000, polling: 100 }).catch(() => undefined);
 const plain = (s) => s.curtainVisibility === 'hidden' && s.sideTransform === 'none' && s.bodyOpacity === 1 && s.headOpacity === 1 && s.headTransform === 'none' && s.otherAnimations === 0;
 
 async function run(name) {
@@ -108,7 +112,7 @@ async function run(name) {
     check(name, 'during the curtain: it is shown, the side menu waits off to the left, header and body are not shown yet',
       during.curtainVisibility === 'visible' && during.sideTransform !== 'none' && during.bodyOpacity < 0.05 && during.headOpacity < 0.05, JSON.stringify(during));
     await waitForEnd(page);
-    await sleep(1100); // the entrances run 150ms + 700ms after the curtain; the title's last letter ends 150 + 7 x 35 + 420ms after it
+    await waitForEntrances(page); // the entrances run 150ms + 700ms after the curtain; the title's last letter ends 150 + 7 x 35 + 420ms after it
     const after = await snapshot(page);
     check(name, 'afterwards the curtain is hidden and every element is back to plain styles (no transform, fully visible, nothing held)', plain(after), JSON.stringify(after));
     check(name, 'a data-vs-reveal element inside another one does not animate by itself', during.nestedAnimations === 0 && after.nestedAnimations === 0);
@@ -159,7 +163,7 @@ async function run(name) {
     const { context, page } = await open();
     await page.goto(DEMO);
     await waitForEnd(page);
-    await sleep(900);
+    await waitForEntrances(page);
     await page.evaluate(() => {
       scrollTo(0, 300);
       for (const sel of ['.vs-reveal-curtain', '#demo-side', '#demo-head', '#demo-main']) {
@@ -200,7 +204,7 @@ async function run(name) {
     const { context, page } = await open({ viewport: { width: 390, height: 844 } });
     await page.goto(DEMO);
     await waitForEnd(page);
-    await sleep(900);
+    await waitForEntrances(page);
     const s = await snapshot(page);
     check(name, 'phone width: it also ends in plain styles', plain(s), JSON.stringify(s));
     await context.close();
