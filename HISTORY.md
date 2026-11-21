@@ -6,6 +6,12 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-21 - Docs site redeployed again (ds.vectorsticker.com at `56bc983`); Text Effects page live
+
+- Master KMO said "Deploy both" (this docs site and the reports site) after #88 (Text Effects page, `AnimatedNumber` extended, Blade count-up) and #89 (whole numbers while counting) were merged. Ran on the VPS (hostname `vectorsticker`, user `deploy`), the same command as the deploy of `a3e2b4d`: shallow clone of `main` over HTTPS, backup `/var/www/ds.vectorsticker.com.bak-<date-time>`, `rsync -rt docs/` into `/var/www/ds.vectorsticker.com`, `chown -R www-data:www-data`, temp dir removed. Output: clone of `56bc983` and `text-effects.html HTTP 200` (the command ran under `set -e`, so the `curl` ran only after the copy steps succeeded; `sudo` asked for the password once, which Master KMO typed at the terminal). The reports site was deployed in the same sitting.
+- Master KMO looked at the sites afterwards and said "good" (he did not say which page he looked at, so this does not show that he opened the Text Effects page).
+- Not verified by Claude: the Text Effects page in a browser (this session's network cannot reach ds.vectorsticker.com); the other docs pages after the sync (rsync has no `--delete`).
+
 ## 2026-11-21 - AnimatedNumber: whole numbers while counting when decimals is 0; branch fix/animated-number-whole-steps; not merged
 
 - Asked: while preparing kyawmoo/Report-VectorSticker#326 (use `AnimatedNumber` instead of the local `CountUpNumber`) Claude found that with `decimals` omitted a custom `format` (for example `String`, used in several places of the reports site) was given fractional values such as 123.456 while counting, where the site's own `CountUpNumber` gives whole numbers. Master KMO chose (2a): fix it in the design system.
