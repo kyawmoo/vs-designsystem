@@ -98,6 +98,24 @@ describe('AnimatedNumber: decimals and the exact final figure', () => {
   });
 });
 
+describe('AnimatedNumber: whole steps by default', () => {
+  it('with decimals 0 a custom format only ever sees whole numbers while it counts, and the exact value at the end', () => {
+    const seen: number[] = [];
+    const { container } = render(<AnimatedNumber value={1248} duration={1000} format={(v) => { seen.push(v); return String(v); }} />);
+    for (let i = 0; i < 12; i++) act(() => { vi.advanceTimersByTime(100); }); // many small steps: one big step would run only the last frame
+    expect(seen.length).toBeGreaterThan(8);
+    expect(seen.some((v) => v > 0 && v < 1248)).toBe(true); // it really was in between
+    for (const v of seen) expect(Number.isInteger(v)).toBe(true);
+    expect(visible(container)).toBe('1248');
+  });
+
+  it('a value that is not a whole number still ends exactly on itself (12.5 with decimals 0 and a format that shows one decimal)', () => {
+    const { container } = render(<AnimatedNumber value={12.5} duration={500} format={(v) => v.toFixed(1)} />);
+    act(() => { vi.advanceTimersByTime(700); });
+    expect(visible(container)).toBe('12.5');
+  });
+});
+
 describe('AnimatedNumber: odd values', () => {
   it('negative and very large numbers end on the exact figure', () => {
     for (const v of [-2500, 1e12]) {

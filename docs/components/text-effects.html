@@ -102,7 +102,7 @@
       <thead><tr><th>Prop</th><th>React</th><th>Blade</th></tr></thead>
       <tbody>
         <tr><td><code>value</code></td><td><code>number | null | undefined</code>. <code>null</code> or <code>undefined</code> shows <code>fallback</code> and nothing moves; a new number counts on from the last one shown. NaN or Infinity count as 0.</td><td>A number, or null. Anything that is not a finite number shows <code>fallback</code>.</td></tr>
-        <tr><td><code>decimals</code></td><td>0 to 6 (default 0). The figure moves in steps of 10<sup>-decimals</sup>; <code>format</code> receives the real value (12.3, not 123).</td><td>Same. The server text is written with <code>number_format</code>.</td></tr>
+        <tr><td><code>decimals</code></td><td>0 to 6 (default 0). The figure moves in steps of 10<sup>-decimals</sup>, so whole numbers by default (a <code>format</code> such as <code>String</code> never sees 123.456 on the way); <code>format</code> receives the real value (12.3, not 123).</td><td>Same. The server text is written with <code>number_format</code>.</td></tr>
         <tr><td><code>duration</code></td><td>ms, default 1000; reduced motion shows the final figure at once.</td><td>Same; 0 shows the final figure at once.</td></tr>
         <tr><td><code>format</code></td><td><code>(v) =&gt; string</code>. Default: thousands separators and exactly <code>decimals</code> decimals.</td><td>Not a prop: the server writes the final text; <code>locale</code> (default <code>en-US</code>) sets the separators while it counts.</td></tr>
         <tr><td><code>fallback</code></td><td>Node shown when there is no number (default —).</td><td>Text shown when there is no number (default —), escaped.</td></tr>

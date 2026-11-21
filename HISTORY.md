@@ -6,6 +6,13 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-21 - AnimatedNumber: whole numbers while counting when decimals is 0; branch fix/animated-number-whole-steps; not merged
+
+- Asked: while preparing kyawmoo/Report-VectorSticker#326 (use `AnimatedNumber` instead of the local `CountUpNumber`) Claude found that with `decimals` omitted a custom `format` (for example `String`, used in several places of the reports site) was given fractional values such as 123.456 while counting, where the site's own `CountUpNumber` gives whole numbers. Master KMO chose (2a): fix it in the design system.
+- Changed: `AnimatedNumber` rounds every in-between value to the step 10^-decimals, so with `decimals` 0 the values are whole numbers (before: only when `decimals` > 0). The final figure is unchanged (the exact value). A caller with a custom `format` and a non-integer value saw fractions on the way before; now it sees whole numbers on the way and the exact value at the end. The default format is unaffected (it rounded anyway). Docs line on the Text Effects page.
+- Checked: `npm test` 261 pass (2 new: a custom `format` only sees whole numbers while counting, with in-between values really observed; 12.5 with one decimal in `format` ends on "12.5"), `tsc` clean. Deliberate break (fractions again for decimals 0) is caught. While writing the test one version passed even with the break: one big timer step ran only the last frame, so no in-between value was ever seen; the test now advances in 12 small steps and asserts that an in-between value was seen.
+- Not verified: the reports site with it (kyawmoo/Report-VectorSticker#326, next); WebKit and Firefox (no browser check covers this; the unit tests do).
+
 ## 2026-11-21 - Text Effects: AnimatedNumber extended, Blade count-up, one docs page for text effects (epic #87); branch feat/text-effects; not merged
 
 - Asked: Master KMO: one "Text Effects" page with two effects (the Overview-style title wipe and the number count-up), later effects are added to it; decisions: (1a) extend the design system `AnimatedNumber` with what the reports site's own `CountUpNumber` has, then the site uses it; (2) a Blade version too. Tickets #84 (AnimatedNumber), #85 (Blade count-up), #86 (docs page), epic #87, and kyawmoo/Report-VectorSticker#326 (use it in the reports site, blocked by #84).
