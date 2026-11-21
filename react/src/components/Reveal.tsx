@@ -64,6 +64,20 @@ export interface RevealTextProps extends Omit<React.HTMLAttributes<HTMLElement>,
   as?: React.ElementType;
 }
 
+/**
+ * Scripts whose letters can safely be split into inline-block spans: alphabets that use spaces and do not join or reorder
+ * (Latin, Greek, Cyrillic, Armenian, Georgian, Hangul), plus Common (digits, punctuation, spaces, emoji) and Inherited (combining
+ * marks, joiners, variation selectors). Anything else (Arabic, Hebrew, Burmese, Thai, Indic, Han, Kana, Mongolian, ...) would lose
+ * its joining, shaping or ordering, or could not wrap, so the text is kept as it is. Measured: Arabic grows by 41% and loses its
+ * joins when split. The same rule is in blade/components/vs-reveal-text.blade.php (check-tokens keeps the two in step).
+ */
+const SPLITTABLE = /^[\p{Script=Latin}\p{Script=Greek}\p{Script=Cyrillic}\p{Script=Armenian}\p{Script=Georgian}\p{Script=Hangul}\p{Script=Common}\p{Script=Inherited}]*$/u;
+
+/** Whether `text` may be written letter by letter (see SPLITTABLE). */
+export function canSplitIntoLetters(text: string): boolean {
+  return SPLITTABLE.test(text);
+}
+
 /** Letters after this one start together with it, so a long title never waits for seconds. */
 const REVEAL_TEXT_MAX_INDEX = 30;
 
@@ -80,10 +94,11 @@ function splitGraphemes(word: string): string[] {
  * tokens). Put it inside the page body: it starts together with the body fade. Only while the opening plays (inside a
  * playing <Reveal>); with play off or on a later mount it renders the plain text and no extra elements.
  * Screen readers get the real text once: a visually hidden copy; the letters are aria-hidden.
+ * Only for scripts that can be split safely (canSplitIntoLetters); any other text is rendered as plain text.
  */
 export function RevealText({ text, as: Tag = 'span', ...rest }: RevealTextProps) {
   const play = useContext(RevealContext);
-  if (!play) return <Tag {...rest}>{text}</Tag>;
+  if (!play || !canSplitIntoLetters(text)) return <Tag {...rest}>{text}</Tag>;
   let index = 0;
   const words = text.split(/\s+/).filter(Boolean);
   return (
