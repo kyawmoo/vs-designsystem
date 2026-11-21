@@ -208,6 +208,15 @@
   /* ---- Shadow (flat design — always none) ---- */
   --vs-shadow-none: none;
 
+  /* ---- Motion (page-opening Reveal: a curtain, then entrances that start when it ends). Durations are in ms so
+     check-tokens can read them; honour prefers-reduced-motion wherever they are used. ---- */
+  --vs-motion-duration-curtain: 1050ms;
+  --vs-motion-duration-enter: 700ms;
+  --vs-motion-delay-body: 150ms;
+  --vs-motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --vs-motion-ease-decelerate: cubic-bezier(0.2, 0, 0, 1);
+  --vs-motion-rise-distance: 14px;
+
   /* ---- Spacing ---- */
   --vs-spacing-xs: 4px;
   --vs-spacing-sm: 8px;
