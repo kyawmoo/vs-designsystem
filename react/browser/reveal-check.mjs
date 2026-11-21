@@ -75,6 +75,20 @@ async function run(name) {
     await page.addInitScript(() => {
       window.__starts = [];
       document.addEventListener('animationstart', (e) => window.__starts.push([e.animationName, Math.round(performance.now())]), true);
+      // When each animation really starts, from the animation itself (start time on the document timeline plus its
+      // delay), not from the time the animationstart event arrived: an event reaches the page in some later frame,
+      // and in WebKit that gap moved the measured start of the side menu by about 150ms between runs.
+      window.__active = {};
+      const sample = () => {
+        for (const a of document.getAnimations()) {
+          const n = a.animationName;
+          if (n && n.startsWith('vs-reveal') && a.startTime != null && !(n in window.__active)) {
+            window.__active[n] = Math.round(Number(a.startTime) + a.effect.getTiming().delay);
+          }
+        }
+        if (performance.now() < 6000) requestAnimationFrame(sample);
+      };
+      requestAnimationFrame(sample);
     });
     return { context, page };
   };
@@ -92,11 +106,15 @@ async function run(name) {
     check(name, 'afterwards the curtain is hidden and every element is back to plain styles (no transform, fully visible, nothing held)', plain(after), JSON.stringify(after));
     check(name, 'a data-vs-reveal element inside another one does not animate by itself', during.nestedAnimations === 0 && after.nestedAnimations === 0);
     const starts = await page.evaluate(() => window.__starts);
+    const active = await page.evaluate(() => window.__active);
     const at = (n) => (starts.find((s) => s[0] === n) || [])[1];
-    const curtainAt = at('vs-reveal-curtain'); const sideAt = at('vs-reveal-slide-left'); const fadeAt = at('vs-reveal-fade'); const riseAt = at('vs-reveal-rise');
-    check(name, 'order: the side menu starts about 1 second after the curtain, the body and the header start after the side menu',
-      sideAt - curtainAt > 800 && sideAt - curtainAt < 1600 && fadeAt - sideAt > 50 && fadeAt - sideAt < 450 && riseAt - sideAt > 50 && riseAt - sideAt < 450,
-      `curtain ${curtainAt}, side +${sideAt - curtainAt}, fade +${fadeAt - curtainAt}, rise +${riseAt - curtainAt}`);
+    const eventText = `events: curtain ${at('vs-reveal-curtain')}, side +${at('vs-reveal-slide-left') - at('vs-reveal-curtain')}, fade +${at('vs-reveal-fade') - at('vs-reveal-curtain')}, rise +${at('vs-reveal-rise') - at('vs-reveal-curtain')}`;
+    const curtainAt = active['vs-reveal-curtain']; const sideAt = active['vs-reveal-slide-left']; const fadeAt = active['vs-reveal-fade']; const riseAt = active['vs-reveal-rise'];
+    const known = [curtainAt, sideAt, fadeAt, riseAt].every((v) => Number.isFinite(v));
+    // Expected from the CSS: the side menu starts when the curtain ends (--vs-motion-duration-curtain, 1050ms), the body and the header 150ms after that.
+    check(name, 'order: the side menu starts when the curtain ends (about 1 second after it), the body and the header start after the side menu',
+      known && sideAt - curtainAt > 900 && sideAt - curtainAt < 1200 && fadeAt - sideAt > 100 && fadeAt - sideAt < 250 && riseAt - sideAt > 100 && riseAt - sideAt < 250,
+      `animation start times: curtain ${curtainAt}, side +${sideAt - curtainAt}, fade +${fadeAt - curtainAt}, rise +${riseAt - curtainAt}; ${eventText}`);
     await context.close();
   }
 
