@@ -181,7 +181,7 @@ The server writes the FINAL figure (`number_format`), so the page is right with 
 for reduced motion; `blade/animated-number.js` (no dependency) counts it up and puts the server text back at the end.
 Props: `value` (number or null; anything that is not a finite number shows `fallback`), `decimals` (0 to 6),
 `duration` (ms, default 1000, 0 = at once), `fallback` (default —, escaped), `locale` (default `en-US`, for the separators
-while it counts; a bad tag falls back to `en-US`). Screen readers get the final figure (`aria-label`). PHP's `number_format`
+while it counts; a bad tag falls back to `en-US`). Screen readers read a visually hidden copy of the final figure once; the moving text is `aria-hidden`. PHP's `number_format`
 rounds half up and JavaScript's `toFixed` works on the binary value, so for a value like 12.35 shown with one decimal the two
 can differ in the last digit: pass a value with the decimals you show. Elements added later: `VsAnimatedNumber.init(container)`.
 

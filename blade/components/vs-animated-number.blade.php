@@ -3,7 +3,7 @@
 
     The server writes the FINAL figure, so the page is right with JavaScript off, for search engines and for reduced
     motion. blade/animated-number.js (load it once on the page, defer) counts the figure up from 0 and puts this text
-    back at the end. Screen readers get the final figure at once (aria-label; the moving text is aria-hidden).
+    back at the end. Screen readers get the final figure once (a visually hidden copy; the moving text is aria-hidden).
 
     Props:
       value     number | null — null (or anything that is not a finite number) shows `fallback` and nothing moves.
@@ -30,7 +30,7 @@
 @endphp
 
 @if ($has)
-<span {{ $attributes }} data-vs-animated-number data-value="{{ (float) $value }}" data-decimals="{{ $places }}" data-duration="{{ $ms }}" data-locale="{{ $tag }}" aria-label="{{ $text }}"><span aria-hidden="true">{{ $text }}</span></span>
+<span {{ $attributes }} data-vs-animated-number data-value="{{ (float) $value }}" data-decimals="{{ $places }}" data-duration="{{ $ms }}" data-locale="{{ $tag }}" ><span class="vs-animated-number__sr">{{ $text }}</span><span aria-hidden="true">{{ $text }}</span></span>
 @else
 <span {{ $attributes }}>{{ $fallback }}</span>
 @endif

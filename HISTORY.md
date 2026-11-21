@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-21 - AnimatedNumber: accessible name without aria-label on a generic span (audit finding 4, ticket #93); branch fix/animated-number-a11y; not merged
+
+- Asked: Master KMO, decision 1a after the adversarial audit: the second of two small fixes (the first is RevealText scripts, #92).
+- Found: axe-core 4.10.2 reports `aria-prohibited-attr` (impact serious) for `<span aria-label="4,214"><span aria-hidden="true">...</span></span>` (the markup of `AnimatedNumber` and `x-vs-animated-number`). Many screen readers ignore a name on a role-less span, and the moving text is aria-hidden, so the figure might not be announced at all. Whether NVDA or VoiceOver read it was not tested (no screen reader here).
+- Changed: React and Blade now write `<span><span class="vs-animated-number__sr">4,214</span><span aria-hidden="true">...moving...</span></span>` (the pattern RevealText uses): a visually hidden copy of the final text, read once, and the aria-hidden counting text. New class `.vs-animated-number__sr` in `react/src/styles.css` and `blade/components.css` (docs copy equal). The Blade script is unchanged (it updates the aria-hidden span and puts the server text back). Docs: demo markup, the accessibility bullet on the Text Effects page, Blade README. Tests that looked for `aria-label` (`LineChart.test.tsx` AnimatedNumber tests, `AnimatedNumber.test.tsx` helper, the Blade script test markup) now read the hidden copy; the assertions are the same (final text, counting text), only the place they read from changed. New devDependency `axe-core` 4.10.2 (exact, like playwright; test only, so a regression of this kind fails a test) and `textEffects.a11y.test.tsx`: axe on AnimatedNumber (value, decimals, no value), RevealText as a heading in a playing Reveal, the Blade markup, and a control that the OLD markup is reported.
+- Checked: `npm test` 265 pass (4 new axe tests), `tsc` clean, `check:tokens` OK, Chromium browser check all pass (the Text Effects demo markup changed). Deliberate break (aria-label again) is caught by the axe test; the control test proves the check can fail. Blade rendered with a real Laravel view engine: the new structure for a value and the fallback for null.
+- Consumers: the reports site tests that match the old `aria-label` markup (`CountUpNumber.test.tsx`, `EarningsSummary.test.tsx`) must be updated when its design-system pin is bumped; the main site copy (component and CSS) is not updated yet.
+- Not verified: NVDA, VoiceOver, JAWS; axe's colour-contrast rule (jsdom has no layout; not run); how a screen reader treats a figure that changes after it was first read (no live region by design).
+
 ## 2026-11-21 - RevealText: scripts that cannot be split keep their original text (audit finding 1, ticket #92); branch fix/reveal-text-scripts; not merged
 
 - Asked: Master KMO, decision 1a after the adversarial audit: fix the two real defects first, in two small PRs; this is the first (RevealText), the second is AnimatedNumber accessibility (#93).

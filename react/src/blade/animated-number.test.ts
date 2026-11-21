@@ -3,7 +3,7 @@ import SRC from '../../../blade/animated-number.js?raw';
 
 // Tests the Blade companion script (blade/animated-number.js) in jsdom: the markup is what the Blade component writes.
 const markup = (value: string, text: string, extra = '') =>
-  `<span id="n" data-vs-animated-number data-value="${value}" data-decimals="0" data-duration="1000" data-locale="en-US" ${extra}aria-label="${text}"><span aria-hidden="true">${text}</span></span>`;
+  `<span id="n" data-vs-animated-number data-value="${value}" data-decimals="0" data-duration="1000" data-locale="en-US" ${extra}><span class="vs-animated-number__sr">${text}</span><span aria-hidden="true">${text}</span></span>`;
 
 let reduced = false;
 let observers: { cb: (e: any[]) => void; observed: Element[] }[] = [];
@@ -63,7 +63,7 @@ describe('animated-number.js', () => {
   });
 
   it('the last text is exactly the server text, also with decimals and another number format', () => {
-    document.body.innerHTML = '<span id="n" data-vs-animated-number data-value="1234.5" data-decimals="2" data-duration="600" data-locale="en-US" aria-label="1,234.50"><span aria-hidden="true">1,234.50</span></span>';
+    document.body.innerHTML = '<span id="n" data-vs-animated-number data-value="1234.5" data-decimals="2" data-duration="600" data-locale="en-US"><span class="vs-animated-number__sr">1,234.50</span><span aria-hidden="true">1,234.50</span></span>';
     load();
     vi.advanceTimersByTime(300);
     expect(text()).toMatch(/^\d{1,3}(,\d{3})*\.\d{2}$/); // moving in cents

@@ -23,7 +23,7 @@ export const ANIMATED_NUMBER_MS = 1000;
  * A number that counts up from the number last shown (0 at first) with an ease-out curve, for KPI cards, a headline figure or
  * any number that should arrive with some life. The LAST frame passes `value` itself, untouched, to `format`, so the figure that
  * stays on screen is written exactly as it would be without the animation (12.35 with toFixed(1) stays "12.3"). Screen readers get
- * the final value at once; reduced motion shows the final value only. No number yet (`null` / `undefined`) shows `fallback`;
+ * the final value at once (a visually hidden copy; the counting text is aria-hidden); reduced motion shows the final value only. No number yet (`null` / `undefined`) shows `fallback`;
  * when a number arrives later it counts on from the last one shown (from 0 if there was none). A value that is not a finite number
  * (NaN, Infinity) is treated as 0.
  */
@@ -69,8 +69,11 @@ export function AnimatedNumber({ value, duration = ANIMATED_NUMBER_MS, format, c
   }, [empty, target, duration, reduce, places, scale]);
 
   if (empty) return <span className={className}>{fallback}</span>;
+  // The final text is in a visually hidden element (read once by screen readers); the moving text is aria-hidden. An aria-label on a
+  // role-less span is not allowed (axe: aria-prohibited-attr) and many screen readers ignore it.
   return (
-    <span className={className} aria-label={write(target)}>
+    <span className={className}>
+      <span className="vs-animated-number__sr">{write(target)}</span>
       <span aria-hidden="true">{write(shown)}</span>
     </span>
   );
