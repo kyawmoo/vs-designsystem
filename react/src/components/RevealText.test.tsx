@@ -1,7 +1,8 @@
 import React from 'react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { cleanup, render } from '@testing-library/react';
-import { Reveal, RevealText } from './Reveal';
+import { Reveal, RevealText, canSplitIntoLetters } from './Reveal';
+import fixtures from '../fixtures-reveal-text-scripts.json';
 
 // Markup only (jsdom runs no CSS animation). How the letters look and move is checked in real browsers by
 // react/browser/reveal-check.mjs.
@@ -56,16 +57,18 @@ describe('RevealText', () => {
     expect(letters(container)).toHaveLength(0);
   });
 
-  it('a letter with combining marks (Burmese) is one letter, never cut in two', () => {
-    const word = 'မြန်မာ'; // 6 code points, 3 letters (grapheme clusters)
-    const { container } = render(
-      <Reveal play>
-        <RevealText text={word} />
-      </Reveal>,
-    );
-    const texts = letters(container).map((l) => l.textContent);
-    expect(texts.join('')).toBe(word);
-    expect(texts.length).toBeLessThan(Array.from(word).length);
+  it('a letter with combining marks or a joined emoji is one letter, never cut in two', () => {
+    for (const word of ['Cafe\u0301', '👨‍👩‍👧‍👦']) {
+      const { container } = render(
+        <Reveal play>
+          <RevealText text={word} />
+        </Reveal>,
+      );
+      const texts = letters(container).map((l) => l.textContent);
+      expect(texts.join(''), word).toBe(word);
+      expect(texts.length, word).toBeLessThan(Array.from(word).length);
+      cleanup();
+    }
   });
 
   it('play={false}: the element holds only the plain text', () => {
@@ -87,5 +90,49 @@ describe('RevealText', () => {
     );
     expect(container.querySelector('b')).toBeNull();
     expect(container.querySelector('.vs-reveal-text__sr')!.textContent).toBe('<b>x</b>');
+  });
+});
+
+describe('RevealText: scripts that cannot be split keep their original text', () => {
+  it('canSplitIntoLetters gives the expected answer for every shared fixture (the same fixtures check the Blade rule in check-tokens)', () => {
+    for (const f of fixtures) expect(canSplitIntoLetters(f.text), JSON.stringify(f.text)).toBe(f.split);
+  });
+
+  it('Arabic, Hebrew, Burmese, Thai, Devanagari, Han and Kana render the plain text: no letters, no hidden copy, no attribute', () => {
+    for (const text of ['مرحبا بالعالم', 'שלום עולם', 'မင်္ဂလာပါ မြန်မာ', 'สวัสดีชาวโลก', 'नमस्ते दुनिया', '你好世界', 'こんにちは']) {
+      const { container } = render(
+        <Reveal play>
+          <RevealText as="h1" text={text} />
+        </Reveal>,
+      );
+      const h1 = container.querySelector('h1')!;
+      expect(h1.innerHTML, text).toBe(text);
+      expect(h1.hasAttribute('data-vs-reveal-text'), text).toBe(false);
+      expect(letters(container), text).toHaveLength(0);
+      cleanup();
+    }
+  });
+
+  it('a title that mixes Latin with one of those scripts stays plain as a whole (the original text is preserved)', () => {
+    const { container } = render(
+      <Reveal play>
+        <RevealText text="Hello مرحبا World" />
+      </Reveal>,
+    );
+    expect(container.querySelector('span')!.textContent).toBe('Hello مرحبا World');
+    expect(letters(container)).toHaveLength(0);
+  });
+
+  it('Cyrillic, Greek, Hangul, accents and emoji are still written letter by letter', () => {
+    for (const text of ['Привет мир', 'Καλημέρα', '안녕하세요', 'Café', '👨‍👩‍👧‍👦 ❤️']) {
+      const { container } = render(
+        <Reveal play>
+          <RevealText text={text} />
+        </Reveal>,
+      );
+      expect(letters(container).length, text).toBeGreaterThan(0);
+      expect(container.querySelector('.vs-reveal-text__sr')!.textContent, text).toBe(text);
+      cleanup();
+    }
   });
 });

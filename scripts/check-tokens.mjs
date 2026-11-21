@@ -108,6 +108,30 @@ if (!bladeReveal) fail('blade/components.css has no vs-reveal block (vs-reveal:s
 if (reactReveal && bladeReveal && reactReveal !== bladeReveal) fail('the vs-reveal block differs between react/src/styles.css and blade/components.css (copy one into the other)');
 for (const m of (reactReveal || '').replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/var\((--vs-[a-z0-9-]+)\)/g)) if (!tokens.has(m[1]) && !m[1].startsWith('--vs-reveal-')) fail(`the vs-reveal block reads ${m[1]}, which tokens.css does not define`);
 
+// RevealText: the script rule (which texts may be split into letters) is written twice, in Reveal.tsx and in the Blade component.
+// Both must give the expected answer on the shared fixtures. The PHP side runs only where `php` exists (GitHub's ubuntu runners have it).
+{
+  const fixtures = JSON.parse(read('react/src/fixtures-reveal-text-scripts.json'));
+  const jsSrc = read('react/src/components/Reveal.tsx').match(/const SPLITTABLE = (\/.*\/u);/)?.[1];
+  const phpSrc = read('blade/components/vs-reveal-text.blade.php').match(/\$splittable = preg_match\('(\/.*\/u)', \$plain\) === 1;/)?.[1];
+  if (!jsSrc) fail('could not find the SPLITTABLE rule in react/src/components/Reveal.tsx');
+  if (!phpSrc) fail('could not find the $splittable rule in blade/components/vs-reveal-text.blade.php');
+  if (jsSrc && phpSrc) {
+    const re = new Function(`return ${jsSrc};`)();
+    for (const f of fixtures) if (re.test(f.text) !== f.split) fail(`RevealText script rule (React) gives ${!f.split} for ${JSON.stringify(f.text)}, expected ${f.split}`);
+    const { spawnSync } = await import('node:child_process');
+    const probe = spawnSync('php', ['-r', 'echo PHP_VERSION;'], { encoding: 'utf8' });
+    if (probe.status !== 0) {
+      console.log('check-tokens: php not found, the Blade script rule was not run against the fixtures');
+    } else {
+      const script = `$f = json_decode(file_get_contents('php://stdin'), true); $out = []; foreach ($f as $x) { $out[] = preg_match(${JSON.stringify(phpSrc).replace(/\$/g, '\\$')}, $x['text']) === 1; } echo json_encode($out);`;
+      const run = spawnSync('php', ['-r', script], { input: JSON.stringify(fixtures), encoding: 'utf8' });
+      if (run.status !== 0) fail(`php could not run the script rule: ${run.stderr}`);
+      else JSON.parse(run.stdout).forEach((got, i) => { if (got !== fixtures[i].split) fail(`RevealText script rule (Blade) gives ${got} for ${JSON.stringify(fixtures[i].text)}, expected ${fixtures[i].split}`); });
+    }
+  }
+}
+
 // The Blade count-up script has a copy for the docs site; they must be the same file.
 if (read('blade/animated-number.js') !== read('docs/assets/animated-number.js')) fail('docs/assets/animated-number.js differs from blade/animated-number.js (copy it)');
 

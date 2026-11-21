@@ -162,7 +162,7 @@ it. Docs: `docs/components/reveal.html`.
 
 A page title that appears letter by letter after the curtain (each letter rises from below and comes into focus), for
 use inside an `x-vs-reveal`. The component is the element itself (`as`: `span` (default), `div`, `p`, `h1` to `h6`; any
-other value falls back to `span`). Plain text when the parent `x-vs-reveal` is `:play="false"`. Every piece of the text
+other value falls back to `span`). Plain text when the parent `x-vs-reveal` is `:play="false"`, and for any text that is not in a script that can be split safely (Latin, Greek, Cyrillic, Armenian, Georgian, Hangul, digits, punctuation, emoji): Arabic, Hebrew, Burmese, Thai, Indic, Han, Kana and any mix with them stay plain, unchanged. Every piece of the text
 is escaped; words stay together so the title can wrap; letters are grapheme clusters; screen readers get a hidden copy.
 CSS and tokens (`--vs-motion-text-duration`, `--vs-motion-text-stagger`) are in `blade/components.css` and
 `tokens.css`; a site that copies the CSS must also have those two tokens. Docs: `docs/components/reveal.html`.
