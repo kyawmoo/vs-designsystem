@@ -152,6 +152,21 @@ renders the content with no animation). `x-vs-reveal-item` is the element itself
 `vs-reveal` block of `blade/components.css` (token only). Opt in per page: nothing animates on a page that does not use
 it. Docs: `docs/components/reveal.html`.
 
+### `<x-vs-reveal-text>`
+
+```blade
+<x-vs-reveal-item as="main" variant="fade">
+    <x-vs-reveal-text as="h1" text="Overview" />
+</x-vs-reveal-item>
+```
+
+A page title that appears letter by letter after the curtain (each letter rises from below and comes into focus), for
+use inside an `x-vs-reveal`. The component is the element itself (`as`: `span` (default), `div`, `p`, `h1` to `h6`; any
+other value falls back to `span`). Plain text when the parent `x-vs-reveal` is `:play="false"`. Every piece of the text
+is escaped; words stay together so the title can wrap; letters are grapheme clusters; screen readers get a hidden copy.
+CSS and tokens (`--vs-motion-text-duration`, `--vs-motion-text-stagger`) are in `blade/components.css` and
+`tokens.css`; a site that copies the CSS must also have those two tokens. Docs: `docs/components/reveal.html`.
+
 ### `<x-vs-avatar>` / `<x-vs-empty-state>`
 
 ```blade

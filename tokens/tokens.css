@@ -216,6 +216,8 @@
   --vs-motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --vs-motion-ease-decelerate: cubic-bezier(0.2, 0, 0, 1);
   --vs-motion-rise-distance: 14px;
+  --vs-motion-text-duration: 420ms;
+  --vs-motion-text-stagger: 35ms;
 
   /* ---- Spacing ---- */
   --vs-spacing-xs: 4px;

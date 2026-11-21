@@ -56,3 +56,56 @@ export function RevealItem({ as: Tag = 'div', variant = 'fade', ...rest }: Revea
   const play = useContext(RevealContext);
   return <Tag {...rest} data-vs-reveal={play ? variant : undefined} />;
 }
+
+export interface RevealTextProps extends Omit<React.HTMLAttributes<HTMLElement>, 'children'> {
+  /** The title. It is split into letters only while the opening plays; otherwise it is rendered as plain text. */
+  text: string;
+  /** The element to render (default 'span'; use 'h1' for a page title). The title IS this element, not a wrapper. */
+  as?: React.ElementType;
+}
+
+/** Letters after this one start together with it, so a long title never waits for seconds. */
+const REVEAL_TEXT_MAX_INDEX = 30;
+
+/** The visible letters (grapheme clusters, so a letter with combining marks, as in Burmese, is never cut in two). */
+function splitGraphemes(word: string): string[] {
+  const Segmenter = (Intl as unknown as { Segmenter?: new (l?: string, o?: { granularity: 'grapheme' }) => { segment(s: string): Iterable<{ segment: string }> } }).Segmenter;
+  if (Segmenter) return Array.from(new Segmenter(undefined, { granularity: 'grapheme' }).segment(word), (x) => x.segment);
+  return Array.from(word);
+}
+
+/**
+ * A title that appears letter by letter from the left after the curtain, each letter rising from below its line and
+ * coming into focus (docs: Reveal). The animation is plain CSS (data-vs-reveal-text, timing from the --vs-motion-text-*
+ * tokens). Put it inside the page body: it starts together with the body fade. Only while the opening plays (inside a
+ * playing <Reveal>); with play off or on a later mount it renders the plain text and no extra elements.
+ * Screen readers get the real text once: a visually hidden copy; the letters are aria-hidden.
+ */
+export function RevealText({ text, as: Tag = 'span', ...rest }: RevealTextProps) {
+  const play = useContext(RevealContext);
+  if (!play) return <Tag {...rest}>{text}</Tag>;
+  let index = 0;
+  const words = text.split(/\s+/).filter(Boolean);
+  return (
+    <Tag {...rest} data-vs-reveal-text="">
+      <span className="vs-reveal-text__sr">{text}</span>
+      <span className="vs-reveal-text__visual" aria-hidden="true">
+        {words.map((word, w) => (
+          <React.Fragment key={w}>
+            {w > 0 && ' '}
+            <span className="vs-reveal-text__word">
+              {splitGraphemes(word).map((letter, l) => {
+                const i = Math.min(index++, REVEAL_TEXT_MAX_INDEX);
+                return (
+                  <span key={l} className="vs-reveal-text__letter" style={{ '--i': i } as React.CSSProperties}>
+                    {letter}
+                  </span>
+                );
+              })}
+            </span>
+          </React.Fragment>
+        ))}
+      </span>
+    </Tag>
+  );
+}

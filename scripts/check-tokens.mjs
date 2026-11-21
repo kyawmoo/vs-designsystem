@@ -86,7 +86,7 @@ need('focus ring on background', '--vs-focus-ring-color', '--vs-color-background
 need('focus ring on dark surface', '--vs-focus-ring-color-on-dark', '--vs-color-brand-secondary', 3);
 
 // Motion tokens (page-opening Reveal). Shape check, and tokens.json must say the same as tokens.css.
-const MOTION = { 'duration-curtain': /^\d+ms$/, 'duration-enter': /^\d+ms$/, 'delay-body': /^\d+ms$/, 'ease-standard': /^cubic-bezier\(\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*\)$/, 'ease-decelerate': /^cubic-bezier\(\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*\)$/, 'rise-distance': /^\d+px$/ };
+const MOTION = { 'duration-curtain': /^\d+ms$/, 'duration-enter': /^\d+ms$/, 'delay-body': /^\d+ms$/, 'ease-standard': /^cubic-bezier\(\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*\)$/, 'ease-decelerate': /^cubic-bezier\(\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*\)$/, 'rise-distance': /^\d+px$/, 'text-duration': /^\d+ms$/, 'text-stagger': /^\d+ms$/ };
 let tokensJson = {};
 try { tokensJson = JSON.parse(read('tokens/tokens.json')); } catch { /* already reported above */ }
 for (const [name, shape] of Object.entries(MOTION)) {
