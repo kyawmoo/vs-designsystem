@@ -154,7 +154,9 @@ describe('AnimatedNumber', () => {
   it('counts up to the value and gives screen readers the final value at once', () => {
     vi.useFakeTimers({ toFake: ['requestAnimationFrame', 'cancelAnimationFrame', 'performance'] });
     render(<AnimatedNumber value={4214} duration={1000} />);
-    const el = screen.getByLabelText('4,214');
+    // the final figure is in a visually hidden copy for screen readers; the counting text is the aria-hidden span next to it
+    expect(screen.getByText('4,214', { selector: '.vs-animated-number__sr' })).toBeTruthy();
+    const el = screen.getByText('4,214', { selector: '.vs-animated-number__sr' }).parentElement!.querySelector('[aria-hidden="true"]')!;
     expect(el.textContent).toBe('0');
     act(() => { vi.advanceTimersByTime(500); });
     const mid = Number(el.textContent!.replace(/,/g, ''));
@@ -168,9 +170,9 @@ describe('AnimatedNumber', () => {
   it('shows the final value at once with reduced motion, and treats a bad value as 0', () => {
     reducedMotion = true;
     render(<AnimatedNumber value={27} />);
-    expect(screen.getByLabelText('27').textContent).toBe('27');
+    expect(screen.getByText('27', { selector: '.vs-animated-number__sr' }).parentElement!.querySelector('[aria-hidden="true"]')!.textContent).toBe('27');
     cleanup();
     render(<AnimatedNumber value={Number.NaN} />);
-    expect(screen.getByLabelText('0').textContent).toBe('0');
+    expect(screen.getByText('0', { selector: '.vs-animated-number__sr' }).parentElement!.querySelector('[aria-hidden="true"]')!.textContent).toBe('0');
   });
 });

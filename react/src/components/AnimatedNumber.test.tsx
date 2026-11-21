@@ -17,14 +17,14 @@ afterEach(() => {
 });
 
 const visible = (c: HTMLElement) => c.querySelector('[aria-hidden="true"]')?.textContent ?? c.textContent;
-const label = (c: HTMLElement) => c.querySelector('[aria-label]')?.getAttribute('aria-label');
+const label = (c: HTMLElement) => c.querySelector('.vs-animated-number__sr')?.textContent;
 
 describe('AnimatedNumber: empty value', () => {
   it('null and undefined show the fallback and start no animation', () => {
     const raf = vi.spyOn(globalThis, 'requestAnimationFrame');
     const a = render(<AnimatedNumber value={null} />);
     expect(a.container.textContent).toBe('—');
-    expect(a.container.querySelector('[aria-label]')).toBeNull();
+    expect(a.container.querySelector('.vs-animated-number__sr')).toBeNull();
     const b = render(<AnimatedNumber value={undefined} fallback="n/a" />);
     expect(b.container.textContent).toBe('n/a');
     expect(raf).not.toHaveBeenCalled();

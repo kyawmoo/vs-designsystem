@@ -83,8 +83,8 @@
     <div class="vs-docs-preview" style="display:block">
       <div class="demo-head"><strong>Counts up when it scrolls into view</strong><button class="demo-replay" type="button" id="replay-count">↻ Replay</button></div>
       <div class="demo-kpis" id="count-stage">
-        <div class="demo-kpi"><div class="demo-kpi-label">Downloads</div><div class="demo-kpi-value"><span data-vs-animated-number data-value="4214" data-decimals="0" data-duration="1000" data-locale="en-US" aria-label="4,214"><span aria-hidden="true">4,214</span></span></div></div>
-        <div class="demo-kpi"><div class="demo-kpi-label">Conversion</div><div class="demo-kpi-value"><span data-vs-animated-number data-value="12.35" data-decimals="2" data-duration="1000" data-locale="en-US" aria-label="12.35"><span aria-hidden="true">12.35</span></span>%</div></div>
+        <div class="demo-kpi"><div class="demo-kpi-label">Downloads</div><div class="demo-kpi-value"><span data-vs-animated-number data-value="4214" data-decimals="0" data-duration="1000" data-locale="en-US"><span class="vs-animated-number__sr">4,214</span><span aria-hidden="true">4,214</span></span></div></div>
+        <div class="demo-kpi"><div class="demo-kpi-label">Conversion</div><div class="demo-kpi-value"><span data-vs-animated-number data-value="12.35" data-decimals="2" data-duration="1000" data-locale="en-US"><span class="vs-animated-number__sr">12.35</span><span aria-hidden="true">12.35</span></span>%</div></div>
         <div class="demo-kpi"><div class="demo-kpi-label">No data yet</div><div class="demo-kpi-value">—</div></div>
       </div>
     </div>
@@ -110,7 +110,7 @@
     </table>
     <ul>
       <li><strong>Final figure.</strong> React: the last frame passes <code>value</code> itself to <code>format</code> (12.35 with <code>toFixed(1)</code> stays "12.3", it is not rounded to the steps first). Blade: at the end the script puts the server's text back, character for character. PHP's <code>number_format</code> rounds half up and JavaScript's <code>toFixed</code> works on the binary value, so the two can differ in the last digit for a value like 12.35 with one decimal; pass a value with the decimals you show.</li>
-      <li><strong>Accessibility.</strong> Screen readers get the final figure at once (<code>aria-label</code>); the moving text is <code>aria-hidden</code>. Reduced motion shows the final figure only.</li>
+      <li><strong>Accessibility.</strong> Screen readers read a visually hidden copy of the final figure once; the moving text is <code>aria-hidden</code> (an <code>aria-label</code> on a plain <code>span</code> is not allowed and many screen readers ignore it, so it is not used). Reduced motion shows the final figure only.</li>
       <li><strong>JavaScript off (Blade).</strong> The page shows the final figure; the count is a progressive enhancement. Below the fold the figure shows 0 until it is scrolled into view; elements added later: call <code>VsAnimatedNumber.init(container)</code>.</li>
     </ul>
 
