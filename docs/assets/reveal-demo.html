@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reveal demo — VectorSticker Design System</title>
+<!-- Plain HTML, no JavaScript needed for the effect (the Replay button only reloads the page).
+     Used by the docs page (in an iframe, so the curtain covers the frame, not the docs) and by the browser check
+     (scripts/reveal-browser-check.mjs). -->
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/blade-components.css">
+<style>
+  body { margin: 0; font-family: var(--vs-font-family); color: var(--vs-color-text-body); background: var(--vs-color-background); }
+  .demo-shell { display: flex; min-height: 100vh; }
+  .demo-side { flex: 0 0 150px; position: sticky; top: 0; align-self: flex-start; height: 100vh; box-sizing: border-box; padding: var(--vs-spacing-md); background: var(--vs-color-brand-secondary); color: var(--vs-color-surface); }
+  .demo-side p { margin: 0 0 var(--vs-spacing-sm); font-size: 14px; }
+  .demo-col { flex: 1; min-width: 0; padding: var(--vs-spacing-md); }
+  .demo-head { margin: 0 0 var(--vs-spacing-md); padding: var(--vs-spacing-md); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); background: var(--vs-color-surface); }
+  .demo-head h1 { margin: 0; font-size: 24px; color: var(--vs-color-text-heading); }
+  .demo-main { display: grid; gap: var(--vs-spacing-md); }
+  .demo-card { padding: var(--vs-spacing-md); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); background: var(--vs-color-surface); min-height: 90px; }
+  .demo-card h2 { margin: 0 0 var(--vs-spacing-xs); font-size: 16px; color: var(--vs-color-text-heading); }
+  .demo-replay { position: fixed; right: 12px; bottom: 12px; z-index: 10000; font: 600 13px var(--vs-font-family); padding: 8px 14px; border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); background: var(--vs-color-surface); color: var(--vs-color-text-heading); cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="vs-reveal-curtain" aria-hidden="true"></div>
+<div class="demo-shell">
+  <aside class="demo-side" data-vs-reveal="slide-left" id="demo-side">
+    <p>Overview</p><p>Items</p><p>Users</p><p>Revenue</p>
+  </aside>
+  <div class="demo-col">
+    <header class="demo-head" data-vs-reveal="rise" id="demo-head">
+      <h1>Overview</h1>
+    </header>
+    <main class="demo-main" data-vs-reveal="fade" id="demo-main">
+      <section class="demo-card"><h2>Visitors</h2><p>The side menu slides in from the left, the header rises, this body fades in.</p></section>
+      <section class="demo-card" data-vs-reveal="fade" id="demo-nested"><h2>Nested item</h2><p>It has its own data-vs-reveal inside the body, so it does not animate by itself (no double fade).</p></section>
+      <section class="demo-card"><h2>Downloads</h2><p>Page content.</p></section>
+      <section class="demo-card"><h2>Revenue</h2><p>Page content.</p></section>
+      <section class="demo-card"><h2>Items</h2><p>Page content.</p></section>
+      <section class="demo-card"><h2>Users</h2><p>Page content. The page is tall on purpose so a scrolled start can be tried.</p></section>
+    </main>
+  </div>
+</div>
+<button type="button" class="demo-replay" id="demo-replay" onclick="location.reload()">Replay</button>
+</body>
+</html>

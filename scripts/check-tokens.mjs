@@ -7,6 +7,8 @@
 //  5. contrast: primary-button text >= 4.5:1 on default/hover/pressed, focus ring >= 3:1 on the
 //     light surfaces and on the dark brand surface (white ring), item card badge text >= 4.5:1 on its fill
 //  6. motion tokens: durations in ms, easings are cubic-bezier(), rise distance in px, and tokens.json holds the same values
+//  7. the Reveal CSS block (vs-reveal:start ... vs-reveal:end) is identical in react/src/styles.css and blade/components.css,
+//     and every --vs-* token it reads exists
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -96,6 +98,15 @@ for (const [name, shape] of Object.entries(MOTION)) {
   if (jsonValue === undefined) fail(`motion.${name} is missing from tokens.json`);
   else if (norm(jsonValue) !== norm(cssValue)) fail(`motion.${name} in tokens.json (${jsonValue}) differs from ${cssName} in tokens.css (${cssValue})`);
 }
+
+// Reveal CSS: one block, kept in two files (React and Blade), must not drift apart; every token it reads must exist.
+const revealBlock = (src) => src.match(/\/\* vs-reveal:start[\s\S]*?\/\* vs-reveal:end \*\//)?.[0];
+const reactReveal = revealBlock(read('react/src/styles.css'));
+const bladeReveal = revealBlock(bladeCss);
+if (!reactReveal) fail('react/src/styles.css has no vs-reveal block (vs-reveal:start ... vs-reveal:end)');
+if (!bladeReveal) fail('blade/components.css has no vs-reveal block (vs-reveal:start ... vs-reveal:end)');
+if (reactReveal && bladeReveal && reactReveal !== bladeReveal) fail('the vs-reveal block differs between react/src/styles.css and blade/components.css (copy one into the other)');
+for (const m of (reactReveal || '').replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/var\((--vs-[a-z0-9-]+)\)/g)) if (!tokens.has(m[1]) && !m[1].startsWith('--vs-reveal-')) fail(`the vs-reveal block reads ${m[1]}, which tokens.css does not define`);
 
 if (errors.length) { console.error('check-tokens FAILED:\n- ' + errors.join('\n- ')); process.exit(1); }
 console.log(`check-tokens OK (${tokens.size} tokens, ${rawNames.length} approved raw colours)`);
