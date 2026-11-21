@@ -108,5 +108,8 @@ if (!bladeReveal) fail('blade/components.css has no vs-reveal block (vs-reveal:s
 if (reactReveal && bladeReveal && reactReveal !== bladeReveal) fail('the vs-reveal block differs between react/src/styles.css and blade/components.css (copy one into the other)');
 for (const m of (reactReveal || '').replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/var\((--vs-[a-z0-9-]+)\)/g)) if (!tokens.has(m[1]) && !m[1].startsWith('--vs-reveal-')) fail(`the vs-reveal block reads ${m[1]}, which tokens.css does not define`);
 
+// The Blade count-up script has a copy for the docs site; they must be the same file.
+if (read('blade/animated-number.js') !== read('docs/assets/animated-number.js')) fail('docs/assets/animated-number.js differs from blade/animated-number.js (copy it)');
+
 if (errors.length) { console.error('check-tokens FAILED:\n- ' + errors.join('\n- ')); process.exit(1); }
 console.log(`check-tokens OK (${tokens.size} tokens, ${rawNames.length} approved raw colours)`);

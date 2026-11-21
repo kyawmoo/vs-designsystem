@@ -38,6 +38,7 @@
         { id: 'modal', label: 'Modal', href: '/components/modal.html', icon: 'app-window' },
         { id: 'drawer', label: 'Drawer', href: '/components/drawer.html', icon: 'panel-right' },
         { id: 'reveal', label: 'Reveal', href: '/components/reveal.html', icon: 'layers' },
+        { id: 'text-effects', label: 'Text Effects', href: '/components/text-effects.html', icon: 'type' },
         { id: 'toast', label: 'Toast', href: '/components/toast.html', icon: 'bell' },
         { id: 'tooltip', label: 'Tooltip', href: '/components/tooltip.html', icon: 'message-square' },
         { id: 'popover', label: 'Popover', href: '/components/popover.html', icon: 'app-window' },

@@ -61,6 +61,8 @@ const waitForEnd = (page) => page.waitForFunction(() => getComputedStyle(documen
 // short in WebKit once the title letters (blur filters) were added: its frames came late and the animations were not yet at the end. An entrance
 // that never ends is not hidden by this: the wait stops after 10 seconds and the snapshot that follows shows it (a failed check).
 const waitForEntrances = (page) => page.waitForFunction(() => document.getAnimations().every((a) => a.animationName === 'vs-reveal-curtain'), null, { timeout: 10000, polling: 100 }).catch(() => undefined);
+// Waits until no text-effect animation is left (the title letters of the Text Effects page).
+const waitForTextAnimations = (page) => page.waitForFunction(() => document.getAnimations().every((a) => !(a.animationName || '').startsWith('vs-reveal-text')), null, { timeout: 10000, polling: 100 }).catch(() => undefined);
 const plain = (s) => s.curtainVisibility === 'hidden' && s.sideTransform === 'none' && s.bodyOpacity === 1 && s.headOpacity === 1 && s.headTransform === 'none' && s.otherAnimations === 0;
 
 async function run(name) {
@@ -221,6 +223,47 @@ async function run(name) {
     }));
     check(name, 'the docs page loads with the demo frame, and the sidebar lists Reveal', d.frame && d.nav && d.heading === 'Reveal', JSON.stringify(d));
     await context.close();
+  }
+
+  { // the Text Effects page: both effects, the menu entry, the count-up ends on its final figures, Replay works, reduced motion shows the final state
+    const { context, page } = await open();
+    await page.goto(`${BASE}/components/text-effects.html`);
+    const figures = () => page.evaluate(() => [...document.querySelectorAll('#count-stage [data-vs-animated-number] [aria-hidden="true"]')].map((e) => e.textContent));
+    await sleep(1500);
+    const below = await page.evaluate(() => ({ top: document.getElementById('count-stage').getBoundingClientRect().top, height: innerHeight }));
+    const before = await figures();
+    check(name, 'the count-up below the fold shows 0 and waits until it is scrolled into view', below.top < below.height || (before[0] === '0' && before[1] === '0.00'), JSON.stringify({ below, before }));
+    await page.evaluate(() => document.getElementById('count-stage').scrollIntoView());
+    await page.waitForFunction(() => [...document.querySelectorAll('#count-stage [data-vs-animated-number]')].every((el) => el.querySelector('[aria-hidden="true"]').textContent === el.getAttribute('data-demo-final')), null, { timeout: 8000, polling: 100 }).catch(() => undefined);
+    await waitForTextAnimations(page);
+    await sleep(300); // the figure passes through its final text a frame or two before the last frame: let the last frame happen, then read
+    const t = await page.evaluate(() => ({
+      nav: [...document.querySelectorAll('a')].some((a) => a.getAttribute('href') === '/components/text-effects.html'),
+      sections: ['title-wipe', 'number-count-up', 'adding-an-effect'].every((id) => !!document.getElementById(id)),
+      letters: [...document.querySelectorAll('#wipe-stage .vs-reveal-text__letter')].map((l) => { const c = getComputedStyle(l); return c.opacity === '1' && c.transform === 'none' && c.filter === 'none'; }),
+      realText: document.querySelector('#wipe-stage .vs-reveal-text__sr')?.textContent,
+    }));
+    check(name, 'the Text Effects page loads with both effects, the menu entry, and the title ends in plain styles', t.nav && t.sections && t.letters.length > 10 && t.letters.every(Boolean) && t.realText === 'Welcome back, Overview', JSON.stringify(t));
+    const final = await figures();
+    check(name, 'the count-up demo ends on exactly its final figures (the server text)', final[0] === '4,214' && final[1] === '12.35', JSON.stringify(final));
+    await page.click('#replay-count');
+    await sleep(120);
+    const during = await figures();
+    check(name, 'Replay starts the count again (the figures are not the final ones a moment later)', during[0] !== '4,214' && during[1] !== '12.35', JSON.stringify(during));
+    await page.waitForFunction(() => [...document.querySelectorAll('#count-stage [data-vs-animated-number]')].every((el) => el.querySelector('[aria-hidden="true"]').textContent === el.getAttribute('data-demo-final')), null, { timeout: 8000, polling: 100 }).catch(() => undefined);
+    await sleep(300);
+    const again = await figures();
+    check(name, 'after Replay the figures end on the final text again', again[0] === '4,214' && again[1] === '12.35', JSON.stringify(again));
+    await context.close();
+    const reduced = await open({ reducedMotion: 'reduce' });
+    await reduced.page.goto(`${BASE}/components/text-effects.html`);
+    await sleep(300);
+    const r = await reduced.page.evaluate(() => ({
+      figures: [...document.querySelectorAll('#count-stage [data-vs-animated-number] [aria-hidden="true"]')].map((e) => e.textContent),
+      running: document.getAnimations().length,
+    }));
+    check(name, 'Text Effects, reduced motion: the final figures at once, no animation runs', r.figures[0] === '4,214' && r.figures[1] === '12.35' && r.running === 0, JSON.stringify(r));
+    await reduced.context.close();
   }
 
   await browser.close();
