@@ -530,12 +530,62 @@
   to { opacity: 1; transform: none; }
 }
 
+/*
+ * RevealText: a title that appears letter by letter from the left, after the curtain, together with the page body.
+ * Each letter RISES from below its line (0.85em), starts small (60%), faint and blurred (8px), then rises, grows and
+ * comes into focus. Focus comes sooner than the rise (65% of the time), so only the last letters at the edge are
+ * blurred while the earlier ones are still climbing. The numbers 0.85em, 60%, 8px and 65% are an Estimate read from
+ * the frames of the reference recording, not measured exactly; the time and the gap come from tokens.
+ * Letters only exist while the opening plays (the component renders plain text otherwise). Words stay together and the
+ * title can wrap at the spaces. Screen readers read the visually hidden copy; the letters are aria-hidden.
+ * --i is the letter's number, set by the component (it stops counting at 30, so a long title never waits for seconds).
+ */
+.vs-reveal-text__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.vs-reveal-text__word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+[data-vs-reveal-text] .vs-reveal-text__letter {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  animation-name: vs-reveal-text-rise, vs-reveal-text-focus;
+  animation-duration: var(--vs-motion-text-duration), calc(var(--vs-motion-text-duration) * 0.65);
+  animation-timing-function: var(--vs-motion-ease-decelerate), ease-out;
+  animation-fill-mode: backwards, backwards;
+  animation-delay:
+    calc(var(--vs-motion-duration-curtain) + var(--vs-motion-delay-body) + var(--i, 0) * var(--vs-motion-text-stagger)),
+    calc(var(--vs-motion-duration-curtain) + var(--vs-motion-delay-body) + var(--i, 0) * var(--vs-motion-text-stagger));
+}
+
+@keyframes vs-reveal-text-rise {
+  from { transform: translateY(0.85em) scale(0.6); }
+  to { transform: none; }
+}
+
+@keyframes vs-reveal-text-focus {
+  from { opacity: 0; filter: blur(8px); }
+  to { opacity: 1; filter: blur(0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .vs-reveal-curtain {
     display: none;
   }
 
   [data-vs-reveal] {
+    animation: none;
+  }
+
+  [data-vs-reveal-text] .vs-reveal-text__letter {
     animation: none;
   }
 }

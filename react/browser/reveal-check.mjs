@@ -52,6 +52,7 @@ const snapshot = (page) => page.evaluate(() => {
     nestedAnimations: byId('demo-nested').getAnimations().length,
     // the finished curtain animation is kept on purpose (it holds visibility: hidden); nothing else may be left running or held
     otherAnimations: document.getAnimations().filter((a) => a.animationName !== 'vs-reveal-curtain').length,
+    letters: Array.from(document.querySelectorAll('#demo-title .vs-reveal-text__letter'), (l) => { const c = cs(l); return { opacity: c.opacity, transform: c.transform, filter: c.filter }; }),
   };
 });
 // Waits until the curtain is hidden. A curtain that never ends must show up as a failed check, not as a crash.
@@ -79,9 +80,15 @@ async function run(name) {
       // delay), not from the time the animationstart event arrived: an event reaches the page in some later frame,
       // and in WebKit that gap moved the measured start of the side menu by about 150ms between runs.
       window.__active = {};
+      window.__letters = [];
+      const seenLetters = new WeakSet();
       const sample = () => {
         for (const a of document.getAnimations()) {
           const n = a.animationName;
+          if (n === 'vs-reveal-text-rise' && a.startTime != null && !seenLetters.has(a)) {
+            seenLetters.add(a);
+            window.__letters.push(Math.round(Number(a.startTime) + a.effect.getTiming().delay));
+          }
           if (n && n.startsWith('vs-reveal') && a.startTime != null && !(n in window.__active)) {
             window.__active[n] = Math.round(Number(a.startTime) + a.effect.getTiming().delay);
           }
@@ -101,7 +108,7 @@ async function run(name) {
     check(name, 'during the curtain: it is shown, the side menu waits off to the left, header and body are not shown yet',
       during.curtainVisibility === 'visible' && during.sideTransform !== 'none' && during.bodyOpacity < 0.05 && during.headOpacity < 0.05, JSON.stringify(during));
     await waitForEnd(page);
-    await sleep(900); // the entrances run 150ms + 700ms after the curtain
+    await sleep(1100); // the entrances run 150ms + 700ms after the curtain; the title's last letter ends 150 + 7 x 35 + 420ms after it
     const after = await snapshot(page);
     check(name, 'afterwards the curtain is hidden and every element is back to plain styles (no transform, fully visible, nothing held)', plain(after), JSON.stringify(after));
     check(name, 'a data-vs-reveal element inside another one does not animate by itself', during.nestedAnimations === 0 && after.nestedAnimations === 0);
@@ -115,6 +122,14 @@ async function run(name) {
     check(name, 'order: the side menu starts when the curtain ends (about 1 second after it), the body and the header start after the side menu',
       known && sideAt - curtainAt > 900 && sideAt - curtainAt < 1200 && fadeAt - sideAt > 100 && fadeAt - sideAt < 250 && riseAt - sideAt > 100 && riseAt - sideAt < 250,
       `animation start times: curtain ${curtainAt}, side +${sideAt - curtainAt}, fade +${fadeAt - curtainAt}, rise +${riseAt - curtainAt}; ${eventText}`);
+    // the title: its letters start one after another from the left, one stagger apart (35ms from the token), the first one together with the body
+    const letters = await page.evaluate(() => window.__letters);
+    const gaps = letters.slice(1).map((t, i) => t - letters[i]);
+    check(name, 'title: 8 letters start in order, about 35ms apart, the first one 150ms after the side menu',
+      letters.length === 8 && gaps.every((g) => g >= 20 && g <= 50) && letters[0] - sideAt > 100 && letters[0] - sideAt < 250,
+      `letters ${JSON.stringify(letters)}, gaps ${JSON.stringify(gaps)}, first - side ${letters[0] - sideAt}`);
+    check(name, 'title: afterwards every letter is in plain styles (fully visible, no transform, no filter)',
+      after.letters.length === 8 && after.letters.every((l) => l.opacity === '1' && (l.transform === 'none' || l.transform === 'matrix(1, 0, 0, 1, 0, 0)') && l.filter === 'none'), JSON.stringify(after.letters));
     await context.close();
   }
 
