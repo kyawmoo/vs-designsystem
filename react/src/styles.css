@@ -1430,3 +1430,107 @@
   flex: 1;
 }
 
+/* vs-reveal:start (this block is identical in react/src/styles.css and blade/components.css; check-tokens keeps them equal) */
+
+/*
+ * Reveal: the page-opening animation. A dark curtain (a circle growing from the top-left corner of the screen) is laid
+ * over the page, then the side menu slides in and the body fades in or rises as it ends. CSS only: nothing here
+ * needs JavaScript, and the timing comes from the --vs-motion-* tokens.
+ *
+ * Rules that keep it safe (each was tried in a browser before it was written down):
+ * - The curtain is fixed to the screen and does not take clicks, so it does not matter how far the page is scrolled.
+ * - Content is hidden only INSIDE the keyframes (fill-mode backwards while it waits for the curtain). Never hide it with
+ *   a base rule such as opacity: 0: when the animation is switched off (reduced motion, even while it runs) the content
+ *   must simply be visible.
+ * - An element with data-vs-reveal inside another one does not animate (no double fade).
+ * - There is one curtain per page. An animated element that is inserted or replaced later (a list re-rendered by
+ *   Livewire, a React remount) animates again, so put data-vs-reveal on the page shell, not inside re-rendered lists.
+ * - Without @property (Chrome before 85, Safari before 16.4, Firefox before 128) the hole jumps open halfway through
+ *   instead of growing; the page is still shown at the end.
+ */
+@property --vs-reveal-r {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+.vs-reveal-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: var(--vs-color-brand-secondary);
+  -webkit-mask-image: radial-gradient(circle at 0 0, transparent var(--vs-reveal-r), black calc(var(--vs-reveal-r) + 1px));
+  mask-image: radial-gradient(circle at 0 0, transparent var(--vs-reveal-r), black calc(var(--vs-reveal-r) + 1px));
+  animation: vs-reveal-curtain var(--vs-motion-duration-curtain) var(--vs-motion-ease-standard) both;
+}
+
+/* One animation grows the hole and, at the very end, hides the layer (a separate 1ms "hide" animation does not work). */
+@keyframes vs-reveal-curtain {
+  0% { --vs-reveal-r: 0px; visibility: visible; }
+  99.9% { --vs-reveal-r: 150vmax; visibility: visible; }
+  100% { --vs-reveal-r: 150vmax; visibility: hidden; }
+}
+
+/* Where hypot() exists the hole ends exactly at the screen diagonal, so no part of the time is spent on a page that is already fully shown. */
+@supports (width: hypot(1px, 1px)) {
+  @keyframes vs-reveal-curtain {
+    0% { --vs-reveal-r: 0px; visibility: visible; }
+    99.9% { --vs-reveal-r: hypot(100vw, 100vh); visibility: visible; }
+    100% { --vs-reveal-r: hypot(100vw, 100vh); visibility: hidden; }
+  }
+}
+
+[data-vs-reveal] {
+  animation-duration: var(--vs-motion-duration-enter);
+  animation-timing-function: var(--vs-motion-ease-decelerate);
+  animation-fill-mode: backwards;
+  animation-delay: var(--vs-motion-duration-curtain);
+}
+
+[data-vs-reveal='slide-left'] {
+  animation-name: vs-reveal-slide-left;
+}
+
+[data-vs-reveal='fade'] {
+  animation-name: vs-reveal-fade;
+  animation-timing-function: var(--vs-motion-ease-standard);
+  animation-delay: calc(var(--vs-motion-duration-curtain) + var(--vs-motion-delay-body));
+}
+
+[data-vs-reveal='rise'] {
+  animation-name: vs-reveal-rise;
+  animation-timing-function: var(--vs-motion-ease-standard);
+  animation-delay: calc(var(--vs-motion-duration-curtain) + var(--vs-motion-delay-body));
+}
+
+[data-vs-reveal] [data-vs-reveal] {
+  animation: none;
+}
+
+@keyframes vs-reveal-slide-left {
+  from { transform: translateX(-100%); }
+  to { transform: none; }
+}
+
+@keyframes vs-reveal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes vs-reveal-rise {
+  from { opacity: 0; transform: translateY(var(--vs-motion-rise-distance)); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vs-reveal-curtain {
+    display: none;
+  }
+
+  [data-vs-reveal] {
+    animation: none;
+  }
+}
+
+/* vs-reveal:end */
