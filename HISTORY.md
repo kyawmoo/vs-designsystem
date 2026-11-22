@@ -6,6 +6,13 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-22 - Reveal: the opening ends when its animations end, not at the worst-case time (found with the reports site); branch fix/reveal-end-when-animations-end; not merged
+
+- Found: after #97 the end of the opening was a fixed time (curtain + body delay + the longer of an entrance and a 30-letter title + 200ms = 2870ms with the default tokens). In the reports site (Chromium, real flow) a visitor who went to another tab and back about 2.4 s after load, when the 8-letter title had already finished (about 1.9 s), still got the title written again: the view mounted inside the "opening" window, hid its letters for the curtain delay and replayed (122 animations running). The audit's problem again, in a smaller window.
+- Changed (`Reveal.tsx`): the end is now checked, not assumed. From the end of the curtain plus body delay (1200ms), every 100ms, the opening ends as soon as no `vs-reveal*` animation is waiting or moving (`document.getAnimations()`, finished ones, including the curtain's own, are not counted), and at the latest after the old worst-case time. Where a browser cannot list animations (jsdom) it ends at the worst-case time as before. Reduced motion: over at once. The timer is still cancelled on unmount. A short title now ends the opening around 1.2 to 2 s. Docs rule updated.
+- Checked: `npm test` 280 pass (4 new: nothing running at the end of the curtain ends it at once, a moving letter keeps it open until done, an animation that never ends cannot keep it open past the worst case, a waiting entrance counts as running), `tsc` clean. Deliberate breaks, each caught: finished animations counted, no maximum, running animations ignored. (A guard that skipped the curtain by name turned out to be redundant with the finished state and was removed rather than left untested.)
+- Not verified here: the end-to-end replay in a real browser after this change (the reports site check runs after its pin bump); WebKit and Firefox (CI: this change has no CSS but uses `document.getAnimations`, supported in all three).
+
 ## 2026-11-21 - Reveal owns its lifecycle: nothing replays after the opening (audit finding 2, decision 2a); branch feat/reveal-provider-lifecycle; merged (PR #97, 9e15076)
 
 - Asked: Master KMO, "complete all the tasks asap" after the adversarial audit: Priority 1 of the audit (a view shown again replays the opening and hides its content for 1.2 s, and the app needed its own guard) with the Provider-owned design chosen earlier (decision 2a).

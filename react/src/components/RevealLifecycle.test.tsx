@@ -129,3 +129,72 @@ describe('Reveal owns the lifecycle: nothing replays after the opening, and the 
     expect(container.querySelector('#x')!.getAttribute('data-vs-reveal')).toBe('fade');
   });
 });
+
+// A real browser lists the running animations; jsdom cannot, so these tests give `document.getAnimations` a list. The opening ends when no
+// entrance or title letter is waiting or moving, checked every 100ms from the end of the curtain plus the body delay (1200ms), and at
+// the latest after OPENING_MS.
+describe('Reveal ends the opening when its animations end (a short title does not wait for the worst case)', () => {
+  type Fake = { animationName: string; playState: string };
+  let list: Fake[] = [];
+  beforeEach(() => {
+    list = [];
+    Object.defineProperty(document, 'getAnimations', { value: () => list, configurable: true });
+  });
+  afterEach(() => {
+    delete (document as any).getAnimations;
+  });
+  const remountAfter = (ms: number) => {
+    const view = render(
+      <Reveal play>
+        <Views />
+      </Reveal>,
+    );
+    act(() => { vi.advanceTimersByTime(ms); });
+    toggle(view.container);
+    toggle(view.container);
+    return view.container;
+  };
+
+  it('nothing is running at the end of the curtain: the opening is over at once, long before the worst case', () => {
+    // finished animations are not counted: the curtain's own (kept on purpose, to hold its visibility) and the entrances that ended
+    list = [
+      { animationName: 'vs-reveal-curtain', playState: 'finished' },
+      { animationName: 'vs-reveal-fade', playState: 'finished' },
+      { animationName: 'vs-reveal-text-rise', playState: 'finished' },
+    ];
+    const container = remountAfter(1300);
+    expect(container.querySelector('h1')!.hasAttribute('data-vs-reveal-text')).toBe(false);
+    expect(container.querySelector('#card')!.hasAttribute('data-vs-reveal')).toBe(false);
+  });
+
+  it('a title letter is still moving: the opening goes on (a remount then still plays) until it is done', () => {
+    list = [{ animationName: 'vs-reveal-text-rise', playState: 'running' }];
+    const view = render(
+      <Reveal play>
+        <Views />
+      </Reveal>,
+    );
+    act(() => { vi.advanceTimersByTime(1900); });
+    toggle(view.container);
+    toggle(view.container);
+    expect(view.container.querySelector('h1')!.hasAttribute('data-vs-reveal-text')).toBe(true); // still the opening
+    list = []; // the letters finish
+    act(() => { vi.advanceTimersByTime(200); });
+    toggle(view.container);
+    toggle(view.container);
+    expect(view.container.querySelector('h1')!.hasAttribute('data-vs-reveal-text')).toBe(false);
+  });
+
+  it('an animation that never ends cannot keep the opening open for ever: it ends at the longest time', () => {
+    list = [{ animationName: 'vs-reveal-fade', playState: 'running' }];
+    const container = remountAfter(OPENING_MS + 150);
+    expect(container.querySelector('#card')!.hasAttribute('data-vs-reveal')).toBe(false);
+  });
+
+  it('a waiting entrance (in its delay) counts as running', () => {
+    list = [{ animationName: 'vs-reveal-slide-left', playState: 'running' }];
+    const container = remountAfter(1500);
+    expect(container.querySelector('#card')!.getAttribute('data-vs-reveal')).toBe('rise');
+  });
+});
+
