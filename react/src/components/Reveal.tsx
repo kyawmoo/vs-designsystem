@@ -22,24 +22,53 @@ export interface RevealItemProps extends React.HTMLAttributes<HTMLElement> {
 // Set when the first <Reveal> has mounted. A later one in the same page load does not play unless it is told to.
 let alreadyPlayed = false;
 
-// Outside a <Reveal> an item still gets its attribute (the CSS then animates it after the curtain delay).
+// "Is the opening playing now?" Outside a <Reveal> an item still gets its attribute (the CSS then animates it after the curtain delay).
+// Inside one it is true while the opening runs and false after it ended, so an item or title that mounts AFTER the opening (a view
+// shown again after another tab, a list re-rendered) is plain and never plays again. Items read it once, when they mount.
 const RevealContext = createContext(true);
+
+/** A token in milliseconds. A browser reports it in its own unit ("1.05s" for 1050ms), so the unit is read, not assumed. */
+function tokenMs(name: string, fallback: number): number {
+  const raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const n = parseFloat(raw);
+  if (!Number.isFinite(n)) return fallback;
+  return /ms$/.test(raw) ? n : /s$/.test(raw) ? n * 1000 : n;
+}
+
+/**
+ * How long an opening can run: the curtain, then the longest entrance (body delay + enter time) or the longest title (body delay + the
+ * time of a letter + the stagger of the 30th letter), plus a little room. Read from the tokens, so a changed token changes it.
+ */
+function openingDurationMs(): number {
+  if (typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return 0;
+  const curtain = tokenMs('--vs-motion-duration-curtain', 1050);
+  const body = tokenMs('--vs-motion-delay-body', 150);
+  const enter = tokenMs('--vs-motion-duration-enter', 700);
+  const text = tokenMs('--vs-motion-text-duration', 420) + 30 * tokenMs('--vs-motion-text-stagger', 35);
+  return curtain + body + Math.max(enter, text) + 200;
+}
 
 /**
  * The page-opening animation: a dark curtain grows from the top-left corner while the items wait, then the side menu
  * slides in and the body fades in or rises. The animation itself is plain CSS (docs: Reveal, rules in styles.css, timing in
- * the --vs-motion-* tokens); this component only adds the curtain and decides whether this opening plays.
+ * the --vs-motion-* tokens); this component adds the curtain, decides whether this opening plays, and knows when it is over.
  * It renders no wrapper element: the curtain is a fixed layer, so where it sits in the markup does not matter.
- * Use one per page, and put it around the page shell, not around content that is re-rendered later: an item that is
- * inserted again animates again.
+ * Use one per page, around the page shell. Items and titles inside it that mount after the opening ended render plain, so a view
+ * that is shown again later does not replay it and the app needs no guard of its own.
  */
 export function Reveal({ children, play }: RevealProps) {
   const [shouldPlay] = useState(() => play ?? !alreadyPlayed);
+  const [playing, setPlaying] = useState(shouldPlay);
   useEffect(() => {
     alreadyPlayed = true;
   }, []);
+  useEffect(() => {
+    if (!shouldPlay) return;
+    const timer = setTimeout(() => setPlaying(false), openingDurationMs());
+    return () => clearTimeout(timer);
+  }, [shouldPlay]);
   return (
-    <RevealContext.Provider value={shouldPlay}>
+    <RevealContext.Provider value={playing}>
       {shouldPlay && <div className="vs-reveal-curtain" aria-hidden="true" />}
       {children}
     </RevealContext.Provider>
@@ -53,7 +82,7 @@ export function Reveal({ children, play }: RevealProps) {
  * An item inside another item does not animate by itself (the CSS ignores it).
  */
 export function RevealItem({ as: Tag = 'div', variant = 'fade', ...rest }: RevealItemProps) {
-  const play = useContext(RevealContext);
+  const [play] = useState(useContext(RevealContext)); // read once: an item that mounts after the opening is plain
   return <Tag {...rest} data-vs-reveal={play ? variant : undefined} />;
 }
 
@@ -97,7 +126,7 @@ function splitGraphemes(word: string): string[] {
  * Only for scripts that can be split safely (canSplitIntoLetters); any other text is rendered as plain text.
  */
 export function RevealText({ text, as: Tag = 'span', ...rest }: RevealTextProps) {
-  const play = useContext(RevealContext);
+  const [play] = useState(useContext(RevealContext)); // read once: a title that mounts after the opening is plain text
   if (!play || !canSplitIntoLetters(text)) return <Tag {...rest}>{text}</Tag>;
   let index = 0;
   const words = text.split(/\s+/).filter(Boolean);
