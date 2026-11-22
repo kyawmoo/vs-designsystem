@@ -448,7 +448,8 @@
  * - The curtain is fixed to the screen and does not take clicks, so it does not matter how far the page is scrolled.
  * - Content is hidden only INSIDE the keyframes (fill-mode backwards while it waits for the curtain). Never hide it with
  *   a base rule such as opacity: 0: when the animation is switched off (reduced motion, even while it runs) the content
- *   must simply be visible.
+ *   must simply be visible. The waiting state is also visibility: hidden (only in the 'from' keyframe: it is visible again
+ *   the moment the entrance starts), so content that is not shown yet cannot take keyboard focus.
  * - An element with data-vs-reveal inside another one does not animate (no double fade).
  * - There is one curtain per page. An animated element that is inserted or replaced later (a list re-rendered by
  *   Livewire, a React remount) animates again, so put data-vs-reveal on the page shell, not inside re-rendered lists.
@@ -516,17 +517,17 @@
 }
 
 @keyframes vs-reveal-slide-left {
-  from { transform: translateX(-100%); }
+  from { transform: translateX(-100%); visibility: hidden; }
   to { transform: none; }
 }
 
 @keyframes vs-reveal-fade {
-  from { opacity: 0; }
+  from { opacity: 0; visibility: hidden; }
   to { opacity: 1; }
 }
 
 @keyframes vs-reveal-rise {
-  from { opacity: 0; transform: translateY(var(--vs-motion-rise-distance)); }
+  from { opacity: 0; transform: translateY(var(--vs-motion-rise-distance)); visibility: hidden; }
   to { opacity: 1; transform: none; }
 }
 
