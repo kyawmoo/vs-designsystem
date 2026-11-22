@@ -113,8 +113,16 @@ async function run(name) {
     const during = await snapshot(page);
     check(name, 'during the curtain: it is shown, the side menu waits off to the left, header and body are not shown yet',
       during.curtainVisibility === 'visible' && during.sideTransform !== 'none' && during.bodyOpacity < 0.05 && during.headOpacity < 0.05, JSON.stringify(during));
+    // keyboard: while the body is not shown yet (curtain up) Tab must not land on a hidden link; once it is shown it must
+    await page.keyboard.press('Tab');
+    const focusedDuring = await page.evaluate(() => (document.activeElement && document.activeElement.id) || '');
+    check(name, 'keyboard: while the body is not shown yet, Tab does not land on its (invisible) link', focusedDuring !== 'demo-link', `focused: "${focusedDuring}"`);
     await waitForEnd(page);
     await waitForEntrances(page); // the entrances run 150ms + 700ms after the curtain; the title's last letter ends 150 + 7 x 35 + 420ms after it
+    await page.focus('#demo-replay'); // the focusable element after the link: one step back must reach the link
+    await page.keyboard.press('Shift+Tab');
+    const focusedAfter = await page.evaluate(() => (document.activeElement && document.activeElement.id) || '');
+    check(name, 'keyboard: once the opening is over, the link in the body can take focus', focusedAfter === 'demo-link', `focused: "${focusedAfter}"`);
     const after = await snapshot(page);
     check(name, 'afterwards the curtain is hidden and every element is back to plain styles (no transform, fully visible, nothing held)', plain(after), JSON.stringify(after));
     check(name, 'a data-vs-reveal element inside another one does not animate by itself', during.nestedAnimations === 0 && after.nestedAnimations === 0);

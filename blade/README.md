@@ -150,7 +150,7 @@ side menu slides in and the page body fades in. `x-vs-reveal` adds the curtain (
 renders the content with no animation). `x-vs-reveal-item` is the element itself (`as`, one of a fixed list of tags;
 `variant` `slide-left` | `fade` | `rise`; anything else falls back to `div` / `fade`). It has **its own CSS**, the
 `vs-reveal` block of `blade/components.css` (token only). Opt in per page: nothing animates on a page that does not use
-it. Docs: `docs/components/reveal.html`.
+it. Do not put the largest content of a page that is judged on loading speed (a public shop or blog page) inside a revealed element: it is not visible for about 1.2 s, so the page's LCP is that late (measured 20 to 40 ms without, about 1.9 s with); see the Performance section of `docs/components/reveal.html`. Docs: `docs/components/reveal.html`.
 
 ### `<x-vs-reveal-text>`
 
