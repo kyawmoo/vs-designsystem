@@ -6,7 +6,7 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
-## 2026-11-21 - Reveal owns its lifecycle: nothing replays after the opening (audit finding 2, decision 2a); branch feat/reveal-provider-lifecycle; not merged
+## 2026-11-21 - Reveal owns its lifecycle: nothing replays after the opening (audit finding 2, decision 2a); branch feat/reveal-provider-lifecycle; merged (PR #97, 9e15076)
 
 - Asked: Master KMO, "complete all the tasks asap" after the adversarial audit: Priority 1 of the audit (a view shown again replays the opening and hides its content for 1.2 s, and the app needed its own guard) with the Provider-owned design chosen earlier (decision 2a).
 - Measured before: re-inserting the `main` item 3.2 s after the opening gave opacity 0 at 300ms and 0.99 at 1.8 s; re-inserting the curtain made it visible again.
@@ -15,7 +15,7 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 - Not verified: a real browser run of a view that remounts (the unit tests use jsdom, the timing is the tokens' sum, not a measured animation end; an `animationend`-based end could be exact but a title that never mounts would never end it); multiple React roots (they share the module flag as before); SSR/hydration (the server renders the curtain as before; not run); Blade (no equivalent: documented).
 - Consumers: the reports site can delete its own once-guards (`OverviewTitle`, `KpiLabel`) after bumping the pin.
 
-## 2026-11-21 - Reveal: content that is not shown yet cannot take keyboard focus; LCP warning in the docs (audit findings 3 and 5); branch fix/reveal-focus-and-lcp-docs; not merged
+## 2026-11-21 - Reveal: content that is not shown yet cannot take keyboard focus; LCP warning in the docs (audit findings 3 and 5); branch fix/reveal-focus-and-lcp-docs; merged (PR #99, 984c2df)
 
 - Asked: Master KMO, "complete all the tasks asap" after the adversarial audit: findings 3 (hidden content takes focus) and 5 (the opening delays the LCP).
 - Measured before (Chromium): with the curtain up (body at opacity 0), Tab put focus on a link inside the body (invisible focus). LCP of a page whose largest content is a heading: 20 to 40 ms without the Reveal, 1924 to 1936 ms with the heading inside a `data-vs-reveal="fade"` element (headless, 390px, no throttling, 5 runs each).
