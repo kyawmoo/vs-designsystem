@@ -6,6 +6,18 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-23 — Task 3: SummaryCard `variant="metric"`, `tone="dark"`, icon, change chip and sparkline slot, opt-in; not deployed
+
+- Asked: Master KMO approved Task 3 with every recommended answer (Q1a `variant="metric"`, Q2a `icon` in a DS 28px chip, Q3a `sparkline` slot, Q4a dark tone sets the first chart colour to lime, Q5a metric uses `--vs-card-radius-lg`, Q6a `change` prop with a new `--vs-color-danger-text`, Q7a `--vs-summary-value-letter-spacing` -0.05em on metric only).
+- Tests first: `SummaryCard.test.tsx` was written against the unchanged component and committed alone (`71bcb6c`): 4 tones with badge/unit/description, minimal, no tone, no badge, loading, extra class (9 combinations). They pass unchanged after the change.
+- Added: in `SummaryCard.tsx` `variant` (`classic` default | `metric`), `tone="dark"`, `icon`, `change` ({ text, direction }), `sparkline`; exported `SummaryCardChange`. Metric = header row (icon, label, change chip), then value and sparkline on one row, 20px corners. The change chip also reads its direction in words ("Increase: +18.4%"). `styles.css`: dark tone, metric, chip, icon, spark slot. Tokens (additive, mirrored in `tokens.json`): `--vs-color-danger-text` (danger border mixed 15% with black, 5.4:1 on the danger fill; the plain danger border is 4.18:1) and `--vs-summary-value-letter-spacing`. No raw colour added.
+- `scripts/check-tokens.mjs`: 7 contrast pairs of the new styles >= 4.5:1, 9 stylesheet rules and 2 token values. Docs: section 10b in `docs/components/card.html`, a "Danger as text" row in `docs/foundations/colors.html`.
+- Checked: `check:tokens` OK (169 tokens, 54 raw colours); `tsc --noEmit` exit 0; `vitest` 248/248 (was 235); 6 component mutations each fail a test; 7 token/CSS mutations each fail `check-tokens`; the real components (SummaryCard + `LineChart` sparkline at 24px) bundled with Vite and rendered in Chromium: value and sparkline share one centre line, no overlap, the sparkline is lime in the dark card without any prop, metric 20px and classic 8px corners.
+- Not verified: the reports app (no page uses the variants yet; its `.vs-summary-card` radius and entrance-animation rules were not touched); a phone; a screen reader; no lint or build script in this repo. Blade, `Badge` (its success text is 2.36:1, danger 4.18:1) and the main site are not changed.
+- Open: Task 4 (ProgressBar and BreakdownList) waits for Master KMO's approval.
+
+---
+
 ## 2026-11-23 — Task 2: Button `accent` emphasis (lime pill) and SegmentedControl `variant="dark"`, opt-in; not deployed
 
 - Asked: Master KMO approved Task 2 with every recommended answer (Q1a `emphasis="accent"`, Q2a hover/pressed by `color-mix` in tokens, Q3a weight 700 token, Q4a `variant="dark"`, Q5a inactive text `--vs-color-text-body`, Q6a `DateRangeSelector` not touched, Q7a no Blade, Q8a regression tests first).

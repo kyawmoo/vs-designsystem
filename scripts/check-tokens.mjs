@@ -107,5 +107,24 @@ needRule('.vs-segment-control--dark .vs-segment-button', 'color: var(--vs-color-
 needRule('.vs-segment-control--dark .vs-segment-button.is-active', 'background-color: var(--vs-color-brand-secondary)');
 needRule('.vs-segment-control--dark .vs-segment-button.is-active', 'color: var(--vs-color-surface)');
 
+// SummaryCard dark tone and metric variant (Task 3, 23 Nov 2026): every text/background pair the new styles use must pass WCAG AA (4.5:1).
+need('summary change chip: danger text on the danger fill', '--vs-color-danger-text', '--vs-color-danger-bg', 4.5);
+need('summary change chip: brand green text on the success fill', '--vs-color-brand-primary-text', '--vs-color-success-bg', 4.5);
+need('summary change chip / icon: body text on the disabled fill', '--vs-color-text-body', '--vs-color-disabled-bg', 4.5);
+need('summary icon: heading colour on the disabled fill', '--vs-color-text-heading', '--vs-color-disabled-bg', 4.5);
+need('summary dark: lime value on the dark surface', '--vs-color-brand-accent', '--vs-color-brand-secondary', 4.5);
+need('summary dark: muted unit and description on the dark surface', '--vs-color-text-muted', '--vs-color-brand-secondary', 4.5);
+need('summary dark: white label on the dark surface', '--vs-color-surface', '--vs-color-brand-secondary', 4.5);
+for (const [n, v] of Object.entries({ '--vs-summary-value-letter-spacing': '-0.05em', '--vs-color-danger-text': 'color-mix(in srgb, var(--vs-color-danger-border) 85%, black)' })) if (tokens.get(n) !== v) fail(`${n} should be ${v}, found ${tokens.get(n)}`);
+needRule('.vs-summary-card--metric', 'border-radius: var(--vs-card-radius-lg)');
+needRule('.vs-summary-card--metric .vs-summary-figure-value', 'letter-spacing: var(--vs-summary-value-letter-spacing)');
+needRule('.vs-summary-card--dark', 'background: var(--vs-color-brand-secondary)');
+needRule('.vs-summary-card--dark', '--vs-chart-series-1: var(--vs-color-brand-accent)');
+needRule('.vs-summary-card--dark .vs-summary-figure-value', 'color: var(--vs-color-brand-accent)');
+needRule('.vs-summary-change--up', 'color: var(--vs-color-brand-primary-text)');
+needRule('.vs-summary-change--down', 'color: var(--vs-color-danger-text)');
+needRule('.vs-summary-change--flat', 'color: var(--vs-color-text-body)');
+needRule('.vs-summary-icon', 'border-radius: var(--vs-radius-lg)');
+
 if (errors.length) { console.error('check-tokens FAILED:\n- ' + errors.join('\n- ')); process.exit(1); }
 console.log(`check-tokens OK (${tokens.size} tokens, ${rawNames.length} approved raw colours)`);

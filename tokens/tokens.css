@@ -34,6 +34,9 @@
   --vs-color-warning-border: #FFD854;
   --vs-color-info-bg: #E0E1F9;
   --vs-color-info-border: #5558B3;
+  /* Danger as TEXT on the danger fill (additive, 23 Nov 2026, Task 3): --vs-color-danger-border on --vs-color-danger-bg is only 4.18:1
+     (WCAG AA needs 4.5:1). 15% black mixed in gives 5.4:1 on the fill, and it still follows the danger colour. */
+  --vs-color-danger-text: color-mix(in srgb, var(--vs-color-danger-border) 85%, black);
 
   /* ---- Color: Product Badges ---- */
   --vs-color-badge-trending: #0074E4;
@@ -167,6 +170,9 @@
   /* Large card/panel corner of the dashboard and facelift direction (additive, 23 Nov 2026): the card step of the
      facelift radius scale = --vs-radius-xl (20px). --vs-card-radius and --vs-item-card-radius keep their values. */
   --vs-card-radius-lg: var(--vs-radius-xl);
+  /* SummaryCard `metric` variant (additive, 23 Nov 2026, Task 3): the KPI value is set tighter than the classic card (-0.01em), as in the
+     approved dashboard design. The classic SummaryCard keeps its own letter-spacing. */
+  --vs-summary-value-letter-spacing: -0.05em;
   --vs-card-width: 344.5px; /* real vectorsticker.com item card at >=1600px */
   --vs-card-media-ratio: 1 / 1;
   --vs-card-border: #E5E7EB;
