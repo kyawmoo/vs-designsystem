@@ -373,6 +373,25 @@
       <p>The live donate box (<code>resources/views/custom/donate-box.blade.php</code>) already uses <code>#F5A623</code> — this spec makes it the hover shade and adds <code>#f59e0b</code> as the default.</p>
     </div>
 
+    <!-- 07b -->
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">07b // Accent (lime pill, opt-in)</span><h2>Accent Button</h2></div>
+      <p class="vs-docs-section-desc">The vectorsticker.com facelift's primary action (Sign Up, Search, Sign In). Added 23 Nov 2026; the primary, secondary and tertiary buttons are unchanged.</p>
+    </div>
+    <div class="demo-scroll"><table class="vs-docs-table vs-docs-state-table">
+      <thead><tr><th>Default</th><th>Hover</th><th>Pressed</th><th>Disabled</th><th>Icon-only</th></tr></thead>
+      <tbody><tr>
+        <td><button type="button" style="font-family:var(--vs-font-family);white-space:nowrap;font-weight:var(--vs-button-accent-font-weight);font-size:var(--vs-button-font-size-lg);height:var(--vs-button-height-lg);padding:0 var(--vs-button-pad-x-lg);border-radius:var(--vs-radius-full);border:1px solid var(--vs-button-accent);background:var(--vs-button-accent);color:var(--vs-button-accent-text)">Sign Up</button><span class="demo-note"><code>--vs-button-accent</code></span></td>
+        <td><button type="button" style="font-family:var(--vs-font-family);white-space:nowrap;font-weight:var(--vs-button-accent-font-weight);font-size:var(--vs-button-font-size-lg);height:var(--vs-button-height-lg);padding:0 var(--vs-button-pad-x-lg);border-radius:var(--vs-radius-full);border:1px solid var(--vs-button-accent-hover);background:var(--vs-button-accent-hover);color:var(--vs-button-accent-text)">Sign Up</button><span class="demo-note"><code>--vs-button-accent-hover</code> (92% lime, 8% black)</span></td>
+        <td><button type="button" style="font-family:var(--vs-font-family);white-space:nowrap;font-weight:var(--vs-button-accent-font-weight);font-size:var(--vs-button-font-size-lg);height:var(--vs-button-height-lg);padding:0 var(--vs-button-pad-x-lg);border-radius:var(--vs-radius-full);border:1px solid var(--vs-button-accent-pressed);background:var(--vs-button-accent-pressed);color:var(--vs-button-accent-text)">Sign Up</button><span class="demo-note"><code>--vs-button-accent-pressed</code> (84% lime)</span></td>
+        <td><button type="button" disabled style="font-family:var(--vs-font-family);white-space:nowrap;font-weight:var(--vs-button-accent-font-weight);font-size:var(--vs-button-font-size-lg);height:var(--vs-button-height-lg);padding:0 var(--vs-button-pad-x-lg);border-radius:var(--vs-radius-full);border:1px solid var(--vs-button-accent);background:var(--vs-button-accent);color:var(--vs-button-accent-text);opacity:var(--vs-button-disabled-opacity)">Sign Up</button><span class="demo-note">opacity 50%</span></td>
+        <td><button type="button" aria-label="Search" style="width:var(--vs-button-icon-only-md);height:var(--vs-button-icon-only-md);border-radius:var(--vs-radius-full);border:1px solid var(--vs-button-accent);background:var(--vs-button-accent);color:var(--vs-button-accent-text);display:inline-flex;align-items:center;justify-content:center"><i class="fa-solid fa-magnifying-glass"></i></button><span class="demo-note">round, filled</span></td>
+      </tr></tbody>
+    </table></div>
+    <div class="vs-docs-callout">
+      <p>Dark text <code>--vs-color-brand-secondary</code> on the lime is 13.0:1 (hover 10.9:1, pressed 9.1:1); <code>scripts/check-tokens.mjs</code> keeps every state at 4.5:1 or more. Weight 700 (<code>--vs-button-accent-font-weight</code>) like the live Sign Up button, height from the size tokens (48px = <code>lg</code>), always a pill (<code>--vs-radius-full</code>). Use it for the one main action of a screen. Blade is not changed by this step.</p>
+    </div>
+
     <!-- 08 -->
     <div class="vs-docs-section-head">
       <div><span class="vs-docs-section-num">08 // Redline Specifications</span><h2>Measurement Guide</h2></div>
@@ -565,7 +584,7 @@
     <div class="demo-scroll"><table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
       <tbody>
-        <tr><td><code>emphasis</code> / <code>variant</code></td><td><code>primary</code> · <code>secondary</code> · <code>tertiary</code> (Blade adds <code>oauth</code>)</td><td><code>primary</code></td></tr>
+        <tr><td><code>emphasis</code> / <code>variant</code></td><td><code>primary</code> · <code>secondary</code> · <code>tertiary</code> · <code>accent</code> (React only, see 07b) (Blade adds <code>oauth</code>)</td><td><code>primary</code></td></tr>
         <tr><td><code>size</code></td><td><code>sm</code> · <code>md</code> · <code>lg</code></td><td><code>md</code></td></tr>
         <tr><td><code>iconOnly</code> / <code>icon-only</code></td><td>boolean</td><td><code>false</code></td></tr>
         <tr><td><code>outline</code></td><td>Blade only, primary/secondary</td><td><code>false</code></td></tr>

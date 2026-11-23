@@ -172,3 +172,193 @@ describe('BarChart', () => {
     expect(last().options.scales.y.ticks.precision).toBeUndefined();
   });
 });
+
+// Baseline for Task 7: what BarChart does today (before legendPosition / pinTooltip / todayMarker).
+// These must keep passing unchanged after the new opt-in props are added.
+describe('BarChart baseline (defaults must not change)', () => {
+  it('puts the legend row above the canvas, with no position modifier', () => {
+    const { container } = render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} />);
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.className).toBe('vs-line-chart vs-bar-chart');
+    const kids = Array.from(root.children).map((c) => c.className);
+    expect(kids).toEqual(['vs-line-chart-legend', 'vs-line-chart-canvas']);
+  });
+
+  it('draws the today line dotted in the orange chart token, and labels today in bold orange', () => {
+    render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} />);
+    const c = last();
+    const calls: any = { dash: null, stroke: null, moves: [] as number[][] };
+    const g: any = {
+      save() {}, restore() {}, beginPath() {}, stroke() {},
+      setLineDash(d: number[]) { calls.dash = d; },
+      moveTo(x: number, y: number) { calls.moves.push([x, y]); },
+      lineTo(x: number, y: number) { calls.moves.push([x, y]); },
+      set strokeStyle(v: string) { calls.stroke = v; },
+      set lineWidth(_v: number) {},
+    };
+    const chart: any = { scales: { x: { getPixelForValue: (i: number) => i * 10 } }, chartArea: { top: 5, bottom: 95 }, ctx: g };
+    c.plugins[0].afterDatasetsDraw(chart);
+    expect(calls.dash).toEqual([4, 4]);
+    expect(calls.stroke).toBe('#ff7a14');
+    expect(calls.moves).toEqual([[20, 5], [20, 95]]);
+    const ticks = c.options.scales.x.ticks;
+    expect(ticks.color({ index: 2 })).toBe('#ff7a14');
+    expect(ticks.color({ index: 0 })).toBe('#8e9cba');
+    expect(ticks.font({ index: 2 })).toEqual({ size: 11, weight: 'bold' });
+    expect(ticks.font({ index: 0 })).toEqual({ size: 11, weight: 'normal' });
+  });
+
+  it('keeps the hover-only tooltip: index mode, dark heading colour, no external or custom events', () => {
+    render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} />);
+    const o = last().options;
+    expect(o.interaction).toEqual({ mode: 'index', intersect: false });
+    expect(o.plugins.legend).toEqual({ display: false });
+    expect(o.plugins.tooltip.backgroundColor).toBe('#010d4c');
+    expect(o.plugins.tooltip.external).toBeUndefined();
+    expect(o.events).toBeUndefined();
+    expect(o.onLeave).toBeUndefined();
+    expect(Object.keys(o).sort()).toEqual(['animation', 'interaction', 'layout', 'maintainAspectRatio', 'onHover', 'plugins', 'responsive', 'scales']);
+  });
+
+  it('hides the legend row when showLegend is false', () => {
+    const { container } = render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} showLegend={false} />);
+    expect(container.querySelector('.vs-line-chart-legend')).toBeNull();
+  });
+});
+
+describe('BarChart dashboard options (Task 7)', () => {
+  it('legendPosition="bottom" puts the legend under the canvas, centred; top is the default', () => {
+    const { container } = render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} legendPosition="bottom" />);
+    const kids = Array.from((container.firstElementChild as HTMLElement).children).map((c) => c.className);
+    expect(kids).toEqual(['vs-line-chart-canvas', 'vs-line-chart-legend vs-line-chart-legend--bottom']);
+    cleanup();
+    const top = render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} legendPosition="top" />);
+    expect(Array.from((top.container.firstElementChild as HTMLElement).children).map((c) => c.className)).toEqual(['vs-line-chart-legend', 'vs-line-chart-canvas']);
+  });
+
+  it('legendPosition="bottom" with showLegend=false still shows no legend', () => {
+    const { container } = render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} legendPosition="bottom" showLegend={false} />);
+    expect(container.querySelector('.vs-line-chart-legend')).toBeNull();
+  });
+
+  it('todayMarker="dark" draws the line and the (Today) label in the dark marker colour', () => {
+    render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} todayMarker="dark" />);
+    const c = last();
+    let stroke = '';
+    const g: any = { save() {}, restore() {}, beginPath() {}, stroke() {}, setLineDash() {}, moveTo() {}, lineTo() {}, set strokeStyle(v: string) { stroke = v; }, set lineWidth(_v: number) {} };
+    c.plugins[0].afterDatasetsDraw({ scales: { x: { getPixelForValue: () => 1 } }, chartArea: { top: 0, bottom: 1 }, ctx: g });
+    expect(stroke).toBe('#222222');
+    expect(c.options.scales.x.ticks.color({ index: 2 })).toBe('#222222');
+    expect(c.options.scales.x.ticks.color({ index: 0 })).toBe('#8e9cba');
+  });
+
+  it('pinTooltip is off by default: no plugin, no onComplete', () => {
+    render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} />);
+    expect(last().plugins.map((p: any) => p.id)).toEqual(['vsTodayLine', 'vsValueLabels']);
+    expect(last().options.animation.onComplete).toBeUndefined();
+  });
+
+  function fakeChart(active: any[] = []) {
+    const calls: any = { chart: null, tooltip: null, updates: [] };
+    const chart: any = {
+      tooltip: { getActiveElements: () => active, setActiveElements: (a: any, p: any) => { calls.tooltip = [a, p]; } },
+      getDatasetMeta: () => ({ data: [{}, {}, { x: 50, y: 60 }, {}] }),
+      setActiveElements: (a: any) => { calls.chart = a; },
+      update: (m: string) => calls.updates.push(m),
+    };
+    return { chart, calls };
+  }
+
+  it('pinTooltip clears the hover fade when the pinned tooltip comes back', async () => {
+    render(<BarChart dates={DATES} series={[{ ...FREE, color: '#005c55' }]} ariaLabel="x" today={TODAY} pinTooltip />);
+    const c = last();
+    const bg = c.data.datasets[0].backgroundColor;
+    const gradient = { addColorStop: vi.fn() };
+    const ctxOf = (dataIndex: number) => ({ dataIndex, chart: { chartArea: { top: 0, bottom: 100 }, ctx: { createLinearGradient: () => gradient } } });
+    c.options.onHover({}, [{ index: 0 }], { update: vi.fn() });
+    expect(bg(ctxOf(1))).toBe('rgba(0, 92, 85, 0.18)');
+    const { chart } = fakeChart([]);
+    c.plugins.find((p: any) => p.id === 'vsPinTooltip').afterEvent(chart, { event: { type: 'mouseout' } });
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(bg(ctxOf(1))).toBe(gradient);
+  });
+
+  it('pinTooltip pins the latest day with a value, once the bars have grown', () => {
+    render(<BarChart dates={DATES} series={[FREE, PREMIUM]} ariaLabel="x" today={TODAY} pinTooltip />);
+    expect(last().plugins.map((p: any) => p.id)).toEqual(['vsTodayLine', 'vsValueLabels', 'vsPinTooltip']);
+    const { chart, calls } = fakeChart();
+    last().options.animation.onComplete({ chart });
+    // today (22 Oct) is index 2; both series have a value that day (premium is 0, not null)
+    expect(calls.chart).toEqual([{ datasetIndex: 0, index: 2 }, { datasetIndex: 1, index: 2 }]);
+    expect(calls.tooltip).toEqual([calls.chart, { x: 50, y: 60 }]);
+    expect(calls.updates).toEqual(['none']);
+    // a later animation (e.g. a resize) must not override a tooltip the user is hovering
+    const second = fakeChart();
+    last().options.animation.onComplete({ chart: second.chart });
+    expect(second.calls.chart).toBeNull();
+  });
+
+  it('pinTooltip leaves out a series that has no value on the pinned day', () => {
+    render(<BarChart dates={DATES} series={[FREE, { id: 'n', label: 'N', data: [5, null] }]} ariaLabel="x" today={TODAY} pinTooltip />);
+    const { chart, calls } = fakeChart();
+    last().options.animation.onComplete({ chart });
+    expect(calls.chart).toEqual([{ datasetIndex: 0, index: 2 }]);
+  });
+
+  it('pinTooltip never pins a day after today, even with a value on it', () => {
+    render(<BarChart dates={['2026-10-21', '2026-10-22', '2026-10-23']} series={[{ id: 'f', label: 'F', data: [1, 4, 99] }]} ariaLabel="x" today={TODAY} pinTooltip />);
+    const { chart, calls } = fakeChart();
+    last().options.animation.onComplete({ chart });
+    expect(calls.chart).toEqual([{ datasetIndex: 0, index: 1 }]);
+  });
+
+  it('pinTooltip falls back to the last day with data when today has none', () => {
+    render(<BarChart dates={['2026-10-19', '2026-10-20']} series={[FREE]} ariaLabel="x" today={TODAY} pinTooltip />);
+    const { chart, calls } = fakeChart();
+    last().options.animation.onComplete({ chart });
+    expect(calls.chart).toEqual([{ datasetIndex: 0, index: 1 }]);
+  });
+
+  it('pinTooltip brings the pinned tooltip back when the pointer leaves, but not while hovering', async () => {
+    render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} pinTooltip />);
+    const pinPlugin = last().plugins.find((p: any) => p.id === 'vsPinTooltip');
+    const left = fakeChart([]);
+    pinPlugin.afterEvent(left.chart, { event: { type: 'mouseout' } });
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(left.calls.chart).toEqual([{ datasetIndex: 0, index: 2 }]);
+    const hovering = fakeChart([{ datasetIndex: 0, index: 0 }]);
+    pinPlugin.afterEvent(hovering.chart, { event: { type: 'mousemove' } });
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(hovering.calls.chart).toBeNull();
+  });
+
+  it('pinTooltip with reduced motion pins after the first render only', () => {
+    reducedMotion = true;
+    render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} pinTooltip />);
+    expect(last().options.animation).toBe(false);
+    const pinPlugin = last().plugins.find((p: any) => p.id === 'vsPinTooltip');
+    const first = fakeChart();
+    pinPlugin.afterRender(first.chart);
+    expect(first.calls.chart).toEqual([{ datasetIndex: 0, index: 2 }]);
+    const again = fakeChart();
+    pinPlugin.afterRender(again.chart);
+    expect(again.calls.chart).toBeNull();
+  });
+
+  it('pinTooltip does nothing when no day has data', () => {
+    render(<BarChart dates={DATES} series={[{ id: 'e', label: 'E', data: [null, null] }]} ariaLabel="x" today={TODAY} pinTooltip />);
+    const { chart, calls } = fakeChart();
+    last().options.animation.onComplete({ chart });
+    expect(calls.chart).toBeNull();
+  });
+
+  it('redraws when pinTooltip or todayMarker change', () => {
+    const { rerender } = render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} />);
+    rerender(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} pinTooltip />);
+    rerender(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} pinTooltip todayMarker="dark" />);
+    expect(charts).toHaveLength(3);
+  });
+});

@@ -34,6 +34,9 @@
   --vs-color-warning-border: #FFD854;
   --vs-color-info-bg: #E0E1F9;
   --vs-color-info-border: #5558B3;
+  /* Danger as TEXT on the danger fill (additive, 23 Nov 2026, Task 3): --vs-color-danger-border on --vs-color-danger-bg is only 4.18:1
+     (WCAG AA needs 4.5:1). 15% black mixed in gives 5.4:1 on the fill, and it still follows the danger colour. */
+  --vs-color-danger-text: color-mix(in srgb, var(--vs-color-danger-border) 85%, black);
 
   /* ---- Color: Product Badges ---- */
   --vs-color-badge-trending: #0074E4;
@@ -51,6 +54,15 @@
   --vs-color-item-status-hard-rejected: #D60C0C;
   --vs-color-item-status-deleted: #F44336;
 
+  /* ---- Color: Lavender surface (dashboard header band, additive, 23 Nov 2026) ----
+     The vectorsticker.com facelift page-header band: white fading into a light lavender built from the free badge violet with
+     a little of the trending blue, then mixed into white. Same formula as vs-facelift.css, so no new raw colour. Existing
+     tokens are untouched. The lime action colour needs no token: it is --vs-color-brand-accent with dark text
+     --vs-color-brand-secondary (13:1, gated in scripts/check-tokens.mjs). */
+  --vs-color-lavender-surface: color-mix(in srgb, color-mix(in srgb, var(--vs-color-badge-free) 83%, var(--vs-color-badge-trending)) 7.6%, var(--vs-color-surface));
+  --vs-color-lavender-surface-strong: color-mix(in srgb, color-mix(in srgb, var(--vs-color-badge-free) 80%, var(--vs-color-badge-trending)) 14.2%, var(--vs-color-surface));
+  --vs-gradient-header-lavender: linear-gradient(135deg, var(--vs-color-surface) 0%, var(--vs-color-lavender-surface) 55%, var(--vs-color-lavender-surface-strong) 100%);
+
   /* Charts (LineChart). Aliases of existing colours, so no new raw colour; a site may override them
      (e.g. the reports dashboard's own green). Series are used in order: 1, 2, 3. */
   --vs-chart-series-1: var(--vs-color-brand-primary);
@@ -59,6 +71,22 @@
   --vs-chart-today: var(--vs-color-item-status-pending);
   --vs-chart-grid: var(--vs-color-border);
   --vs-chart-axis-text: var(--vs-color-text-muted);
+  /* Reports dashboard chart direction (additive, opt-in, 23 Nov 2026). The six tokens above keep their values.
+     The secondary series of this direction is the existing --vs-chart-series-2 (trending blue); no duplicate token.
+     --vs-chart-line-primary is the dark green of the dashboard line (5.1:1 on white); --vs-chart-series-downloads is the
+     free-badge violet; --vs-chart-today-marker is the dark surface colour (the orange --vs-chart-today is unchanged). */
+  --vs-chart-line-primary: #2E7D32;
+  --vs-chart-series-downloads: var(--vs-color-badge-free);
+  --vs-chart-today-marker: var(--vs-color-brand-secondary);
+  /* DonutChart segment colours (Task 5, 23 Nov 2026, additive, issue #72), used in order and then repeated. Built from existing colours, no
+     raw colour. Each is at least 3:1 on white (WCAG 1.4.11, gated in scripts/check-tokens.mjs). The legend always says the name and the
+     percentage in text, so the colour is never the only way to tell the segments apart. */
+  --vs-chart-donut-1: var(--vs-color-brand-secondary);
+  --vs-chart-donut-2: var(--vs-color-brand-primary-text);
+  --vs-chart-donut-3: var(--vs-color-badge-free);
+  --vs-chart-donut-4: var(--vs-color-badge-trending);
+  --vs-chart-donut-5: color-mix(in srgb, var(--vs-color-text-muted) 70%, black);
+  --vs-chart-donut-6: color-mix(in srgb, var(--vs-color-badge-free) 70%, var(--vs-color-surface));
 
   /* ---- Typography ---- */
   --vs-font-family: 'Poppins', sans-serif;
@@ -112,6 +140,14 @@
   --vs-button-tertiary-hover-bg: rgba(76, 175, 80, 0.10);
   --vs-button-tertiary-pressed-bg: rgba(76, 175, 80, 0.20);
   --vs-button-tertiary-active-border: var(--vs-color-brand-primary);
+  /* Accent (lime pill) emphasis, opt-in, added 23 Nov 2026 (Task 2): the vectorsticker.com facelift's primary action (Sign Up,
+     Search, Sign In). Lime fill with dark text (13:1); the hover/pressed shades mix the lime with black, so they follow the
+     brand accent and add no raw colour. Weight 700 like the live Sign Up button; the default --vs-button-font-weight is untouched. */
+  --vs-button-accent: var(--vs-color-brand-accent);
+  --vs-button-accent-text: var(--vs-color-brand-secondary);
+  --vs-button-accent-hover: color-mix(in srgb, var(--vs-button-accent) 92%, black);
+  --vs-button-accent-pressed: color-mix(in srgb, var(--vs-button-accent) 84%, black);
+  --vs-button-accent-font-weight: 700;
   --vs-button-cta-support: #F59E0B;
   --vs-button-cta-support-hover: #F5A623;
   --vs-button-cta-support-pressed: #D97706;
@@ -140,6 +176,12 @@
 
   /* ---- Card (spec v2, 25 Sep 2026) ---- */
   --vs-card-radius: var(--vs-radius-sm); /* 8px; was 3px until 11 Oct 2026 (one radius for every box) */
+  /* Large card/panel corner of the dashboard and facelift direction (additive, 23 Nov 2026): the card step of the
+     facelift radius scale = --vs-radius-xl (20px). --vs-card-radius and --vs-item-card-radius keep their values. */
+  --vs-card-radius-lg: var(--vs-radius-xl);
+  /* SummaryCard `metric` variant (additive, 23 Nov 2026, Task 3): the KPI value is set tighter than the classic card (-0.01em), as in the
+     approved dashboard design. The classic SummaryCard keeps its own letter-spacing. */
+  --vs-summary-value-letter-spacing: -0.05em;
   --vs-card-width: 344.5px; /* real vectorsticker.com item card at >=1600px */
   --vs-card-media-ratio: 1 / 1;
   --vs-card-border: #E5E7EB;
@@ -204,6 +246,18 @@
   --vs-toast-error: #F44336;
   --vs-toast-warning: #F6B800;
   --vs-toast-info: #00BCD4;
+
+  /* ---- Meter (Task 4, 23 Nov 2026, additive): a thin horizontal bar for share, progress and usage values (issue #25).
+     The fills are the status colours darkened with black so each one is at least 3:1 on the track (WCAG 1.4.11, gated in
+     scripts/check-tokens.mjs): the plain warning yellow is only 1.19:1 on the grey track, the plain success green 2.27:1.
+     A product (the reports dashboard with its own --vs-alert-* colours) may override the --vs-meter-fill-* tokens. ---- */
+  --vs-meter-height: 6px;
+  --vs-meter-track: var(--vs-color-disabled-bg);
+  --vs-meter-fill: var(--vs-color-brand-primary-text);
+  --vs-meter-fill-success: color-mix(in srgb, var(--vs-color-success-border) 65%, black);
+  --vs-meter-fill-warning: color-mix(in srgb, var(--vs-color-warning-border) 55%, black);
+  --vs-meter-fill-danger: var(--vs-color-danger-border);
+  --vs-meter-fill-neutral: color-mix(in srgb, var(--vs-color-text-muted) 70%, black);
 
   /* ---- Shadow (flat design — always none) ---- */
   --vs-shadow-none: none;

@@ -10,6 +10,8 @@ export interface SegmentedControlProps {
   activeId: string;
   onChange: (id: string) => void;
   size?: 'sm' | 'md';
+  /** `dark` = pill track with a dark selected option (opt-in, Task 2, 23 Nov 2026). Default keeps the existing green look. */
+  variant?: 'default' | 'dark';
   className?: string;
   buttonClassName?: string;
 }
@@ -23,9 +25,10 @@ export interface SegmentedControlProps {
  * alias (components/Tabs.tsx) and will be reused for real underline tabs. Same classes, same
  * visual output as before the rename.
  */
-export function SegmentedControl({ tabs, activeId, onChange, size = 'md', className, buttonClassName }: SegmentedControlProps) {
+export function SegmentedControl({ tabs, activeId, onChange, size = 'md', variant = 'default', className, buttonClassName }: SegmentedControlProps) {
+  const rootClass = ['vs-segment-control', variant === 'dark' ? 'vs-segment-control--dark' : '', className ?? ''].filter(Boolean).join(' ');
   return (
-    <div className={className ? `vs-segment-control ${className}` : 'vs-segment-control'}>
+    <div className={rootClass}>
       {tabs.map((tab) => (
         <button
           key={tab.id}

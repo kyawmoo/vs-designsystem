@@ -95,6 +95,7 @@
         <tr><td>Danger</td><td><code style="background:var(--vs-color-danger-bg)">#FFDCDC</code></td><td><code style="background:var(--vs-color-danger-border);color:#fff">#C13B3B</code></td><td><code>--vs-color-danger-*</code></td></tr>
         <tr><td>Warning</td><td><code style="background:var(--vs-color-warning-bg)">#FFF7DC</code></td><td><code style="background:var(--vs-color-warning-border)">#FFD854</code></td><td><code>--vs-color-warning-*</code></td></tr>
         <tr><td>Info</td><td><code style="background:var(--vs-color-info-bg)">#E0E1F9</code></td><td><code style="background:var(--vs-color-info-border);color:#fff">#5558B3</code></td><td><code>--vs-color-info-*</code></td></tr>
+        <tr><td>Danger as text</td><td><code style="background:var(--vs-color-danger-bg)">#FFDCDC</code></td><td><code style="background:var(--vs-color-danger-text);color:#fff">~#A43232</code></td><td><code>--vs-color-danger-text</code> (added 23 Nov 2026, additive: 5.4:1 on the danger fill; <code>--vs-color-danger-border</code> is only 4.18:1 there)</td></tr>
       </tbody>
     </table></div>
 
@@ -121,6 +122,17 @@
         <tr><td>Approved</td><td><code style="background:#00BA10;color:#fff">#00BA10</code></td><td><code>--vs-color-item-status-approved</code></td></tr>
         <tr><td>Hard Rejected</td><td><code style="background:#D60C0C;color:#fff">#D60C0C</code></td><td><code>--vs-color-item-status-hard-rejected</code></td></tr>
         <tr><td>Deleted</td><td><code style="background:#F44336;color:#fff">#F44336</code></td><td><code>--vs-color-item-status-deleted</code></td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Lavender surface (dashboard header band)</h2>
+    <p>Added 23 Nov 2026, additive. The page-header band of the vectorsticker.com facelift: white fading into a light lavender built from the free badge violet with a little trending blue, mixed into white (no new raw colour). The lime action colour needs no token: use <code>--vs-color-brand-accent</code> with dark text <code>--vs-color-brand-secondary</code> (13:1).</p>
+    <div style="overflow-x:auto"><table class="vs-docs-table">
+      <thead><tr><th>Token</th><th>Preview</th><th>Use for</th></tr></thead>
+      <tbody>
+        <tr><td><code>--vs-color-lavender-surface</code></td><td><span style="display:inline-block;width:56px;height:28px;border-radius:5px;border:1px solid var(--vs-color-border);background:var(--vs-color-lavender-surface);vertical-align:middle"></span></td><td>Light lavender surface (about #F3F1FE)</td></tr>
+        <tr><td><code>--vs-color-lavender-surface-strong</code></td><td><span style="display:inline-block;width:56px;height:28px;border-radius:5px;border:1px solid var(--vs-color-border);background:var(--vs-color-lavender-surface-strong);vertical-align:middle"></span></td><td>End of the header band</td></tr>
+        <tr><td><code>--vs-gradient-header-lavender</code></td><td><span style="display:inline-block;width:56px;height:28px;border-radius:5px;border:1px solid var(--vs-color-border);background:var(--vs-gradient-header-lavender);vertical-align:middle"></span></td><td>Header band: surface, then lavender at 55%, then strong lavender, at 135deg</td></tr>
       </tbody>
     </table></div>
 

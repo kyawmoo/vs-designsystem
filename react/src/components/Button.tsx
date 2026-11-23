@@ -1,6 +1,7 @@
 import React from 'react';
 
-export type ButtonEmphasis = 'primary' | 'secondary' | 'tertiary';
+/** `accent` is the opt-in lime pill (Task 2, 23 Nov 2026): lime fill, dark text, round corners, weight 700. The others are unchanged. */
+export type ButtonEmphasis = 'primary' | 'secondary' | 'tertiary' | 'accent';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -67,6 +68,13 @@ const EMPHASIS_STYLE: Record<ButtonEmphasis, React.CSSProperties> = {
     color: 'var(--vs-button-tertiary-text)',
     borderRadius: 'var(--vs-button-radius-soft)',
   },
+  accent: {
+    background: 'var(--vs-button-accent)',
+    borderColor: 'var(--vs-button-accent)',
+    color: 'var(--vs-button-accent-text)',
+    borderRadius: 'var(--vs-radius-full)',
+    fontWeight: 'var(--vs-button-accent-font-weight)',
+  },
 };
 
 /* Icon-only buttons: outlined squares (spec v2). */
@@ -85,6 +93,12 @@ const ICON_ONLY_STYLE: Record<ButtonEmphasis, React.CSSProperties> = {
     background: 'var(--vs-color-surface)',
     border: '1px solid var(--vs-color-border)',
     color: '#71717a',
+  },
+  /* Accent icon-only: a filled lime circle with a dark icon (the facelift's header search button). */
+  accent: {
+    background: 'var(--vs-button-accent)',
+    border: '1px solid var(--vs-button-accent)',
+    color: 'var(--vs-button-accent-text)',
   },
 };
 
@@ -121,7 +135,7 @@ export function Button({
     ...(iconOnly
       ? {
           ...ICON_ONLY_STYLE[emphasis],
-          borderRadius: 'var(--vs-button-radius-icon)',
+          borderRadius: emphasis === 'accent' ? 'var(--vs-radius-full)' : 'var(--vs-button-radius-icon)',
           width: ICON_ONLY_SIZE[size],
           height: ICON_ONLY_SIZE[size],
           padding: 0,

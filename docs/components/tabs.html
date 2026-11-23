@@ -317,6 +317,28 @@
     </table></div>
 
     <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">06b // Dark variant (opt-in)</span><h2>SegmentedControl <code>variant="dark"</code></h2></div>
+      <p class="vs-docs-section-desc">Added 23 Nov 2026 for the reports dashboard period selector. The default variant (green selection) is unchanged.</p>
+    </div>
+    <div class="demo-state"><div class="demo-state-stage">
+      <div style="display:inline-flex;align-items:center;padding:0.375rem;background:var(--vs-color-surface);border:1px solid var(--vs-color-border);border-radius:var(--vs-radius-full);gap:0.25rem" role="group" aria-label="Period (dark variant)">
+        <button type="button" style="padding:0.375rem 1rem;border:none;border-radius:var(--vs-radius-full);font-family:var(--vs-font-family);font-size:var(--vs-font-size-body-sm);font-weight:600;color:var(--vs-color-text-body);background:transparent">Today</button>
+        <button type="button" style="padding:0.375rem 1rem;border:none;border-radius:var(--vs-radius-full);font-family:var(--vs-font-family);font-size:var(--vs-font-size-body-sm);font-weight:600;color:var(--vs-color-surface);background:var(--vs-color-brand-secondary)">7D</button>
+        <button type="button" style="padding:0.375rem 1rem;border:none;border-radius:var(--vs-radius-full);font-family:var(--vs-font-family);font-size:var(--vs-font-size-body-sm);font-weight:600;color:var(--vs-color-text-body);background:transparent">30D</button>
+        <button type="button" style="padding:0.375rem 1rem;border:none;border-radius:var(--vs-radius-full);font-family:var(--vs-font-family);font-size:var(--vs-font-size-body-sm);font-weight:600;color:var(--vs-color-text-body);background:transparent">90D</button>
+      </div>
+    </div></div>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Part</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Track</td><td>pill, <code>--vs-radius-full</code>, same border and padding as the default</td></tr>
+        <tr><td>Selected option</td><td><code>--vs-color-brand-secondary</code> background, <code>--vs-color-surface</code> text (white on #222 is 15.9:1)</td></tr>
+        <tr><td>Other options</td><td><code>--vs-color-text-body</code> text (14:1 on white; the muted grey of the default variant is 2.8:1), hover: heading colour on <code>--vs-color-background</code></td></tr>
+        <tr><td>Use</td><td><code>&lt;SegmentedControl variant="dark" … /&gt;</code>; the same API as before (<code>tabs</code>, <code>activeId</code>, <code>onChange</code>, <code>size</code>). <code>DateRangeSelector</code> is not changed in this step.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="vs-docs-section-head">
       <div><span class="vs-docs-section-num">07 // Guidelines</span><h2>Do’s and Don’ts</h2></div>
       <p class="vs-docs-section-desc">Short labels, two levels at most, tabs for content, not for filters.</p>
     </div>

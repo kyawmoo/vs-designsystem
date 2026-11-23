@@ -485,12 +485,66 @@
       </p>
     </div>
 
+    <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">10b // Summary card (React, opt-in)</span><h2>SummaryCard: <code>variant="metric"</code> and <code>tone="dark"</code></h2></div>
+      <p class="vs-docs-section-desc">Added 23 Nov 2026 for the reports dashboard KPI row. The classic SummaryCard (8px corners, label above the value) is unchanged.</p>
+    </div>
+    <style>
+      .demo-sc-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+      .demo-sc { background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-card-radius-lg); padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; font-family: var(--vs-font-family); }
+      .demo-sc--dark { background: var(--vs-color-brand-secondary); border-color: var(--vs-color-brand-secondary); }
+      .demo-sc-head { display: flex; align-items: center; gap: 0.5rem; min-height: 28px; }
+      .demo-sc-icon { flex: none; width: 28px; height: 28px; border-radius: var(--vs-radius-lg); background: var(--vs-color-disabled-bg); color: var(--vs-color-text-heading); display: inline-flex; align-items: center; justify-content: center; }
+      .demo-sc--dark .demo-sc-icon { background: var(--vs-color-brand-accent); color: var(--vs-color-brand-secondary); }
+      .demo-sc-row .demo-sc-label { flex: 1; margin: 0; font-size: var(--vs-font-size-body-sm); font-weight: 500; color: var(--vs-color-text-body); }
+      .demo-sc-row .demo-sc--dark .demo-sc-label { color: var(--vs-color-surface); }
+      .demo-sc-chip { flex: none; padding: 0.125rem 0.625rem; border-radius: var(--vs-radius-full); font-size: 11px; font-weight: 500; white-space: nowrap; }
+      .demo-sc-chip--up { background: var(--vs-color-success-bg); color: var(--vs-color-brand-primary-text); }
+      .demo-sc-chip--down { background: var(--vs-color-danger-bg); color: var(--vs-color-danger-text); }
+      .demo-sc-chip--flat { background: var(--vs-color-disabled-bg); color: var(--vs-color-text-body); }
+      .demo-sc--dark .demo-sc-chip--up { background: var(--vs-color-brand-accent); color: var(--vs-color-brand-secondary); }
+      .demo-sc-rowv { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+      .demo-sc-row .demo-sc-value { margin: 0; font-size: 1.875rem; line-height: 2.25rem; font-weight: 700; letter-spacing: var(--vs-summary-value-letter-spacing); color: var(--vs-color-text-heading); font-variant-numeric: tabular-nums; white-space: nowrap; }
+      .demo-sc-row .demo-sc--dark .demo-sc-value { color: var(--vs-color-brand-accent); }
+      .demo-sc-spark { flex: none; width: 3.5rem; height: 1.5rem; color: var(--vs-chart-series-1); }
+      .demo-sc--dark .demo-sc-spark { color: var(--vs-color-brand-accent); }
+      .demo-sc-spark svg { width: 100%; height: 100%; display: block; }
+    </style>
+    <div class="demo-sc-row">
+      <div class="demo-sc demo-sc--dark">
+        <div class="demo-sc-head"><span class="demo-sc-icon"><i class="fa-solid fa-dollar-sign"></i></span><p class="demo-sc-label">Revenue</p><span class="demo-sc-chip demo-sc-chip--up">+12.4%</span></div>
+        <div class="demo-sc-rowv"><p class="demo-sc-value">$823.50</p><span class="demo-sc-spark"><svg viewBox="0 0 56 24" preserveAspectRatio="none" aria-hidden="true"><path d="M1 16 L8 14 L15 6 L22 12 L29 9 L36 15 L43 8 L55 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+      <div class="demo-sc">
+        <div class="demo-sc-head"><span class="demo-sc-icon"><i class="fa-solid fa-user-group"></i></span><p class="demo-sc-label">Users</p><span class="demo-sc-chip demo-sc-chip--up">+18.4%</span></div>
+        <div class="demo-sc-rowv"><p class="demo-sc-value">11,920</p><span class="demo-sc-spark"><svg viewBox="0 0 56 24" preserveAspectRatio="none" aria-hidden="true"><path d="M1 16 L8 14 L15 6 L22 12 L29 9 L36 15 L43 8 L55 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+      <div class="demo-sc">
+        <div class="demo-sc-head"><span class="demo-sc-icon"><i class="fa-solid fa-download"></i></span><p class="demo-sc-label">Downloads</p><span class="demo-sc-chip demo-sc-chip--down">-50%</span></div>
+        <div class="demo-sc-rowv"><p class="demo-sc-value">2</p><span class="demo-sc-spark"><svg viewBox="0 0 56 24" preserveAspectRatio="none" aria-hidden="true"><path d="M1 16 L8 14 L15 6 L22 12 L29 9 L36 15 L43 8 L55 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+      </div>
+    </div>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td><code>variant</code></td><td><code>classic</code> (default) · <code>metric</code></td><td><code>metric</code>: header row (icon, label, change chip), then the value and a small sparkline on one row; corners <code>--vs-card-radius-lg</code> (20px)</td></tr>
+        <tr><td><code>tone</code></td><td>… · <code>dark</code></td><td>Dark surface (<code>--vs-color-brand-secondary</code>), lime value. Works in both variants. Inside a dark card the first chart colour is the brand lime, so a sparkline in the slot is lime without extra props</td></tr>
+        <tr><td><code>icon</code></td><td>ReactNode</td><td><code>metric</code> only. Drawn inside a 28px chip (<code>--vs-radius-lg</code>); decorative (<code>aria-hidden</code>)</td></tr>
+        <tr><td><code>change</code></td><td><code>{ text, direction: 'up' | 'down' | 'flat' }</code></td><td><code>metric</code> only. Replaces <code>badge</code>. Up: <code>--vs-color-brand-primary-text</code> on success fill (4.7:1); down: <code>--vs-color-danger-text</code> on danger fill (5.4:1); the direction is also read out ("Increase: +18.4%"), not only coloured</td></tr>
+        <tr><td><code>sparkline</code></td><td>ReactNode</td><td><code>metric</code> only. E.g. <code>&lt;LineChart variant="sparkline" height={24} … /&gt;</code> (<code>ariaLabel</code> required). The card does not import the chart library</td></tr>
+      </tbody>
+    </table></div>
+    <div class="vs-docs-callout">
+      <p>Value letter-spacing of the metric variant is <code>--vs-summary-value-letter-spacing</code> (−0.05em); the classic card keeps −0.01em. The checks in <code>scripts/check-tokens.mjs</code> hold every text/background pair of these styles at 4.5:1 or more. Blade is not changed by this step.</p>
+    </div>
+
     <h2>Measurement Guide</h2>
     <div class="demo-scroll">
     <table class="vs-docs-table">
       <thead><tr><th>Property</th><th>Spec v2 (React + tokens)</th><th>Blade today (real site CSS)</th></tr></thead>
       <tbody>
         <tr><td>Radius</td><td>8px — <code>--vs-card-radius</code> (= <code>--vs-radius-sm</code>)</td><td>item card 8px (<code>.item</code>); <code>.card-v</code> 6px</td></tr>
+        <tr><td>Radius, large (opt-in)</td><td>20px — <code>--vs-card-radius-lg</code> (= <code>--vs-radius-xl</code>). Added 23 Nov 2026 for the reports dashboard and facelift direction; <code>--vs-card-radius</code> and <code>--vs-item-card-radius</code> keep their values</td><td>facelift pages set <code>--vs-item-card-radius</code> to 20px in their own CSS</td></tr>
         <tr><td>Border</td><td>1px solid #e5e7eb — <code>--vs-card-border</code></td><td><code>.card-v</code>: none (blog variant only)</td></tr>
         <tr><td>Padding</td><td>item card 14px · content card 45px (24px mobile) · React Card 20px</td><td>item card body 24px (<code>.item-body</code>); <code>.card-v</code> 35px (45px ≥1200px or blog)</td></tr>
         <tr><td>Width</td><td>344.5px at ≥1600px — <code>--vs-card-width</code></td><td>same (see 00 // Real Size for every breakpoint)</td></tr>
