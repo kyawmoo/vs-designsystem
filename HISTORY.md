@@ -6,6 +6,18 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-23 — Dashboard design tokens, Task 1 of the controlled migration (additive only); not deployed
+
+- Asked: Master KMO approved decisions D1-D4 (via ChatGPT) and Task 1 only: add additive tokens for the Reports dashboard direction. D1 option B: `--vs-card-radius` and `--vs-item-card-radius` stay as they are, a new `--vs-card-radius-lg`. D2: lime action colour with dark text. D3: lavender header band on a flat `#F8F8F8` page. D4: violet and chart colours.
+- Added (7 tokens in `tokens/tokens.css`, mirrored in `tokens/tokens.json`, docs copy synced): `--vs-card-radius-lg` (= `--vs-radius-xl`, 20px); `--vs-color-lavender-surface`, `--vs-color-lavender-surface-strong`, `--vs-gradient-header-lavender` (same colour-mix formula as the vectorsticker.com facelift, no new raw colour); `--vs-chart-line-primary` (`#2E7D32`, one new allowlisted raw colour), `--vs-chart-series-downloads` (= badge-free violet), `--vs-chart-today-marker` (= brand-secondary).
+- Reused, not duplicated: the lime action colour is `--vs-color-brand-accent` with `--vs-color-brand-secondary` text; the secondary chart series is the existing `--vs-chart-series-2`. The orange `--vs-chart-today` is unchanged (the marker has its own token).
+- `scripts/check-tokens.mjs` gets gates: dark text on lime >= 4.5:1 (13.0:1), the three new chart colours >= 3:1 on white, and the additive tokens must exist and point at their primitives. Docs: Lavender section in `docs/foundations/colors.html`, a `--vs-card-radius-lg` row in `docs/components/card.html`, the three chart tokens in `docs/components/line-chart.html`.
+- Checked: `npm run check:tokens` OK (155 -> 162 tokens, 53 -> 54 raw colours); all 155 earlier tokens have identical values; 5 mutation checks each fail the gate; `tsc --noEmit` exit 0; `vitest` 223/223. The lavender token renders the same colour as the live site's header band (`color(srgb 0.952695 0.94472 0.994427)`).
+- Not verified: no component reads the new tokens yet (Tasks 2-10); the Blade copy on the main site is a separate file and is not touched (it still has the old copy, e.g. `--vs-card-radius: 3px`); no lint or build script exists in this repo.
+- Open: Task 2 (Button and SegmentedControl variants) waits for Master KMO's approval.
+
+---
+
 ## 2026-11-01 — MobilePageHeader: optional `trailing` slot (a control next to the title on a phone); not deployed
 
 - Asked: Master KMO chose (a)+(c): the title and the date-range selector on one row on the phone headers of the reports pages that still show the old filter icon (Social, Download Activity, Users). `MobilePageHeader` had no place for a control next to the title (title on 80%, one filter icon on 20%), and it also holds the back arrow, so a page could not build this without a custom header. This is the design-system half (ticket "Add trailing slot to MobilePageHeader"); the reports pages follow in a separate change there.

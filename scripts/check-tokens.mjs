@@ -81,6 +81,13 @@ for (const b of Object.keys(BADGE_MIN)) need(`item card ${b} badge text`, `--vs-
 need('focus ring on surface', '--vs-focus-ring-color', '--vs-color-surface', 3);
 need('focus ring on background', '--vs-focus-ring-color', '--vs-color-background', 3);
 need('focus ring on dark surface', '--vs-focus-ring-color-on-dark', '--vs-color-brand-secondary', 3);
+// Dashboard direction (23 Nov 2026): dark text on the lime action colour, and the new chart colours as graphics (WCAG 1.4.11: 3:1) on white.
+need('dark text on the lime action colour', '--vs-color-brand-secondary', '--vs-color-brand-accent', 4.5);
+for (const t of ['--vs-chart-line-primary', '--vs-chart-series-downloads', '--vs-chart-today-marker']) need(`${t} on surface`, t, '--vs-color-surface', 3);
+// Additive tokens must exist and keep pointing at the intended primitives (the old values stay as they are).
+const expectTokens = { '--vs-card-radius-lg': 'var(--vs-radius-xl)', '--vs-chart-series-downloads': 'var(--vs-color-badge-free)', '--vs-chart-today-marker': 'var(--vs-color-brand-secondary)' };
+for (const [n, v] of Object.entries(expectTokens)) if (tokens.get(n) !== v) fail(`${n} should be ${v}, found ${tokens.get(n)}`);
+for (const n of ['--vs-color-lavender-surface', '--vs-color-lavender-surface-strong', '--vs-gradient-header-lavender', '--vs-chart-line-primary']) if (!tokens.has(n)) fail(`${n} is missing`);
 
 if (errors.length) { console.error('check-tokens FAILED:\n- ' + errors.join('\n- ')); process.exit(1); }
 console.log(`check-tokens OK (${tokens.size} tokens, ${rawNames.length} approved raw colours)`);

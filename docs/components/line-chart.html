@@ -99,6 +99,15 @@
         <tr><td><code>--vs-chart-axis-text</code></td><td><code>var(--vs-color-text-muted)</code></td><td>Axis labels, legend text</td></tr>
       </tbody>
     </table></div>
+    <p style="font-size:13px">Reports dashboard direction (added 23 Nov 2026, additive and opt-in; the tokens above keep their values and no component reads these yet). The secondary series of this direction is the existing <code>--vs-chart-series-2</code>.</p>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Token</th><th>Default</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td><code>--vs-chart-line-primary</code></td><td><code>#2E7D32</code> (5.1:1 on white)</td><td>Primary line (dark green)</td></tr>
+        <tr><td><code>--vs-chart-series-downloads</code></td><td><code>var(--vs-color-badge-free)</code></td><td>Downloads series (violet)</td></tr>
+        <tr><td><code>--vs-chart-today-marker</code></td><td><code>var(--vs-color-brand-secondary)</code></td><td>Today marker; the orange <code>--vs-chart-today</code> is unchanged</td></tr>
+      </tbody>
+    </table></div>
 
     <h2>Usage — React</h2>
     <div class="vs-docs-code-block"><span class="tag">import</span> { LineChart, AnimatedNumber } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;

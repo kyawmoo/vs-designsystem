@@ -51,6 +51,15 @@
   --vs-color-item-status-hard-rejected: #D60C0C;
   --vs-color-item-status-deleted: #F44336;
 
+  /* ---- Color: Lavender surface (dashboard header band, additive, 23 Nov 2026) ----
+     The vectorsticker.com facelift page-header band: white fading into a light lavender built from the free badge violet with
+     a little of the trending blue, then mixed into white. Same formula as vs-facelift.css, so no new raw colour. Existing
+     tokens are untouched. The lime action colour needs no token: it is --vs-color-brand-accent with dark text
+     --vs-color-brand-secondary (13:1, gated in scripts/check-tokens.mjs). */
+  --vs-color-lavender-surface: color-mix(in srgb, color-mix(in srgb, var(--vs-color-badge-free) 83%, var(--vs-color-badge-trending)) 7.6%, var(--vs-color-surface));
+  --vs-color-lavender-surface-strong: color-mix(in srgb, color-mix(in srgb, var(--vs-color-badge-free) 80%, var(--vs-color-badge-trending)) 14.2%, var(--vs-color-surface));
+  --vs-gradient-header-lavender: linear-gradient(135deg, var(--vs-color-surface) 0%, var(--vs-color-lavender-surface) 55%, var(--vs-color-lavender-surface-strong) 100%);
+
   /* Charts (LineChart). Aliases of existing colours, so no new raw colour; a site may override them
      (e.g. the reports dashboard's own green). Series are used in order: 1, 2, 3. */
   --vs-chart-series-1: var(--vs-color-brand-primary);
@@ -59,6 +68,13 @@
   --vs-chart-today: var(--vs-color-item-status-pending);
   --vs-chart-grid: var(--vs-color-border);
   --vs-chart-axis-text: var(--vs-color-text-muted);
+  /* Reports dashboard chart direction (additive, opt-in, 23 Nov 2026). The six tokens above keep their values.
+     The secondary series of this direction is the existing --vs-chart-series-2 (trending blue); no duplicate token.
+     --vs-chart-line-primary is the dark green of the dashboard line (5.1:1 on white); --vs-chart-series-downloads is the
+     free-badge violet; --vs-chart-today-marker is the dark surface colour (the orange --vs-chart-today is unchanged). */
+  --vs-chart-line-primary: #2E7D32;
+  --vs-chart-series-downloads: var(--vs-color-badge-free);
+  --vs-chart-today-marker: var(--vs-color-brand-secondary);
 
   /* ---- Typography ---- */
   --vs-font-family: 'Poppins', sans-serif;
@@ -140,6 +156,9 @@
 
   /* ---- Card (spec v2, 25 Sep 2026) ---- */
   --vs-card-radius: var(--vs-radius-sm); /* 8px; was 3px until 11 Oct 2026 (one radius for every box) */
+  /* Large card/panel corner of the dashboard and facelift direction (additive, 23 Nov 2026): the card step of the
+     facelift radius scale = --vs-radius-xl (20px). --vs-card-radius and --vs-item-card-radius keep their values. */
+  --vs-card-radius-lg: var(--vs-radius-xl);
   --vs-card-width: 344.5px; /* real vectorsticker.com item card at >=1600px */
   --vs-card-media-ratio: 1 / 1;
   --vs-card-border: #E5E7EB;

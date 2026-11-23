@@ -53,4 +53,5 @@
 --vs-toast-warning
 --vs-toast-info
 --vs-item-card-border
+--vs-chart-line-primary
 --vs-color-badge-premium

@@ -491,6 +491,7 @@
       <thead><tr><th>Property</th><th>Spec v2 (React + tokens)</th><th>Blade today (real site CSS)</th></tr></thead>
       <tbody>
         <tr><td>Radius</td><td>8px — <code>--vs-card-radius</code> (= <code>--vs-radius-sm</code>)</td><td>item card 8px (<code>.item</code>); <code>.card-v</code> 6px</td></tr>
+        <tr><td>Radius, large (opt-in)</td><td>20px — <code>--vs-card-radius-lg</code> (= <code>--vs-radius-xl</code>). Added 23 Nov 2026 for the reports dashboard and facelift direction; <code>--vs-card-radius</code> and <code>--vs-item-card-radius</code> keep their values</td><td>facelift pages set <code>--vs-item-card-radius</code> to 20px in their own CSS</td></tr>
         <tr><td>Border</td><td>1px solid #e5e7eb — <code>--vs-card-border</code></td><td><code>.card-v</code>: none (blog variant only)</td></tr>
         <tr><td>Padding</td><td>item card 14px · content card 45px (24px mobile) · React Card 20px</td><td>item card body 24px (<code>.item-body</code>); <code>.card-v</code> 35px (45px ≥1200px or blog)</td></tr>
         <tr><td>Width</td><td>344.5px at ≥1600px — <code>--vs-card-width</code></td><td>same (see 00 // Real Size for every breakpoint)</td></tr>
