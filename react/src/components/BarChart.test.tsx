@@ -172,3 +172,56 @@ describe('BarChart', () => {
     expect(last().options.scales.y.ticks.precision).toBeUndefined();
   });
 });
+
+// Baseline for Task 7: what BarChart does today (before legendPosition / pinTooltip / todayMarker).
+// These must keep passing unchanged after the new opt-in props are added.
+describe('BarChart baseline (defaults must not change)', () => {
+  it('puts the legend row above the canvas, with no position modifier', () => {
+    const { container } = render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} />);
+    const root = container.firstElementChild as HTMLElement;
+    expect(root.className).toBe('vs-line-chart vs-bar-chart');
+    const kids = Array.from(root.children).map((c) => c.className);
+    expect(kids).toEqual(['vs-line-chart-legend', 'vs-line-chart-canvas']);
+  });
+
+  it('draws the today line dotted in the orange chart token, and labels today in bold orange', () => {
+    render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} />);
+    const c = last();
+    const calls: any = { dash: null, stroke: null, moves: [] as number[][] };
+    const g: any = {
+      save() {}, restore() {}, beginPath() {}, stroke() {},
+      setLineDash(d: number[]) { calls.dash = d; },
+      moveTo(x: number, y: number) { calls.moves.push([x, y]); },
+      lineTo(x: number, y: number) { calls.moves.push([x, y]); },
+      set strokeStyle(v: string) { calls.stroke = v; },
+      set lineWidth(_v: number) {},
+    };
+    const chart: any = { scales: { x: { getPixelForValue: (i: number) => i * 10 } }, chartArea: { top: 5, bottom: 95 }, ctx: g };
+    c.plugins[0].afterDatasetsDraw(chart);
+    expect(calls.dash).toEqual([4, 4]);
+    expect(calls.stroke).toBe('#ff7a14');
+    expect(calls.moves).toEqual([[20, 5], [20, 95]]);
+    const ticks = c.options.scales.x.ticks;
+    expect(ticks.color({ index: 2 })).toBe('#ff7a14');
+    expect(ticks.color({ index: 0 })).toBe('#8e9cba');
+    expect(ticks.font({ index: 2 })).toEqual({ size: 11, weight: 'bold' });
+    expect(ticks.font({ index: 0 })).toEqual({ size: 11, weight: 'normal' });
+  });
+
+  it('keeps the hover-only tooltip: index mode, dark heading colour, no external or custom events', () => {
+    render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} />);
+    const o = last().options;
+    expect(o.interaction).toEqual({ mode: 'index', intersect: false });
+    expect(o.plugins.legend).toEqual({ display: false });
+    expect(o.plugins.tooltip.backgroundColor).toBe('#010d4c');
+    expect(o.plugins.tooltip.external).toBeUndefined();
+    expect(o.events).toBeUndefined();
+    expect(o.onLeave).toBeUndefined();
+    expect(Object.keys(o).sort()).toEqual(['animation', 'interaction', 'layout', 'maintainAspectRatio', 'onHover', 'plugins', 'responsive', 'scales']);
+  });
+
+  it('hides the legend row when showLegend is false', () => {
+    const { container } = render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} showLegend={false} />);
+    expect(container.querySelector('.vs-line-chart-legend')).toBeNull();
+  });
+});
