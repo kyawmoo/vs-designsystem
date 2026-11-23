@@ -6,6 +6,17 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-23 — Task 5: DonutChart (issue #72), new component; not deployed
+
+- Asked: Master KMO approved Task 5 with every recommended answer (Q1a plain SVG, no chart library; Q2a six `--vs-chart-donut-*` tokens, each >= 3:1 on white; Q3a built-in legend, below by default, `legend="right"` and `"none"`; Q4a whole percentages, "<1%" under one percent; Q5a an empty ring of the same size with the `empty` text; Q6a CSS draw-in, off under reduced motion; Q7a native hover `<title>`; Q8a no automatic "Other", the palette repeats after six).
+- Added: `DonutChart.tsx` (`segments` {key, label, value, color?}, `ariaLabel`, `centerValue`, `centerCaption`, `size`, `formatValue`, `empty`, `legend`; ring `role="img"`, legend and middle are real text; negative / NaN / Infinity count as 0; one segment = whole ring; a small gap between neighbours; each segment sweeps in after the one before). `styles.css`: `.vs-donut*` and `@keyframes vs-donut-draw`, off under `prefers-reduced-motion: reduce`. Tokens (additive, mirrored in `tokens.json`): `--vs-chart-donut-1` to `-6` (brand-secondary, brand-primary-text, badge-free, badge-trending, muted + 30% black, badge-free 70% into white). The track is the Task 4 `--vs-meter-track`. No raw colour added.
+- `scripts/check-tokens.mjs`: the colour reader now also mixes a colour with another colour (not only with black); the six donut colours >= 3:1 on white, their values, the draw-in animation, the keyframe start and the reduced-motion rule, the legend and middle text colours. Docs: new page `docs/components/donut-chart.html` and a sidebar entry.
+- Checked: `check:tokens` OK (182 tokens, 54 raw colours); `tsc --noEmit` exit 0; `vitest` 295/295 (was 277; 18 new tests: [38, 34, 20, 8], all zero, empty list, negative, NaN, Infinity, tiny, single, 7+ segments, centre, legend, colours, hover text, ARIA); 12 component mutations each fail a test; 8 token/CSS mutations each fail `check-tokens`; the real component bundled with Vite and rendered in Chromium (legend below and right, 7 segments, empty, one segment): animation on with motion, `animation-name: none` with `prefers-reduced-motion: reduce`, no script errors; the docs page renders and is in the sidebar.
+- Not verified: the reports app (its `TrafficDonut` stand-in is not replaced yet, Task 9/10); a phone; a screen reader; colour-blind viewing of the black, dark green and slate-blue segments (they are told apart by the gap and the legend text); no lint or build script.
+- Open: Task 6 (RankPill) waits for Master KMO's approval.
+
+---
+
 ## 2026-11-23 — Task 4: Meter (issue #25) and BreakdownList, new components; not deployed
 
 - Asked: Master KMO approved Task 4 with every recommended answer (Q1a the name `Meter`, as in issue #25, not `ProgressBar`; Q2a the whole of #25 including threshold ticks; Q3a fills darkened so each is >= 3:1 on the track, default fill the dark brand green; Q4a `aria-valuenow` kept inside 0..max, `aria-valuetext` keeps the real reading; Q5a the BreakdownList ticket text is given to Master KMO, no GitHub issue opened; Q6a `barScale="share" | "relative"`; Q7a stacked rows only).

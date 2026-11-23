@@ -822,6 +822,102 @@
   color: var(--vs-color-text-body);
 }
 
+/* DonutChart (Task 5, 23 Nov 2026, issue #72). A ring of segments drawn as SVG circles; the middle and the legend are plain text.
+   The ring draws in once (each segment sweeps after the one before it); under reduced motion it does not move. */
+.vs-donut {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--vs-font-family);
+}
+.vs-donut__ring {
+  position: relative;
+  flex: none;
+}
+.vs-donut__seg {
+  animation: vs-donut-draw 300ms linear backwards;
+}
+@keyframes vs-donut-draw {
+  from {
+    stroke-dasharray: 0 var(--vs-donut-total);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vs-donut__seg {
+    animation: none;
+  }
+}
+.vs-donut__center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 22%;
+  text-align: center;
+  pointer-events: none;
+}
+.vs-donut__center-value {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--vs-color-text-heading);
+}
+.vs-donut__center-caption {
+  font-size: 12px;
+  color: var(--vs-color-text-body);
+}
+.vs-donut__legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1rem;
+  font-size: 13px;
+}
+.vs-donut__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.vs-donut__swatch {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: calc(var(--vs-radius-xs) - 2px);
+}
+.vs-donut__legend-label {
+  flex: 1;
+  color: var(--vs-color-text-body);
+}
+.vs-donut__legend-pct {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--vs-color-text-heading);
+}
+@media (min-width: 480px) {
+  .vs-donut--legend-right {
+    flex-direction: row;
+    gap: 2rem;
+  }
+  .vs-donut--legend-right .vs-donut__legend {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 0.625rem;
+    min-width: 10rem;
+  }
+  .vs-donut--legend-right .vs-donut__legend-item {
+    gap: 0.625rem;
+  }
+}
+
 /* Table Widget */
 .vs-table-card {
   background: var(--vs-color-surface);

@@ -78,6 +78,15 @@
   --vs-chart-line-primary: #2E7D32;
   --vs-chart-series-downloads: var(--vs-color-badge-free);
   --vs-chart-today-marker: var(--vs-color-brand-secondary);
+  /* DonutChart segment colours (Task 5, 23 Nov 2026, additive, issue #72), used in order and then repeated. Built from existing colours, no
+     raw colour. Each is at least 3:1 on white (WCAG 1.4.11, gated in scripts/check-tokens.mjs). The legend always says the name and the
+     percentage in text, so the colour is never the only way to tell the segments apart. */
+  --vs-chart-donut-1: var(--vs-color-brand-secondary);
+  --vs-chart-donut-2: var(--vs-color-brand-primary-text);
+  --vs-chart-donut-3: var(--vs-color-badge-free);
+  --vs-chart-donut-4: var(--vs-color-badge-trending);
+  --vs-chart-donut-5: color-mix(in srgb, var(--vs-color-text-muted) 70%, black);
+  --vs-chart-donut-6: color-mix(in srgb, var(--vs-color-badge-free) 70%, var(--vs-color-surface));
 
   /* ---- Typography ---- */
   --vs-font-family: 'Poppins', sans-serif;

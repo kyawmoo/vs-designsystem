@@ -31,6 +31,7 @@
         { id: 'breakdown-list', label: 'Breakdown List', href: '/components/breakdown-list.html', icon: 'table-2' },
         { id: 'line-chart', label: 'Line Chart', href: '/components/line-chart.html', icon: 'chart-line' },
         { id: 'bar-chart', label: 'Bar Chart', href: '/components/bar-chart.html', icon: 'chart-column' },
+        { id: 'donut-chart', label: 'Donut Chart', href: '/components/donut-chart.html', icon: 'chart-line' },
         { id: 'breadcrumb', label: 'Breadcrumb', href: '/components/breadcrumb.html', icon: 'chevrons-right' },
         { id: 'pagination', label: 'Pagination', href: '/components/pagination.html', icon: 'ellipsis' },
         { id: 'tabs', label: 'Tabs', href: '/components/tabs.html', icon: 'panel-top' },

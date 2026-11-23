@@ -68,6 +68,8 @@ export { Meter } from './components/Meter';
 export type { MeterProps, MeterTone, MeterThreshold } from './components/Meter';
 export { BreakdownList } from './components/BreakdownList';
 export type { BreakdownListProps, BreakdownRow } from './components/BreakdownList';
+export { DonutChart } from './components/DonutChart';
+export type { DonutChartProps, DonutSegment } from './components/DonutChart';
 
 export { Popover } from './components/Popover';
 export type { PopoverProps, PopoverAlign } from './components/Popover';

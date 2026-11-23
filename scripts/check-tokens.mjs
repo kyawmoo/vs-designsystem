@@ -50,12 +50,16 @@ function resolve(name, seen = new Set()) {
   return m ? resolve(m[1], seen) : v;
 }
 const mixBlack = (hex, pct) => '#' + [0, 2, 4].map((i) => Math.round(parseInt(hex.slice(1 + i, 3 + i), 16) * pct / 100).toString(16).padStart(2, '0')).join('');
-function colourOf(name) { // resolve var() chains and color-mix(in srgb, X N%, black) to a 6-digit hex
+const mixHex = (a, b, pct) => '#' + [0, 2, 4].map((i) => Math.round((parseInt(a.slice(1 + i, 3 + i), 16) * pct + parseInt(b.slice(1 + i, 3 + i), 16) * (100 - pct)) / 100).toString(16).padStart(2, '0')).join('');
+function colourOf(name) { // resolve var() chains and color-mix(in srgb, X N%, black | Y) to a 6-digit hex (23 Nov 2026: a second colour, not only black)
   const v = resolve(name);
-  const m = (v || '').match(/^color-mix\(in srgb,\s*(var\(--vs-[a-z0-9-]+\)|#[0-9a-fA-F]{6})\s+(\d+)%,\s*black\)$/);
+  const m = (v || '').match(/^color-mix\(in srgb,\s*(var\(--vs-[a-z0-9-]+\)|#[0-9a-fA-F]{6})\s+(\d+)%,\s*(black|var\(--vs-[a-z0-9-]+\)|#[0-9a-fA-F]{6})\)$/);
   if (!m) return v;
-  const base = m[1].startsWith('var(') ? colourOf(m[1].slice(4, -1)) : m[1];
-  return /^#[0-9a-fA-F]{6}$/.test(base || '') ? mixBlack(base, Number(m[2])) : undefined;
+  const part = (x) => (x === 'black' ? '#000000' : x.startsWith('var(') ? colourOf(x.slice(4, -1)) : x);
+  const base = part(m[1]);
+  const other = part(m[3]);
+  if (!/^#[0-9a-fA-F]{6}$/.test(base || '') || !/^#[0-9a-fA-F]{6}$/.test(other || '')) return undefined;
+  return m[3] === 'black' ? mixBlack(base, Number(m[2])) : mixHex(base, other, Number(m[2]));
 }
 const lum = (hex) => {
   const h = hex.replace('#', '');
@@ -148,6 +152,27 @@ for (const t of ['success', 'warning', 'danger', 'neutral']) {
 needRule('.vs-breakdown__share', 'color: var(--vs-color-text-body)');
 need('breakdown: share text on white', '--vs-color-text-body', '--vs-color-surface', 4.5);
 need('breakdown: name and count on white', '--vs-color-text-heading', '--vs-color-surface', 4.5);
+
+// DonutChart (Task 5, 23 Nov 2026, issue #72): the six segment colours are at least 3:1 on white (WCAG 1.4.11), they point at their primitives,
+// the ring track is the meter track, the draw-in animation exists and is switched off under reduced motion.
+for (let i = 1; i <= 6; i++) need(`donut segment ${i} on white`, `--vs-chart-donut-${i}`, '--vs-color-surface', 3);
+const expectDonut = {
+  '--vs-chart-donut-1': 'var(--vs-color-brand-secondary)',
+  '--vs-chart-donut-2': 'var(--vs-color-brand-primary-text)',
+  '--vs-chart-donut-3': 'var(--vs-color-badge-free)',
+  '--vs-chart-donut-4': 'var(--vs-color-badge-trending)',
+  '--vs-chart-donut-5': 'color-mix(in srgb, var(--vs-color-text-muted) 70%, black)',
+  '--vs-chart-donut-6': 'color-mix(in srgb, var(--vs-color-badge-free) 70%, var(--vs-color-surface))',
+};
+for (const [n, v] of Object.entries(expectDonut)) if (tokens.get(n) !== v) fail(`${n} should be ${v}, found ${tokens.get(n)}`);
+const needPattern = (re, what) => { if (!re.test(styles)) fail(`react/src/styles.css: ${what}`); };
+needPattern(/\.vs-donut__seg\s*\{\s*animation:\s*vs-donut-draw[^;]*;/, 'the .vs-donut__seg draw-in animation is missing');
+needPattern(/@keyframes vs-donut-draw\s*\{\s*from\s*\{\s*stroke-dasharray:\s*0 var\(--vs-donut-total\);/, '@keyframes vs-donut-draw must start from an empty dash');
+needPattern(/@media \(prefers-reduced-motion: reduce\)\s*\{\s*\.vs-donut__seg\s*\{\s*animation:\s*none;/, 'the donut draw-in must be switched off under prefers-reduced-motion');
+needRule('.vs-donut__center-value', 'color: var(--vs-color-text-heading)');
+needRule('.vs-donut__center-caption', 'color: var(--vs-color-text-body)');
+needRule('.vs-donut__legend-label', 'color: var(--vs-color-text-body)');
+needRule('.vs-donut__legend-pct', 'color: var(--vs-color-text-heading)');
 
 if (errors.length) { console.error('check-tokens FAILED:\n- ' + errors.join('\n- ')); process.exit(1); }
 console.log(`check-tokens OK (${tokens.size} tokens, ${rawNames.length} approved raw colours)`);
