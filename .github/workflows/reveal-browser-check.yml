@@ -1,0 +1,73 @@
+# Runs the Reveal browser check (react/browser/reveal-check.mjs) in real browsers: one job each for Chromium,
+# WebKit (Safari's engine) and Firefox. It loads docs/assets/reveal-demo.html and checks what the CSS does there:
+# the curtain, the order of the entrances, reduced motion (also switched on while it runs), JavaScript off, an opening
+# that starts while the page is scrolled, a phone width.
+# It runs only when something it covers changes, so it does not slow every pull request.
+# A browser that cannot start fails its job (it never counts as a pass). fail-fast is off so one browser's failure
+# does not hide the other two results.
+name: reveal-browser-check
+
+on:
+  pull_request:
+    paths:
+      - 'react/src/styles.css'
+      - 'blade/components.css'
+      - 'tokens/tokens.css'
+      - 'docs/assets/reveal-demo.html'
+      - 'docs/assets/blade-components.css'
+      - 'docs/assets/tokens.css'
+      - 'docs/assets/shell.js'
+      - 'docs/components/reveal.html'
+      - 'docs/components/text-effects.html'
+      - 'docs/assets/animated-number.js'
+      - 'blade/animated-number.js'
+      - 'react/browser/**'
+      - 'react/package.json'
+      - 'react/package-lock.json'
+      - '.github/workflows/reveal-browser-check.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'react/src/styles.css'
+      - 'blade/components.css'
+      - 'tokens/tokens.css'
+      - 'docs/assets/reveal-demo.html'
+      - 'docs/assets/blade-components.css'
+      - 'docs/assets/tokens.css'
+      - 'docs/assets/shell.js'
+      - 'docs/components/reveal.html'
+      - 'docs/components/text-effects.html'
+      - 'docs/assets/animated-number.js'
+      - 'blade/animated-number.js'
+      - 'react/browser/**'
+      - 'react/package.json'
+      - 'react/package-lock.json'
+      - '.github/workflows/reveal-browser-check.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  browser:
+    name: reveal (${{ matrix.browser }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, webkit, firefox]
+    defaults:
+      run:
+        working-directory: react
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: react/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - name: Install the browser
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+      - name: Reveal browser check
+        run: npm run test:browser -- --browsers=${{ matrix.browser }}

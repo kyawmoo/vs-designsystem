@@ -6,6 +6,9 @@
 //  4. the brand green is defined once: no other token may hold the same literal
 //  5. contrast: primary-button text >= 4.5:1 on default/hover/pressed, focus ring >= 3:1 on the
 //     light surfaces and on the dark brand surface (white ring), item card badge text >= 4.5:1 on its fill
+//  6. motion tokens: durations in ms, easings are cubic-bezier(), rise distance in px, and tokens.json holds the same values
+//  7. the Reveal CSS block (vs-reveal:start ... vs-reveal:end) is identical in react/src/styles.css and blade/components.css,
+//     and every --vs-* token it reads exists
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
@@ -189,6 +192,56 @@ needRule('.vs-rank__sr', 'clip: rect(0, 0, 0, 0)');
 // BarChart legendPosition="bottom" (Task 7): centred under the chart, not right-aligned above it.
 needRule('.vs-line-chart-legend--bottom', 'justify-content: center');
 needRule('.vs-line-chart-legend--bottom', 'margin-top: 0.5rem');
+
+// Motion tokens (page-opening Reveal). Shape check, and tokens.json must say the same as tokens.css.
+const MOTION = { 'duration-curtain': /^\d+ms$/, 'duration-enter': /^\d+ms$/, 'delay-body': /^\d+ms$/, 'ease-standard': /^cubic-bezier\(\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*\)$/, 'ease-decelerate': /^cubic-bezier\(\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*\)$/, 'rise-distance': /^\d+px$/, 'text-duration': /^\d+ms$/, 'text-stagger': /^\d+ms$/ };
+let tokensJson = {};
+try { tokensJson = JSON.parse(read('tokens/tokens.json')); } catch { /* already reported above */ }
+for (const [name, shape] of Object.entries(MOTION)) {
+  const cssName = `--vs-motion-${name}`;
+  const cssValue = tokens.get(cssName);
+  if (cssValue === undefined) { fail(`${cssName} is missing from tokens.css`); continue; }
+  if (!shape.test(cssValue)) fail(`${cssName} has an unexpected value (${cssValue})`);
+  const jsonValue = tokensJson.motion?.[name]?.value;
+  if (jsonValue === undefined) fail(`motion.${name} is missing from tokens.json`);
+  else if (norm(jsonValue) !== norm(cssValue)) fail(`motion.${name} in tokens.json (${jsonValue}) differs from ${cssName} in tokens.css (${cssValue})`);
+}
+
+// Reveal CSS: one block, kept in two files (React and Blade), must not drift apart; every token it reads must exist.
+const revealBlock = (src) => src.match(/\/\* vs-reveal:start[\s\S]*?\/\* vs-reveal:end \*\//)?.[0];
+const reactReveal = revealBlock(read('react/src/styles.css'));
+const bladeReveal = revealBlock(bladeCss);
+if (!reactReveal) fail('react/src/styles.css has no vs-reveal block (vs-reveal:start ... vs-reveal:end)');
+if (!bladeReveal) fail('blade/components.css has no vs-reveal block (vs-reveal:start ... vs-reveal:end)');
+if (reactReveal && bladeReveal && reactReveal !== bladeReveal) fail('the vs-reveal block differs between react/src/styles.css and blade/components.css (copy one into the other)');
+for (const m of (reactReveal || '').replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/var\((--vs-[a-z0-9-]+)\)/g)) if (!tokens.has(m[1]) && !m[1].startsWith('--vs-reveal-')) fail(`the vs-reveal block reads ${m[1]}, which tokens.css does not define`);
+
+// RevealText: the script rule (which texts may be split into letters) is written twice, in Reveal.tsx and in the Blade component.
+// Both must give the expected answer on the shared fixtures. The PHP side runs only where `php` exists (GitHub's ubuntu runners have it).
+{
+  const fixtures = JSON.parse(read('react/src/fixtures-reveal-text-scripts.json'));
+  const jsSrc = read('react/src/components/Reveal.tsx').match(/const SPLITTABLE = (\/.*\/u);/)?.[1];
+  const phpSrc = read('blade/components/vs-reveal-text.blade.php').match(/\$splittable = preg_match\('(\/.*\/u)', \$plain\) === 1;/)?.[1];
+  if (!jsSrc) fail('could not find the SPLITTABLE rule in react/src/components/Reveal.tsx');
+  if (!phpSrc) fail('could not find the $splittable rule in blade/components/vs-reveal-text.blade.php');
+  if (jsSrc && phpSrc) {
+    const re = new Function(`return ${jsSrc};`)();
+    for (const f of fixtures) if (re.test(f.text) !== f.split) fail(`RevealText script rule (React) gives ${!f.split} for ${JSON.stringify(f.text)}, expected ${f.split}`);
+    const { spawnSync } = await import('node:child_process');
+    const probe = spawnSync('php', ['-r', 'echo PHP_VERSION;'], { encoding: 'utf8' });
+    if (probe.status !== 0) {
+      console.log('check-tokens: php not found, the Blade script rule was not run against the fixtures');
+    } else {
+      const script = `$f = json_decode(file_get_contents('php://stdin'), true); $out = []; foreach ($f as $x) { $out[] = preg_match(${JSON.stringify(phpSrc).replace(/\$/g, '\\$')}, $x['text']) === 1; } echo json_encode($out);`;
+      const run = spawnSync('php', ['-r', script], { input: JSON.stringify(fixtures), encoding: 'utf8' });
+      if (run.status !== 0) fail(`php could not run the script rule: ${run.stderr}`);
+      else JSON.parse(run.stdout).forEach((got, i) => { if (got !== fixtures[i].split) fail(`RevealText script rule (Blade) gives ${got} for ${JSON.stringify(fixtures[i].text)}, expected ${fixtures[i].split}`); });
+    }
+  }
+}
+
+// The Blade count-up script has a copy for the docs site; they must be the same file.
+if (read('blade/animated-number.js') !== read('docs/assets/animated-number.js')) fail('docs/assets/animated-number.js differs from blade/animated-number.js (copy it)');
 
 if (errors.length) { console.error('check-tokens FAILED:\n- ' + errors.join('\n- ')); process.exit(1); }
 console.log(`check-tokens OK (${tokens.size} tokens, ${rawNames.length} approved raw colours)`);

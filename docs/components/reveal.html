@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Reveal — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="/assets/demo-kit.css">
+<style>
+  .demo-frame { width: 100%; height: 420px; border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); background: var(--vs-color-background); }
+</style>
+</head>
+<body data-page="reveal">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Reveal</p>
+    <h1>Reveal</h1>
+    <p class="vs-docs-hero-lede">
+      The page-opening animation: a dark curtain grows from the top-left corner, then the side menu slides in from the
+      left and the body fades in. Plain CSS rules in <code>react/src/styles.css</code> and
+      <code>blade/components.css</code> (the same block, kept equal by <code>check-tokens</code>), timed by the
+      <code>--vs-motion-*</code> tokens. No JavaScript is needed for the effect.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <h2>Demo</h2>
+    <p>The demo is a page of its own shown in a frame, so the curtain covers the frame and not these docs. Press Replay to see it again.</p>
+    <div class="vs-docs-preview" style="display:block">
+      <iframe class="demo-frame" src="/assets/reveal-demo.html" title="Reveal demo"></iframe>
+    </div>
+
+    <h2>Usage: plain HTML / Blade</h2>
+    <div class="vs-docs-code-block"><span class="cmt">&lt;!-- first thing inside &lt;body&gt;: one curtain per page --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"vs-reveal-curtain"</span> <span class="attr">aria-hidden</span>=<span class="str">"true"</span><span class="tag">&gt;&lt;/div&gt;</span>
+
+<span class="tag">&lt;aside</span> <span class="attr">data-vs-reveal</span>=<span class="str">"slide-left"</span><span class="tag">&gt;</span>…<span class="tag">&lt;/aside&gt;</span>
+<span class="tag">&lt;main</span> <span class="attr">data-vs-reveal</span>=<span class="str">"fade"</span><span class="tag">&gt;</span>…<span class="tag">&lt;/main&gt;</span></div>
+    <p>The attribute goes on the element itself, not on a wrapper, so sticky and flex layouts keep working. The React and Blade components that write this markup for you are below.</p>
+
+    <h2>Usage: React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Reveal, RevealItem } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;Reveal&gt;</span>
+  <span class="tag">&lt;RevealItem</span> <span class="attr">as</span>=<span class="str">"aside"</span> <span class="attr">variant</span>=<span class="str">"slide-left"</span><span class="tag">&gt;</span>…<span class="tag">&lt;/RevealItem&gt;</span>
+  <span class="tag">&lt;RevealItem</span> <span class="attr">as</span>=<span class="str">"main"</span> <span class="attr">variant</span>=<span class="str">"fade"</span><span class="tag">&gt;</span>…<span class="tag">&lt;/RevealItem&gt;</span>
+<span class="tag">&lt;/Reveal&gt;</span></div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Component</th><th>Prop</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td><code>Reveal</code></td><td><code>play</code></td><td>Default: <code>true</code> for the first <code>Reveal</code> of the page load, <code>false</code> for any later one, so signing out and in again does not replay the opening. Pass <code>true</code> or <code>false</code> to decide yourself. Read once, when it mounts.</td></tr>
+        <tr><td><code>RevealItem</code></td><td><code>variant</code></td><td><code>slide-left</code> · <code>fade</code> (default) · <code>rise</code></td></tr>
+        <tr><td><code>RevealItem</code></td><td><code>as</code></td><td>The element to render, default <code>div</code> (<code>aside</code>, <code>main</code>, <code>header</code>, …). The item is this element, not a wrapper around it. A component of your own also works if it puts the extra props (<code>data-vs-reveal</code>, <code>className</code>) on its root element.</td></tr>
+        <tr><td><code>RevealItem</code></td><td>others</td><td>Passed to the element (<code>className</code>, <code>id</code>, <code>role</code>, …).</td></tr>
+      </tbody>
+    </table>
+    <p><code>Reveal</code> renders no wrapper element: it adds the curtain (a fixed layer, <code>aria-hidden</code>) next to its children. Use one per page, around the page shell. With <code>play</code> off, or on a later mount, there is no curtain and the items carry no attribute, so everything is shown at once. The jsdom unit tests check this markup; how it looks and moves is checked in real browsers by <code>npm run test:browser</code> (in <code>react/</code>).</p>
+
+    <h2>Usage: Blade</h2>
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-reveal&gt;</span>
+  <span class="tag">&lt;x-vs-reveal-item</span> <span class="attr">as</span>=<span class="str">"aside"</span> <span class="attr">variant</span>=<span class="str">"slide-left"</span><span class="tag">&gt;</span>…<span class="tag">&lt;/x-vs-reveal-item&gt;</span>
+  <span class="tag">&lt;x-vs-reveal-item</span> <span class="attr">as</span>=<span class="str">"main"</span> <span class="attr">variant</span>=<span class="str">"fade"</span><span class="tag">&gt;</span>…<span class="tag">&lt;/x-vs-reveal-item&gt;</span>
+<span class="tag">&lt;/x-vs-reveal&gt;</span></div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Component</th><th>Prop</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td><code>x-vs-reveal</code></td><td><code>play</code></td><td>Default <code>true</code>. <code>:play="false"</code> renders the content with no curtain and the items inside stay still. A page opts in by using the component; nothing animates on a page that does not.</td></tr>
+        <tr><td><code>x-vs-reveal-item</code></td><td><code>variant</code></td><td><code>slide-left</code> · <code>fade</code> (default) · <code>rise</code>. Any other value falls back to <code>fade</code>.</td></tr>
+        <tr><td><code>x-vs-reveal-item</code></td><td><code>as</code></td><td><code>div</code> (default), <code>aside</code>, <code>main</code>, <code>header</code>, <code>footer</code>, <code>section</code>, <code>nav</code>, <code>article</code>, <code>ul</code>, <code>ol</code>, <code>li</code>, <code>p</code>, <code>span</code>. Any other value falls back to <code>div</code>, so a tag name cannot be injected. The item is this element, not a wrapper.</td></tr>
+        <tr><td><code>x-vs-reveal-item</code></td><td>others</td><td>Passed to the element (<code>class</code>, <code>id</code>, <code>aria-*</code>).</td></tr>
+      </tbody>
+    </table>
+    <p>The Blade page renders on the server for every page load, so there is no "once per session" memory: the opening plays each time a page that uses <code>x-vs-reveal</code> is opened. Put it only on the pages that should open this way. The curtain markup is the same as in React. The CSS is the <code>vs-reveal</code> block in <code>blade/components.css</code>; the host page must load that file.</p>
+
+    <h2>Title: RevealText</h2>
+    <p>The title wipe (<code>RevealText</code> in React, <code>x-vs-reveal-text</code> in Blade) is documented with the other text effects: <a href="/components/text-effects.html#title-wipe">Text Effects: Title wipe</a>.</p>
+
+    <h2>Variants</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th><code>data-vs-reveal</code></th><th>What it does</th><th>Timing (tokens)</th></tr></thead>
+      <tbody>
+        <tr><td><code>slide-left</code></td><td>Slides in from the left edge of its own box. For the side menu.</td><td>Starts when the curtain ends. <code>--vs-motion-duration-enter</code>, <code>--vs-motion-ease-decelerate</code></td></tr>
+        <tr><td><code>fade</code></td><td>Fades in. For the page body.</td><td>Starts <code>--vs-motion-delay-body</code> after the curtain. <code>--vs-motion-duration-enter</code>, <code>--vs-motion-ease-standard</code></td></tr>
+        <tr><td><code>rise</code></td><td>Fades in and rises <code>--vs-motion-rise-distance</code>. For a header or a card.</td><td>Same as <code>fade</code></td></tr>
+      </tbody>
+    </table>
+    <p>The curtain itself takes <code>--vs-motion-duration-curtain</code> with <code>--vs-motion-ease-standard</code>; its colour is <code>--vs-color-brand-secondary</code>.</p>
+
+    <h2>Rules</h2>
+    <ul>
+      <li><strong>Content is never hidden by a base rule.</strong> The hidden state exists only inside the keyframes, so if the animation is switched off (reduced motion, even while it runs) the content is simply visible. A <code>opacity: 0</code> in a normal rule would stay hidden for good in that case.</li>
+      <li><strong>No double fade.</strong> An element with <code>data-vs-reveal</code> inside another one does not animate by itself.</li>
+      <li><strong>One curtain per page.</strong> It is fixed to the screen and does not take clicks (<code>pointer-events: none</code>), so scrolling and clicking work during the opening and the scroll position does not matter. After the animation it is hidden (<code>visibility: hidden</code>).</li>
+      <li><strong>Plays once per page load.</strong> A CSS animation plays once for an element. It plays again if that element is inserted or replaced later, or hidden with <code>display: none</code> and shown again. <strong>React:</strong> <code>Reveal</code> owns this. It knows when the opening is over (the time is read from the tokens: curtain + body delay + the longest entrance or title + a little room) and an item or title that mounts after that renders plain, with no attribute and no letters, so a view shown again after another tab, or a list re-rendered, never replays, and the app needs no guard of its own. An element that mounts during the opening still plays; one that was already there is not changed when the opening ends. Reduced motion counts the opening as over at once. <strong>Blade / plain HTML:</strong> there is no component state; the opening plays on each page load, and an element inserted later (a Livewire re-render) animates again, so put <code>data-vs-reveal</code> on the page shell, not inside re-rendered lists.</li>
+      <li><strong>Keyboard.</strong> The waiting state of an entrance is also <code>visibility: hidden</code> (only in the first keyframe, so it is visible again as soon as the entrance starts): content that is not shown yet cannot take keyboard focus, and it is not read by a screen reader until it appears. Measured: with the curtain up, Tab no longer lands on a link inside the body (before, it did, invisibly).</li>
+      <li><strong>Reduced motion.</strong> With <code>prefers-reduced-motion: reduce</code> the curtain is not shown and nothing animates. This also works when the setting is switched while the animation runs. If it is switched back, the animation starts again from the beginning.</li>
+      <li><strong>JavaScript off.</strong> The effect is plain CSS, so it still runs and the page is shown at the end.</li>
+    </ul>
+
+    <h2>Performance: do not put the main content of a page that is judged on loading speed inside the Reveal</h2>
+    <p>The content of a <code>data-vs-reveal</code> element is not visible for about 1.2 seconds (the curtain and the body delay). The browser counts the largest piece of content only when it is visible, so if the largest heading or image of a page is inside a revealed element, the <strong>Largest Contentful Paint (LCP)</strong> is that late. Measured in Chromium (headless, 390px wide, no throttling, 5 runs each, a page whose largest content is a heading): without the Reveal 20 to 40 ms; with the heading inside a <code>data-vs-reveal="fade"</code> element 1924 to 1936 ms. A real phone on a slow network will differ; the 1.2 s wait is added on top.</p>
+    <ul>
+      <li><strong>Pages behind a login (a dashboard):</strong> loading speed is not judged by search engines, and the opening is part of the product: fine.</li>
+      <li><strong>Public pages that are ranked or paid for by speed (a shop, a blog):</strong> reveal only the page chrome (side menu, header, cards below the first screen) and leave the hero heading and the hero image outside any <code>data-vs-reveal</code> element. Do not wrap the whole page in a revealed element.</li>
+      <li>Measure the page with and without it before turning it on (Lighthouse, or the browser's LCP in the Performance panel).</li>
+    </ul>
+
+    <h2>Accessibility</h2>
+    <p>The curtain is decoration (<code>aria-hidden="true"</code>) and takes no focus or clicks. The animated elements keep their normal role, order and text: nothing is split into letters except in <code>RevealText</code>, which keeps one real copy for screen readers. Only <code>transform</code>, <code>opacity</code> and the curtain mask are animated, so the layout does not shift. The animation runs about two seconds in total (<code>--vs-motion-duration-curtain</code> + <code>--vs-motion-delay-body</code> + <code>--vs-motion-duration-enter</code> = 1.9 s with the default tokens), is not triggered by the visitor, and is switched off by reduced motion.</p>
+
+    <h2>Browsers</h2>
+    <p>The curtain needs <code>@property</code> (Chrome 85, Safari 16.4, Firefox 128). Without it the hole jumps open halfway through instead of growing, and the page is still shown at the end. Where <code>hypot()</code> exists the hole ends exactly at the screen diagonal; elsewhere it ends at <code>150vmax</code>. Tested so far in Chromium only; WebKit and Firefox are covered by the browser check that comes in the next change.</p>
+
+    <h2>Tokens</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Token</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>--vs-motion-duration-curtain</code></td><td>1050ms</td></tr>
+        <tr><td><code>--vs-motion-duration-enter</code></td><td>700ms</td></tr>
+        <tr><td><code>--vs-motion-delay-body</code></td><td>150ms</td></tr>
+        <tr><td><code>--vs-motion-ease-standard</code></td><td>cubic-bezier(0.4, 0, 0.2, 1)</td></tr>
+        <tr><td><code>--vs-motion-ease-decelerate</code></td><td>cubic-bezier(0.2, 0, 0, 1)</td></tr>
+        <tr><td><code>--vs-motion-rise-distance</code></td><td>14px</td></tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

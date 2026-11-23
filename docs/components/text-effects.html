@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Text Effects — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="/assets/demo-kit.css">
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/blade-components.css">
+<style>
+  .demo-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .demo-head strong { font-size: 14px; color: var(--vs-color-text-heading); }
+  .demo-replay { font-family: var(--vs-font-family); font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: var(--vs-radius-xs); border: 1px solid var(--vs-color-border); background: var(--vs-color-surface); color: var(--vs-color-text-heading); cursor: pointer; }
+  /* The title wipe waits for the curtain of a page opening; on this page there is no curtain, so it starts at once. */
+  .demo-wipe-stage { --vs-motion-duration-curtain: 0ms; --vs-motion-delay-body: 0ms; padding: 8px 0; }
+  .demo-wipe-stage h3 { margin: 0; font-size: 32px; color: var(--vs-color-text-heading); }
+  .demo-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .demo-kpi { border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); padding: 16px; background: var(--vs-color-surface); min-width: 0; }
+  .demo-kpi-label { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--vs-color-text-muted); }
+  .demo-kpi-value { font-size: 28px; font-weight: 700; color: var(--vs-color-text-heading); font-variant-numeric: tabular-nums; }
+  @media (max-width: 760px) { .demo-kpis { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body data-page="text-effects">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Text Effects</p>
+    <h1>Text Effects</h1>
+    <p class="vs-docs-hero-lede">
+      Effects that give text some life: a title that is written letter by letter, a number that counts up. Every effect has
+      a React component and a Blade component, plain text when it does not play, and reduced motion switches it off. A new
+      effect is added to this page.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+
+    <h2>Effects</h2>
+    <ul>
+      <li><a href="#title-wipe">Title wipe</a> (<code>RevealText</code>): the page title appears letter by letter after the page opening.</li>
+      <li><a href="#number-count-up">Number count-up</a> (<code>AnimatedNumber</code>): a figure counts up to its value.</li>
+    </ul>
+
+    <h2 id="title-wipe">Title wipe: RevealText</h2>
+    <p>A page title that appears letter by letter from the left, each letter rising from below its line and coming into focus (the "Welcome back" style). It belongs to the page opening (<a href="/components/reveal.html">Reveal</a>): put it inside the page body, and it starts together with the body fade, after the curtain. It is the element itself (<code>as</code>, for example <code>h1</code>).</p>
+    <div class="vs-docs-preview" style="display:block">
+      <div class="demo-head"><strong>Title wipe (here without the curtain, so it starts at once)</strong><button class="demo-replay" type="button" id="replay-wipe">↻ Replay</button></div>
+      <div class="demo-wipe-stage" id="wipe-stage" data-vs-reveal-demo></div>
+    </div>
+    <div class="vs-docs-code-block"><span class="tag">&lt;RevealItem</span> <span class="attr">as</span>=<span class="str">"main"</span> <span class="attr">variant</span>=<span class="str">"fade"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;RevealText</span> <span class="attr">as</span>=<span class="str">"h1"</span> <span class="attr">text</span>=<span class="str">"Overview"</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;/RevealItem&gt;</span>
+
+<span class="tag">&lt;x-vs-reveal-item</span> <span class="attr">as</span>=<span class="str">"main"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;x-vs-reveal-text</span> <span class="attr">as</span>=<span class="str">"h1"</span> <span class="attr">text</span>=<span class="str">"Overview"</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;/x-vs-reveal-item&gt;</span></div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td><code>text</code></td><td>The title. It is turned into letters only while the opening plays; with <code>play</code> off or on a later mount (React), or with <code>:play="false"</code> on the parent (Blade), it is plain text and no extra element.</td></tr>
+        <tr><td><code>as</code></td><td>React: any element, default <code>span</code>. Blade: <code>span</code> (default), <code>div</code>, <code>p</code>, <code>h1</code> to <code>h6</code>; any other value falls back to <code>span</code>.</td></tr>
+        <tr><td>others</td><td>Passed to the element (<code>className</code> / <code>class</code>, <code>id</code>, <code>aria-*</code>).</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li><strong>Timing (tokens):</strong> a letter takes <code>--vs-motion-text-duration</code> (420ms) and starts <code>--vs-motion-text-stagger</code> (35ms) after the one before it. The first letter starts with the body (curtain + <code>--vs-motion-delay-body</code>). Focus comes sooner than the rise (65% of the time), so only the last letters at the edge are blurred while the earlier ones are still climbing.</li>
+      <li><strong>The numbers.</strong> 0.85em rise, 60% start size, 8px blur and the 65% are an Estimate read from the frames of the reference recording, not measured exactly.</li>
+      <li><strong>Wrapping.</strong> Words stay together; the title wraps at the spaces. Letters are grapheme clusters, so a letter with combining marks or a joined emoji is never cut in two. The letters after the 30th start together with it, so a long title never waits for seconds.</li>
+      <li><strong>Scripts.</strong> Only text in scripts that can be split safely is written letter by letter: Latin, Greek, Cyrillic, Armenian, Georgian, Hangul, with digits, punctuation, spaces and emoji. Any other text (Arabic, Hebrew, Burmese, Thai, Indic scripts, Chinese, Japanese, Mongolian, ...) or a title that mixes one of them with Latin is shown as plain text, unchanged. Reason (measured in Chromium): when every letter is its own <code>inline-block</code>, Arabic loses its joins and grows by 41%, and scripts without spaces cannot wrap. Tested: the rule on a shared list of strings in React and Blade; Arabic split against plain. Not tested: Burmese, Thai and Indic scripts on real devices (they are plain text until they are).</li>
+      <li><strong>Plays once.</strong> A CSS animation plays again for an element that is inserted again. Use it for a title that mounts with the page, and show plain text when the same title mounts later (back from another tab).</li>
+      <li><strong>Accessibility.</strong> Screen readers read a visually hidden copy of the real text once; the letters are <code>aria-hidden</code>. With reduced motion, or JavaScript off, the text is simply visible.</li>
+      <li><strong>Layout.</strong> Letters are <code>inline-block</code>, so the kerning between letters is lost; the prototype measured a title 101.9px wide against 102.0px as plain text.</li>
+    </ul>
+
+    <h2 id="number-count-up">Number count-up: AnimatedNumber</h2>
+    <p>A figure that counts up from the number last shown (from 0 at first) with an ease-out curve, for KPI cards or any headline number. It ends on exactly the value: the last frame is formatted by <code>format</code> with the value itself, so what stays on screen is written as it would be without the animation.</p>
+    <div class="vs-docs-preview" style="display:block">
+      <div class="demo-head"><strong>Counts up when it scrolls into view</strong><button class="demo-replay" type="button" id="replay-count">↻ Replay</button></div>
+      <div class="demo-kpis" id="count-stage">
+        <div class="demo-kpi"><div class="demo-kpi-label">Downloads</div><div class="demo-kpi-value"><span data-vs-animated-number data-value="4214" data-decimals="0" data-duration="1000" data-locale="en-US"><span class="vs-animated-number__sr">4,214</span><span aria-hidden="true">4,214</span></span></div></div>
+        <div class="demo-kpi"><div class="demo-kpi-label">Conversion</div><div class="demo-kpi-value"><span data-vs-animated-number data-value="12.35" data-decimals="2" data-duration="1000" data-locale="en-US"><span class="vs-animated-number__sr">12.35</span><span aria-hidden="true">12.35</span></span>%</div></div>
+        <div class="demo-kpi"><div class="demo-kpi-label">No data yet</div><div class="demo-kpi-value">—</div></div>
+      </div>
+    </div>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { AnimatedNumber } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;AnimatedNumber</span> <span class="attr">value</span>=<span class="tag">{4214}</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;AnimatedNumber</span> <span class="attr">value</span>=<span class="tag">{12.35}</span> <span class="attr">decimals</span>=<span class="tag">{2}</span> <span class="attr">format</span>=<span class="tag">{(v) =&gt; v.toFixed(1) + '%'}</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;AnimatedNumber</span> <span class="attr">value</span>=<span class="tag">{null}</span> <span class="tag">/&gt;</span>   <span class="cmt">{/* shows — */}</span>
+
+<span class="cmt">&lt;!-- Blade: the server writes the final figure, the script counts it up. Load the script once. --&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"/path/to/animated-number.js"</span> <span class="attr">defer</span><span class="tag">&gt;&lt;/script&gt;</span>
+<span class="tag">&lt;x-vs-animated-number</span> <span class="attr">:value</span>=<span class="str">"$downloads"</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;x-vs-animated-number</span> <span class="attr">:value</span>=<span class="str">"$rate"</span> <span class="attr">:decimals</span>=<span class="str">"2"</span> <span class="tag">/&gt;</span></div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>React</th><th>Blade</th></tr></thead>
+      <tbody>
+        <tr><td><code>value</code></td><td><code>number | null | undefined</code>. <code>null</code> or <code>undefined</code> shows <code>fallback</code> and nothing moves; a new number counts on from the last one shown. NaN or Infinity count as 0.</td><td>A number, or null. Anything that is not a finite number shows <code>fallback</code>.</td></tr>
+        <tr><td><code>decimals</code></td><td>0 to 6 (default 0). The figure moves in steps of 10<sup>-decimals</sup>, so whole numbers by default (a <code>format</code> such as <code>String</code> never sees 123.456 on the way); <code>format</code> receives the real value (12.3, not 123).</td><td>Same. The server text is written with <code>number_format</code>.</td></tr>
+        <tr><td><code>duration</code></td><td>ms, default 1000; reduced motion shows the final figure at once.</td><td>Same; 0 shows the final figure at once.</td></tr>
+        <tr><td><code>format</code></td><td><code>(v) =&gt; string</code>. Default: thousands separators and exactly <code>decimals</code> decimals.</td><td>Not a prop: the server writes the final text; <code>locale</code> (default <code>en-US</code>) sets the separators while it counts.</td></tr>
+        <tr><td><code>fallback</code></td><td>Node shown when there is no number (default —).</td><td>Text shown when there is no number (default —), escaped.</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li><strong>Final figure.</strong> React: the last frame passes <code>value</code> itself to <code>format</code> (12.35 with <code>toFixed(1)</code> stays "12.3", it is not rounded to the steps first). Blade: at the end the script puts the server's text back, character for character. PHP's <code>number_format</code> rounds half up and JavaScript's <code>toFixed</code> works on the binary value, so the two can differ in the last digit for a value like 12.35 with one decimal; pass a value with the decimals you show.</li>
+      <li><strong>Accessibility.</strong> Screen readers read a visually hidden copy of the final figure once; the moving text is <code>aria-hidden</code> (an <code>aria-label</code> on a plain <code>span</code> is not allowed and many screen readers ignore it, so it is not used). Reduced motion shows the final figure only.</li>
+      <li><strong>JavaScript off (Blade).</strong> The page shows the final figure; the count is a progressive enhancement. Below the fold the figure shows 0 until it is scrolled into view; elements added later: call <code>VsAnimatedNumber.init(container)</code>.</li>
+    </ul>
+
+    <h2 id="adding-an-effect">Adding an effect</h2>
+    <p>This page is where text effects live. To add one, add a section here and give it everything on this list, so the next person can take it without asking:</p>
+    <ol>
+      <li>A React component and a Blade component (<code>x-vs-...</code>) with the same props, in <code>react/src/components/</code> and <code>blade/components/</code>.</li>
+      <li>Its timing in <code>--vs-motion-*</code> tokens (<code>tokens.css</code>, <code>tokens.json</code>, the docs copy), no raw colour.</li>
+      <li>Plain text, no extra elements, when it does not play; a screen reader reads the real text once.</li>
+      <li><code>prefers-reduced-motion: reduce</code> shows the final state; JavaScript off shows the final state.</li>
+      <li>Unit tests (normal and failure cases) and a real-browser check in <code>react/browser/reveal-check.mjs</code>, run in Chromium, WebKit and Firefox by CI.</li>
+      <li>A live demo with a Replay button, usage for React and Blade, a props table and the rules, in a section of this page; a line in the list at the top.</li>
+    </ol>
+
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+<script>
+// Docs demo only. The title wipe markup below is what RevealText writes (see react/src/components/Reveal.tsx).
+(function () {
+  var stage = document.getElementById('wipe-stage');
+  function letters(word, start) {
+    var out = '';
+    var seg = window.Intl && Intl.Segmenter ? Array.from(new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(word), function (x) { return x.segment; }) : Array.from(word);
+    seg.forEach(function (g, i) { out += '<span class="vs-reveal-text__letter" style="--i:' + Math.min(start + i, 30) + '">' + g + '</span>'; });
+    return out;
+  }
+  function render(text) {
+    var words = text.split(/\s+/).filter(Boolean), index = 0, visual = '';
+    words.forEach(function (w, i) {
+      visual += (i ? ' ' : '') + '<span class="vs-reveal-text__word">' + letters(w, index) + '</span>';
+      index += Array.from(w).length;
+    });
+    stage.innerHTML = '<h3 data-vs-reveal-text=""><span class="vs-reveal-text__sr">' + text + '</span><span class="vs-reveal-text__visual" aria-hidden="true">' + visual + '</span></h3>';
+  }
+  render('Welcome back, Overview');
+  document.getElementById('replay-wipe').addEventListener('click', function () { render('Welcome back, Overview'); });
+})();
+</script>
+<script>
+// Remember the final text of each demo figure before animated-number.js changes it, so Replay can put it back.
+(function () {
+  document.querySelectorAll('#count-stage [data-vs-animated-number]').forEach(function (el) {
+    el.setAttribute('data-demo-final', el.querySelector('[aria-hidden="true"]').textContent);
+  });
+})();
+</script>
+<script src="/assets/animated-number.js"></script>
+<script>
+(function () {
+  var stage = document.getElementById('count-stage');
+  document.getElementById('replay-count').addEventListener('click', function () {
+    stage.querySelectorAll('[data-vs-animated-number]').forEach(function (el) {
+      el.removeAttribute('data-vs-animated-number-started');
+      el.querySelector('[aria-hidden="true"]').textContent = el.getAttribute('data-demo-final');
+    });
+    if (window.VsAnimatedNumber) window.VsAnimatedNumber.init(stage);
+  });
+})();
+</script>
+</body>
+</html>

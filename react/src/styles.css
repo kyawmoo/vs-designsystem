@@ -1840,3 +1840,168 @@
   flex: 1;
 }
 
+/* vs-reveal:start (this block is identical in react/src/styles.css and blade/components.css; check-tokens keeps them equal) */
+
+/*
+ * Reveal: the page-opening animation. A dark curtain (a circle growing from the top-left corner of the screen) is laid
+ * over the page, then the side menu slides in and the body fades in or rises as it ends. CSS only: nothing here
+ * needs JavaScript, and the timing comes from the --vs-motion-* tokens.
+ *
+ * Rules that keep it safe (each was tried in a browser before it was written down):
+ * - The curtain is fixed to the screen and does not take clicks, so it does not matter how far the page is scrolled.
+ * - Content is hidden only INSIDE the keyframes (fill-mode backwards while it waits for the curtain). Never hide it with
+ *   a base rule such as opacity: 0: when the animation is switched off (reduced motion, even while it runs) the content
+ *   must simply be visible. The waiting state is also visibility: hidden (only in the 'from' keyframe: it is visible again
+ *   the moment the entrance starts), so content that is not shown yet cannot take keyboard focus.
+ * - An element with data-vs-reveal inside another one does not animate (no double fade).
+ * - There is one curtain per page. An animated element that is inserted or replaced later (a list re-rendered by
+ *   Livewire, a React remount) animates again, so put data-vs-reveal on the page shell, not inside re-rendered lists.
+ * - Without @property (Chrome before 85, Safari before 16.4, Firefox before 128) the hole jumps open halfway through
+ *   instead of growing; the page is still shown at the end.
+ */
+@property --vs-reveal-r {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
+.vs-reveal-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background: var(--vs-color-brand-secondary);
+  -webkit-mask-image: radial-gradient(circle at 0 0, transparent var(--vs-reveal-r), black calc(var(--vs-reveal-r) + 1px));
+  mask-image: radial-gradient(circle at 0 0, transparent var(--vs-reveal-r), black calc(var(--vs-reveal-r) + 1px));
+  animation: vs-reveal-curtain var(--vs-motion-duration-curtain) var(--vs-motion-ease-standard) both;
+}
+
+/* One animation grows the hole and, at the very end, hides the layer (a separate 1ms "hide" animation does not work). */
+@keyframes vs-reveal-curtain {
+  0% { --vs-reveal-r: 0px; visibility: visible; }
+  99.9% { --vs-reveal-r: 150vmax; visibility: visible; }
+  100% { --vs-reveal-r: 150vmax; visibility: hidden; }
+}
+
+/* Where hypot() exists the hole ends exactly at the screen diagonal, so no part of the time is spent on a page that is already fully shown. */
+@supports (width: hypot(1px, 1px)) {
+  @keyframes vs-reveal-curtain {
+    0% { --vs-reveal-r: 0px; visibility: visible; }
+    99.9% { --vs-reveal-r: hypot(100vw, 100vh); visibility: visible; }
+    100% { --vs-reveal-r: hypot(100vw, 100vh); visibility: hidden; }
+  }
+}
+
+[data-vs-reveal] {
+  animation-duration: var(--vs-motion-duration-enter);
+  animation-timing-function: var(--vs-motion-ease-decelerate);
+  animation-fill-mode: backwards;
+  animation-delay: var(--vs-motion-duration-curtain);
+}
+
+[data-vs-reveal='slide-left'] {
+  animation-name: vs-reveal-slide-left;
+}
+
+[data-vs-reveal='fade'] {
+  animation-name: vs-reveal-fade;
+  animation-timing-function: var(--vs-motion-ease-standard);
+  animation-delay: calc(var(--vs-motion-duration-curtain) + var(--vs-motion-delay-body));
+}
+
+[data-vs-reveal='rise'] {
+  animation-name: vs-reveal-rise;
+  animation-timing-function: var(--vs-motion-ease-standard);
+  animation-delay: calc(var(--vs-motion-duration-curtain) + var(--vs-motion-delay-body));
+}
+
+[data-vs-reveal] [data-vs-reveal] {
+  animation: none;
+}
+
+@keyframes vs-reveal-slide-left {
+  from { transform: translateX(-100%); visibility: hidden; }
+  to { transform: none; }
+}
+
+@keyframes vs-reveal-fade {
+  from { opacity: 0; visibility: hidden; }
+  to { opacity: 1; }
+}
+
+@keyframes vs-reveal-rise {
+  from { opacity: 0; transform: translateY(var(--vs-motion-rise-distance)); visibility: hidden; }
+  to { opacity: 1; transform: none; }
+}
+
+/*
+ * RevealText: a title that appears letter by letter from the left, after the curtain, together with the page body.
+ * Each letter RISES from below its line (0.85em), starts small (60%), faint and blurred (8px), then rises, grows and
+ * comes into focus. Focus comes sooner than the rise (65% of the time), so only the last letters at the edge are
+ * blurred while the earlier ones are still climbing. The numbers 0.85em, 60%, 8px and 65% are an Estimate read from
+ * the frames of the reference recording, not measured exactly; the time and the gap come from tokens.
+ * Letters only exist while the opening plays (the component renders plain text otherwise). Words stay together and the
+ * title can wrap at the spaces. Screen readers read the visually hidden copy; the letters are aria-hidden.
+ * --i is the letter's number, set by the component (it stops counting at 30, so a long title never waits for seconds).
+ */
+.vs-reveal-text__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.vs-reveal-text__word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+[data-vs-reveal-text] .vs-reveal-text__letter {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  animation-name: vs-reveal-text-rise, vs-reveal-text-focus;
+  animation-duration: var(--vs-motion-text-duration), calc(var(--vs-motion-text-duration) * 0.65);
+  animation-timing-function: var(--vs-motion-ease-decelerate), ease-out;
+  animation-fill-mode: backwards, backwards;
+  animation-delay:
+    calc(var(--vs-motion-duration-curtain) + var(--vs-motion-delay-body) + var(--i, 0) * var(--vs-motion-text-stagger)),
+    calc(var(--vs-motion-duration-curtain) + var(--vs-motion-delay-body) + var(--i, 0) * var(--vs-motion-text-stagger));
+}
+
+@keyframes vs-reveal-text-rise {
+  from { transform: translateY(0.85em) scale(0.6); }
+  to { transform: none; }
+}
+
+@keyframes vs-reveal-text-focus {
+  from { opacity: 0; filter: blur(8px); }
+  to { opacity: 1; filter: blur(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vs-reveal-curtain {
+    display: none;
+  }
+
+  [data-vs-reveal] {
+    animation: none;
+  }
+
+  [data-vs-reveal-text] .vs-reveal-text__letter {
+    animation: none;
+  }
+}
+
+/* vs-reveal:end */
+
+/* AnimatedNumber: the final figure for screen readers (the counting text is aria-hidden). */
+.vs-animated-number__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
