@@ -128,6 +128,14 @@
   --vs-button-tertiary-hover-bg: rgba(76, 175, 80, 0.10);
   --vs-button-tertiary-pressed-bg: rgba(76, 175, 80, 0.20);
   --vs-button-tertiary-active-border: var(--vs-color-brand-primary);
+  /* Accent (lime pill) emphasis, opt-in, added 23 Nov 2026 (Task 2): the vectorsticker.com facelift's primary action (Sign Up,
+     Search, Sign In). Lime fill with dark text (13:1); the hover/pressed shades mix the lime with black, so they follow the
+     brand accent and add no raw colour. Weight 700 like the live Sign Up button; the default --vs-button-font-weight is untouched. */
+  --vs-button-accent: var(--vs-color-brand-accent);
+  --vs-button-accent-text: var(--vs-color-brand-secondary);
+  --vs-button-accent-hover: color-mix(in srgb, var(--vs-button-accent) 92%, black);
+  --vs-button-accent-pressed: color-mix(in srgb, var(--vs-button-accent) 84%, black);
+  --vs-button-accent-font-weight: 700;
   --vs-button-cta-support: #F59E0B;
   --vs-button-cta-support-hover: #F5A623;
   --vs-button-cta-support-pressed: #D97706;

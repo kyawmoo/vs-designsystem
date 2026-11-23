@@ -6,6 +6,18 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-23 — Task 2: Button `accent` emphasis (lime pill) and SegmentedControl `variant="dark"`, opt-in; not deployed
+
+- Asked: Master KMO approved Task 2 with every recommended answer (Q1a `emphasis="accent"`, Q2a hover/pressed by `color-mix` in tokens, Q3a weight 700 token, Q4a `variant="dark"`, Q5a inactive text `--vs-color-text-body`, Q6a `DateRangeSelector` not touched, Q7a no Blade, Q8a regression tests first).
+- Tests first: `Button.test.tsx` and `SegmentedControl.test.tsx` were written against the unchanged components and committed alone (`b01445f`): every emphasis x size, defaults, disabled, icon + text, icon-only, pass-through props; every SegmentedControl combination. They still pass unchanged after the change.
+- Added: `emphasis="accent"` in `Button.tsx` (lime fill, dark text, pill, weight 700; icon-only = filled lime circle) with hover/pressed rules in `styles.css`; tokens `--vs-button-accent`, `-text`, `-hover` (92% lime + black), `-pressed` (84%), `-font-weight` (700), mirrored in `tokens.json`; `variant="dark"` in `SegmentedControl.tsx` (class `vs-segment-control--dark`: pill track, dark selected option with white text, inactive text `--vs-color-text-body`). No raw colour added; defaults (`emphasis="primary"`, `variant="default"`) render byte-for-byte as before.
+- `scripts/check-tokens.mjs`: accent text on lime / hover / pressed >= 4.5:1 (13.0 / 10.9 / 9.1), white on the dark option and body text on white >= 4.5:1, the accent tokens point at their primitives, and `react/src/styles.css` must hold the hover, pressed and dark rules. Docs: section 07b in `docs/components/button.html`, 06b in `docs/components/tabs.html`, `accent` in the Props table.
+- Checked: `check:tokens` OK (167 tokens, 54 raw colours); `tsc --noEmit` exit 0; `vitest` 235/235 (was 223); 6 mutation checks of the components each fail a test; 6 of the stylesheet/token gates each fail `check-tokens`; docs pages render without script errors.
+- Not verified: the look in the reports app (no page uses the variants yet); lime/dark on real devices; a screen reader; no lint or build script exists here. Blade and `DateRangeSelector` are not changed (their own tasks).
+- Open: Task 3 (SummaryCard) waits for Master KMO's approval.
+
+---
+
 ## 2026-11-23 — Dashboard design tokens, Task 1 of the controlled migration (additive only); not deployed
 
 - Asked: Master KMO approved decisions D1-D4 (via ChatGPT) and Task 1 only: add additive tokens for the Reports dashboard direction. D1 option B: `--vs-card-radius` and `--vs-item-card-radius` stay as they are, a new `--vs-card-radius-lg`. D2: lime action colour with dark text. D3: lavender header band on a flat `#F8F8F8` page. D4: violet and chart colours.

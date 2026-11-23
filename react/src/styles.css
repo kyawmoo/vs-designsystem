@@ -57,6 +57,16 @@
   color: var(--vs-button-tertiary-text) !important; /* green text on the light tint is only ~2.6:1 */
 }
 
+/* Accent (lime pill, opt-in, Task 2): darker lime on hover / pressed, text stays dark (--vs-button-accent-text). */
+.vs-btn--accent:hover:not(:disabled) {
+  background: var(--vs-button-accent-hover) !important;
+  border-color: var(--vs-button-accent-hover) !important;
+}
+.vs-btn--accent:active:not(:disabled) {
+  background: var(--vs-button-accent-pressed) !important;
+  border-color: var(--vs-button-accent-pressed) !important;
+}
+
 /* Icon-only: light tint on hover */
 .vs-btn--icon-only.vs-btn--primary:hover:not(:disabled) {
   background: var(--vs-button-tertiary-hover-bg) !important;
@@ -241,6 +251,25 @@
 .vs-segment-button--sm {
   padding: 0.375rem 1rem;
   font-size: var(--vs-font-size-body-sm);
+}
+
+/* Dark variant (opt-in via `variant="dark"`, Task 2, 23 Nov 2026): a pill track, the selected option is dark with white text
+   (the reports dashboard period selector). Inactive text is --vs-color-text-body (14:1 on white; the muted grey of the default
+   variant is 2.8:1). The default variant above is unchanged. */
+.vs-segment-control--dark {
+  border-radius: var(--vs-radius-full);
+}
+.vs-segment-control--dark .vs-segment-button {
+  border-radius: var(--vs-radius-full);
+  color: var(--vs-color-text-body);
+}
+.vs-segment-control--dark .vs-segment-button:hover:not(.is-active) {
+  color: var(--vs-color-text-heading);
+  background: var(--vs-color-background);
+}
+.vs-segment-control--dark .vs-segment-button.is-active {
+  background-color: var(--vs-color-brand-secondary);
+  color: var(--vs-color-surface);
 }
 
 /* Tabs — underline variants (primary / secondary). The default segmented variant above is unchanged.

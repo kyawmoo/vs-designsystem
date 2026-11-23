@@ -89,5 +89,23 @@ const expectTokens = { '--vs-card-radius-lg': 'var(--vs-radius-xl)', '--vs-chart
 for (const [n, v] of Object.entries(expectTokens)) if (tokens.get(n) !== v) fail(`${n} should be ${v}, found ${tokens.get(n)}`);
 for (const n of ['--vs-color-lavender-surface', '--vs-color-lavender-surface-strong', '--vs-gradient-header-lavender', '--vs-chart-line-primary']) if (!tokens.has(n)) fail(`${n} is missing`);
 
+// Accent button and dark SegmentedControl (Task 2, 23 Nov 2026): opt-in, additive. Dark text must stay readable on every lime state,
+// the dark selected option needs white text, and the inactive text of the dark variant must pass AA on white.
+const expectAccent = { '--vs-button-accent': 'var(--vs-color-brand-accent)', '--vs-button-accent-text': 'var(--vs-color-brand-secondary)', '--vs-button-accent-font-weight': '700' };
+for (const [n, v] of Object.entries(expectAccent)) if (tokens.get(n) !== v) fail(`${n} should be ${v}, found ${tokens.get(n)}`);
+for (const s of ['', '-hover', '-pressed']) need(`accent button text on ${s || 'default'}`, '--vs-button-accent-text', `--vs-button-accent${s}`, 4.5);
+need('dark segmented control: white on the dark selected option', '--vs-color-surface', '--vs-color-brand-secondary', 4.5);
+need('dark segmented control: inactive text on white', '--vs-color-text-body', '--vs-color-surface', 4.5);
+// The component stylesheet must hold the rules the new variants rely on (hover/pressed shades; dark pill, selected and inactive colours).
+const styles = read('react/src/styles.css').replace(/\/\*[\s\S]*?\*\//g, '');
+const ruleBody = (sel) => { const i = styles.indexOf(sel + ' {'); return i < 0 ? null : styles.slice(i, styles.indexOf('}', i)); };
+const needRule = (sel, part) => { const b = ruleBody(sel); if (b === null) fail(`react/src/styles.css has no rule "${sel}"`); else if (!b.includes(part)) fail(`react/src/styles.css "${sel}" must contain "${part}"`); };
+needRule('.vs-btn--accent:hover:not(:disabled)', 'var(--vs-button-accent-hover)');
+needRule('.vs-btn--accent:active:not(:disabled)', 'var(--vs-button-accent-pressed)');
+needRule('.vs-segment-control--dark', 'border-radius: var(--vs-radius-full)');
+needRule('.vs-segment-control--dark .vs-segment-button', 'color: var(--vs-color-text-body)');
+needRule('.vs-segment-control--dark .vs-segment-button.is-active', 'background-color: var(--vs-color-brand-secondary)');
+needRule('.vs-segment-control--dark .vs-segment-button.is-active', 'color: var(--vs-color-surface)');
+
 if (errors.length) { console.error('check-tokens FAILED:\n- ' + errors.join('\n- ')); process.exit(1); }
 console.log(`check-tokens OK (${tokens.size} tokens, ${rawNames.length} approved raw colours)`);

@@ -1,6 +1,7 @@
 import React from 'react';
 import { afterEach, describe, expect, it } from 'vitest';
-import { cleanup } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Button } from './Button';
 
@@ -49,5 +50,46 @@ describe('Button: existing output is unchanged', () => {
     for (const e of ['primary', 'secondary', 'tertiary'] as const) {
       expect(renderToStaticMarkup(<Button emphasis={e} iconOnly icon={icon} aria-label="Add" />), e).toBe(BEFORE[`btn_icon_only_${e}` as keyof typeof BEFORE]);
     }
+  });
+});
+
+describe('Button: accent emphasis (lime pill, opt-in)', () => {
+
+  it('is lime with dark text, round, weight 700, all from tokens', () => {
+    const html = renderToStaticMarkup(<Button emphasis="accent">Sign Up</Button>);
+    expect(html).toContain('class="vs-btn vs-btn--accent"');
+    expect(html).toContain('background:var(--vs-button-accent)');
+    expect(html).toContain('color:var(--vs-button-accent-text)');
+    expect(html).toContain('border-radius:var(--vs-radius-full)');
+    expect(html).toContain('font-weight:var(--vs-button-accent-font-weight)');
+    expect(html).not.toMatch(/#[0-9a-fA-F]{3,8}/);
+  });
+
+  it('keeps the size tokens, so lg is the 48px site button', () => {
+    expect(renderToStaticMarkup(<Button emphasis="accent" size="lg">Go</Button>)).toContain('height:var(--vs-button-height-lg)');
+  });
+
+  it('icon-only is a filled lime circle (the other icon-only buttons keep their 8px square)', () => {
+    const accent = renderToStaticMarkup(<Button emphasis="accent" iconOnly icon={icon} aria-label="Search" />);
+    expect(accent).toContain('border-radius:var(--vs-radius-full)');
+    expect(accent).toContain('background:var(--vs-button-accent)');
+    expect(accent).toContain('vs-btn--icon-only');
+    expect(renderToStaticMarkup(<Button emphasis="primary" iconOnly icon={icon} aria-label="Add" />)).toContain('border-radius:var(--vs-button-radius-icon)');
+  });
+
+  it('the default emphasis is still primary (nothing becomes lime by accident)', () => {
+    expect(renderToStaticMarkup(<Button>Save</Button>)).toContain('vs-btn--primary');
+    expect(renderToStaticMarkup(<Button>Save</Button>)).not.toContain('accent');
+  });
+
+  it('clicks like any button; disabled does not click and keeps the 0.5 opacity', async () => {
+    let clicks = 0;
+    render(<><Button emphasis="accent" onClick={() => clicks++}>Pay</Button><Button emphasis="accent" disabled onClick={() => clicks++}>Off</Button></>);
+    await userEvent.click(screen.getByRole('button', { name: 'Pay' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Off' }));
+    expect(clicks).toBe(1);
+    const off = screen.getByRole('button', { name: 'Off' }) as HTMLButtonElement;
+    expect(off.disabled).toBe(true);
+    expect(off.style.opacity).toBe('0.5');
   });
 });

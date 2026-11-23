@@ -1,6 +1,7 @@
 import React from 'react';
 import { afterEach, describe, expect, it } from 'vitest';
-import { cleanup } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { SegmentedControl } from './SegmentedControl';
 
@@ -27,5 +28,30 @@ describe('SegmentedControl: existing output is unchanged', () => {
     expect(renderToStaticMarkup(<SegmentedControl tabs={tabs} activeId="b" onChange={noop} size="sm" />)).toBe(BEFORE.seg_sm);
     expect(renderToStaticMarkup(<SegmentedControl tabs={tabs} activeId="" onChange={noop} />)).toBe(BEFORE.seg_none_active);
     expect(renderToStaticMarkup(<SegmentedControl tabs={tabs} activeId="c" onChange={noop} className="mine" buttonClassName="btn-x" />)).toBe(BEFORE.seg_classes);
+  });
+});
+
+describe('SegmentedControl: dark variant (opt-in)', () => {
+
+  it('adds only the dark class to the track; the buttons keep the same classes', () => {
+    const dark = renderToStaticMarkup(<SegmentedControl tabs={tabs} activeId="b" onChange={noop} variant="dark" />);
+    expect(dark).toContain('<div class="vs-segment-control vs-segment-control--dark">');
+    const plain = renderToStaticMarkup(<SegmentedControl tabs={tabs} activeId="b" onChange={noop} />);
+    expect(dark.replace(' vs-segment-control--dark', '')).toBe(plain);
+    expect(renderToStaticMarkup(<SegmentedControl tabs={tabs} activeId="a" onChange={noop} variant="dark" size="sm" className="mine" />)).toContain(
+      '<div class="vs-segment-control vs-segment-control--dark mine">'
+    );
+  });
+
+  it('variant="default" is the same as no variant', () => {
+    expect(renderToStaticMarkup(<SegmentedControl tabs={tabs} activeId="a" onChange={noop} variant="default" />)).toBe(BEFORE.seg_md);
+  });
+
+  it('still switches the active option on click and tells exactly one it is active', async () => {
+    let picked = '';
+    render(<SegmentedControl tabs={tabs} activeId="a" onChange={(id) => (picked = id)} variant="dark" />);
+    await userEvent.click(screen.getByRole('button', { name: '90D' }));
+    expect(picked).toBe('c');
+    expect(document.querySelectorAll('.vs-segment-button.is-active').length).toBe(1);
   });
 });
