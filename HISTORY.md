@@ -6,6 +6,17 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-23 — Task 4: Meter (issue #25) and BreakdownList, new components; not deployed
+
+- Asked: Master KMO approved Task 4 with every recommended answer (Q1a the name `Meter`, as in issue #25, not `ProgressBar`; Q2a the whole of #25 including threshold ticks; Q3a fills darkened so each is >= 3:1 on the track, default fill the dark brand green; Q4a `aria-valuenow` kept inside 0..max, `aria-valuetext` keeps the real reading; Q5a the BreakdownList ticket text is given to Master KMO, no GitHub issue opened; Q6a `barScale="share" | "relative"`; Q7a stacked rows only).
+- Added: `Meter.tsx` (`value`, `max`, `tone`, `thresholds`, `label`, `valueText`; `role="meter"`; no reading = no fill element and "No reading"; invalid `max` falls back to 100; also exports `MeterBar`, `meterPercent`, `meterMax`) and `BreakdownList.tsx` (rows of name, count, share with a decorative Meter bar, `barScale`, `formatValue`, empty text). `styles.css`: `.vs-meter*` and `.vs-breakdown*`. Tokens (additive, mirrored in `tokens.json`): `--vs-meter-height` 6px, `--vs-meter-track`, `--vs-meter-fill`, `-success`, `-warning`, `-danger`, `-neutral` (status colours darkened with black: the plain warning yellow is 1.19:1 and success green 2.27:1 on the track; the warning fill therefore looks olive). No raw colour added.
+- `scripts/check-tokens.mjs`: every fill >= 3:1 on the track, the token values, the stylesheet rules of the meter, ticks and breakdown, share text 14:1. Docs: new pages `docs/components/meter.html` and `breakdown-list.html`, both in the sidebar (`shell.js`).
+- Checked: `check:tokens` OK (176 tokens, 54 raw colours); `tsc --noEmit` exit 0; `vitest` 277/277 (was 248; 29 new tests for the #25 acceptance cases: 0, 25, 50, 75, 100, null, negative, above max, threshold positions, invalid input, ARIA); 9 component mutations each fail a test; 9 token/CSS mutations each fail `check-tokens`; the real components bundled with Vite and rendered in Chromium (bar height 6px, fills, ticks, null = no fill, 120 capped at 100, -5 empty, relative scale), no script errors; both docs pages render and are in the sidebar.
+- Not verified: the reports app (its `UsageMeter` and `BreakdownList` stand-ins are not replaced yet, Task 9); the `--vs-alert-*` override path; a phone; a screen reader; no lint or build script. The ticket text for BreakdownList is in the Task 4 report; no GitHub issue was opened.
+- Open: Task 5 (DonutChart, issue #72) waits for Master KMO's approval.
+
+---
+
 ## 2026-11-23 — Task 3: SummaryCard `variant="metric"`, `tone="dark"`, icon, change chip and sparkline slot, opt-in; not deployed
 
 - Asked: Master KMO approved Task 3 with every recommended answer (Q1a `variant="metric"`, Q2a `icon` in a DS 28px chip, Q3a `sparkline` slot, Q4a dark tone sets the first chart colour to lime, Q5a metric uses `--vs-card-radius-lg`, Q6a `change` prop with a new `--vs-color-danger-text`, Q7a `--vs-summary-value-letter-spacing` -0.05em on metric only).

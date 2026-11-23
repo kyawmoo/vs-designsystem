@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Meter — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; width: 100%; }
+  .demo-cap { margin: 0 0 6px; font: var(--vs-type-body-01); color: var(--vs-color-text-body); }
+  .demo-meter { --cur: var(--vs-meter-fill); position: relative; width: 100%; height: var(--vs-meter-height); border-radius: var(--vs-radius-full); background: var(--vs-meter-track); }
+  .demo-meter--success { --cur: var(--vs-meter-fill-success); } .demo-meter--warning { --cur: var(--vs-meter-fill-warning); } .demo-meter--danger { --cur: var(--vs-meter-fill-danger); } .demo-meter--neutral { --cur: var(--vs-meter-fill-neutral); }
+  .demo-meter-fill { height: 100%; border-radius: var(--vs-radius-full); background: var(--cur); }
+  .demo-meter-tick { position: absolute; top: -2px; width: 2px; height: calc(var(--vs-meter-height) + 4px); border-radius: var(--vs-radius-full); }
+  .demo-meter-tick--warning { background: var(--vs-meter-fill-warning); } .demo-meter-tick--danger { background: var(--vs-meter-fill-danger); }
+</style>
+</head>
+<body data-page="meter">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Meter</p>
+    <h1>Meter</h1>
+    <p class="vs-docs-hero-lede">
+      A thin horizontal bar for a share, a progress or a usage value, with optional tick marks for limits.
+      Added 23 Nov 2026 (issue #25), React only. Implemented in <code>react/src/components/Meter.tsx</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <h2>Tones</h2>
+    <div class="vs-docs-preview" style="display:block"><div class="demo-grid">
+      <div><p class="demo-cap">Default 39%</p><div class="demo-meter" role="meter" aria-label="Default 39%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="39" aria-valuetext="39%"><div class="demo-meter-fill" style="width:39%"></div></div></div>
+      <div><p class="demo-cap">Success 62%</p><div class="demo-meter demo-meter--success" role="meter" aria-label="Success 62%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="62" aria-valuetext="62%"><div class="demo-meter-fill" style="width:62%"></div></div></div>
+      <div><p class="demo-cap">Warning 78%</p><div class="demo-meter demo-meter--warning" role="meter" aria-label="Warning 78%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="78" aria-valuetext="78%"><div class="demo-meter-fill" style="width:78%"></div></div></div>
+      <div><p class="demo-cap">Danger 95%</p><div class="demo-meter demo-meter--danger" role="meter" aria-label="Danger 95%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="95" aria-valuetext="95%"><div class="demo-meter-fill" style="width:95%"></div></div></div>
+      <div><p class="demo-cap">Neutral 30%</p><div class="demo-meter demo-meter--neutral" role="meter" aria-label="Neutral 30%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="30" aria-valuetext="30%"><div class="demo-meter-fill" style="width:30%"></div></div></div>
+    </div></div>
+
+    <h2>Threshold ticks</h2>
+    <p>Ticks sit on the same 0 to max scale as the value (here the Warning limit at 70 and the Danger limit at 90). They are decorative; the reading and its level are in <code>valueText</code>.</p>
+    <div class="vs-docs-preview" style="display:block"><div class="demo-grid">
+      <div><p class="demo-cap">CPU 45% — Normal</p><div class="demo-meter" role="meter" aria-label="CPU 45% — Normal" aria-valuemin="0" aria-valuemax="100" aria-valuenow="45" aria-valuetext="45% — Normal"><div class="demo-meter-fill" style="width:45%"></div><span class="demo-meter-tick demo-meter-tick--warning" style="left:70%" aria-hidden="true"></span><span class="demo-meter-tick demo-meter-tick--danger" style="left:90%" aria-hidden="true"></span></div></div>
+      <div><p class="demo-cap">Memory 78% — Warning</p><div class="demo-meter demo-meter--warning" role="meter" aria-label="Memory 78% — Warning" aria-valuemin="0" aria-valuemax="100" aria-valuenow="78" aria-valuetext="78% — Warning"><div class="demo-meter-fill" style="width:78%"></div><span class="demo-meter-tick demo-meter-tick--warning" style="left:70%" aria-hidden="true"></span><span class="demo-meter-tick demo-meter-tick--danger" style="left:90%" aria-hidden="true"></span></div></div>
+      <div><p class="demo-cap">Disk 95% — Danger</p><div class="demo-meter demo-meter--danger" role="meter" aria-label="Disk 95% — Danger" aria-valuemin="0" aria-valuemax="100" aria-valuenow="95" aria-valuetext="95% — Danger"><div class="demo-meter-fill" style="width:95%"></div><span class="demo-meter-tick demo-meter-tick--warning" style="left:70%" aria-hidden="true"></span><span class="demo-meter-tick demo-meter-tick--danger" style="left:90%" aria-hidden="true"></span></div></div>
+    </div></div>
+
+    <h2>Edge cases</h2>
+    <div class="vs-docs-preview" style="display:block"><div class="demo-grid">
+      <div><p class="demo-cap">0% is a reading</p><div class="demo-meter" role="meter" aria-label="0% is a reading" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0%"><div class="demo-meter-fill" style="width:0%"></div></div></div>
+      <div><p class="demo-cap">No reading (null)</p><div class="demo-meter" role="meter" aria-label="No reading (null)" aria-valuemin="0" aria-valuemax="100" aria-valuetext="No reading"><span class="demo-meter-tick demo-meter-tick--warning" style="left:70%" aria-hidden="true"></span><span class="demo-meter-tick demo-meter-tick--danger" style="left:90%" aria-hidden="true"></span></div></div>
+      <div><p class="demo-cap">120% is capped at 100%</p><div class="demo-meter demo-meter--danger" role="meter" aria-label="120% is capped at 100%" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" aria-valuetext="120%"><div class="demo-meter-fill" style="width:100%"></div></div></div>
+      <div><p class="demo-cap">-5 is clamped to empty</p><div class="demo-meter" role="meter" aria-label="-5 is clamped to empty" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="-5%"><div class="demo-meter-fill" style="width:0%"></div></div></div>
+    </div></div>
+    <div class="vs-docs-callout"><p>No reading draws an empty track with <strong>no fill element</strong>, never a 0% fill, and says "No reading". A value outside 0 to max keeps the bar inside the track, <code>aria-valuenow</code> inside the range, and the real reading in <code>aria-valuetext</code> ("120%"). An invalid <code>max</code> (0, negative, not a number) falls back to 100.</p></div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Meter } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;Meter</span> <span class="attr">label</span>=<span class="str">"Memory"</span> <span class="attr">value</span>=<span class="str">{78}</span> <span class="attr">tone</span>=<span class="str">"warning"</span>
+  <span class="attr">thresholds</span>=<span class="str">{[{ value: 70, tone: 'warning' }, { value: 90, tone: 'danger' }]}</span>
+  <span class="attr">valueText</span>=<span class="str">"78.0% — Warning"</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>label</code></td><td>what is measured (required); the accessible name</td><td></td></tr>
+        <tr><td><code>value</code></td><td>number, or <code>null</code> / <code>undefined</code> for no reading</td><td></td></tr>
+        <tr><td><code>max</code></td><td>the value that fills the track</td><td><code>100</code></td></tr>
+        <tr><td><code>tone</code></td><td><code>default</code> · <code>success</code> · <code>warning</code> · <code>danger</code> · <code>neutral</code></td><td><code>default</code></td></tr>
+        <tr><td><code>thresholds</code></td><td><code>{ value, tone }[]</code>, tick marks</td><td>none</td></tr>
+        <tr><td><code>valueText</code></td><td>the spoken reading, e.g. "61.0% — Normal"</td><td>"39%", "8 of 16" or "No reading"</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Tokens</h2>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Token</th><th>Value</th><th>On the grey track</th></tr></thead>
+      <tbody>
+        <tr><td><code>--vs-meter-height</code></td><td>6px</td><td></td></tr>
+        <tr><td><code>--vs-meter-track</code></td><td><code>var(--vs-color-disabled-bg)</code></td><td></td></tr>
+        <tr><td><code>--vs-meter-fill</code></td><td><code>var(--vs-color-brand-primary-text)</code></td><td>4.5:1</td></tr>
+        <tr><td><code>--vs-meter-fill-success</code></td><td>success border + 35% black</td><td>4.9:1</td></tr>
+        <tr><td><code>--vs-meter-fill-warning</code></td><td>warning border + 45% black</td><td>3.8:1</td></tr>
+        <tr><td><code>--vs-meter-fill-danger</code></td><td><code>var(--vs-color-danger-border)</code></td><td>4.6:1</td></tr>
+        <tr><td><code>--vs-meter-fill-neutral</code></td><td>muted text + 30% black</td><td>4.5:1</td></tr>
+      </tbody>
+    </table></div>
+    <div class="vs-docs-callout"><p>The plain status colours would be too weak on the grey track: the warning yellow is 1.19:1 and the success green 2.27:1 (WCAG 1.4.11 needs 3:1), so the fills are darkened and <code>scripts/check-tokens.mjs</code> keeps every fill at 3:1 or more. The warning fill therefore looks olive rather than bright yellow. A product with its own status colours (the reports dashboard's <code>--vs-alert-*</code>) overrides the <code>--vs-meter-fill-*</code> tokens.</p></div>
+
+    <h2>Accessibility</h2>
+    <p><code>role="meter"</code> with <code>aria-label</code>, <code>aria-valuemin="0"</code>, <code>aria-valuemax</code>, <code>aria-valuenow</code> and <code>aria-valuetext</code>. With no reading there is no <code>aria-valuenow</code> and the text is "No reading". Meaning is never only the colour: give the level in <code>valueText</code> and show the number as text next to the bar. For a list of rows whose text already says the value, use <a href="/components/breakdown-list.html">BreakdownList</a>, which hides its bars from screen readers.</p>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

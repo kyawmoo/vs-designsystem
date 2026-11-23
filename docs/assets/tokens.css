@@ -238,6 +238,18 @@
   --vs-toast-warning: #F6B800;
   --vs-toast-info: #00BCD4;
 
+  /* ---- Meter (Task 4, 23 Nov 2026, additive): a thin horizontal bar for share, progress and usage values (issue #25).
+     The fills are the status colours darkened with black so each one is at least 3:1 on the track (WCAG 1.4.11, gated in
+     scripts/check-tokens.mjs): the plain warning yellow is only 1.19:1 on the grey track, the plain success green 2.27:1.
+     A product (the reports dashboard with its own --vs-alert-* colours) may override the --vs-meter-fill-* tokens. ---- */
+  --vs-meter-height: 6px;
+  --vs-meter-track: var(--vs-color-disabled-bg);
+  --vs-meter-fill: var(--vs-color-brand-primary-text);
+  --vs-meter-fill-success: color-mix(in srgb, var(--vs-color-success-border) 65%, black);
+  --vs-meter-fill-warning: color-mix(in srgb, var(--vs-color-warning-border) 55%, black);
+  --vs-meter-fill-danger: var(--vs-color-danger-border);
+  --vs-meter-fill-neutral: color-mix(in srgb, var(--vs-color-text-muted) 70%, black);
+
   /* ---- Shadow (flat design — always none) ---- */
   --vs-shadow-none: none;
 

@@ -126,5 +126,28 @@ needRule('.vs-summary-change--down', 'color: var(--vs-color-danger-text)');
 needRule('.vs-summary-change--flat', 'color: var(--vs-color-text-body)');
 needRule('.vs-summary-icon', 'border-radius: var(--vs-radius-lg)');
 
+// Meter and BreakdownList (Task 4, 23 Nov 2026, issue #25): every fill must be at least 3:1 on the track (WCAG 1.4.11; the plain warning
+// yellow is 1.19:1 and the plain success green 2.27:1 there), the tokens point at their primitives, and the stylesheet draws them from the tokens.
+for (const f of ['', '-success', '-warning', '-danger', '-neutral']) need(`meter fill${f || ' (default)'} on the track`, `--vs-meter-fill${f}`, '--vs-meter-track', 3);
+const expectMeter = {
+  '--vs-meter-height': '6px',
+  '--vs-meter-track': 'var(--vs-color-disabled-bg)',
+  '--vs-meter-fill': 'var(--vs-color-brand-primary-text)',
+  '--vs-meter-fill-danger': 'var(--vs-color-danger-border)',
+};
+for (const [n, v] of Object.entries(expectMeter)) if (tokens.get(n) !== v) fail(`${n} should be ${v}, found ${tokens.get(n)}`);
+for (const n of ['--vs-meter-fill-success', '--vs-meter-fill-warning', '--vs-meter-fill-neutral']) if (!/^color-mix\(in srgb, var\(--vs-color-[a-z-]+\) \d+%, black\)$/.test(tokens.get(n) || '')) fail(`${n} must be a status colour mixed with black, found ${tokens.get(n)}`);
+needRule('.vs-meter', 'height: var(--vs-meter-height)');
+needRule('.vs-meter', 'background: var(--vs-meter-track)');
+needRule('.vs-meter', '--vs-meter-current: var(--vs-meter-fill)');
+needRule('.vs-meter__fill', 'background: var(--vs-meter-current)');
+for (const t of ['success', 'warning', 'danger', 'neutral']) {
+  needRule(`.vs-meter--${t}`, `--vs-meter-current: var(--vs-meter-fill-${t})`);
+  needRule(`.vs-meter__tick--${t}`, `background: var(--vs-meter-fill-${t})`);
+}
+needRule('.vs-breakdown__share', 'color: var(--vs-color-text-body)');
+need('breakdown: share text on white', '--vs-color-text-body', '--vs-color-surface', 4.5);
+need('breakdown: name and count on white', '--vs-color-text-heading', '--vs-color-surface', 4.5);
+
 if (errors.length) { console.error('check-tokens FAILED:\n- ' + errors.join('\n- ')); process.exit(1); }
 console.log(`check-tokens OK (${tokens.size} tokens, ${rawNames.length} approved raw colours)`);

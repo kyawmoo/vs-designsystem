@@ -64,6 +64,11 @@ export type { PaginationProps } from './components/Pagination';
 export { SegmentedControl } from './components/SegmentedControl';
 export type { SegmentedControlProps, SegmentedControlItem } from './components/SegmentedControl';
 
+export { Meter } from './components/Meter';
+export type { MeterProps, MeterTone, MeterThreshold } from './components/Meter';
+export { BreakdownList } from './components/BreakdownList';
+export type { BreakdownListProps, BreakdownRow } from './components/BreakdownList';
+
 export { Popover } from './components/Popover';
 export type { PopoverProps, PopoverAlign } from './components/Popover';
 
