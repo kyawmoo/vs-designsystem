@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rank Pill — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-rows { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .demo-rank { display: inline-flex; align-items: center; justify-content: center; gap: 0.375rem; height: 1.5rem; padding: 0 0.625rem; border: 1px solid transparent; border-radius: var(--vs-radius-full); font-family: var(--vs-font-family); font-size: 12px; font-weight: 600; line-height: 1; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .demo-rank--lime { background: var(--vs-color-brand-accent); border-color: var(--vs-color-brand-accent); color: var(--vs-color-brand-secondary); }
+  .demo-rank--dark { background: var(--vs-color-brand-secondary); border-color: var(--vs-color-brand-secondary); color: var(--vs-color-surface); }
+  .demo-rank--light { background: var(--vs-color-surface); border-color: var(--vs-color-border); color: var(--vs-color-brand-secondary); }
+  .demo-rank--circle { width: 2rem; height: 2rem; padding: 0; font-size: 14px; font-weight: 700; }
+</style>
+</head>
+<body data-page="rank-pill">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Rank Pill</p>
+    <h1>Rank Pill</h1>
+    <p class="vs-docs-hero-lede">
+      The position of an item in a ranking: "#2" or "#1 · Top asset". An inline element; you place it (for example over the corner of a picture).
+      Added 23 Nov 2026, React only. Implemented in <code>react/src/components/RankPill.tsx</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <h2>Pill</h2>
+    <p>Rank 1 is lime with dark text by default; every other rank is dark with white text. A label is written after the number.</p>
+    <div class="vs-docs-preview"><div class="demo-rows"><span class="demo-rank demo-rank--lime">#1 · Top asset</span><span class="demo-rank demo-rank--lime">#1</span><span class="demo-rank demo-rank--dark">#2</span><span class="demo-rank demo-rank--dark">#3</span><span class="demo-rank demo-rank--dark">#12</span></div></div>
+
+    <h2>Tones</h2>
+    <div class="vs-docs-preview"><div class="demo-rows"><span class="demo-rank demo-rank--lime">#4</span><span class="demo-rank demo-rank--dark">#4</span><span class="demo-rank demo-rank--light">#4</span></div></div>
+
+    <h2>Circle</h2>
+    <p><code>shape="circle"</code> shows the number alone, as in the vectorsticker.com podium. The label is not written, but a screen reader still hears it.</p>
+    <div class="vs-docs-preview"><div class="demo-rows"><span class="demo-rank demo-rank--lime demo-rank--circle">1</span><span class="demo-rank demo-rank--dark demo-rank--circle">2</span><span class="demo-rank demo-rank--dark demo-rank--circle">3</span><span class="demo-rank demo-rank--light demo-rank--circle">10</span></div></div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { RankPill } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;RankPill</span> <span class="attr">rank</span>=<span class="str">{1}</span> <span class="attr">label</span>=<span class="str">"Top asset"</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;RankPill</span> <span class="attr">rank</span>=<span class="str">{3}</span> <span class="attr">shape</span>=<span class="str">"circle"</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>rank</code></td><td>a whole number from 1; anything else (0, negative, a fraction, NaN) draws nothing</td><td></td></tr>
+        <tr><td><code>label</code></td><td>words after the number, e.g. "Top asset" (pill only)</td><td>none</td></tr>
+        <tr><td><code>tone</code></td><td><code>auto</code> · <code>lime</code> · <code>dark</code> · <code>light</code></td><td><code>auto</code></td></tr>
+        <tr><td><code>shape</code></td><td><code>pill</code> · <code>circle</code></td><td><code>pill</code></td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Accessibility</h2>
+    <p>The visible text ("#1 · Top asset") is hidden from screen readers and replaced by "Rank 1, Top asset", so the symbols are not read out. Every text on its fill is at 4.5:1 or more (dark on lime 13.0, white on dark 15.9, dark on white 15.9), kept by <code>scripts/check-tokens.mjs</code>. Colours come from existing tokens (<code>--vs-color-brand-accent</code>, <code>--vs-color-brand-secondary</code>, <code>--vs-color-surface</code>); no new token.</p>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

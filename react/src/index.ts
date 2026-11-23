@@ -70,6 +70,8 @@ export { BreakdownList } from './components/BreakdownList';
 export type { BreakdownListProps, BreakdownRow } from './components/BreakdownList';
 export { DonutChart } from './components/DonutChart';
 export type { DonutChartProps, DonutSegment } from './components/DonutChart';
+export { RankPill } from './components/RankPill';
+export type { RankPillProps, RankPillTone } from './components/RankPill';
 
 export { Popover } from './components/Popover';
 export type { PopoverProps, PopoverAlign } from './components/Popover';

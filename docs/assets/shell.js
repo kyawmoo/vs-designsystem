@@ -29,6 +29,7 @@
         { id: 'table', label: 'Table', href: '/components/table.html', icon: 'table-2' },
         { id: 'meter', label: 'Meter', href: '/components/meter.html', icon: 'chart-column' },
         { id: 'breakdown-list', label: 'Breakdown List', href: '/components/breakdown-list.html', icon: 'table-2' },
+        { id: 'rank-pill', label: 'Rank Pill', href: '/components/rank-pill.html', icon: 'tag' },
         { id: 'line-chart', label: 'Line Chart', href: '/components/line-chart.html', icon: 'chart-line' },
         { id: 'bar-chart', label: 'Bar Chart', href: '/components/bar-chart.html', icon: 'chart-column' },
         { id: 'donut-chart', label: 'Donut Chart', href: '/components/donut-chart.html', icon: 'chart-line' },

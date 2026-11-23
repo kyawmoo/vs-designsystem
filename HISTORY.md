@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-23 — Task 6: RankPill, new component; not deployed
+
+- Asked: Master KMO approved Tasks 6, 7 and 8 together ("proceed your suggestions", every recommended answer); each is built and committed on its own. Task 6 answers: R1a `tone` auto (rank 1 lime, others dark) with an override; R2a `shape="pill"` and `"circle"`; R3a inline element, the caller places it; R4a visible "#1 · Top asset", spoken "Rank 1, Top asset", an invalid rank draws nothing; R5 ticket text in the report, no GitHub issue.
+- Added: `RankPill.tsx` (`rank`, `label`, `tone`, `shape`; also `isValidRank`), `.vs-rank*` in `styles.css`, `scripts/check-tokens.mjs` gates (3 contrast pairs of the pill, 7 stylesheet rules), docs page `docs/components/rank-pill.html` with a sidebar entry. No new token: the colours are `--vs-color-brand-accent`, `--vs-color-brand-secondary`, `--vs-color-surface`.
+- Checked: `check:tokens` OK (182 tokens, 54 raw colours); `tsc --noEmit` exit 0; 7 new tests; 7 component mutations each fail a test; 4 stylesheet mutations each fail `check-tokens`; the real component rendered in Chromium (lime `rgb(188, 253, 29)` with dark text, dark `rgb(34, 34, 34)` with white text, pill 24px high, circle 32px, spoken text 1x1 px).
+- Not verified: the reports app (its local `★ TOP ASSET` badge, which still uses the old `#005c55`, is not replaced yet); a screen reader; no lint or build script.
+
+---
+
 ## 2026-11-23 — Task 5: DonutChart (issue #72), new component; not deployed
 
 - Asked: Master KMO approved Task 5 with every recommended answer (Q1a plain SVG, no chart library; Q2a six `--vs-chart-donut-*` tokens, each >= 3:1 on white; Q3a built-in legend, below by default, `legend="right"` and `"none"`; Q4a whole percentages, "<1%" under one percent; Q5a an empty ring of the same size with the `empty` text; Q6a CSS draw-in, off under reduced motion; Q7a native hover `<title>`; Q8a no automatic "Other", the palette repeats after six).

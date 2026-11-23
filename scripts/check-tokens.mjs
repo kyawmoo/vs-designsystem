@@ -174,5 +174,18 @@ needRule('.vs-donut__center-caption', 'color: var(--vs-color-text-body)');
 needRule('.vs-donut__legend-label', 'color: var(--vs-color-text-body)');
 needRule('.vs-donut__legend-pct', 'color: var(--vs-color-text-heading)');
 
+// RankPill (Task 6, 23 Nov 2026): lime / dark / light pills from existing tokens only, every text on its fill at 4.5:1 or more,
+// round corners, and the spoken text kept out of sight.
+need('rank pill: dark text on the lime pill', '--vs-color-brand-secondary', '--vs-color-brand-accent', 4.5);
+need('rank pill: white text on the dark pill', '--vs-color-surface', '--vs-color-brand-secondary', 4.5);
+need('rank pill: dark text on the light pill', '--vs-color-brand-secondary', '--vs-color-surface', 4.5);
+needRule('.vs-rank', 'border-radius: var(--vs-radius-full)');
+needRule('.vs-rank--lime', 'background: var(--vs-color-brand-accent)');
+needRule('.vs-rank--lime', 'color: var(--vs-color-brand-secondary)');
+needRule('.vs-rank--dark', 'background: var(--vs-color-brand-secondary)');
+needRule('.vs-rank--dark', 'color: var(--vs-color-surface)');
+needRule('.vs-rank--light', 'color: var(--vs-color-brand-secondary)');
+needRule('.vs-rank__sr', 'clip: rect(0, 0, 0, 0)');
+
 if (errors.length) { console.error('check-tokens FAILED:\n- ' + errors.join('\n- ')); process.exit(1); }
 console.log(`check-tokens OK (${tokens.size} tokens, ${rawNames.length} approved raw colours)`);
