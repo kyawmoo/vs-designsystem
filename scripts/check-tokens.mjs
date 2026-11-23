@@ -186,6 +186,9 @@ needRule('.vs-rank--dark', 'background: var(--vs-color-brand-secondary)');
 needRule('.vs-rank--dark', 'color: var(--vs-color-surface)');
 needRule('.vs-rank--light', 'color: var(--vs-color-brand-secondary)');
 needRule('.vs-rank__sr', 'clip: rect(0, 0, 0, 0)');
+// BarChart legendPosition="bottom" (Task 7): centred under the chart, not right-aligned above it.
+needRule('.vs-line-chart-legend--bottom', 'justify-content: center');
+needRule('.vs-line-chart-legend--bottom', 'margin-top: 0.5rem');
 
 if (errors.length) { console.error('check-tokens FAILED:\n- ' + errors.join('\n- ')); process.exit(1); }
 console.log(`check-tokens OK (${tokens.size} tokens, ${rawNames.length} approved raw colours)`);

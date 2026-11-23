@@ -78,6 +78,9 @@
         <tr><td>Line series</td><td>Drawn over the bars with a soft area, draws left to right; usually on the right axis</td></tr>
         <tr><td>Animation</td><td>Bars grow from the bottom, one day after another (900ms in total); none with reduced motion</td></tr>
         <tr><td>Colours</td><td>Same <code>--vs-chart-*</code> tokens as Line Chart</td></tr>
+        <tr><td>Legend position <em>(23 Nov 2026)</em></td><td><code>legendPosition="bottom"</code> puts the legend centred under the chart. Default <code>top</code> (right-aligned above) is unchanged</td></tr>
+        <tr><td>Pinned tooltip <em>(23 Nov 2026)</em></td><td><code>pinTooltip</code> keeps a tooltip open on the latest day with data (today, or the last day before it) once the bars have grown in (at once with reduced motion). Hovering shows that day's tooltip instead; when the pointer leaves, the pinned one comes back and the faded days clear. A day after today is never pinned</td></tr>
+        <tr><td>Today marker <em>(23 Nov 2026)</em></td><td><code>todayMarker="dark"</code> draws the dotted line and the bold "(Today)" label in <code>--vs-chart-today-marker</code> (the dark surface colour) instead of the orange <code>--vs-chart-today</code>. Default <code>default</code> is unchanged</td></tr>
       </tbody>
     </table></div>
 
@@ -102,6 +105,9 @@
         <tr><td><code>stacked</code></td><td><code>boolean</code></td><td>Stack the bar series of a day</td></tr>
         <tr><td><code>showValues</code></td><td><code>boolean</code></td><td>Totals (stacked) or values above bars / points</td></tr>
         <tr><td><code>ariaLabel</code></td><td><code>string</code></td><td>Required</td></tr>
+        <tr><td><code>legendPosition</code></td><td><code>'top' | 'bottom'</code></td><td>Default <code>'top'</code></td></tr>
+        <tr><td><code>pinTooltip</code></td><td><code>boolean</code></td><td>Default <code>false</code></td></tr>
+        <tr><td><code>todayMarker</code></td><td><code>'default' | 'dark'</code></td><td>Default <code>'default'</code></td></tr>
         <tr><td><code>height</code>, <code>showLegend</code>, <code>formatValue</code>, <code>today</code></td><td></td><td>As Line Chart (height default 280)</td></tr>
       </tbody>
     </table></div>

@@ -6,6 +6,17 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-23 — Task 7: BarChart dashboard options; not deployed
+
+- Asked: Task 7 of the approved set (6, 7, 8 together). Answers: C1a extend the existing `BarChart` with opt-in props (no new component), C2a three separate props, C3a `BarChart` only (LineChart is not changed), C4a pinned tooltip on the latest day with data and hover replaces it, C5a legend centred at the bottom, C6a this covers issue #14 (Master closes it).
+- Step 1 (own commit `3076941`): 4 baseline tests on the unchanged chart (legend above the canvas, dotted orange today line and bold today tick, hover-only tooltip and the exact `options` keys, `showLegend={false}`); they pass unchanged after step 2.
+- Step 2: `legendPosition` (`top` default | `bottom`), `pinTooltip` (default false), `todayMarker` (`default` | `dark` = `--vs-chart-today-marker`, already in tokens). Defaults are byte-identical: `options` keys, plugin list and animation object are the same unless a prop is set. Pin plugin: pins after the bars have grown (once; a later animation never overrides a hover), re-pins after the pointer leaves, clears the hover fade first so the tooltip swatches keep the full colour. New stylesheet rules `.vs-line-chart-legend--bottom` gated in `check-tokens`.
+- Checked: 28 BarChart tests (was 11); 13 component mutations each fail a test (first run found 2 gaps — a series with no value on the pinned day, a value dated after today — both got a test, then caught); `check:tokens` OK; `tsc --noEmit` exit 0; real component in Chromium: default chart identical, dashboard chart shows legend at the bottom, dark today line, "23 Nov (Today)" tooltip pinned, hover replaces it, leaving brings it back with no faded bars.
+- Found, not fixed (separate task, rule 5): in the default `BarChart`, after the pointer leaves the chart the hovered day stays bright and the other days stay faded (seen in Chromium on the unchanged chart). Not touched because default behaviour must not change.
+- Not verified: the reports app; touch devices (pinned tooltip on tap); resize while a tooltip is pinned; a screen reader (the tooltip is canvas-drawn); no lint or build script.
+
+---
+
 ## 2026-11-23 — Task 6: RankPill, new component; not deployed
 
 - Asked: Master KMO approved Tasks 6, 7 and 8 together ("proceed your suggestions", every recommended answer); each is built and committed on its own. Task 6 answers: R1a `tone` auto (rank 1 lime, others dark) with an override; R2a `shape="pill"` and `"circle"`; R3a inline element, the caller places it; R4a visible "#1 · Top asset", spoken "Rank 1, Top asset", an invalid rank draws nothing; R5 ticket text in the report, no GitHub issue.

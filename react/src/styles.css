@@ -1413,6 +1413,12 @@
   color: var(--vs-chart-axis-text);
 }
 
+.vs-line-chart-legend--bottom {
+  justify-content: center;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
 .vs-line-chart-legend-item {
   display: inline-flex;
   align-items: center;

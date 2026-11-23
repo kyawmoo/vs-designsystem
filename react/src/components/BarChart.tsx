@@ -45,6 +45,16 @@ export interface BarChartProps {
   height?: number;
   /** Legend row above the chart. Default true. */
   showLegend?: boolean;
+  /** Where the legend row sits: `top` (default, right-aligned above the chart) or `bottom` (centred under it). */
+  legendPosition?: 'top' | 'bottom';
+  /**
+   * Keep a tooltip open on the latest day that has data (today, or the last day before it), so the
+   * newest numbers are visible without hovering. Hovering the chart shows that day's tooltip instead;
+   * leaving brings the pinned one back. Default false.
+   */
+  pinTooltip?: boolean;
+  /** Colour of the today line and the bold "(Today)" label: `default` (orange) or `dark` (the dark surface colour). */
+  todayMarker?: 'default' | 'dark';
   formatValue?: (value: number) => string;
   /** "Now" for the axis; for tests and stories. */
   today?: Date;
@@ -71,6 +81,9 @@ export function BarChart({
   ariaLabel,
   height = 280,
   showLegend = true,
+  legendPosition = 'top',
+  pinTooltip = false,
+  todayMarker = 'default',
   formatValue = (v) => v.toLocaleString(),
   today,
   className,
@@ -97,7 +110,7 @@ export function BarChart({
     const theme = {
       grid: token('--vs-chart-grid', '#ececec'),
       axis: token('--vs-chart-axis-text', '#8e9cba'),
-      today: token('--vs-chart-today', '#ff7a14'),
+      today: todayMarker === 'dark' ? token('--vs-chart-today-marker', '#222222') : token('--vs-chart-today', '#ff7a14'),
       tooltip: token('--vs-color-text-heading', '#010d4c'),
       surface: token('--vs-color-surface', '#ffffff'),
       text: token('--vs-color-text-body', '#2b2b2b'),
@@ -191,6 +204,43 @@ export function BarChart({
       },
     };
 
+    // Pinned tooltip: the latest day (up to today) that has a value in any series.
+    let pinIndex = -1;
+    if (pinTooltip) {
+      const lastDay = todayIndex >= 0 ? todayIndex : count - 1;
+      for (let d = lastDay; d >= 0 && pinIndex < 0; d--) if (rows.some((row) => row[d] !== null)) pinIndex = d;
+    }
+    const pin = (chart: any) => {
+      if (pinIndex < 0 || !chart.tooltip) return;
+      const active = series
+        .map((_, i) => ({ datasetIndex: i, index: pinIndex }))
+        .filter((a) => rows[a.datasetIndex][pinIndex] !== null);
+      hovered = null; // the pointer is away: no faded days, and the tooltip swatches get the full colours
+      const el = chart.getDatasetMeta(active[0].datasetIndex).data[pinIndex];
+      chart.setActiveElements(active);
+      chart.tooltip.setActiveElements(active, { x: el.x, y: el.y });
+      chart.update('none');
+    };
+    let pinnedFirst = false;
+    const pinFirst = (chart: any) => {
+      if (pinnedFirst) return;
+      pinnedFirst = true;
+      pin(chart);
+    };
+    const pinTooltipPlugin: Plugin<'bar'> = {
+      id: 'vsPinTooltip',
+      // Reduced motion has no animation to wait for: pin after the first draw.
+      afterRender(chart) {
+        if (reduce) pinFirst(chart);
+      },
+      // The pointer left the columns (or the chart): bring the pinned tooltip back once Chart.js has cleared it.
+      afterEvent(chart) {
+        Promise.resolve().then(() => {
+          if (chart.tooltip && chart.tooltip.getActiveElements().length === 0) pin(chart);
+        });
+      },
+    };
+
     const step = (reduce ? 0 : BAR_CHART_GROW_MS) / Math.max(1, count);
     /** Few days (a short range) get wide bars; FEW_DAYS or fewer slots counts as few. */
     const few = count <= BAR_CHART_FEW_DAYS;
@@ -278,7 +328,12 @@ export function BarChart({
         },
         animation: reduce
           ? false
-          : ({ duration: 600, easing: 'easeOutQuart', delay: (c: any) => (c.type === 'data' && c.mode === 'default' ? c.dataIndex * step : 0) } as any),
+          : ({
+              duration: 600,
+              easing: 'easeOutQuart',
+              delay: (c: any) => (c.type === 'data' && c.mode === 'default' ? c.dataIndex * step : 0),
+              ...(pinTooltip ? { onComplete: (a: any) => pinFirst(a.chart) } : {}),
+            } as any),
         // Room on the right for the longer "(Today)" label; on top for the value labels.
         layout: { padding: { top: showValues ? 20 : 8, right: hasRight ? 8 : 40 } },
         plugins: {
@@ -324,33 +379,36 @@ export function BarChart({
           ...(hasRight ? { y1: yScale('right', false, false) as any } : {}),
         },
       },
-      plugins: [todayLine, valueLabels],
+      plugins: pinTooltip ? [todayLine, valueLabels, pinTooltipPlugin] : [todayLine, valueLabels],
     };
 
     const chart = new Chart(canvas, config);
     return () => chart.destroy();
-  }, [timeline, rows, seriesKey, stacked, showValues]);
+  }, [timeline, rows, seriesKey, stacked, showValues, pinTooltip, todayMarker]);
 
   const legendColors = series.map((s, i) => s.color || DEFAULT_SERIES_COLORS[i % DEFAULT_SERIES_COLORS.length]);
 
+  const legend = (
+    <div className={legendPosition === 'bottom' ? 'vs-line-chart-legend vs-line-chart-legend--bottom' : 'vs-line-chart-legend'}>
+      {series.map((s, i) => (
+        <span key={s.id} className="vs-line-chart-legend-item">
+          <span
+            className={s.type === 'line' ? 'vs-line-chart-swatch vs-line-chart-swatch--line' : 'vs-line-chart-swatch'}
+            style={{ background: legendColors[i] }}
+          />
+          {s.label}
+        </span>
+      ))}
+    </div>
+  );
+
   return (
     <div ref={wrapRef} className={className ? `vs-line-chart vs-bar-chart ${className}` : 'vs-line-chart vs-bar-chart'}>
-      {showLegend && (
-        <div className="vs-line-chart-legend">
-          {series.map((s, i) => (
-            <span key={s.id} className="vs-line-chart-legend-item">
-              <span
-                className={s.type === 'line' ? 'vs-line-chart-swatch vs-line-chart-swatch--line' : 'vs-line-chart-swatch'}
-                style={{ background: legendColors[i] }}
-              />
-              {s.label}
-            </span>
-          ))}
-        </div>
-      )}
+      {showLegend && legendPosition !== 'bottom' && legend}
       <div className="vs-line-chart-canvas" style={{ height }}>
         <canvas ref={canvasRef} role="img" aria-label={ariaLabel} />
       </div>
+      {showLegend && legendPosition === 'bottom' && legend}
     </div>
   );
 }
