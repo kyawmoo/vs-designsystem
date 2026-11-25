@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-25 - BarChart soft bars widen on a short range (up to 32px); branch claude/barchart-soft-few-days; not merged
+
+- Asked: Master KMO (Reports live screenshot, 7 days): the downloads bars should be wide when there are only a few days; option (a): half of the column, at most 32px.
+- Changed: `barStyle="soft"` on a short range (`BAR_CHART_FEW_DAYS`, 10 slots or fewer including the empty day after today) caps the bars at the new `SOFT_BAR_FEW_DAYS_MAX_WIDTH` 32px instead of 12px; still `barPercentage` 0.5. 11 slots or more keep 12px. This replaces the rule of the entry below ("same for few and many days"). Docs (`bar-chart.html`) updated.
+- Checked: `react` 388 tests pass (1 changed, 1 new); reverting the code makes 2 tests fail; `tsc --noEmit` exit 0; `check:tokens` OK. Reports app with this change (local copy, API mocked, Chromium 1440px): 7D bars about 32px wide, 30D unchanged at 12px.
+- Not verified: touch devices; real data.
+
+---
+
 ## 2026-11-25 - Rewind Reveal: a timeline fills in newest first (CSS + plain script + React); branch claude/rewind-reveal; not merged
 
 - Asked: Master KMO: an effect for a calendar where today appears first and the earlier days follow one after the other, to be used on social.designkmo.com (vanilla JS, no React) and easy to use from the DS. Decision (a): CSS + a small plain script as the base, React on top, a docs page with a demo.

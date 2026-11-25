@@ -106,6 +106,11 @@ export const TODAY_HALO_RADIUS = 17;
  * room, up to this width; the top corners are fully rounded and the bottom corners have this radius, so a bar stands on the axis.
  */
 export const SOFT_BAR_MAX_WIDTH = 12;
+/**
+ * `barStyle="soft"` on a short range (`BAR_CHART_FEW_DAYS` days or fewer): the largest bar width. A few days have wide
+ * columns, so the bars grow with them (still half of the column) up to this width instead of staying slim.
+ */
+export const SOFT_BAR_FEW_DAYS_MAX_WIDTH = 32;
 export const SOFT_BAR_BOTTOM_RADIUS = 5;
 
 /**
@@ -425,8 +430,8 @@ export function BarChart({
                 : (c: any) => (isTop(i, c.dataIndex) ? { topLeft: 6, topRight: 6 } : 0),
             borderSkipped: false,
             // Many days: slim bars with a cap. Few days: no cap and a thin gap, so the bars fill the chart.
-            // soft: half of the day's column, never wider than the standard width.
-            maxBarThickness: soft ? SOFT_BAR_MAX_WIDTH : few ? undefined : 28,
+            // soft: half of the day's column, never wider than the standard width (a wider one for a few days).
+            maxBarThickness: soft ? (few ? SOFT_BAR_FEW_DAYS_MAX_WIDTH : SOFT_BAR_MAX_WIDTH) : few ? undefined : 28,
             barPercentage: soft ? 0.5 : few ? 0.94 : 0.82,
             categoryPercentage: few ? 0.94 : 0.9,
           } as any;
