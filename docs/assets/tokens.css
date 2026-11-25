@@ -272,6 +272,8 @@
   --vs-motion-rise-distance: 14px;
   --vs-motion-text-duration: 420ms;
   --vs-motion-text-stagger: 35ms;
+  --vs-motion-rewind-duration: 360ms;
+  --vs-motion-rewind-step: 30ms;
 
   /* ---- Spacing ---- */
   --vs-spacing-xs: 4px;
