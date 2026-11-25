@@ -401,10 +401,21 @@ describe('BarChart dashboard options (Task 7)', () => {
     expect(bars.backgroundColor(gradientCtx(0, gradient))).toBe('rgba(116, 60, 238, 0.08)');
   });
 
-  it('barStyle="soft" uses the same standard width for a few days as for many (no 28px wide bars)', () => {
+  it('barStyle="soft" on a few days: half-column bars that grow up to 32px (wide columns get wide bars)', () => {
     render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} barStyle="soft" />);
-    expect(last().data.datasets[0].maxBarThickness).toBe(12);
+    expect(last().data.datasets[0].maxBarThickness).toBe(32);
     expect(last().data.datasets[0].barPercentage).toBe(0.5);
+  });
+
+  it('barStyle="soft": up to 10 days count as few (32px), 11 or more keep the 12px standard width', () => {
+    const range = (n: number) => Array.from({ length: n }, (_, i) => `2026-09-${String(i + 1).padStart(2, '0')}`);
+    // The axis adds one empty day after today, so 9 dated days + 1 = 10 slots (few) and 10 + 1 = 11 slots (many).
+    const nine = range(9);
+    render(<BarChart dates={nine} series={[{ id: 'f', label: 'F', data: nine.map(() => 1) }]} ariaLabel="x" today={new Date(2026, 8, 9)} barStyle="soft" />);
+    expect(last().data.datasets[0].maxBarThickness).toBe(32);
+    const ten = range(10);
+    render(<BarChart dates={ten} series={[{ id: 'f', label: 'F', data: ten.map(() => 1) }]} ariaLabel="x" today={new Date(2026, 8, 10)} barStyle="soft" />);
+    expect(last().data.datasets[0].maxBarThickness).toBe(12);
   });
 
   it('barStyle="soft" on a stacked chart keeps the rounded top of each column only', () => {

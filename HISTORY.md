@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-25 - BarChart soft bars widen on a short range (up to 32px); branch claude/barchart-soft-few-days; not merged
+
+- Asked: Master KMO (Reports live screenshot, 7 days): the downloads bars should be wide when there are only a few days; option (a): half of the column, at most 32px.
+- Changed: `barStyle="soft"` on a short range (`BAR_CHART_FEW_DAYS`, 10 slots or fewer including the empty day after today) caps the bars at the new `SOFT_BAR_FEW_DAYS_MAX_WIDTH` 32px instead of 12px; still `barPercentage` 0.5. 11 slots or more keep 12px. This replaces the rule of the entry below ("same for few and many days"). Docs (`bar-chart.html`) updated.
+- Checked: `react` 388 tests pass (1 changed, 1 new); reverting the code makes 2 tests fail; `tsc --noEmit` exit 0; `check:tokens` OK. Reports app with this change (local copy, API mocked, Chromium 1440px): 7D bars about 32px wide, 30D unchanged at 12px.
+- Not verified: touch devices; real data.
+
+---
+
 ## 2026-11-25 - BarChart soft bars stand on the axis, tooltip beside the line point; branch claude/barchart-tooltip-bars; not merged
 
 - Asked: Master KMO, after the Reports deploy (screenshot): the tooltip covered the today dot and line; soft bars should have small bottom corners and a rounder top so they stand; bar width should follow the room but stop at a standard size.
