@@ -192,6 +192,8 @@ needRule('.vs-rank__sr', 'clip: rect(0, 0, 0, 0)');
 // BarChart legendPosition="bottom" (Task 7): centred under the chart, not right-aligned above it.
 needRule('.vs-line-chart-legend--bottom', 'justify-content: center');
 needRule('.vs-line-chart-legend--bottom', 'margin-top: 0.5rem');
+// BarChart legendPosition="bottom-end" (25 Nov 2026): under the chart, right-aligned.
+needRule('.vs-line-chart-legend--bottom.vs-line-chart-legend--end', 'justify-content: flex-end');
 
 // Motion tokens (page-opening Reveal). Shape check, and tokens.json must say the same as tokens.css.
 const MOTION = { 'duration-curtain': /^\d+ms$/, 'duration-enter': /^\d+ms$/, 'delay-body': /^\d+ms$/, 'ease-standard': /^cubic-bezier\(\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*\)$/, 'ease-decelerate': /^cubic-bezier\(\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*\)$/, 'rise-distance': /^\d+px$/, 'text-duration': /^\d+ms$/, 'text-stagger': /^\d+ms$/ };
