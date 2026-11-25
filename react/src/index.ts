@@ -131,5 +131,9 @@ export type { TooltipProps, TooltipPlacement } from './components/Tooltip';
 export { Reveal, RevealItem, RevealText } from './components/Reveal';
 export type { RevealProps, RevealItemProps, RevealTextProps, RevealVariant } from './components/Reveal';
 
+export { RewindItem } from './components/RewindItem';
+export type { RewindItemProps } from './components/RewindItem';
+export { rewindIndexes, isRewindDay, rewindMaxSteps, REWIND_DEFAULT_MAX_STEPS, REWIND_HARD_MAX_STEPS } from './components/rewindOrder';
+
 import '../../tokens/tokens.css';
 import './styles.css';

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Rewind Reveal — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<link rel="stylesheet" href="/assets/demo-kit.css">
+<style>
+  .demo-frame { width: 100%; height: 470px; border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); background: var(--vs-color-background); }
+</style>
+</head>
+<body data-page="rewind-reveal">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Rewind Reveal</p>
+    <h1>Rewind Reveal</h1>
+    <p class="vs-docs-hero-lede">
+      A timeline fills in newest first. Today appears at once, then the days before it follow, one after the other, each a little
+      later than the one before. Days after today are not animated. The animation is plain CSS (the <code>vs-rewind</code> block in
+      <code>react/src/styles.css</code> and <code>blade/components.css</code>, kept equal by <code>check-tokens</code>), timed by the
+      <code>--vs-motion-rewind-*</code> tokens. Made for the days of a calendar; it works for any list that has a date.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <h2>Demo</h2>
+    <p>Today is fixed to 12 Nov 2026 in the demo so it always looks the same. Press Replay to see it again.</p>
+    <div class="vs-docs-preview" style="display:block">
+      <iframe class="demo-frame" src="/assets/rewind-demo.html" title="Rewind Reveal demo"></iframe>
+    </div>
+
+    <h2>The order</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Item</th><th>Step</th></tr></thead>
+      <tbody>
+        <tr><td>Today</td><td>0 (starts at once)</td></tr>
+        <tr><td>Days before today</td><td>1, 2, 3 ... newest first. Each step starts <code>--vs-motion-rewind-step</code> after the one before it.</td></tr>
+        <tr><td>Days after today</td><td>No step: shown at once, no animation.</td></tr>
+        <tr><td>Many days</td><td>Steps stop at <code>maxSteps</code> (default 18, at most 60): older days share the last step, so a long list never makes the viewer wait. With the default tokens the whole effect takes about 0.9 s (18 x 30 ms + 360 ms).</td></tr>
+      </tbody>
+    </table>
+    <p>A day is the text <code>'YYYY-MM-DD'</code> (a calendar date, no time zone). The steps count only the days you pass in, so pass the days that should animate (all cells, or only the cells that hold something). Values that are not real days (<code>2026-02-30</code>, <code>abc</code>) are skipped. A <code>today</code> that is not a real day throws <code>RangeError</code>: guessing a today would animate the wrong days.</p>
+
+    <h2>Usage: plain HTML and JavaScript (no framework)</h2>
+    <div class="vs-docs-code-block"><span class="cmt">&lt;!-- load the CSS (blade/components.css) and the script once --&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"/path/to/rewind-reveal.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+
+<span class="cmt">&lt;!-- each day cell carries its date; the cell itself, not a wrapper --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">id</span>=<span class="str">"month"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">data-vs-rewind-day</span>=<span class="str">"2026-11-12"</span><span class="tag">&gt;</span>12<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">data-vs-rewind-day</span>=<span class="str">"2026-11-11"</span><span class="tag">&gt;</span>11<span class="tag">&lt;/div&gt;</span>
+  …
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="cmt">// after the cells are drawn, and again after every redraw (a new month)</span>
+VsRewind.apply(document.getElementById(<span class="str">'month'</span>), <span class="str">'2026-11-12'</span>, { maxSteps: 18 });</div>
+    <p><code>VsRewind.apply(container, todayKey, options?)</code> sets <code>data-vs-rewind</code> and <code>--vs-rewind-i</code> on the cells that take part, takes them off the others, and returns how many take part. Calling it again plays the effect again. <code>VsRewind.clear(container)</code> takes the animation off. <code>VsRewind.indexByDay(days, todayKey, maxSteps?)</code> returns the step of each day as <code>{ 'YYYY-MM-DD': step }</code> if you want to set the attribute yourself.</p>
+
+    <h2>Usage: React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { RewindItem, rewindIndexes } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">const</span> steps = rewindIndexes(days, todayKey);   <span class="cmt">// Map&lt;'YYYY-MM-DD', step&gt;</span>
+
+<span class="tag">&lt;div</span> <span class="attr">key</span>={monthKey}<span class="tag">&gt;</span>   <span class="cmt">{/* a new key mounts the days again: the effect plays again */}</span>
+  {days.map((d) =&gt; (
+    <span class="tag">&lt;RewindItem</span> <span class="attr">key</span>={d} <span class="attr">index</span>={steps.get(d)} <span class="attr">className</span>=<span class="str">"day"</span><span class="tag">&gt;</span>…<span class="tag">&lt;/RewindItem&gt;</span>
+  ))}
+<span class="tag">&lt;/div&gt;</span></div>
+    <table class="vs-docs-table">
+      <thead><tr><th>Name</th><th>Prop / argument</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td><code>RewindItem</code></td><td><code>index</code></td><td>The step. <code>0</code> starts at once. <code>null</code>, <code>undefined</code>, a negative or a non-number: no animation, shown at once. A fraction is rounded down; the most is 60.</td></tr>
+        <tr><td><code>RewindItem</code></td><td><code>as</code></td><td>The element to render, default <code>div</code>. The item is this element, not a wrapper around it.</td></tr>
+        <tr><td><code>RewindItem</code></td><td>others</td><td>Passed to the element (<code>className</code>, <code>style</code>, <code>aria-*</code>, …).</td></tr>
+        <tr><td><code>rewindIndexes</code></td><td><code>(days, today, maxSteps?)</code></td><td>Returns a <code>Map</code> from day to step, by the order above. Throws <code>RangeError</code> for a bad <code>today</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Rules</h2>
+    <ul>
+      <li><strong>Content is never hidden by a base rule.</strong> The hidden state exists only inside the keyframes, so with the animation switched off the content is simply visible.</li>
+      <li><strong>Reduced motion.</strong> With <code>prefers-reduced-motion: reduce</code> nothing animates and every day is shown at once.</li>
+      <li><strong>Keyboard.</strong> The waiting state is also <code>visibility: hidden</code> (first keyframe only), so a day that is not shown yet cannot take focus.</li>
+      <li><strong>No double fade.</strong> An item inside another animated item does not animate by itself.</li>
+      <li><strong>Only opacity and transform move</strong> (the rise is half of <code>--vs-motion-rise-distance</code>), so the layout never shifts.</li>
+      <li><strong>It plays when the element is inserted.</strong> To play it again, draw the cells again and call <code>apply</code> (plain HTML), or mount the items again (React).</li>
+      <li><strong>Keep it for the first view of a screen.</strong> Do not use it on a list that updates often (live data): every redraw would play it again.</li>
+    </ul>
+
+    <h2>Tokens</h2>
+    <table class="vs-docs-table">
+      <thead><tr><th>Token</th><th>Default</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td><code>--vs-motion-rewind-duration</code></td><td>360ms</td><td>How long one day takes to fade in and rise.</td></tr>
+        <tr><td><code>--vs-motion-rewind-step</code></td><td>30ms</td><td>How much later each step starts.</td></tr>
+        <tr><td><code>--vs-motion-ease-decelerate</code></td><td>cubic-bezier(0.2, 0, 0, 1)</td><td>The easing (shared with Reveal).</td></tr>
+        <tr><td><code>--vs-motion-rise-distance</code></td><td>14px</td><td>The rise is half of this (shared with Reveal).</td></tr>
+      </tbody>
+    </table>
+    <p>The default times are an <strong>Estimate</strong> taken from the frames of a reference recording and chosen for this design; they were not tested with users.</p>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

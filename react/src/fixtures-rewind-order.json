@@ -1,0 +1,11 @@
+[
+  { "name": "today first, then newest to oldest", "days": ["2026-11-12", "2026-11-11", "2026-11-09", "2026-11-05"], "today": "2026-11-12", "expected": { "2026-11-12": 0, "2026-11-11": 1, "2026-11-09": 2, "2026-11-05": 3 } },
+  { "name": "days after today are left out (they show at once)", "days": ["2026-11-14", "2026-11-12", "2026-11-10"], "today": "2026-11-12", "expected": { "2026-11-12": 0, "2026-11-10": 1 } },
+  { "name": "unsorted and repeated days", "days": ["2026-11-03", "2026-11-12", "2026-11-03", "2026-11-10"], "today": "2026-11-12", "expected": { "2026-11-12": 0, "2026-11-10": 1, "2026-11-03": 2 } },
+  { "name": "today is not in the list: the newest past day is step 1", "days": ["2026-11-10", "2026-11-08"], "today": "2026-11-12", "expected": { "2026-11-10": 1, "2026-11-08": 2 } },
+  { "name": "across a year boundary", "days": ["2027-01-02", "2026-12-31", "2027-01-01"], "today": "2027-01-02", "expected": { "2027-01-02": 0, "2027-01-01": 1, "2026-12-31": 2 } },
+  { "name": "not real days are skipped", "days": ["2026-13-01", "2026-02-30", "abc", "", null, 5, "2026-11-11"], "today": "2026-11-12", "expected": { "2026-11-11": 1 } },
+  { "name": "steps stop at maxSteps: older days share the last step", "days": ["2026-11-12", "2026-11-11", "2026-11-10", "2026-11-09", "2026-11-08", "2026-11-07"], "today": "2026-11-12", "maxSteps": 3, "expected": { "2026-11-12": 0, "2026-11-11": 1, "2026-11-10": 2, "2026-11-09": 3, "2026-11-08": 3, "2026-11-07": 3 } },
+  { "name": "nothing to show", "days": [], "today": "2026-11-12", "expected": {} },
+  { "name": "only days after today", "days": ["2026-11-13", "2026-12-01"], "today": "2026-11-12", "expected": {} }
+]

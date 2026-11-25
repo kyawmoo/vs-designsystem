@@ -7,6 +7,8 @@
 //  5. contrast: primary-button text >= 4.5:1 on default/hover/pressed, focus ring >= 3:1 on the
 //     light surfaces and on the dark brand surface (white ring), item card badge text >= 4.5:1 on its fill
 //  6. motion tokens: durations in ms, easings are cubic-bezier(), rise distance in px, and tokens.json holds the same values
+//  8. the Rewind Reveal CSS block (vs-rewind:start ... vs-rewind:end) is identical in both files, reads only existing tokens, is switched off
+//     under reduced motion; docs/assets/rewind-reveal.js is an exact copy of blade/rewind-reveal.js
 //  7. the Reveal CSS block (vs-reveal:start ... vs-reveal:end) is identical in react/src/styles.css and blade/components.css,
 //     and every --vs-* token it reads exists
 import { readFileSync } from 'node:fs';
@@ -196,7 +198,7 @@ needRule('.vs-line-chart-legend--bottom', 'margin-top: 0.5rem');
 needRule('.vs-line-chart-legend--bottom.vs-line-chart-legend--end', 'justify-content: flex-end');
 
 // Motion tokens (page-opening Reveal). Shape check, and tokens.json must say the same as tokens.css.
-const MOTION = { 'duration-curtain': /^\d+ms$/, 'duration-enter': /^\d+ms$/, 'delay-body': /^\d+ms$/, 'ease-standard': /^cubic-bezier\(\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*\)$/, 'ease-decelerate': /^cubic-bezier\(\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*\)$/, 'rise-distance': /^\d+px$/, 'text-duration': /^\d+ms$/, 'text-stagger': /^\d+ms$/ };
+const MOTION = { 'duration-curtain': /^\d+ms$/, 'duration-enter': /^\d+ms$/, 'delay-body': /^\d+ms$/, 'ease-standard': /^cubic-bezier\(\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*\)$/, 'ease-decelerate': /^cubic-bezier\(\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*,\s*-?[\d.]+\s*\)$/, 'rise-distance': /^\d+px$/, 'text-duration': /^\d+ms$/, 'text-stagger': /^\d+ms$/, 'rewind-duration': /^\d+ms$/, 'rewind-step': /^\d+ms$/ };
 let tokensJson = {};
 try { tokensJson = JSON.parse(read('tokens/tokens.json')); } catch { /* already reported above */ }
 for (const [name, shape] of Object.entries(MOTION)) {
@@ -217,6 +219,17 @@ if (!reactReveal) fail('react/src/styles.css has no vs-reveal block (vs-reveal:s
 if (!bladeReveal) fail('blade/components.css has no vs-reveal block (vs-reveal:start ... vs-reveal:end)');
 if (reactReveal && bladeReveal && reactReveal !== bladeReveal) fail('the vs-reveal block differs between react/src/styles.css and blade/components.css (copy one into the other)');
 for (const m of (reactReveal || '').replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/var\((--vs-[a-z0-9-]+)\)/g)) if (!tokens.has(m[1]) && !m[1].startsWith('--vs-reveal-')) fail(`the vs-reveal block reads ${m[1]}, which tokens.css does not define`);
+
+// Rewind Reveal CSS: one block in two files, same rule as the Reveal block; reduced motion switches it off.
+const rewindBlock = (src) => src.match(/\/\* vs-rewind:start[\s\S]*?\/\* vs-rewind:end \*\//)?.[0];
+const reactRewind = rewindBlock(read('react/src/styles.css'));
+const bladeRewind = rewindBlock(bladeCss);
+if (!reactRewind) fail('react/src/styles.css has no vs-rewind block (vs-rewind:start ... vs-rewind:end)');
+if (!bladeRewind) fail('blade/components.css has no vs-rewind block (vs-rewind:start ... vs-rewind:end)');
+if (reactRewind && bladeRewind && reactRewind !== bladeRewind) fail('the vs-rewind block differs between react/src/styles.css and blade/components.css (copy one into the other)');
+for (const m of (reactRewind || '').replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/var\((--vs-[a-z0-9-]+)\)/g)) if (!tokens.has(m[1])) fail(`the vs-rewind block reads ${m[1]}, which tokens.css does not define`);
+if (reactRewind && !/@media \(prefers-reduced-motion: reduce\)\s*\{\s*\[data-vs-rewind\]\s*\{\s*animation:\s*none;/.test(reactRewind)) fail('the vs-rewind block must switch the animation off under prefers-reduced-motion');
+if (read('blade/rewind-reveal.js') !== read('docs/assets/rewind-reveal.js')) fail('docs/assets/rewind-reveal.js differs from blade/rewind-reveal.js (copy it)');
 
 // RevealText: the script rule (which texts may be split into letters) is written twice, in Reveal.tsx and in the Blade component.
 // Both must give the expected answer on the shared fixtures. The PHP side runs only where `php` exists (GitHub's ubuntu runners have it).
