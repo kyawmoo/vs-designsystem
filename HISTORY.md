@@ -15,6 +15,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-25 - Rewind Reveal: a timeline fills in newest first (CSS + plain script + React); branch claude/rewind-reveal; not merged
+
+- Asked: Master KMO: an effect for a calendar where today appears first and the earlier days follow one after the other, to be used on social.designkmo.com (vanilla JS, no React) and easy to use from the DS. Decision (a): CSS + a small plain script as the base, React on top, a docs page with a demo.
+- Added: tokens `--vs-motion-rewind-duration` 360ms and `--vs-motion-rewind-step` 30ms (tokens.css, tokens.json, docs copy); CSS block `vs-rewind` (identical in `react/src/styles.css` and `blade/components.css`, off under reduced motion); `blade/rewind-reveal.js` (`VsRewind.apply / clear / indexByDay`, copy in `docs/assets`); React `RewindItem` and `rewindIndexes` (exported); docs page `components/rewind-reveal.html` with a demo (`assets/rewind-demo.html`) and a sidebar entry. Order: today step 0, earlier days 1, 2, 3 newest first, days after today not animated, steps stop at `maxSteps` (default 18, at most 60).
+- Checked: `tsc --noEmit` exit 0; 425 tests (29 files) pass, 38 of them new; 9 mutations of the new code (sort order, future days, cap, today step, negative index, dropped style, no reset) each fail a test; `check-tokens` OK and fails when the two CSS blocks or the script copy differ; Chromium (Playwright) on the demo: today delay 0s, 11 Nov 0.03s, 5 Nov 0.21s, days after today no animation, reduced motion no animation, opacity 0 then 1 over time, no page errors; the docs page opens with its sidebar entry.
+- Not verified: WebKit and Firefox; a screen reader; touch; the docs page after a deploy (Master KMO deploys the docs). The 360ms / 30ms times are an Estimate from the frames of a reference recording, not tested with users. Not done here: using it on social.designkmo.com (a separate task, next).
+
+---
+
 ## 2026-11-25 - BarChart soft bars stand on the axis, tooltip beside the line point; branch claude/barchart-tooltip-bars; not merged
 
 - Asked: Master KMO, after the Reports deploy (screenshot): the tooltip covered the today dot and line; soft bars should have small bottom corners and a rounder top so they stand; bar width should follow the room but stop at a standard size.

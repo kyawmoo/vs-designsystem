@@ -593,6 +593,44 @@
 
 /* vs-reveal:end */
 
+/* vs-rewind:start (this block is identical in react/src/styles.css and blade/components.css; check-tokens keeps them equal) */
+
+/*
+ * Rewind Reveal: items that belong to a timeline (the days of a calendar) appear one after the other, newest first:
+ * today (step 0) at once, then the days before it, each one step later. Days after today are not animated at all.
+ * CSS only. The step number of an item is --vs-rewind-i (set by RewindItem in React, by VsRewind.apply in
+ * blade/rewind-reveal.js, or by hand); the timing comes from the --vs-motion-rewind-* tokens.
+ *
+ * Same safety rules as Reveal: content is hidden only INSIDE the keyframes (fill-mode backwards while it waits), never by a
+ * base rule, so with the animation switched off (reduced motion) it is simply visible; the waiting state is also
+ * visibility: hidden (first keyframe only) so a day that is not shown yet cannot take keyboard focus. An item inside
+ * another one does not animate (no double fade). Only opacity and transform move, so nothing shifts the layout.
+ */
+[data-vs-rewind] {
+  animation-name: vs-rewind-in;
+  animation-duration: var(--vs-motion-rewind-duration);
+  animation-timing-function: var(--vs-motion-ease-decelerate);
+  animation-fill-mode: backwards;
+  animation-delay: calc(var(--vs-rewind-i, 0) * var(--vs-motion-rewind-step));
+}
+
+[data-vs-rewind] [data-vs-rewind] {
+  animation: none;
+}
+
+@keyframes vs-rewind-in {
+  from { opacity: 0; transform: translateY(calc(var(--vs-motion-rise-distance) / 2)); visibility: hidden; }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-vs-rewind] {
+    animation: none;
+  }
+}
+
+/* vs-rewind:end */
+
 /* AnimatedNumber: the final figure for screen readers (the counting text is aria-hidden). */
 .vs-animated-number__sr {
   position: absolute;
