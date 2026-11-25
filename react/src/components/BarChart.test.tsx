@@ -389,7 +389,7 @@ describe('BarChart dashboard options (Task 7)', () => {
     render(<BarChart dates={many} series={[{ id: 'f', label: 'F', data: many.map(() => 1), color: '#743cee' }]} ariaLabel="x" today={TODAY} barStyle="soft" />);
     const c = last();
     const bars = c.data.datasets[0];
-    expect(bars.maxBarThickness).toBe(12);
+    expect(bars.maxBarThickness).toBe(28);
     expect(bars.barPercentage).toBe(0.5);
     // Round top, small bottom corners: the bar stands on the axis instead of floating as a pill.
     expect(bars.borderRadius).toEqual({ topLeft: 999, topRight: 999, bottomLeft: 5, bottomRight: 5 });
@@ -401,10 +401,17 @@ describe('BarChart dashboard options (Task 7)', () => {
     expect(bars.backgroundColor(gradientCtx(0, gradient))).toBe('rgba(116, 60, 238, 0.08)');
   });
 
-  it('barStyle="soft" uses the same standard width for a few days as for many (no 28px wide bars)', () => {
+  it('barStyle="soft": the bar is a share of its day column (wider with fewer days), capped at the standard 28px', () => {
+    // Chart.js draws each bar at barPercentage x categoryPercentage of the column, never wider than maxBarThickness:
+    // few days = wide columns = wide bars up to 28px, many days = narrow columns = narrow bars.
     render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} barStyle="soft" />);
-    expect(last().data.datasets[0].maxBarThickness).toBe(12);
-    expect(last().data.datasets[0].barPercentage).toBe(0.5);
+    const few = last().data.datasets[0];
+    expect([few.barPercentage, few.categoryPercentage, few.maxBarThickness]).toEqual([0.5, 0.94, 28]);
+    cleanup();
+    const many = Array.from({ length: 30 }, (_, i) => `2026-09-${String(i + 1).padStart(2, '0')}`);
+    render(<BarChart dates={many} series={[{ id: 'f', label: 'F', data: many.map(() => 1) }]} ariaLabel="x" today={TODAY} barStyle="soft" />);
+    const lots = last().data.datasets[0];
+    expect([lots.barPercentage, lots.categoryPercentage, lots.maxBarThickness]).toEqual([0.5, 0.9, 28]);
   });
 
   it('barStyle="soft" on a stacked chart keeps the rounded top of each column only', () => {

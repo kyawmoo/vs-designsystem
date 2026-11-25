@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-25 - BarChart soft bars: wider with fewer days, standard width 28px; branch claude/barchart-soft-width; not merged
+
+- Asked: Master KMO (live 7D screenshot): soft bars were 12px on 7 days too; expected fewer days = wider bars, more days = narrower, capped at a standard size.
+- Changed: `SOFT_BAR_MAX_WIDTH` 12 -> 28 (the default chart's existing cap). Bars stay half of the day's column, so Chart.js gives a wider bar for fewer days. Tests and docs updated.
+- Checked: 387 tests, `tsc --noEmit` exit 0; Reports app (local copy, mocked API, Chromium): 7 days bars about 28px, 30 days about 10px.
+- Not verified: 90 days; touch.
+
+---
+
 ## 2026-11-25 - BarChart soft bars stand on the axis, tooltip beside the line point; branch claude/barchart-tooltip-bars; not merged
 
 - Asked: Master KMO, after the Reports deploy (screenshot): the tooltip covered the today dot and line; soft bars should have small bottom corners and a rounder top so they stand; bar width should follow the room but stop at a standard size.

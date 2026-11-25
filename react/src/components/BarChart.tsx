@@ -105,7 +105,7 @@ export const TODAY_HALO_RADIUS = 17;
  * `barStyle="soft"`: the standard (largest) bar width in CSS px. Bars take a share of their day's column and grow with the
  * room, up to this width; the top corners are fully rounded and the bottom corners have this radius, so a bar stands on the axis.
  */
-export const SOFT_BAR_MAX_WIDTH = 12;
+export const SOFT_BAR_MAX_WIDTH = 28;
 export const SOFT_BAR_BOTTOM_RADIUS = 5;
 
 /**
@@ -425,7 +425,7 @@ export function BarChart({
                 : (c: any) => (isTop(i, c.dataIndex) ? { topLeft: 6, topRight: 6 } : 0),
             borderSkipped: false,
             // Many days: slim bars with a cap. Few days: no cap and a thin gap, so the bars fill the chart.
-            // soft: half of the day's column, never wider than the standard width.
+            // soft: half of the day's column (wider with fewer days, narrower with more), never wider than the standard width.
             maxBarThickness: soft ? SOFT_BAR_MAX_WIDTH : few ? undefined : 28,
             barPercentage: soft ? 0.5 : few ? 0.94 : 0.82,
             categoryPercentage: few ? 0.94 : 0.9,
