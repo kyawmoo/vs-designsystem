@@ -18,7 +18,7 @@ vi.mock('chart.js', () => {
   return { Chart, BarController: el, BarElement: el, CategoryScale: el, Filler: el, LinearScale: el, LineController: el, LineElement: el, PointElement: el, Tooltip: el };
 });
 
-import { BarChart } from './BarChart';
+import { BarChart, linePointPosition } from './BarChart';
 
 const TODAY = new Date(2026, 9, 22, 12);
 const DATES = ['2026-10-20', '2026-10-22'];
@@ -384,20 +384,27 @@ describe('BarChart dashboard options (Task 7)', () => {
     expect(c.options.plugins.tooltip.titleColor).toBe('#ffffff');
   });
 
-  it('barStyle="soft": light gradient (55% to 18%), slim capped bars, fully rounded, fainter fade on hover', () => {
+  it('barStyle="soft": light gradient (55% to 18%), half-column bars up to the standard width, standing on the axis, fainter fade on hover', () => {
     const many = Array.from({ length: 30 }, (_, i) => `2026-09-${String(i + 1).padStart(2, '0')}`);
     render(<BarChart dates={many} series={[{ id: 'f', label: 'F', data: many.map(() => 1), color: '#743cee' }]} ariaLabel="x" today={TODAY} barStyle="soft" />);
     const c = last();
     const bars = c.data.datasets[0];
-    expect(bars.maxBarThickness).toBe(10);
-    expect(bars.barPercentage).toBe(0.45);
-    expect(bars.borderRadius).toBe(999);
+    expect(bars.maxBarThickness).toBe(12);
+    expect(bars.barPercentage).toBe(0.5);
+    // Round top, small bottom corners: the bar stands on the axis instead of floating as a pill.
+    expect(bars.borderRadius).toEqual({ topLeft: 999, topRight: 999, bottomLeft: 5, bottomRight: 5 });
     const gradient = { addColorStop: vi.fn() };
     expect(bars.backgroundColor(gradientCtx(0, gradient))).toBe(gradient);
     expect(gradient.addColorStop).toHaveBeenCalledWith(0, 'rgba(116, 60, 238, 0.55)');
     expect(gradient.addColorStop).toHaveBeenCalledWith(1, 'rgba(116, 60, 238, 0.18)');
     c.options.onHover({}, [{ index: 3 }], { update: vi.fn() });
     expect(bars.backgroundColor(gradientCtx(0, gradient))).toBe('rgba(116, 60, 238, 0.08)');
+  });
+
+  it('barStyle="soft" uses the same standard width for a few days as for many (no 28px wide bars)', () => {
+    render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} barStyle="soft" />);
+    expect(last().data.datasets[0].maxBarThickness).toBe(12);
+    expect(last().data.datasets[0].barPercentage).toBe(0.5);
   });
 
   it('barStyle="soft" on a stacked chart keeps the rounded top of each column only', () => {
@@ -462,6 +469,29 @@ describe('BarChart dashboard options (Task 7)', () => {
     expect(t.cornerRadius).toBe(8);
     expect(t.padding).toBe(12);
     expect(t.callbacks.labelColor({ datasetIndex: 0 })).toEqual({ borderColor: '#4caf50', backgroundColor: '#4caf50' });
+  });
+
+  it('lineStyle="markers" puts the tooltip beside the line point, its arrow clear of the today halo', () => {
+    render(<BarChart dates={DATES} series={MIXED} ariaLabel="x" today={TODAY} lineStyle="markers" />);
+    const t = last().options.plugins.tooltip;
+    expect(t.position).toBe('vsLinePoint');
+    expect(t.yAlign).toBe('center');
+    expect(t.caretPadding).toBe(21);
+    expect(t.xAlign).toBeUndefined(); // Chart.js picks the side: left of the point on the right half, right of it on the left half
+    cleanup();
+    render(<BarChart dates={DATES} series={MIXED} ariaLabel="x" today={TODAY} />);
+    expect(last().options.plugins.tooltip.position).toBeUndefined();
+  });
+
+  it('linePointPosition anchors on the line point of the day, not the bar', () => {
+    const ctx = { chart: { data: { datasets: [{ type: 'bar' }, { type: 'line' }] } } };
+    const items = [
+      { datasetIndex: 0, element: { x: 100, y: 260 } },
+      { datasetIndex: 1, element: { x: 100, y: 180 } },
+    ];
+    expect(linePointPosition.call(ctx, items, {})).toEqual({ x: 100, y: 180 });
+    // No line value that day: falls back (the mocked Chart.js has no average positioner).
+    expect(linePointPosition.call(ctx, [items[0]], {})).toBe(false);
   });
 
   it('tooltipTone default keeps the Chart.js swatches (no labelColor callback)', () => {
