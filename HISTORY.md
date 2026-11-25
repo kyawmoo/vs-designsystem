@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-25 - BarChart dashboard style options (Reports Overview "Visitors & Downloads"); branch claude/barchart-dashboard-style; not merged
+
+- Asked: Master KMO, the Reports Overview chart differs from the design "Overview (desktop, aligned)"; option (a): add the missing options to the DS `BarChart` (not a local chart in the app).
+- Added (all opt-in, defaults unchanged): `barStyle` (`soft`), `lineStyle` (`markers`: straight line, a dot and value on every day, large dark today dot with halo), `tooltipTone` (`dark`), `xLabels` (`ends`), `rightAxis` (`hidden`), `legendPosition="bottom-end"`; stylesheet rule `.vs-line-chart-legend--bottom.vs-line-chart-legend--end` gated in `check-tokens`; docs `bar-chart.html`.
+- Checked: the 28 existing BarChart tests pass unchanged (default options keys and plugin list); 12 new tests (40 BarChart, 384 in all); 7 mutations of the new code each fail a test; `tsc --noEmit` exit 0; `check:tokens` OK. In the Reports app (local copy of this change, API mocked, Chromium): the chart shows the soft bars, markers, dark today dot, dark tooltip pinned on today and back after the pointer leaves, 3 x labels, no right axis numbers.
+- Not verified: touch devices; a screen reader; the docs page in a browser.
+
+---
+
 ## 2026-11-23 — Task 8: Reports canvas brand alignment (design file only); not deployed
 
 - Asked: Task 8 of the approved set. Answers: B1a the four desktop boards only, B2b four new "(aligned)" copies beside the originals (originals untouched), B3a flat `#F8F8F8` page with a lavender band behind the title and no pastel corners, B4a radius 16 to 12, 10 to 12, 18 to 20, 3 and 4 to 5, B5a the indigo `#5558B3` and its tints to the site violet family, B6a today marker dark, B7c weight 300 for long descriptive text only.

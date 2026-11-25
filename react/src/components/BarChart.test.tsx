@@ -361,4 +361,150 @@ describe('BarChart dashboard options (Task 7)', () => {
     rerender(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} pinTooltip todayMarker="dark" />);
     expect(charts).toHaveLength(3);
   });
+
+  // ── Dashboard style (25 Nov 2026): barStyle, lineStyle, tooltipTone, xLabels, rightAxis, legendPosition="bottom-end" ──
+
+  const MIXED = [
+    { id: 'dl', label: 'Downloads', data: [3, 4], axis: 'right' as const, color: '#743cee' },
+    { id: 'u', label: 'Visitors', data: [30, 40], type: 'line' as const, color: '#2e7d32' },
+  ];
+  const gradientCtx = (dataIndex: number, gradient: any) => ({ dataIndex, chart: { chartArea: { top: 0, bottom: 100 }, ctx: { createLinearGradient: () => gradient } } });
+
+  it('defaults keep the old look: no markers plugin, smooth line, wide full-colour bars, visible right axis', () => {
+    render(<BarChart dates={DATES} series={MIXED} ariaLabel="x" today={TODAY} />);
+    const c = last();
+    expect(c.plugins.map((p: any) => p.id)).toEqual(['vsTodayLine', 'vsValueLabels']);
+    const [bars, line] = c.data.datasets;
+    expect(line.tension).toBe(0.35);
+    expect(line.borderWidth).toBe(2.5);
+    expect(line.pointRadius({ dataIndex: 0 })).toBe(0);
+    expect(bars.barPercentage).toBe(0.94);
+    expect(c.options.scales.y1.display).toBeUndefined();
+    expect(c.options.plugins.tooltip.backgroundColor).toBe('#010d4c');
+    expect(c.options.plugins.tooltip.titleColor).toBe('#ffffff');
+  });
+
+  it('barStyle="soft": light gradient (55% to 18%), slim capped bars, fully rounded, fainter fade on hover', () => {
+    const many = Array.from({ length: 30 }, (_, i) => `2026-09-${String(i + 1).padStart(2, '0')}`);
+    render(<BarChart dates={many} series={[{ id: 'f', label: 'F', data: many.map(() => 1), color: '#743cee' }]} ariaLabel="x" today={TODAY} barStyle="soft" />);
+    const c = last();
+    const bars = c.data.datasets[0];
+    expect(bars.maxBarThickness).toBe(10);
+    expect(bars.barPercentage).toBe(0.45);
+    expect(bars.borderRadius).toBe(999);
+    const gradient = { addColorStop: vi.fn() };
+    expect(bars.backgroundColor(gradientCtx(0, gradient))).toBe(gradient);
+    expect(gradient.addColorStop).toHaveBeenCalledWith(0, 'rgba(116, 60, 238, 0.55)');
+    expect(gradient.addColorStop).toHaveBeenCalledWith(1, 'rgba(116, 60, 238, 0.18)');
+    c.options.onHover({}, [{ index: 3 }], { update: vi.fn() });
+    expect(bars.backgroundColor(gradientCtx(0, gradient))).toBe('rgba(116, 60, 238, 0.08)');
+  });
+
+  it('barStyle="soft" on a stacked chart keeps the rounded top of each column only', () => {
+    render(<BarChart dates={DATES} series={[FREE, PREMIUM]} stacked ariaLabel="x" today={TODAY} barStyle="soft" />);
+    const [free] = last().data.datasets;
+    expect(typeof free.borderRadius).toBe('function');
+    expect(free.borderRadius(ctxFor(0, 0))).toBe(0);
+  });
+
+  it('lineStyle="markers": straight 3px line, a hollow dot on every value but today, and the markers plugin', () => {
+    render(<BarChart dates={DATES} series={MIXED} ariaLabel="x" today={TODAY} lineStyle="markers" />);
+    const c = last();
+    const line = c.data.datasets[1];
+    expect(line.tension).toBe(0);
+    expect(line.borderWidth).toBe(3);
+    expect(line.pointRadius({ dataIndex: 0 })).toBe(3.5);
+    expect(line.pointRadius({ dataIndex: 2 })).toBe(0); // today: the plugin draws the large dot
+    expect(line.pointBackgroundColor).toBe('#ffffff');
+    expect(c.plugins.map((p: any) => p.id)).toEqual(['vsTodayLine', 'vsValueLabels', 'vsLineMarkers']);
+  });
+
+  const drawMarkers = (c: any, width: number, textWidth: number) => {
+    const calls: any = { texts: [] as string[], arcs: [] as number[], fills: [] as string[] };
+    let fill = '';
+    const g: any = {
+      save() {}, restore() {}, beginPath() {}, stroke() {},
+      measureText: () => ({ width: textWidth }),
+      fillText: (t: string) => calls.texts.push(t),
+      arc: (_x: number, _y: number, r: number) => calls.arcs.push(r),
+      fill: () => calls.fills.push(fill),
+      set fillStyle(v: string) { fill = v; }, get fillStyle() { return fill; },
+      set font(_v: string) {}, set textAlign(_v: string) {}, set textBaseline(_v: string) {}, set lineWidth(_v: number) {}, set strokeStyle(_v: string) {},
+    };
+    const points = [{ x: 10, y: 50 }, { x: 20, y: 50 }, { x: 30, y: 40 }, { x: 40, y: 40 }];
+    const chart = { ctx: g, chartArea: { width }, getDatasetMeta: () => ({ data: points }) };
+    c.plugins.find((p: any) => p.id === 'vsLineMarkers').afterDatasetsDraw(chart);
+    return calls;
+  };
+
+  it('lineStyle="markers" writes every line value while they fit, none when one does not, and a dark today dot with a halo', () => {
+    render(<BarChart dates={DATES} series={MIXED} ariaLabel="x" today={TODAY} lineStyle="markers" />);
+    const c = last();
+    const fits = drawMarkers(c, 400, 10);
+    expect(fits.texts).toEqual(['30', '40']); // line values only, not the bars
+    expect(fits.arcs).toEqual([17, 10]);
+    expect(fits.fills).toEqual(['rgba(34, 34, 34, 0.16)', '#222222']);
+    const tight = drawMarkers(c, 40, 30);
+    expect(tight.texts).toEqual([]);
+    expect(tight.arcs).toEqual([17, 10]);
+  });
+
+  it('lineStyle="markers" draws no today dot when the line has no value today', () => {
+    render(<BarChart dates={DATES} series={[{ id: 'u', label: 'V', type: 'line', data: [5, null] }]} ariaLabel="x" today={TODAY} lineStyle="markers" />);
+    expect(drawMarkers(last(), 400, 5).arcs).toEqual([]);
+  });
+
+  it('tooltipTone="dark": the dark surface colour, light title, rounder and roomier', () => {
+    render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} tooltipTone="dark" />);
+    const t = last().options.plugins.tooltip;
+    expect(t.backgroundColor).toBe('rgba(34, 34, 34, 0.95)');
+    expect(t.titleColor).toBe('#e8e5fc');
+    expect(t.cornerRadius).toBe(8);
+    expect(t.padding).toBe(12);
+    expect(t.callbacks.labelColor({ datasetIndex: 0 })).toEqual({ borderColor: '#4caf50', backgroundColor: '#4caf50' });
+  });
+
+  it('tooltipTone default keeps the Chart.js swatches (no labelColor callback)', () => {
+    render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} />);
+    expect(last().options.plugins.tooltip.callbacks.labelColor).toBeUndefined();
+  });
+
+  it('xLabels="ends" labels only the first day, the middle day and today', () => {
+    const many = Array.from({ length: 21 }, (_, i) => `2026-10-${String(i + 2).padStart(2, '0')}`);
+    render(<BarChart dates={many} series={[{ id: 'f', label: 'F', data: many.map(() => 1) }]} ariaLabel="x" today={TODAY} xLabels="ends" />);
+    const c = last();
+    const cb = c.options.scales.x.ticks.callback;
+    const shown = c.data.labels.map((_: string, i: number) => cb.call({ chart: { width: 2000 } }, 0, i)).filter(Boolean);
+    expect(shown).toEqual(['2 Oct', '12 Oct', '22 Oct (Today)']);
+  });
+
+  it('rightAxis="hidden" hides the right axis numbers but keeps its own scale', () => {
+    render(<BarChart dates={DATES} series={MIXED} ariaLabel="x" today={TODAY} rightAxis="hidden" />);
+    const { y, y1 } = last().options.scales;
+    expect(y1.display).toBe(false);
+    expect(y1.position).toBe('right');
+    expect(y.display).toBeUndefined();
+    expect(last().data.datasets[0].yAxisID).toBe('y1');
+    // No right axis numbers: the usual room for the bold "(Today)" label comes back.
+    expect(last().options.layout.padding.right).toBe(40);
+    cleanup();
+    render(<BarChart dates={DATES} series={MIXED} ariaLabel="x" today={TODAY} />);
+    expect(last().options.layout.padding.right).toBe(8);
+  });
+
+  it('legendPosition="bottom-end" puts the legend under the canvas, right-aligned', () => {
+    const { container } = render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} legendPosition="bottom-end" />);
+    const kids = Array.from((container.firstElementChild as HTMLElement).children).map((c) => c.className);
+    expect(kids).toEqual(['vs-line-chart-canvas', 'vs-line-chart-legend vs-line-chart-legend--bottom vs-line-chart-legend--end']);
+  });
+
+  it('redraws when a dashboard style prop changes', () => {
+    const { rerender } = render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} />);
+    rerender(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} barStyle="soft" />);
+    rerender(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} barStyle="soft" lineStyle="markers" />);
+    rerender(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} barStyle="soft" lineStyle="markers" tooltipTone="dark" />);
+    rerender(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} barStyle="soft" lineStyle="markers" tooltipTone="dark" xLabels="ends" />);
+    rerender(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} barStyle="soft" lineStyle="markers" tooltipTone="dark" xLabels="ends" rightAxis="hidden" />);
+    expect(charts).toHaveLength(6);
+  });
 });

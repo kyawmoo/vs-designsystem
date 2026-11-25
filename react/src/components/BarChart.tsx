@@ -45,8 +45,11 @@ export interface BarChartProps {
   height?: number;
   /** Legend row above the chart. Default true. */
   showLegend?: boolean;
-  /** Where the legend row sits: `top` (default, right-aligned above the chart) or `bottom` (centred under it). */
-  legendPosition?: 'top' | 'bottom';
+  /**
+   * Where the legend row sits: `top` (default, right-aligned above the chart), `bottom` (centred under it) or
+   * `bottom-end` (under it, right-aligned; added 25 Nov 2026).
+   */
+  legendPosition?: 'top' | 'bottom' | 'bottom-end';
   /**
    * Keep a tooltip open on the latest day that has data (today, or the last day before it), so the
    * newest numbers are visible without hovering. Hovering the chart shows that day's tooltip instead;
@@ -55,6 +58,25 @@ export interface BarChartProps {
   pinTooltip?: boolean;
   /** Colour of the today line and the bold "(Today)" label: `default` (orange) or `dark` (the dark surface colour). */
   todayMarker?: 'default' | 'dark';
+  /**
+   * Bars (added 25 Nov 2026): `default` (full colour fading to 55%, wide) or `soft` (light: 55% fading to 18%, slim,
+   * fully rounded), so a line drawn over the bars stays the first thing you see.
+   */
+  barStyle?: 'default' | 'soft';
+  /**
+   * Line series (added 25 Nov 2026): `default` (smooth, a dot on today only) or `markers` (straight segments, a hollow dot
+   * on every value with the value above it while the values fit, and a large dark dot with a halo on today).
+   */
+  lineStyle?: 'default' | 'markers';
+  /** Tooltip surface (added 25 Nov 2026): `default` (dark heading colour) or `dark` (the dark surface colour, light title). */
+  tooltipTone?: 'default' | 'dark';
+  /** X labels (added 25 Nov 2026): `auto` (as many as fit) or `ends` (only the first day, the middle day and today). */
+  xLabels?: 'auto' | 'ends';
+  /**
+   * The right axis of `axis: 'right'` series (added 25 Nov 2026): `visible` (default) or `hidden` (the series keeps its own
+   * scale, the axis numbers are not drawn; the tooltip still gives the values).
+   */
+  rightAxis?: 'visible' | 'hidden';
   formatValue?: (value: number) => string;
   /** "Now" for the axis; for tests and stories. */
   today?: Date;
@@ -66,6 +88,12 @@ export const BAR_CHART_GROW_MS = 900;
 /** Up to this many day slots the bars have no width cap (so 5 days fill the chart). */
 export const BAR_CHART_FEW_DAYS = 10;
 const VALUE_FONT = '600 11px Poppins, -apple-system, sans-serif';
+/** Values above the points of a `lineStyle="markers"` line. */
+const POINT_VALUE_FONT = '500 9px Poppins, -apple-system, sans-serif';
+/** `lineStyle="markers"`: the hollow dot on every value, and the large today dot with its halo (CSS px). */
+export const MARKER_RADIUS = 3.5;
+export const TODAY_DOT_RADIUS = 10;
+export const TODAY_HALO_RADIUS = 17;
 
 /**
  * Daily bar chart (Chart.js) with the design system's chart rules built in: one column per day,
@@ -84,6 +112,11 @@ export function BarChart({
   legendPosition = 'top',
   pinTooltip = false,
   todayMarker = 'default',
+  barStyle = 'default',
+  lineStyle = 'default',
+  tooltipTone = 'default',
+  xLabels = 'auto',
+  rightAxis = 'visible',
   formatValue = (v) => v.toLocaleString(),
   today,
   className,
@@ -114,7 +147,12 @@ export function BarChart({
       tooltip: token('--vs-color-text-heading', '#010d4c'),
       surface: token('--vs-color-surface', '#ffffff'),
       text: token('--vs-color-text-body', '#2b2b2b'),
+      dark: token('--vs-chart-today-marker', '#222222'),
+      lightTitle: token('--vs-color-lavender-surface-strong', '#e8e5fc'),
     };
+    const soft = barStyle === 'soft';
+    const markers = lineStyle === 'markers';
+    const lineIdx = series.map((s, i) => (s.type === 'line' ? i : -1)).filter((i) => i >= 0);
     const colors = series.map((s, i) => resolveColor(wrap, ctx, s.color || DEFAULT_SERIES_COLORS[i % DEFAULT_SERIES_COLORS.length], '#4caf50'));
     const { labels, todayIndex } = timeline;
     const count = labels.length;
@@ -204,6 +242,50 @@ export function BarChart({
       },
     };
 
+    // lineStyle="markers": the value above every point while all of them fit their column, and the large today dot.
+    const lineMarkers: Plugin<'bar'> = {
+      id: 'vsLineMarkers',
+      afterDatasetsDraw(chart) {
+        const c = chart.ctx;
+        const slot = chart.chartArea.width / Math.max(1, count);
+        c.save();
+        c.font = POINT_VALUE_FONT;
+        c.textAlign = 'center';
+        c.textBaseline = 'bottom';
+        const labels: { x: number; y: number; text: string }[] = [];
+        lineIdx.forEach((i) => {
+          const meta = chart.getDatasetMeta(i);
+          rows[i].forEach((v, d) => {
+            const el: any = meta.data[d];
+            if (v === null || !el) return;
+            labels.push({ x: el.x, y: el.y - (d === todayIndex ? TODAY_DOT_RADIUS + 4 : MARKER_RADIUS + 5), text: formatRef.current(v) });
+          });
+        });
+        if (!labels.some((l) => c.measureText(l.text).width + 2 > slot)) {
+          c.fillStyle = theme.tooltip;
+          labels.forEach((l) => c.fillText(l.text, l.x, l.y));
+        }
+        if (todayIndex >= 0) {
+          lineIdx.forEach((i) => {
+            const el: any = chart.getDatasetMeta(i).data[todayIndex];
+            if (rows[i][todayIndex] === null || !el) return;
+            c.beginPath();
+            c.arc(el.x, el.y, TODAY_HALO_RADIUS, 0, Math.PI * 2);
+            c.fillStyle = withAlpha(theme.dark, 0.16);
+            c.fill();
+            c.beginPath();
+            c.arc(el.x, el.y, TODAY_DOT_RADIUS, 0, Math.PI * 2);
+            c.fillStyle = theme.dark;
+            c.fill();
+            c.lineWidth = 3.5;
+            c.strokeStyle = theme.surface;
+            c.stroke();
+          });
+        }
+        c.restore();
+      },
+    };
+
     // Pinned tooltip: the latest day (up to today) that has a value in any series.
     let pinIndex = -1;
     if (pinTooltip) {
@@ -252,6 +334,7 @@ export function BarChart({
       beginAtZero: true,
       border: { display: false },
       grid: { display: grid, color: theme.grid },
+      ...(position === 'right' && rightAxis === 'hidden' ? { display: false } : {}),
       // Whole-number data (counts) gets whole-number ticks: no 0.5 users.
       ticks: { color: theme.axis, maxTicksLimit: 5, precision: allIntegers ? 0 : undefined, font: { size: 11 }, callback: (v: string | number) => formatRef.current(Number(v)) },
     });
@@ -270,8 +353,8 @@ export function BarChart({
               yAxisID: axis,
               order: -1,
               borderColor: colors[i],
-              borderWidth: 2.5,
-              tension: 0.35,
+              borderWidth: markers ? 3 : 2.5,
+              tension: markers ? 0 : 0.35,
               spanGaps: false,
               fill: 'origin',
               backgroundColor: (context: any) => {
@@ -282,7 +365,8 @@ export function BarChart({
                 g.addColorStop(1, withAlpha(colors[i], 0));
                 return g;
               },
-              pointRadius: (c: any) => (c.dataIndex === todayIndex ? 4 : 0),
+              // markers: a hollow dot on every value; today's large dot is drawn by the vsLineMarkers plugin.
+              pointRadius: markers ? (c: any) => (c.dataIndex === todayIndex ? 0 : MARKER_RADIUS) : (c: any) => (c.dataIndex === todayIndex ? 4 : 0),
               pointHoverRadius: 5,
               pointBackgroundColor: theme.surface,
               pointBorderColor: colors[i],
@@ -298,20 +382,21 @@ export function BarChart({
             stack: stacked && s.axis !== 'right' ? 'total' : s.id,
             // Gradient from the full colour at the top; while one day is hovered, the other days fade.
             backgroundColor: (c: any) => {
-              if (hovered !== null && c.dataIndex !== hovered) return withAlpha(colors[i], 0.18);
+              if (hovered !== null && c.dataIndex !== hovered) return withAlpha(colors[i], soft ? 0.08 : 0.18);
               const area = c.chart.chartArea;
-              if (!area) return colors[i];
+              if (!area) return soft ? withAlpha(colors[i], 0.55) : colors[i];
               const g = c.chart.ctx.createLinearGradient(0, area.top, 0, area.bottom);
-              g.addColorStop(0, colors[i]);
-              g.addColorStop(1, withAlpha(colors[i], 0.55));
+              g.addColorStop(0, soft ? withAlpha(colors[i], 0.55) : colors[i]);
+              g.addColorStop(1, withAlpha(colors[i], soft ? 0.18 : 0.55));
               return g;
             },
             // Rounded top only on the top part of a column.
-            borderRadius: (c: any) => (isTop(i, c.dataIndex) ? { topLeft: 6, topRight: 6 } : 0),
+            // soft (not stacked): fully rounded ends.
+            borderRadius: soft && !stacked ? 999 : (c: any) => (isTop(i, c.dataIndex) ? { topLeft: 6, topRight: 6 } : 0),
             borderSkipped: false,
             // Many days: slim bars with a cap. Few days: no cap and a thin gap, so the bars fill the chart.
-            maxBarThickness: few ? undefined : 28,
-            barPercentage: few ? 0.94 : 0.82,
+            maxBarThickness: soft ? (few ? 28 : 10) : few ? undefined : 28,
+            barPercentage: soft ? 0.45 : few ? 0.94 : 0.82,
             categoryPercentage: few ? 0.94 : 0.9,
           } as any;
         }),
@@ -335,22 +420,26 @@ export function BarChart({
               ...(pinTooltip ? { onComplete: (a: any) => pinFirst(a.chart) } : {}),
             } as any),
         // Room on the right for the longer "(Today)" label; on top for the value labels.
-        layout: { padding: { top: showValues ? 20 : 8, right: hasRight ? 8 : 40 } },
+        layout: { padding: { top: showValues ? 20 : 8, right: hasRight && rightAxis !== 'hidden' ? 8 : 40 } },
         plugins: {
           legend: { display: false },
           tooltip: {
-            backgroundColor: theme.tooltip,
-            titleColor: '#ffffff',
+            backgroundColor: tooltipTone === 'dark' ? withAlpha(theme.dark, 0.95) : theme.tooltip,
+            titleColor: tooltipTone === 'dark' ? theme.lightTitle : '#ffffff',
             bodyColor: '#ffffff',
             footerColor: '#ffffff',
-            padding: 10,
-            cornerRadius: 6,
+            padding: tooltipTone === 'dark' ? 12 : 10,
+            cornerRadius: tooltipTone === 'dark' ? 8 : 6,
             usePointStyle: true,
             boxWidth: 8,
             boxHeight: 8,
             filter: (item) => item.raw !== null,
             callbacks: {
               label: (item) => `${item.dataset.label}: ${formatRef.current(Number(item.raw))}`,
+              // dark tooltip: solid swatches in the series colours (not the hollow point style of a markers line).
+              ...(tooltipTone === 'dark'
+                ? { labelColor: (item: any) => ({ borderColor: colors[item.datasetIndex], backgroundColor: colors[item.datasetIndex] }) }
+                : {}),
               footer: (items) => {
                 if (!stacked || barIdx.length < 2 || items.length === 0) return '';
                 const t = totals[items[0].dataIndex];
@@ -370,6 +459,10 @@ export function BarChart({
               color: (c: any) => (c.index === todayIndex ? theme.today : theme.axis),
               font: (c: any) => ({ size: 11, weight: c.index === todayIndex ? 'bold' : 'normal' }),
               callback: function (this: any, _v, index) {
+                if (xLabels === 'ends') {
+                  const end = todayIndex >= 0 ? todayIndex : count - 1;
+                  return index === 0 || index === end || index === Math.round(end / 2) ? labels[index] : '';
+                }
                 const width = this.chart?.width || wrap.clientWidth || 600;
                 return visibleTicks(count, todayIndex, width / 100)[index] ? labels[index] : '';
               },
@@ -379,17 +472,25 @@ export function BarChart({
           ...(hasRight ? { y1: yScale('right', false, false) as any } : {}),
         },
       },
-      plugins: pinTooltip ? [todayLine, valueLabels, pinTooltipPlugin] : [todayLine, valueLabels],
+      plugins: [todayLine, valueLabels, ...(markers ? [lineMarkers] : []), ...(pinTooltip ? [pinTooltipPlugin] : [])],
     };
 
     const chart = new Chart(canvas, config);
     return () => chart.destroy();
-  }, [timeline, rows, seriesKey, stacked, showValues, pinTooltip, todayMarker]);
+  }, [timeline, rows, seriesKey, stacked, showValues, pinTooltip, todayMarker, barStyle, lineStyle, tooltipTone, xLabels, rightAxis]);
 
   const legendColors = series.map((s, i) => s.color || DEFAULT_SERIES_COLORS[i % DEFAULT_SERIES_COLORS.length]);
 
   const legend = (
-    <div className={legendPosition === 'bottom' ? 'vs-line-chart-legend vs-line-chart-legend--bottom' : 'vs-line-chart-legend'}>
+    <div
+      className={
+        legendPosition === 'bottom'
+          ? 'vs-line-chart-legend vs-line-chart-legend--bottom'
+          : legendPosition === 'bottom-end'
+          ? 'vs-line-chart-legend vs-line-chart-legend--bottom vs-line-chart-legend--end'
+          : 'vs-line-chart-legend'
+      }
+    >
       {series.map((s, i) => (
         <span key={s.id} className="vs-line-chart-legend-item">
           <span
@@ -404,11 +505,11 @@ export function BarChart({
 
   return (
     <div ref={wrapRef} className={className ? `vs-line-chart vs-bar-chart ${className}` : 'vs-line-chart vs-bar-chart'}>
-      {showLegend && legendPosition !== 'bottom' && legend}
+      {showLegend && legendPosition === 'top' && legend}
       <div className="vs-line-chart-canvas" style={{ height }}>
         <canvas ref={canvasRef} role="img" aria-label={ariaLabel} />
       </div>
-      {showLegend && legendPosition === 'bottom' && legend}
+      {showLegend && legendPosition !== 'top' && legend}
     </div>
   );
 }

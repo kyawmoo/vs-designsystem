@@ -81,6 +81,12 @@
         <tr><td>Legend position <em>(23 Nov 2026)</em></td><td><code>legendPosition="bottom"</code> puts the legend centred under the chart. Default <code>top</code> (right-aligned above) is unchanged</td></tr>
         <tr><td>Pinned tooltip <em>(23 Nov 2026)</em></td><td><code>pinTooltip</code> keeps a tooltip open on the latest day with data (today, or the last day before it) once the bars have grown in (at once with reduced motion). Hovering shows that day's tooltip instead; when the pointer leaves, the pinned one comes back and the faded days clear. A day after today is never pinned</td></tr>
         <tr><td>Today marker <em>(23 Nov 2026)</em></td><td><code>todayMarker="dark"</code> draws the dotted line and the bold "(Today)" label in <code>--vs-chart-today-marker</code> (the dark surface colour) instead of the orange <code>--vs-chart-today</code>. Default <code>default</code> is unchanged</td></tr>
+        <tr><td>Soft bars <em>(25 Nov 2026)</em></td><td><code>barStyle="soft"</code>: the bar colour at 55% fading to 18%, slim (up to 10px wide when there are more than 10 days), fully rounded ends (stacked columns keep the rounded top only). Hovering fades the other days to 8%. Default <code>default</code> is unchanged</td></tr>
+        <tr><td>Line markers <em>(25 Nov 2026)</em></td><td><code>lineStyle="markers"</code>: straight 3px segments, a hollow dot (3.5px) on every value with the value above it in 9px while every value fits its column, and on today a 10px dot in <code>--vs-chart-today-marker</code> with a white ring and a 17px halo at 16%. Default <code>default</code> (smooth, a dot on today only) is unchanged</td></tr>
+        <tr><td>Dark tooltip <em>(25 Nov 2026)</em></td><td><code>tooltipTone="dark"</code>: <code>--vs-chart-today-marker</code> at 95%, title in <code>--vs-color-lavender-surface-strong</code>, 8px corners, 12px padding, solid swatches in the series colours. Default <code>default</code> is unchanged</td></tr>
+        <tr><td>Few x labels <em>(25 Nov 2026)</em></td><td><code>xLabels="ends"</code> labels only the first day, the middle day and today. Default <code>auto</code> is unchanged</td></tr>
+        <tr><td>Hidden right axis <em>(25 Nov 2026)</em></td><td><code>rightAxis="hidden"</code>: series on <code>axis: 'right'</code> keep their own scale, the right axis numbers are not drawn (the tooltip gives the values) and the right edge keeps room for the "(Today)" label. Default <code>visible</code> is unchanged</td></tr>
+        <tr><td>Legend bottom right <em>(25 Nov 2026)</em></td><td><code>legendPosition="bottom-end"</code> puts the legend under the chart, right-aligned</td></tr>
       </tbody>
     </table></div>
 
@@ -105,9 +111,14 @@
         <tr><td><code>stacked</code></td><td><code>boolean</code></td><td>Stack the bar series of a day</td></tr>
         <tr><td><code>showValues</code></td><td><code>boolean</code></td><td>Totals (stacked) or values above bars / points</td></tr>
         <tr><td><code>ariaLabel</code></td><td><code>string</code></td><td>Required</td></tr>
-        <tr><td><code>legendPosition</code></td><td><code>'top' | 'bottom'</code></td><td>Default <code>'top'</code></td></tr>
+        <tr><td><code>legendPosition</code></td><td><code>'top' | 'bottom' | 'bottom-end'</code></td><td>Default <code>'top'</code></td></tr>
         <tr><td><code>pinTooltip</code></td><td><code>boolean</code></td><td>Default <code>false</code></td></tr>
         <tr><td><code>todayMarker</code></td><td><code>'default' | 'dark'</code></td><td>Default <code>'default'</code></td></tr>
+        <tr><td><code>barStyle</code></td><td><code>'default' | 'soft'</code></td><td>Default <code>'default'</code></td></tr>
+        <tr><td><code>lineStyle</code></td><td><code>'default' | 'markers'</code></td><td>Default <code>'default'</code></td></tr>
+        <tr><td><code>tooltipTone</code></td><td><code>'default' | 'dark'</code></td><td>Default <code>'default'</code></td></tr>
+        <tr><td><code>xLabels</code></td><td><code>'auto' | 'ends'</code></td><td>Default <code>'auto'</code></td></tr>
+        <tr><td><code>rightAxis</code></td><td><code>'visible' | 'hidden'</code></td><td>Default <code>'visible'</code></td></tr>
         <tr><td><code>height</code>, <code>showLegend</code>, <code>formatValue</code>, <code>today</code></td><td></td><td>As Line Chart (height default 280)</td></tr>
       </tbody>
     </table></div>
