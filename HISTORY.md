@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-25 - BarChart soft bars stand on the axis, tooltip beside the line point; branch claude/barchart-tooltip-bars; not merged
+
+- Asked: Master KMO, after the Reports deploy (screenshot): the tooltip covered the today dot and line; soft bars should have small bottom corners and a rounder top so they stand; bar width should follow the room but stop at a standard size.
+- Changed: `barStyle="soft"` bars take half of the day's column up to `SOFT_BAR_MAX_WIDTH` 12px (same for few and many days), corners top 999 / bottom 5 (`SOFT_BAR_BOTTOM_RADIUS`). `lineStyle="markers"`: tooltip positioner `vsLinePoint` (exported `linePointPosition`) anchors on the line point instead of Chart.js's average of bar top and point; `yAlign: 'center'`, caret 8, caret padding 21 (today halo + 4). Docs updated.
+- Checked: 387 tests (3 new), `tsc --noEmit` exit 0, `check:tokens` OK; Reports app (local copy, mocked API, Chromium): tooltip left of the today dot with its arrow, bars standing.
+- Not verified: the tooltip on the left half of a chart in a browser (Chart.js puts it on the right there); touch devices.
+
+---
+
 ## 2026-11-25 - BarChart dashboard style options (Reports Overview "Visitors & Downloads"); branch claude/barchart-dashboard-style; not merged
 
 - Asked: Master KMO, the Reports Overview chart differs from the design "Overview (desktop, aligned)"; option (a): add the missing options to the DS `BarChart` (not a local chart in the app).

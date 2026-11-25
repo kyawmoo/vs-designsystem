@@ -11,7 +11,14 @@ import {
   PointElement,
   Tooltip,
 } from 'chart.js';
-import type { ChartConfiguration, Plugin } from 'chart.js';
+import type { ChartConfiguration, ChartType, Plugin, TooltipPositionerFunction } from 'chart.js';
+
+// The tooltip positioner registered below (Chart.js's documented way to name a custom one).
+declare module 'chart.js' {
+  interface TooltipPositionerMap {
+    vsLinePoint: TooltipPositionerFunction<ChartType>;
+  }
+}
 import { buildTimeline, visibleTicks } from './lineChartTimeline';
 import { prefersReducedMotion, progressiveAnimation, resolveColor, withAlpha } from './chartShared';
 import { DEFAULT_SERIES_COLORS } from './LineChart';
@@ -94,6 +101,26 @@ const POINT_VALUE_FONT = '500 9px Poppins, -apple-system, sans-serif';
 export const MARKER_RADIUS = 3.5;
 export const TODAY_DOT_RADIUS = 10;
 export const TODAY_HALO_RADIUS = 17;
+/**
+ * `barStyle="soft"`: the standard (largest) bar width in CSS px. Bars take a share of their day's column and grow with the
+ * room, up to this width; the top corners are fully rounded and the bottom corners have this radius, so a bar stands on the axis.
+ */
+export const SOFT_BAR_MAX_WIDTH = 12;
+export const SOFT_BAR_BOTTOM_RADIUS = 5;
+
+/**
+ * Tooltip position for `lineStyle="markers"`: the point of the line series on the hovered or pinned day (not the average of
+ * the bar top and the point, which puts the box over the line). With no line value that day, Chart.js's average is used.
+ */
+export function linePointPosition(this: any, items: any[], eventPosition: any) {
+  const datasets = this?.chart?.data?.datasets ?? [];
+  const onLine = items.find((it) => datasets[it.datasetIndex]?.type === 'line' && it.element);
+  if (onLine) return { x: onLine.element.x, y: onLine.element.y };
+  const average = (Tooltip as any).positioners?.average;
+  return average ? average.call(this, items, eventPosition) : false;
+}
+const positioners = (Tooltip as any).positioners;
+if (positioners && !positioners.vsLinePoint) positioners.vsLinePoint = linePointPosition;
 
 /**
  * Daily bar chart (Chart.js) with the design system's chart rules built in: one column per day,
@@ -391,12 +418,16 @@ export function BarChart({
               return g;
             },
             // Rounded top only on the top part of a column.
-            // soft (not stacked): fully rounded ends.
-            borderRadius: soft && !stacked ? 999 : (c: any) => (isTop(i, c.dataIndex) ? { topLeft: 6, topRight: 6 } : 0),
+            // soft (not stacked): fully rounded top, a small radius at the bottom so the bar stands on the axis.
+            borderRadius:
+              soft && !stacked
+                ? { topLeft: 999, topRight: 999, bottomLeft: SOFT_BAR_BOTTOM_RADIUS, bottomRight: SOFT_BAR_BOTTOM_RADIUS }
+                : (c: any) => (isTop(i, c.dataIndex) ? { topLeft: 6, topRight: 6 } : 0),
             borderSkipped: false,
             // Many days: slim bars with a cap. Few days: no cap and a thin gap, so the bars fill the chart.
-            maxBarThickness: soft ? (few ? 28 : 10) : few ? undefined : 28,
-            barPercentage: soft ? 0.45 : few ? 0.94 : 0.82,
+            // soft: half of the day's column, never wider than the standard width.
+            maxBarThickness: soft ? SOFT_BAR_MAX_WIDTH : few ? undefined : 28,
+            barPercentage: soft ? 0.5 : few ? 0.94 : 0.82,
             categoryPercentage: few ? 0.94 : 0.9,
           } as any;
         }),
@@ -430,6 +461,9 @@ export function BarChart({
             footerColor: '#ffffff',
             padding: tooltipTone === 'dark' ? 12 : 10,
             cornerRadius: tooltipTone === 'dark' ? 8 : 6,
+            // markers: the box sits beside the line point (left of it on the right half, right of it on the left half),
+            // its arrow clear of the today halo.
+            ...(markers ? { position: 'vsLinePoint', yAlign: 'center', caretSize: 8, caretPadding: TODAY_HALO_RADIUS + 4 } : {}),
             usePointStyle: true,
             boxWidth: 8,
             boxHeight: 8,
