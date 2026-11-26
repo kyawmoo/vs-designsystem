@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-26 - Docs: the new white layout deployed (PRs #111 to #115, `main` `166b3d7`)
+
+- Asked: Master KMO: deploy the new docs layout (shell, Button and Badge pages, the tidy-up of all pages, reference sections in the Code drawer).
+- Deployed by Master KMO on the VPS (ssh as `deploy`, hostname check `vectorsticker`), one command under `set -e`: shallow clone of `main` over HTTPS, check that the new `shell.js` has the drawer code, backup `/var/www/ds.vectorsticker.com.bak-20261126-080953`, `rsync -rt docs/` into `/var/www/ds.vectorsticker.com` (no `--delete`), `chown -R www-data:www-data`, temp dir removed. Output shown: `commit: 166b3d7 Merge pull request #115`, `/`, `/components/button.html`, `/components/badge.html` and `/animation/text-effects.html` all `200`, `drawer in live shell.js: 4`. Only `/var/www/ds.vectorsticker.com` was touched; no Apache or pm2 restart, main site and reports site not touched.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261126-080953/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the live pages in a browser (this session cannot reach ds.vectorsticker.com); the 41 pages other than Button and Badge on the live site; their demos are still in their old layout (not regrouped into equal cards).
+
+---
+
 ## 2026-11-26 - Docs: reference sections (props, measurements, anatomy, accessibility, tokens, usage, Blade) also go to the Code drawer; branch claude/card-tabs-table (on top of claude/all-pages); not merged
 
 - Asked: Master KMO: proceed with Card, Tabs and Table. They are large pages with many live demos, so instead of rewriting each by hand the generic tidy-up in `shell.js` now also sends a whole section to the drawer when its title starts with props, measurement, anatomy, redline, spec, token, design token, accessib, keyboard, usage -, rollout, api, blade or governance (demos included).
