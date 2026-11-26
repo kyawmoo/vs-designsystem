@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-26 - Docs: runs of sections that each hold one demo become a grid of titled cards (shell.js); branch claude/simple-sections-cards; not merged
+
+- Asked: Master KMO: "proceed" (continue the new card layout on the other pages).
+- Changed (docs shell only): `docs/assets/shell.js`: two or more sections in a row that each hold just one `.vs-docs-preview` box become one `.vs-docs-cards` grid; the section title is the card title (small), the section id moves to the card. A lone such section stays a title with its box. `docs/assets/shell.css`: the box inside a card has no border or padding of its own (no box inside a box). In the local run this applies to Avatar, Breakdown List, Date Range Selector, Donut Chart, Empty State, Meter, Navigation (2 runs), Popover and Rank Pill, and also joins Bar Chart, Line Chart and Tabs.
+- Checked: Chromium (Playwright, files served from `docs/`) on all 46 pages at 1440 and 390px: no JS error, no sideways scroll; every `id` written in the source of every page still exists; Avatar and Meter looked at (three equal cards each).
+- Not verified: the other pages in this list by eye; WebKit and Firefox; the live site (needs another deploy). Pages with several demos per section, or demos in their own grids and tables, are unchanged (hand-built layout still needed, as Button and Badge).
+
+---
+
 ## 2026-11-26 - Docs: two or more demo boxes in a row become equal cards side by side (shell.js); branch claude/group-demos; not merged
 
 - Asked: Master KMO: the layout is good; continue with the other pages.
