@@ -41,32 +41,52 @@
   </div>
   <div class="vs-docs-canvas">
   <div class="vs-docs-content">
-    <h2>Semantic</h2>
-    <div class="vs-docs-preview">
-      <span class="demo-badge" style="background:var(--vs-color-success-bg);color:var(--vs-color-success-border)">Success</span>
-      <span class="demo-badge" style="background:var(--vs-color-warning-bg);color:#854d0e">Warning</span>
-      <span class="demo-badge" style="background:var(--vs-color-danger-bg);color:var(--vs-color-danger-border)">Danger</span>
-      <span class="demo-badge" style="background:var(--vs-color-info-bg);color:var(--vs-color-info-border)">Info</span>
-      <span class="demo-badge" style="background:var(--vs-color-disabled-bg);color:var(--vs-color-text-muted)">Neutral</span>
-    </div>
 
-    <h2>Product (item card)</h2>
-    <div class="vs-docs-preview">
-      <span class="demo-badge" style="background:color-mix(in srgb, #0074E4 12%, transparent);color:#0074E4">Trending</span>
-      <span class="demo-badge" style="background:color-mix(in srgb, #0BBE9A 12%, transparent);color:#0BBE9A">On Sale</span>
-      <span class="demo-badge" style="background:color-mix(in srgb, #743CEE 12%, transparent);color:#743CEE">Free</span>
-      <span class="demo-badge" style="background:color-mix(in srgb, var(--vs-color-badge-premium) 12%, transparent);color:var(--vs-color-badge-premium)">Premium</span>
+    <section>
+    <h2>Tones</h2>
+    <p class="vs-docs-lead">Semantic, product, item status, and dot.</p>
+    <div class="vs-docs-cards is-quad">
+      <article class="vs-docs-card">
+        <h3>Semantic</h3>
+        <div class="vs-docs-card-row">
+          <span class="demo-badge" style="background:var(--vs-color-success-bg);color:var(--vs-color-success-border)">Success</span>
+          <span class="demo-badge" style="background:var(--vs-color-warning-bg);color:#854d0e">Warning</span>
+          <span class="demo-badge" style="background:var(--vs-color-danger-bg);color:var(--vs-color-danger-border)">Danger</span>
+          <span class="demo-badge" style="background:var(--vs-color-info-bg);color:var(--vs-color-info-border)">Info</span>
+          <span class="demo-badge" style="background:var(--vs-color-disabled-bg);color:var(--vs-color-text-muted)">Neutral</span>
+        </div>
+      </article>
+      <article class="vs-docs-card">
+        <h3>Product</h3>
+        <div class="vs-docs-card-row">
+          <span class="demo-badge" style="background:color-mix(in srgb, #0074E4 12%, transparent);color:#0074E4">Trending</span>
+          <span class="demo-badge" style="background:color-mix(in srgb, #0BBE9A 12%, transparent);color:#0BBE9A">On Sale</span>
+          <span class="demo-badge" style="background:color-mix(in srgb, #743CEE 12%, transparent);color:#743CEE">Free</span>
+          <span class="demo-badge" style="background:color-mix(in srgb, var(--vs-color-badge-premium) 12%, transparent);color:var(--vs-color-badge-premium)">Premium</span>
+        </div>
+      </article>
+      <article class="vs-docs-card">
+        <h3>Item status</h3>
+        <div class="vs-docs-card-row">
+          <span class="demo-badge" style="background:#FF7A14;color:#fff">Pending</span>
+          <span class="demo-badge" style="background:#5506E8;color:#fff">Soft Rejected</span>
+          <span class="demo-badge" style="background:#0A89FF;color:#fff">Resubmitted</span>
+          <span class="demo-badge" style="background:#00BA10;color:#fff">Approved</span>
+          <span class="demo-badge" style="background:#D60C0C;color:#fff">Hard Rejected</span>
+          <span class="demo-badge" style="background:#F44336;color:#fff">Deleted</span>
+        </div>
+      </article>
+      <article class="vs-docs-card">
+        <h3>Dot</h3>
+        <div class="vs-docs-card-row">
+          <span class="demo-badge" style="color:var(--vs-color-success-border)"><span class="demo-dot" style="background:var(--vs-color-success-border)"></span>Online</span>
+          <span class="demo-badge" style="color:var(--vs-color-danger-border)"><span class="demo-dot" style="background:var(--vs-color-danger-border)"></span>Offline</span>
+        </div>
+      </article>
     </div>
+    </section>
 
-    <h2>Item status (admin moderation)</h2>
-    <div class="vs-docs-preview">
-      <span class="demo-badge" style="background:#FF7A14;color:#fff">Pending</span>
-      <span class="demo-badge" style="background:#5506E8;color:#fff">Soft Rejected</span>
-      <span class="demo-badge" style="background:#0A89FF;color:#fff">Resubmitted</span>
-      <span class="demo-badge" style="background:#00BA10;color:#fff">Approved</span>
-      <span class="demo-badge" style="background:#D60C0C;color:#fff">Hard Rejected</span>
-      <span class="demo-badge" style="background:#F44336;color:#fff">Deleted</span>
-    </div>
+    <div data-vs-drawer="Notes">
     <p>
       On Blade, item-status badges are solid (<code>bg-orange</code> etc,
       matching the real admin table). On React, they use the same 12%-tint
@@ -74,21 +94,17 @@
       no dedicated tint token exists for them.
     </p>
 
-    <h2>Dot variant</h2>
-    <p>React only — a leading solid dot instead of a filled background, for denser contexts.</p>
-    <div class="vs-docs-preview">
-      <span class="demo-badge" style="color:var(--vs-color-success-border)"><span class="demo-dot" style="background:var(--vs-color-success-border)"></span>Online</span>
-      <span class="demo-badge" style="color:var(--vs-color-danger-border)"><span class="demo-dot" style="background:var(--vs-color-danger-border)"></span>Offline</span>
+      <p>React only — a leading solid dot instead of a filled background, for denser contexts.</p>
     </div>
-
-    <h2>Usage — React</h2>
+    <div data-vs-drawer="React">
     <div class="vs-docs-code-block"><span class="tag">import</span> { Badge } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
 
 <span class="tag">&lt;Badge</span> <span class="attr">tone</span>=<span class="str">"success"</span><span class="tag">&gt;</span>Verified<span class="tag">&lt;/Badge&gt;</span>
 <span class="tag">&lt;Badge</span> <span class="attr">tone</span>=<span class="str">"trending"</span><span class="tag">&gt;</span>Trending<span class="tag">&lt;/Badge&gt;</span>
 <span class="tag">&lt;Badge</span> <span class="attr">tone</span>=<span class="str">"approved"</span> <span class="attr">dot</span><span class="tag">&gt;</span>Approved<span class="tag">&lt;/Badge&gt;</span></div>
 
-    <h2>Usage — Blade</h2>
+    </div>
+    <div data-vs-drawer="Blade">
     <div class="vs-docs-code-block"><span class="cmt">&lt;!-- item-status --&gt;</span>
 <span class="tag">&lt;x-vs-badge</span> <span class="attr">item-status</span>=<span class="str">"pending"</span><span class="tag">&gt;</span>{{ $item->getStatusName() }}<span class="tag">&lt;/x-vs-badge&gt;</span>
 
@@ -98,7 +114,8 @@
 <span class="cmt">&lt;!-- item card product badge --&gt;</span>
 <span class="tag">&lt;x-vs-item-badge</span> <span class="attr">type</span>=<span class="str">"premium"</span> <span class="tag">/&gt;</span></div>
 
-    <h2>Props</h2>
+    </div>
+    <div data-vs-drawer="Props">
     <table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Values</th></tr></thead>
       <tbody>
@@ -107,6 +124,7 @@
         <tr><td><code>item-status</code></td><td>Blade only — takes priority over <code>tone</code></td></tr>
       </tbody>
     </table>
+    </div>
   </div>
   </div>
 </main>

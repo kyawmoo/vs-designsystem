@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-26 - Docs: Badge page in the new card layout; branch claude/badge-page (on top of claude/button-page); not merged
+
+- Asked: Master KMO: continue the new design with Badge, Card and Tabs (Badge first).
+- Changed (docs only): `docs/components/badge.html`: one section "Tones" with four equal cards (Semantic, Product, Item status, Dot); the notes, usage (React, Blade) and props are in the Code drawer (`data-vs-drawer`). Same badges and colours as before.
+- Checked: Chromium (Playwright, files served from `docs/`) at 1440 and 390px: no code block left in the page, 5 drawer cards, no JS error, no sideways scroll; `npm run check:tokens` OK.
+- Not verified: WebKit and Firefox; the live site.
+
+---
+
 ## 2026-11-26 - Docs: Button page in the new card layout; branch claude/button-page (on top of claude/new-docs-shell); not merged
 
 - Asked: Master KMO: rewrite the Button page in the new design (sections of equal cards, code hidden in the Code drawer).
