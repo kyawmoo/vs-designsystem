@@ -245,7 +245,7 @@
           if (isHead) {
             const desc = el.querySelector('.vs-docs-section-desc');
             const short = false; // every section note goes to the drawer; a short line under a title is added by hand (.vs-docs-lead) only where it is needed
-            if (h2) el.before(h2);
+            if (h2) { if (el.id && !h2.id) h2.id = el.id; el.before(h2); }
             if (short) {
               const lead = document.createElement('p');
               lead.className = 'vs-docs-lead';
@@ -271,7 +271,15 @@
         while (n && (n.classList.contains('vs-docs-lead') || n.hasAttribute('data-vs-drawer') || n.classList.contains('vs-docs-code-block'))) n = n.nextElementSibling;
         if (!n || n.tagName === 'H2') {
           while (h2.nextElementSibling && h2.nextElementSibling.classList.contains('vs-docs-lead')) h2.nextElementSibling.remove();
-          h2.remove();
+          // The title goes, its address stays: a link or a test that looks for the id still finds it.
+          if (h2.id) {
+            const anchor = document.createElement('div');
+            anchor.id = h2.id;
+            anchor.hidden = true;
+            h2.replaceWith(anchor);
+          } else {
+            h2.remove();
+          }
         }
       });
     }
