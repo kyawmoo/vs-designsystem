@@ -329,6 +329,51 @@
         else flush();
       });
       flush();
+      // Every section still left (a title with several demos under it) becomes one titled card holding those demos, so the whole
+      // page reads as cards. The title is the card title (small); the section id moves to the card.
+      Array.from(content.querySelectorAll(':scope > h2')).forEach((h2) => {
+        const items = [];
+        let codeWrap = null;
+        let n = h2.nextElementSibling;
+        while (n && n.tagName !== 'H2' && !n.classList.contains('vs-docs-cards') && !n.classList.contains('vs-docs-card')) {
+          const x = n;
+          n = n.nextElementSibling;
+          if (x.hasAttribute('data-vs-drawer') || x.hidden) continue;
+          if (x.classList.contains('vs-docs-lead')) { x.remove(); continue; }
+          if (x.classList.contains('vs-docs-code-block')) {
+            // code goes to the drawer under this heading's title, so the title must travel with it
+            if (!codeWrap) {
+              codeWrap = document.createElement('div');
+              codeWrap.setAttribute('data-vs-drawer', h2.textContent.trim());
+              x.before(codeWrap);
+            }
+            codeWrap.appendChild(x);
+            continue;
+          }
+          items.push(x);
+        }
+        if (!items.length) {
+          // nothing visual under this title: the title goes, its address stays
+          if (h2.id) {
+            const anchor = document.createElement('div');
+            anchor.id = h2.id;
+            anchor.hidden = true;
+            h2.replaceWith(anchor);
+          } else {
+            h2.remove();
+          }
+          return;
+        }
+        const card = document.createElement('article');
+        card.className = 'vs-docs-card';
+        if (h2.id) card.id = h2.id;
+        const title = document.createElement('h3');
+        title.textContent = h2.textContent.trim();
+        card.appendChild(title);
+        h2.before(card);
+        items.forEach((x) => card.appendChild(x));
+        h2.remove();
+      });
       // A heading left with nothing under it (its content went to the drawer) is dropped.
       Array.from(content.querySelectorAll(':scope > h2')).forEach((h2) => {
         let n = h2.nextElementSibling;

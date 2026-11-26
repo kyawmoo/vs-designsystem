@@ -411,6 +411,16 @@ a {
   overflow-x: auto;
 }
 
+.vs-docs-content > .vs-docs-card {
+  margin: 0 0 20px;
+}
+
+.vs-docs-card > .vs-docs-example-grid,
+.vs-docs-card > .vs-docs-swatch-grid,
+.vs-docs-card > .demo-scroll {
+  margin-bottom: 0;
+}
+
 .vs-docs-card {
   display: flex;
   flex-direction: column;
