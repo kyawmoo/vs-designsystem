@@ -15,6 +15,16 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-26 - Docs: second deploy of the day (`main` `e6568d7`, PRs #116 and #117 added)
+
+- Asked: Master KMO: merge the open docs PRs and tell him to deploy.
+- Merged by Claude (merge commits, in order): #111 shell, #112 Button page, #113 Badge page, #114 every page through the shell, #115 reference sections to the drawer; #116 (deploy record) and #117 (equal demo cards) by squash. CI was green on each head before its merge. #106 and #102 are older open PRs, not part of this work, not touched.
+- Deployed by Master KMO on the VPS (ssh as `deploy` with `~/.ssh/vectorsticker_ed25519`, hostname check `vectorsticker`), the same one command as the first deploy of the day. Output shown: `commit: e6568d7 Docs: group consecutive demo boxes into equal cards (#117)`, backup `/var/www/ds.vectorsticker.com.bak-20261126-085450`, `/`, `/components/button.html`, `/components/badge.html`, `/components/tabs.html`, `/animation/text-effects.html` all `200`, `grouping in live shell.js: 1`. Only `/var/www/ds.vectorsticker.com` was touched.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261126-085450/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the live pages in a browser by Claude (this session cannot reach ds.vectorsticker.com); Chart.js charts on the live Bar and Line Chart pages.
+
+---
+
 ## 2026-11-26 - Docs: two or more demo boxes in a row become equal cards side by side (shell.js); branch claude/group-demos; not merged
 
 - Asked: Master KMO: the layout is good; continue with the other pages.
