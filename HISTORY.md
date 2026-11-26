@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-26 - Docs: every page follows the new layout through the shell (text, notes and spec tables move to the Code drawer); branch claude/all-pages (on top of claude/badge-page); not merged
+
+- Asked: Master KMO: do all the pages one after another, as fast as possible, no approval questions.
+- Changed (docs shell only, no page HTML): `docs/assets/shell.js` tidies a page that is not already written in `<section>`s: a section head becomes a plain title; the paragraphs, lists, callouts, spec tables (tables without demos) and section notes of each section move to the Code drawer under the section's title (with the code blocks); sections left with nothing are dropped; the demos stay. `docs/assets/shell.css`: previews are white cards (18px radius), the drawer's text padding, and on phones wide demos and tables scroll inside themselves. A short line under a title is not added by the script; add `.vs-docs-lead` by hand where it is needed.
+- Checked: Chromium (Playwright, files served from `docs/`) on all 46 pages at 1440 and 390px: no JS error, no sideways scroll, no paragraph, list, callout or code block left directly in the page, every page has a Code drawer; samples looked at: card, tabs, colors; `npm run check:tokens` OK.
+- Not verified: every page by eye (only card, tabs, colors, badge, button looked at); WebKit and Firefox; the live site. Pages that keep text inside their own demo blocks keep it. Button and Badge are hand-built; the other pages use the generic tidy-up, so their demos are not yet grouped into equal cards.
+
+---
+
 ## 2026-11-26 - Docs: Badge page in the new card layout; branch claude/badge-page (on top of claude/button-page); not merged
 
 - Asked: Master KMO: continue the new design with Badge, Card and Tabs (Badge first).
