@@ -396,6 +396,13 @@ a {
   }
 }
 
+.vs-docs-cards > .vs-docs-preview,
+.vs-docs-cards > .demo-browser,
+.vs-docs-cards > .demo-redline {
+  min-width: 0;
+  margin: 0;
+}
+
 .vs-docs-card {
   display: flex;
   flex-direction: column;
