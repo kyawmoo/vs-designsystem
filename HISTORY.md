@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-26 - Docs: third menu section "Animation & Effects" (Reveal, Rewind Reveal, Text Effects moved there); branch claude/animation-section; not merged
+
+- Asked: Master KMO: the docs have three sections, Foundations, Components and Animation & Effects; every animation and effect goes in the last one. Decision (b): the pages move too, not only the menu.
+- Changed (docs and checks only, no component code): `docs/components/{reveal,rewind-reveal,text-effects}.html` moved to `docs/animation/` (git mv); the menu (`docs/assets/shell.js`) has the new group after Components; the eyebrow of the three pages says "Animation & Effects"; links updated in `docs/components/line-chart.html`, `docs/animation/reveal.html`, `docs/animation/text-effects.html`, `react/browser/reveal-check.mjs`, `.github/workflows/reveal-browser-check.yml`, `blade/README.md`. The demo files stay in `docs/assets/`. Older HISTORY lines keep the old paths (they are a record).
+- Checked: `npm run test:browser -- --browsers=chromium` all pass (it opens the moved pages and checks the menu entries); `check-tokens` OK; Chromium on the local docs: the three pages answer 200 at `/animation/...` with "Animation & Effects" open and the page marked, Components pages open Components, the old `/components/...` addresses answer 404, no page errors.
+- Deploy note: the docs deploy is `rsync` without `--delete`, so the old three files stay on the server until they are removed by hand. Not verified: WebKit and Firefox locally (CI runs them); the live docs site (not deployed).
+
+---
+
 ## 2026-11-25 - BarChart soft bars widen on a short range (up to 32px); branch claude/barchart-soft-few-days; not merged
 
 - Asked: Master KMO (Reports live screenshot, 7 days): the downloads bars should be wide when there are only a few days; option (a): half of the column, at most 32px.

@@ -41,9 +41,6 @@
         { id: 'navigation', label: 'Navigation', href: '/components/navigation.html', icon: 'chevrons-right' },
         { id: 'modal', label: 'Modal', href: '/components/modal.html', icon: 'app-window' },
         { id: 'drawer', label: 'Drawer', href: '/components/drawer.html', icon: 'panel-right' },
-        { id: 'reveal', label: 'Reveal', href: '/components/reveal.html', icon: 'layers' },
-        { id: 'rewind-reveal', label: 'Rewind Reveal', href: '/components/rewind-reveal.html', icon: 'calendar' },
-        { id: 'text-effects', label: 'Text Effects', href: '/components/text-effects.html', icon: 'type' },
         { id: 'toast', label: 'Toast', href: '/components/toast.html', icon: 'bell' },
         { id: 'tooltip', label: 'Tooltip', href: '/components/tooltip.html', icon: 'message-square' },
         { id: 'popover', label: 'Popover', href: '/components/popover.html', icon: 'app-window' },
@@ -58,6 +55,15 @@
         { id: 'search-input', label: 'Search Input', href: '/components/search-input.html', icon: 'search' },
         { id: 'file-input', label: 'File Input', href: '/components/file-input.html', icon: 'upload' },
         { id: 'input-group', label: 'Input Group', href: '/components/input-group.html', icon: 'group' },
+      ],
+    },
+    {
+      // Every animation and effect lives here, not under Components (Master KMO, 2026-11-26).
+      group: 'Animation & Effects',
+      items: [
+        { id: 'reveal', label: 'Reveal', href: '/animation/reveal.html', icon: 'layers' },
+        { id: 'rewind-reveal', label: 'Rewind Reveal', href: '/animation/rewind-reveal.html', icon: 'calendar' },
+        { id: 'text-effects', label: 'Text Effects', href: '/animation/text-effects.html', icon: 'type' },
       ],
     },
   ];
@@ -108,7 +114,7 @@
     return `<svg class="vs-docs-sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
   }
 
-  // Two collapsible groups, one open at a time (opening one closes the other; the open one can also be closed).
+  // Collapsible groups (Foundations, Components, Animation & Effects), one open at a time (opening one closes the other; the open one can also be closed).
   // Default open: the group holding the current page, otherwise Components.
   function renderSidebar() {
     const mount = document.getElementById('vs-docs-sidebar-mount');
