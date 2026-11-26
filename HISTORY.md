@@ -6,6 +6,16 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-26 - Docs: fourth deploy of the day (`main` `c17a28e`, PR #121 added): every page reads as titled cards
+
+- Asked: Master KMO: do all the pages, no questions.
+- Merged by Claude: #121 (squash) after its CI was green on the head `44b0bd6` (5 of 5) and `mergeable_state` was clean.
+- Deployed by Master KMO on the VPS (ssh as `deploy` with `~/.ssh/vectorsticker_ed25519`, hostname check `vectorsticker`), the same one command as the earlier deploys. Output shown: `commit: c17a28e Docs: every remaining section becomes a titled card (#121)`, backup `/var/www/ds.vectorsticker.com.bak-20261126-105945`, `/`, `/components/button.html`, `/components/table.html`, `/components/alert.html`, `/components/checkbox.html`, `/foundations/colors.html`, `/animation/text-effects.html` all `200`, `all-sections cards in live shell.js: 6`. Only `/var/www/ds.vectorsticker.com` was touched.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261126-105945/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the live pages in a browser by Claude (this session cannot reach ds.vectorsticker.com); 43 of the 46 pages by eye in the local run (only Table, Alert, Checkbox, Card, Avatar, Meter, Colors, Tabs, Badge, Button were looked at); charts (Chart.js from a CDN did not draw in the sandbox).
+
+---
+
 ## 2026-11-26 - Docs: every remaining section becomes a titled card, so all pages read as cards (shell.js); branch claude/all-sections-cards; not merged
 
 - Asked: Master KMO: do all the pages, no questions.
