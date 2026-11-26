@@ -163,5 +163,138 @@
     });
   }
 
-  document.addEventListener('DOMContentLoaded', renderSidebar);
+  // Page chrome (Master KMO, 2026-11-26): a top bar (breadcrumb, search, menu button on phones) and a "Code" drawer.
+  // The code blocks and the lede of the page are moved into the drawer, so the page itself shows the design first.
+  // Without the script the page keeps everything where it is (the stylesheet hides nothing until `vs-docs-js` is set).
+  function enhance() {
+    const main = document.querySelector('.vs-docs-main');
+    if (!main) return;
+    const root = document.documentElement;
+    root.classList.add('vs-docs-js');
+    const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>';
+
+    // Top bar: breadcrumb from the eyebrow ("Components // Badge"), search over the menu, menu button on phones.
+    const eyebrow = main.querySelector('.vs-docs-hero-eyebrow');
+    const crumbText = eyebrow
+      ? Array.from(eyebrow.childNodes)
+          .filter((n) => n.nodeType === 3 || n.tagName === 'STRONG')
+          .map((n) => n.textContent)
+          .join(' ')
+          .replace(/\s*\/\/\s*/g, ' / ')
+          .replace(/\s+/g, ' ')
+          .trim()
+      : '';
+    const parts = crumbText ? crumbText.split(' / ') : [];
+    const last = parts.pop();
+    const crumbHtml = parts.map((s) => s + ' / ').join('') + (last ? `<strong>${last}</strong>` : '');
+    const bar = document.createElement('div');
+    bar.className = 'vs-docs-topbar';
+    bar.innerHTML = `<button type="button" class="vs-docs-menu-btn" aria-label="Menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg></button>
+      <div class="vs-docs-crumb">${crumbHtml}</div>
+      <input class="vs-docs-search" type="search" placeholder="Search" aria-label="Search the menu">`;
+    main.insertBefore(bar, main.firstChild);
+    bar.querySelector('.vs-docs-menu-btn').addEventListener('click', () => root.classList.toggle('vs-docs-menu-open'));
+    document.addEventListener('click', (e) => {
+      if (root.classList.contains('vs-docs-menu-open') && !e.target.closest('.vs-docs-sidebar') && !e.target.closest('.vs-docs-menu-btn')) root.classList.remove('vs-docs-menu-open');
+    });
+    bar.querySelector('.vs-docs-search').addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      document.querySelectorAll('.vs-docs-sidebar-group').forEach((group) => {
+        let any = false;
+        group.querySelectorAll('.vs-docs-sidebar-group-links a').forEach((a) => {
+          const hit = !q || a.textContent.toLowerCase().includes(q);
+          a.hidden = !hit;
+          if (hit) any = true;
+        });
+        group.hidden = !any;
+        if (q) {
+          group.classList.toggle('is-open', any);
+          group.querySelector('.vs-docs-sidebar-group-toggle').setAttribute('aria-expanded', String(any));
+          group.querySelector('.vs-docs-sidebar-group-links').hidden = !any;
+        }
+      });
+    });
+
+    // Code drawer: one card per section that has code, plus an "About" card with the lede. One card open at a time.
+    const lede = main.querySelector('.vs-docs-hero-lede');
+    const blocks = Array.from(main.querySelectorAll('.vs-docs-content .vs-docs-code-block'));
+    if (!lede && !blocks.length) return;
+    const titleOf = (el) => {
+      let n = el;
+      while (n && !n.classList.contains('vs-docs-content')) {
+        while (n.previousElementSibling) {
+          n = n.previousElementSibling;
+          if (/^H[23]$/.test(n.tagName)) return n.textContent.trim();
+          const hs = n.querySelectorAll ? n.querySelectorAll('h2, h3') : [];
+          if (hs.length) return hs[hs.length - 1].textContent.trim();
+        }
+        n = n.parentElement;
+      }
+      return 'Code';
+    };
+    const cards = [];
+    if (lede) cards.push({ title: 'About', note: lede.cloneNode(true) });
+    blocks.forEach((block) => {
+      const title = titleOf(block);
+      let card = cards.find((c) => !c.note && c.title === title);
+      if (!card) { card = { title, nodes: [] }; cards.push(card); }
+      card.nodes.push(block);
+    });
+
+    const scrim = document.createElement('div');
+    scrim.className = 'vs-docs-scrim';
+    const drawer = document.createElement('aside');
+    drawer.className = 'vs-docs-drawer';
+    drawer.setAttribute('role', 'dialog');
+    drawer.setAttribute('aria-modal', 'true');
+    drawer.setAttribute('aria-label', 'Code');
+    drawer.setAttribute('aria-hidden', 'true');
+    drawer.innerHTML = '<div class="vs-docs-drawer-head"><h2>Code</h2><button type="button" class="vs-docs-drawer-close">Close</button></div><div class="vs-docs-drawer-body"></div>';
+    const body = drawer.querySelector('.vs-docs-drawer-body');
+    cards.forEach((card, i) => {
+      const acc = document.createElement('div');
+      acc.className = 'vs-docs-acc' + (i === 0 ? ' is-open' : '');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('aria-expanded', String(i === 0));
+      btn.innerHTML = `<span></span>${arrow}`;
+      btn.firstChild.textContent = card.title;
+      const panel = document.createElement('div');
+      panel.className = 'vs-docs-acc-body';
+      if (card.note) { card.note.className = 'vs-docs-acc-note'; panel.appendChild(card.note); }
+      else card.nodes.forEach((n) => panel.appendChild(n));
+      acc.append(btn, panel);
+      btn.addEventListener('click', () => {
+        const wasOpen = acc.classList.contains('is-open');
+        body.querySelectorAll('.vs-docs-acc').forEach((a) => { a.classList.remove('is-open'); a.firstChild.setAttribute('aria-expanded', 'false'); });
+        if (!wasOpen) { acc.classList.add('is-open'); btn.setAttribute('aria-expanded', 'true'); }
+      });
+      body.appendChild(acc);
+    });
+    const fab = document.createElement('button');
+    fab.type = 'button';
+    fab.className = 'vs-docs-fab';
+    fab.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16" /></svg>Code';
+    document.body.append(scrim, drawer, fab);
+
+    const closeBtn = drawer.querySelector('.vs-docs-drawer-close');
+    const open = () => {
+      root.classList.add('vs-docs-code-open');
+      drawer.setAttribute('aria-hidden', 'false');
+      fab.hidden = true;
+      setTimeout(() => closeBtn.focus(), 60);
+    };
+    const close = () => {
+      root.classList.remove('vs-docs-code-open');
+      drawer.setAttribute('aria-hidden', 'true');
+      fab.hidden = false;
+      fab.focus();
+    };
+    fab.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+    scrim.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && root.classList.contains('vs-docs-code-open')) close(); });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => { renderSidebar(); enhance(); });
 })();

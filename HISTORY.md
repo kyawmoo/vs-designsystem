@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-26 - Docs: new white shell for the whole site (sidebar, top bar, fluid body, Code drawer); branch claude/new-docs-shell; not merged
+
+- Asked: Master KMO: the docs look boring; white page, side menu + fluid body (side padding in %, no fixed width), big centred title, less text, design first, the code hidden in one big obvious place; no numbers or circles; "start implementing the whole ds site".
+- Changed (docs shell only, no component code, no page HTML): `docs/assets/shell.css` (white sidebar, top bar, centred title, body padding 5% with at least 16px, section titles 24 to 32px, wide tables scroll on phones, Code drawer styles) and `docs/assets/shell.js` (adds the top bar with breadcrumb + menu search, and moves every `.vs-docs-code-block` and the page lede into a "Code" drawer opened by the big button at the bottom right; one card open at a time; without the script the page stays as before). All 45 pages get it through the shared files.
+- Checked: `npm run check:tokens` OK; Chromium (Playwright, files served from `docs/`) on badge, button, tabs, text-effects, colors and the index at 1440px and 390px: the top bar, title and Code button show, no code block is left in the page, no JS error, no sideways scroll except text-effects at 390px (a table, fixed after).
+- Not verified: WebKit and Firefox; `npm run test:browser`; the other 39 pages one by one; the live site (Master KMO deploys the docs); a screen reader.
+
+---
+
 ## 2026-11-26 - Docs: third menu section "Animation & Effects" (Reveal, Rewind Reveal, Text Effects moved there); merged (#109, `26b2bfa`); docs deployed
 
 - Asked: Master KMO: the docs have three sections, Foundations, Components and Animation & Effects; every animation and effect goes in the last one. Decision (b): the pages move too, not only the menu.
