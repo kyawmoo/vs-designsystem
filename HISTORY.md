@@ -6,6 +6,16 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-26 - Docs: two or more demo boxes in a row become equal cards side by side (shell.js); branch claude/group-demos; not merged
+
+- Asked: Master KMO: the layout is good; continue with the other pages.
+- Changed (docs shell only): `docs/assets/shell.js` groups consecutive `.vs-docs-preview`, `.demo-browser` and `.demo-redline` boxes (two or more) into a `.vs-docs-cards.is-wide` grid; a lone box and demos that already sit in their own grid or table stay as they were. `docs/assets/shell.css`: no margin and `min-width: 0` for those boxes inside the grid. In the local run only Bar Chart, Line Chart and Tabs have such a run.
+- Checked: Chromium (Playwright, files served from `docs/`) on all 46 pages at 1440 and 390px: no JS error, no sideways scroll; every `id` in the source of every page still exists; Bar Chart looked at (two cards side by side; the charts themselves did not draw in the sandbox because Chart.js comes from a CDN it cannot reach).
+- Not verified: Line Chart and Tabs by eye; WebKit and Firefox; the live site.
+- Open: most other pages have one demo per section or demos in their own grids, so a hand-built card layout (as Button and Badge) is still needed to make them look the same.
+
+---
+
 ## 2026-11-26 - Docs: the new white layout deployed (PRs #111 to #115, `main` `166b3d7`)
 
 - Asked: Master KMO: deploy the new docs layout (shell, Button and Badge pages, the tidy-up of all pages, reference sections in the Code drawer).

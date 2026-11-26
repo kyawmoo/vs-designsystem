@@ -269,6 +269,26 @@
         if (el.classList.contains('vs-docs-code-block')) return;
         if (isText(el) || reference) send(el);
       });
+      // Two or more demo boxes in a row become equal cards side by side (a lone one stays full width). Demos that already sit in a
+      // grid of their own, and tables, are left as they are.
+      const groupable = (el) => el.matches && el.matches('.vs-docs-preview, .demo-browser, .demo-redline');
+      const rendered = (el) => !el.hasAttribute('data-vs-drawer') && !el.hidden;
+      let run = [];
+      const flush = () => {
+        if (run.length >= 2) {
+          const grid = document.createElement('div');
+          grid.className = 'vs-docs-cards is-wide';
+          run[0].before(grid);
+          run.forEach((el) => grid.appendChild(el));
+        }
+        run = [];
+      };
+      Array.from(content.children).forEach((el) => {
+        if (!rendered(el)) return;
+        if (groupable(el)) run.push(el);
+        else flush();
+      });
+      flush();
       // A heading left with nothing under it (its content went to the drawer) is dropped.
       Array.from(content.querySelectorAll(':scope > h2')).forEach((h2) => {
         let n = h2.nextElementSibling;
