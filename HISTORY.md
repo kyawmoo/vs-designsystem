@@ -6,12 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
-## 2026-11-26 - Docs: third menu section "Animation & Effects" (Reveal, Rewind Reveal, Text Effects moved there); branch claude/animation-section; not merged
+## 2026-11-26 - Docs: third menu section "Animation & Effects" (Reveal, Rewind Reveal, Text Effects moved there); merged (#109, `26b2bfa`); docs deployed
 
 - Asked: Master KMO: the docs have three sections, Foundations, Components and Animation & Effects; every animation and effect goes in the last one. Decision (b): the pages move too, not only the menu.
 - Changed (docs and checks only, no component code): `docs/components/{reveal,rewind-reveal,text-effects}.html` moved to `docs/animation/` (git mv); the menu (`docs/assets/shell.js`) has the new group after Components; the eyebrow of the three pages says "Animation & Effects"; links updated in `docs/components/line-chart.html`, `docs/animation/reveal.html`, `docs/animation/text-effects.html`, `react/browser/reveal-check.mjs`, `.github/workflows/reveal-browser-check.yml`, `blade/README.md`. The demo files stay in `docs/assets/`. Older HISTORY lines keep the old paths (they are a record).
 - Checked: `npm run test:browser -- --browsers=chromium` all pass (it opens the moved pages and checks the menu entries); `check-tokens` OK; Chromium on the local docs: the three pages answer 200 at `/animation/...` with "Animation & Effects" open and the page marked, Components pages open Components, the old `/components/...` addresses answer 404, no page errors.
 - Deploy note: the docs deploy is `rsync` without `--delete`, so the old three files stay on the server until they are removed by hand. Not verified: WebKit and Firefox locally (CI runs them); the live docs site (not deployed).
+- CI on #109 and on `main` `26b2bfa`: `design-system-checks` and `reveal-browser-check` (chromium, webkit, firefox) all success (looked at after the merge).
+- Docs deployed by Master KMO on the VPS (hostname check `vectorsticker`, user `deploy`), one command under `set -e`: shallow clone of `main` over HTTPS to a temp dir, backup `/var/www/ds.vectorsticker.com.bak-<date-time>`, `rsync -rt docs/` into `/var/www/ds.vectorsticker.com`, the three old files `components/{reveal,rewind-reveal,text-effects}.html` removed, `chown -R www-data:www-data`, temp dir removed. Output: `animation/reveal.html 200`, `animation/rewind-reveal.html 200`, `animation/text-effects.html 200`, `components/reveal.html 404`. This was also the first deploy of the Rewind Reveal page. Only `/var/www/ds.vectorsticker.com` was touched; no Apache or pm2 restart, main site and reports site not touched.
+- Not verified: the commit line of the clone (not in the output shown; the `animation/` pages answering 200 exist only from `26b2bfa`); the pages in a browser (this session cannot reach ds.vectorsticker.com).
 
 ---
 
