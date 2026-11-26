@@ -6,6 +6,16 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-26 - Docs: third deploy of the day (`main` `57f8ffc`, PR #119 added)
+
+- Asked: Master KMO: merge and deploy the titled-cards change (runs of one-demo sections become a grid of titled cards).
+- Merged by Claude: #119 (squash) after its CI was green on the head `8ba717a` (5 of 5) and a merge conflict in `HISTORY.md` with #118 was fixed by merging `main` into the branch.
+- Deployed by Master KMO on the VPS (ssh as `deploy` with `~/.ssh/vectorsticker_ed25519`, hostname check `vectorsticker`), the same one command as the earlier deploys. Output shown: `commit: 57f8ffc Docs: runs of one-demo sections become a grid of titled cards (#119)`, backup `/var/www/ds.vectorsticker.com.bak-20261126-103225`, `/`, `/components/button.html`, `/components/avatar.html`, `/components/meter.html`, `/components/tabs.html`, `/animation/text-effects.html` all `200`, `titled cards in live shell.js: 2`. Only `/var/www/ds.vectorsticker.com` was touched.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261126-103225/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the live pages in a browser by Claude (this session cannot reach ds.vectorsticker.com); the affected pages other than Avatar and Meter by eye. Pages with several demos in one section are still in their old layout (a hand-built layout, as Button and Badge, is needed).
+
+---
+
 ## 2026-11-26 - Docs: runs of sections that each hold one demo become a grid of titled cards (shell.js); branch claude/simple-sections-cards; not merged
 
 - Asked: Master KMO: "proceed" (continue the new card layout on the other pages).
