@@ -269,6 +269,46 @@
         if (el.classList.contains('vs-docs-code-block')) return;
         if (isText(el) || reference) send(el);
       });
+      // Two or more sections in a row that each hold just one demo box become one grid of titled cards (the section title is the
+      // card title). A lone such section stays a title with its box.
+      const boxOf = (h2) => {
+        let n = h2.nextElementSibling;
+        let box = null;
+        while (n && n.tagName !== 'H2') {
+          if (n.hasAttribute('data-vs-drawer') || n.hidden || n.classList.contains('vs-docs-lead')) { n = n.nextElementSibling; continue; }
+          if (box || !(n.matches && n.matches('.vs-docs-preview'))) return null;
+          box = n;
+          n = n.nextElementSibling;
+        }
+        return box;
+      };
+      let cardRun = [];
+      const flushCards = () => {
+        if (cardRun.length >= 2) {
+          const grid = document.createElement('div');
+          grid.className = 'vs-docs-cards';
+          cardRun[0].h2.before(grid);
+          cardRun.forEach(({ h2, box }) => {
+            const card = document.createElement('article');
+            card.className = 'vs-docs-card';
+            if (h2.id) card.id = h2.id;
+            const title = document.createElement('h3');
+            title.textContent = h2.textContent.trim();
+            card.append(title, box);
+            grid.appendChild(card);
+            let n = h2.nextElementSibling;
+            while (n && n.classList.contains('vs-docs-lead')) { const x = n; n = n.nextElementSibling; x.remove(); }
+            h2.remove();
+          });
+        }
+        cardRun = [];
+      };
+      Array.from(content.querySelectorAll(':scope > h2')).forEach((h2) => {
+        const box = boxOf(h2);
+        if (box) cardRun.push({ h2, box });
+        else flushCards();
+      });
+      flushCards();
       // Two or more demo boxes in a row become equal cards side by side (a lone one stays full width). Demos that already sit in a
       // grid of their own, and tables, are left as they are.
       const groupable = (el) => el.matches && el.matches('.vs-docs-preview, .demo-browser, .demo-redline');
