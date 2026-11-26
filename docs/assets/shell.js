@@ -215,6 +215,75 @@
       });
     });
 
+    // Pages written in the old way (a long run of headings, paragraphs, tables and demos) are tidied here, so the whole site
+    // follows the new layout without editing every page: the demos stay in the page; the text, lists, notes, spec tables and
+    // code of each section move to the drawer under that section's title. A page that already uses <section> is left alone.
+    const content = main.querySelector('.vs-docs-content');
+    if (content && !content.querySelector(':scope > section')) {
+      const interactive = 'button, input, select, textarea, svg, img, canvas, iframe, [class^="demo-"]:not(.demo-scroll)';
+      const isSpecTable = (el) => {
+        const table = el.tagName === 'TABLE' ? el : (el.classList.contains('demo-scroll') ? el.querySelector(':scope > table') : null);
+        return !!table && !table.classList.contains('vs-docs-state-table') && !table.querySelector(interactive);
+      };
+      const isText = (el) => ['P', 'UL', 'OL'].includes(el.tagName) || el.classList.contains('vs-docs-callout') || isSpecTable(el);
+      let title = 'Notes';
+      let wrapper = null;
+      const send = (el, label) => {
+        if (!wrapper) {
+          wrapper = document.createElement('div');
+          wrapper.setAttribute('data-vs-drawer', label || title);
+          el.before(wrapper);
+        }
+        wrapper.appendChild(el);
+      };
+      Array.from(content.children).forEach((el) => {
+        const isHead = el.classList.contains('vs-docs-section-head');
+        if (isHead || el.tagName === 'H2') {
+          const h2 = el.tagName === 'H2' ? el : el.querySelector('h2');
+          title = h2 ? h2.textContent.trim() : title;
+          wrapper = null;
+          if (isHead) {
+            const desc = el.querySelector('.vs-docs-section-desc');
+            const short = false; // every section note goes to the drawer; a short line under a title is added by hand (.vs-docs-lead) only where it is needed
+            if (h2) { if (el.id && !h2.id) h2.id = el.id; el.before(h2); }
+            if (short) {
+              const lead = document.createElement('p');
+              lead.className = 'vs-docs-lead';
+              lead.textContent = desc.textContent.trim();
+              (h2 || el).after(lead);
+            } else if (desc) {
+              const note = document.createElement('p');
+              note.innerHTML = desc.innerHTML;
+              el.before(note);
+              send(note);
+              wrapper = null;
+            }
+            el.remove();
+          }
+          return;
+        }
+        if (el.classList.contains('vs-docs-code-block')) return;
+        if (isText(el)) send(el);
+      });
+      // A heading left with nothing under it (its content went to the drawer) is dropped.
+      Array.from(content.querySelectorAll(':scope > h2')).forEach((h2) => {
+        let n = h2.nextElementSibling;
+        while (n && (n.classList.contains('vs-docs-lead') || n.hasAttribute('data-vs-drawer') || n.classList.contains('vs-docs-code-block'))) n = n.nextElementSibling;
+        if (!n || n.tagName === 'H2') {
+          while (h2.nextElementSibling && h2.nextElementSibling.classList.contains('vs-docs-lead')) h2.nextElementSibling.remove();
+          // The title goes, its address stays: a link or a test that looks for the id still finds it.
+          if (h2.id) {
+            const anchor = document.createElement('div');
+            anchor.id = h2.id;
+            anchor.hidden = true;
+            h2.replaceWith(anchor);
+          } else {
+            h2.remove();
+          }
+        }
+      });
+    }
+
     // Code drawer: one card per section that has code, plus an "About" card with the lede. One card open at a time.
     const lede = main.querySelector('.vs-docs-hero-lede');
     // Anything with data-vs-drawer="Title" goes to the drawer under that title; so does every code block (titled by its heading).
