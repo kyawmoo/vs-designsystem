@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-26 - Docs: Button page in the new card layout; branch claude/button-page (on top of claude/new-docs-shell); not merged
+
+- Asked: Master KMO: rewrite the Button page in the new design (sections of equal cards, code hidden in the Code drawer).
+- Changed (docs only): `docs/components/button.html` rebuilt from its own content: sections Emphasis (Primary, Secondary, Tertiary, Accent: sizes + Default / Hover / Pressed / Disabled), Formats (icon only, icon + text, text only), Special (social, Google, support), In context, Do and don't; the usage code, props, spec table (redlines), audit and copy buttons are in the Code drawer through `data-vs-drawer="Title"` (new in `shell.js`; any block can use it). `shell.css`: generic card grid (`.vs-docs-cards`, `.vs-docs-card`, `.is-quad` = 2 x 2, or 4 across from 1700px), optional one line under a section title (`.vs-docs-lead`), section spacing.
+- Checked: Chromium (Playwright, files served from `docs/`) at 1440, 1920 and 390px: no code block left in the page, 7 drawer cards, no JS error, no sideways scroll.
+- Not verified: Font Awesome icons (the sandbox cannot load the CDN, icons showed empty); WebKit and Firefox; the old matrix (all sizes x states of every variant) is now sizes + states per card, not one table; the live site.
+
+---
+
 ## 2026-11-26 - Docs: new white shell for the whole site (sidebar, top bar, fluid body, Code drawer); branch claude/new-docs-shell; not merged
 
 - Asked: Master KMO: the docs look boring; white page, side menu + fluid body (side padding in %, no fixed width), big centred title, less text, design first, the code hidden in one big obvious place; no numbers or circles; "start implementing the whole ds site".

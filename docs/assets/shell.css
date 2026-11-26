@@ -356,6 +356,102 @@ a {
 .vs-docs-code-block .str { color: #a488ff; }
 .vs-docs-code-block .cmt { color: #7d838c; }
 
+/* ---- Section + card grid (every component page): a title, an optional one line, then equal cards. Columns grow with the screen. ---- */
+.vs-docs-lead {
+  margin: -14px 0 28px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--vs-color-text-body);
+}
+
+.vs-docs-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.vs-docs-cards.is-wide {
+  grid-template-columns: repeat(auto-fill, minmax(min(420px, 100%), 1fr));
+}
+
+.vs-docs-content > section + section {
+  margin-top: clamp(56px, 7vw, 96px);
+}
+
+/* Four cards: 2 x 2 on a normal screen, one row of four on a wide one (never three and one alone). */
+.vs-docs-cards.is-quad {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 1700px) {
+  .vs-docs-cards.is-quad {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .vs-docs-cards.is-quad {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.vs-docs-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--vs-color-border);
+  border-radius: 18px;
+  background: var(--vs-color-surface);
+}
+
+.vs-docs-card > h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--vs-color-text-heading);
+}
+
+.vs-docs-card-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.vs-docs-sizes,
+.vs-docs-states {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: 18px 14px;
+}
+
+.vs-docs-cap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+
+.vs-docs-cap small {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--vs-color-text-muted);
+}
+
+.vs-docs-rule {
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: var(--vs-color-border);
+}
+
 /* ---- Code drawer: opens from the right over the page; one card open at a time ---- */
 .vs-docs-fab {
   position: fixed;

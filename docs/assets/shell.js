@@ -217,9 +217,12 @@
 
     // Code drawer: one card per section that has code, plus an "About" card with the lede. One card open at a time.
     const lede = main.querySelector('.vs-docs-hero-lede');
-    const blocks = Array.from(main.querySelectorAll('.vs-docs-content .vs-docs-code-block'));
+    // Anything with data-vs-drawer="Title" goes to the drawer under that title; so does every code block (titled by its heading).
+    const blocks = Array.from(main.querySelectorAll('.vs-docs-content .vs-docs-code-block, .vs-docs-content [data-vs-drawer]'))
+      .filter((el) => !el.parentElement.closest('[data-vs-drawer]'));
     if (!lede && !blocks.length) return;
     const titleOf = (el) => {
+      if (el.hasAttribute('data-vs-drawer')) return el.getAttribute('data-vs-drawer');
       let n = el;
       while (n && !n.classList.contains('vs-docs-content')) {
         while (n.previousElementSibling) {
