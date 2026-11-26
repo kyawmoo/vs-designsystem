@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-26 - Docs: every remaining section becomes a titled card, so all pages read as cards (shell.js); branch claude/all-sections-cards; not merged
+
+- Asked: Master KMO: do all the pages, no questions.
+- Changed (docs shell only, no page HTML): `docs/assets/shell.js`: after the earlier steps, every section still left (a title with several demos) becomes one `article.vs-docs-card` with the title as a small card title and the demos inside; the section id moves to the card; a title with nothing visual under it is removed and leaves a hidden anchor with its id; code blocks that sat under such a title go to the drawer under that title (data-vs-drawer). `docs/assets/shell.css`: card spacing, no margin under the last demo of a card.
+- Checked: Chromium (Playwright, files served from `docs/`) on all 46 pages at 1440 and 390px: no JS error, no sideways scroll; every `id` written in the source of every page still exists (Text Effects: `title-wipe`, `number-count-up`, `adding-an-effect`); Table, Alert, Checkbox looked at full page (stacked titled cards, no stray big titles).
+- Not verified: the other pages by eye; WebKit and Firefox locally (CI runs `reveal-check`); the live site (needs a deploy). Charts (Chart.js from a CDN) did not draw in the sandbox.
+
+---
+
 ## 2026-11-26 - Docs: third deploy of the day (`main` `57f8ffc`, PR #119 added)
 
 - Asked: Master KMO: merge and deploy the titled-cards change (runs of one-demo sections become a grid of titled cards).
