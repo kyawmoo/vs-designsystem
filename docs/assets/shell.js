@@ -228,6 +228,9 @@
       const isText = (el) => ['P', 'UL', 'OL'].includes(el.tagName) || el.classList.contains('vs-docs-callout') || isSpecTable(el);
       let title = 'Notes';
       let wrapper = null;
+      // Sections that are all reference (props, measurements, tokens, usage) go to the drawer whole, demos included.
+      const referenceTitle = /^(props|measurement|anatomy|redline|spec|token|design token|accessib|keyboard|usage\s*[—-]|rollout|api|blade|governance)/i;
+      let reference = false;
       const send = (el, label) => {
         if (!wrapper) {
           wrapper = document.createElement('div');
@@ -241,6 +244,7 @@
         if (isHead || el.tagName === 'H2') {
           const h2 = el.tagName === 'H2' ? el : el.querySelector('h2');
           title = h2 ? h2.textContent.trim() : title;
+          reference = referenceTitle.test(title);
           wrapper = null;
           if (isHead) {
             const desc = el.querySelector('.vs-docs-section-desc');
@@ -263,7 +267,7 @@
           return;
         }
         if (el.classList.contains('vs-docs-code-block')) return;
-        if (isText(el)) send(el);
+        if (isText(el) || reference) send(el);
       });
       // A heading left with nothing under it (its content went to the drawer) is dropped.
       Array.from(content.querySelectorAll(':scope > h2')).forEach((h2) => {

@@ -6,6 +6,14 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-26 - Docs: reference sections (props, measurements, anatomy, accessibility, tokens, usage, Blade) also go to the Code drawer; branch claude/card-tabs-table (on top of claude/all-pages); not merged
+
+- Asked: Master KMO: proceed with Card, Tabs and Table. They are large pages with many live demos, so instead of rewriting each by hand the generic tidy-up in `shell.js` now also sends a whole section to the drawer when its title starts with props, measurement, anatomy, redline, spec, token, design token, accessib, keyboard, usage -, rollout, api, blade or governance (demos included).
+- Checked: Chromium (Playwright, files served from `docs/`) on all 46 pages at 1440 and 390px: no JS error, no sideways scroll; every `id` written in the source of every page still exists; Card, Table and Tabs looked at (full page).
+- Not verified: the demos of Card, Tabs and Table are still in their old layout (not regrouped into equal cards by hand); WebKit and Firefox; `reveal-check` (CI runs it); the live site.
+
+---
+
 ## 2026-11-26 - Docs: every page follows the new layout through the shell (text, notes and spec tables move to the Code drawer); branch claude/all-pages (on top of claude/badge-page); not merged
 
 - Asked: Master KMO: do all the pages one after another, as fast as possible, no approval questions.
