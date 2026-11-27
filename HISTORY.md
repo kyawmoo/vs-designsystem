@@ -6,6 +6,14 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-27 - CI cost rules: money amounts and other repository names removed (public repo); branch claude/gracious-gauss-hwjdhk; not merged
+
+- Asked: Master KMO: keep the repo public, remove the amounts and repo names from `docs/CI_COST_RULES.md`.
+- Changed: `docs/CI_COST_RULES.md` only: the list of the other repositories, the November usage per repository, the included-compute amount and the budget amounts are gone; the rules themselves are unchanged. A line says this public copy leaves them out, so it now differs from the copies in the private repositories.
+- Not changed: the text stays in git history (#123) and anywhere it was copied while public; the repo stays public. Docs site not deployed (with `CI_COST_RULES.md` excluded, nothing in `docs/` changed since `c17a28e`).
+
+---
+
 ## 2026-11-27 - CI cost rules added (docs only); branch claude/gracious-gauss-hwjdhk; not merged
 
 - Asked: Master KMO: add the shared CI cost rules (the same text in every repository of the account). Tier A, docs only.
