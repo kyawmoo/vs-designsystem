@@ -56,6 +56,12 @@ export interface DateRangeSelectorProps {
   maxDays?: number;
   /** `0` Sunday (default) or `1` Monday. */
   weekStartsOn?: WeekStart;
+  /**
+   * Phone layout (under 768px). `'button'` (default): one button that opens a bottom sheet with the list. `'pills'`: every
+   * option as a round pill in a row that scrolls sideways, the selected one dark; with `allowCustom` a Custom pill opens
+   * the same date picker. Desktop is the same either way.
+   */
+  phoneLayout?: 'button' | 'pills';
 }
 
 const cx = (...parts: Array<string | false | null | undefined>) => parts.filter(Boolean).join(' ');
@@ -66,7 +72,8 @@ const accessibleName = (option: DateRangeOption) =>
 
 /**
  * Day-range selector for report pages: a compact segmented control on desktop; on phones one button (calendar icon +
- * current range) that opens a bottom sheet with the full list. Built on the segmented control look
+ * current range) that opens a bottom sheet with the full list, or with `phoneLayout="pills"` a sideways-scrolling row of
+ * round pills. Built on the segmented control look
  * (`.vs-segment-*`) and `FilterSheet`. With `allowCustom` it also has a Custom button that opens a `Popover` (a bottom
  * sheet on a phone) with a `RangeCalendar`, From / To, Cancel and Apply.
  *
@@ -88,12 +95,15 @@ export function DateRangeSelector({
   maxDate,
   maxDays = 365,
   weekStartsOn = 0,
+  phoneLayout = 'button',
 }: DateRangeSelectorProps) {
   const [sheetOpen, setSheetOpen] = React.useState(false);
   const [pickerOpen, setPickerOpen] = React.useState(false);
   const [draft, setDraft] = React.useState<DateRangeValue>({ from: null, to: null });
   const triggerRef = React.useRef<HTMLButtonElement>(null);
   const customRef = React.useRef<HTMLButtonElement>(null);
+  const customPillRef = React.useRef<HTMLButtonElement>(null);
+  const pills = phoneLayout === 'pills';
   const narrow = useIsNarrow(768);
 
   if (options.length === 0) return null;
@@ -126,7 +136,7 @@ export function DateRangeSelector({
   } Pick up to ${Math.max(1, Math.floor(maxDays))} days.`;
 
   return (
-    <div className={cx('vs-date-range', className)}>
+    <div className={cx('vs-date-range', pills && 'vs-date-range--pills', className)}>
       <div className="vs-segment-control vs-date-range__desktop" role="group" aria-label={label}>
         {options.map((option) => {
           const isActive = option.id === value;
@@ -166,24 +176,68 @@ export function DateRangeSelector({
         )}
       </div>
 
-      <button
-        ref={triggerRef}
-        type="button"
-        className="vs-date-range__trigger"
-        aria-haspopup="dialog"
-        aria-expanded={sheetOpen || pickerOpen}
-        aria-label={`${label}: ${customActive ? (customLabel ? `custom, ${customLabel}` : 'custom') : active ? active.fullLabel : 'none selected'}`}
-        aria-busy={loading ? true : undefined}
-        onClick={() => setSheetOpen(true)}
-      >
-        <Calendar size={16} aria-hidden="true" />
-        <span>{customActive && customLabel ? customLabel : active ? active.label : label}</span>
-        {loading ? (
-          <LoaderCircle className="vs-date-range__spinner" size={16} aria-hidden="true" />
-        ) : (
-          <ChevronDown size={16} aria-hidden="true" />
-        )}
-      </button>
+      {pills && (
+        <div className="vs-date-range__pills" role="group" aria-label={label}>
+          {options.map((option) => {
+            const isActive = option.id === value;
+            return (
+              <button
+                key={option.id}
+                type="button"
+                className={cx('vs-date-range__pill', isActive && 'is-active')}
+                aria-pressed={isActive}
+                aria-label={accessibleName(option)}
+                aria-busy={isActive && loading ? true : undefined}
+                onClick={() => select(option.id)}
+              >
+                {isActive && loading && <LoaderCircle className="vs-date-range__spinner" size={14} aria-hidden="true" />}
+                {option.label}
+              </button>
+            );
+          })}
+          {allowCustom && (
+            <button
+              ref={customPillRef}
+              type="button"
+              className={cx('vs-date-range__pill', customActive && 'is-active')}
+              aria-pressed={customActive}
+              aria-haspopup="dialog"
+              aria-expanded={pickerOpen}
+              aria-label={customActive && customLabel ? `Custom range ${customLabel}` : 'Custom range'}
+              aria-busy={customActive && loading ? true : undefined}
+              onClick={() => (pickerOpen ? setPickerOpen(false) : openPicker())}
+            >
+              {customActive && loading ? (
+                <LoaderCircle className="vs-date-range__spinner" size={14} aria-hidden="true" />
+              ) : (
+                <Calendar size={14} aria-hidden="true" />
+              )}
+              {customActive && customLabel ? customLabel : 'Custom'}
+            </button>
+          )}
+        </div>
+      )}
+
+      {!pills && (
+        <button
+          ref={triggerRef}
+          type="button"
+          className="vs-date-range__trigger"
+          aria-haspopup="dialog"
+          aria-expanded={sheetOpen || pickerOpen}
+          aria-label={`${label}: ${customActive ? (customLabel ? `custom, ${customLabel}` : 'custom') : active ? active.fullLabel : 'none selected'}`}
+          aria-busy={loading ? true : undefined}
+          onClick={() => setSheetOpen(true)}
+        >
+          <Calendar size={16} aria-hidden="true" />
+          <span>{customActive && customLabel ? customLabel : active ? active.label : label}</span>
+          {loading ? (
+            <LoaderCircle className="vs-date-range__spinner" size={16} aria-hidden="true" />
+          ) : (
+            <ChevronDown size={16} aria-hidden="true" />
+          )}
+        </button>
+      )}
 
       {summary != null && summary !== false && summary !== '' && (
         <div className="vs-date-range__summary" aria-live="polite">
@@ -191,24 +245,26 @@ export function DateRangeSelector({
         </div>
       )}
 
-      <FilterSheet
-        open={sheetOpen}
-        onClose={() => setSheetOpen(false)}
-        title={label}
-        groups={[
-          {
-            options: [
-              ...options.map((option) => ({ id: option.id, label: option.fullLabel })),
-              ...(allowCustom ? [{ id: DATE_RANGE_CUSTOM_ID, label: customActive && customLabel ? `Custom range: ${customLabel}` : 'Custom range…' }] : []),
-            ],
-            selectedId: value,
-            onSelect: (id) => (allowCustom && id === DATE_RANGE_CUSTOM_ID ? openPicker() : select(id)),
-          },
-        ]}
-      />
+      {!pills && (
+        <FilterSheet
+          open={sheetOpen}
+          onClose={() => setSheetOpen(false)}
+          title={label}
+          groups={[
+            {
+              options: [
+                ...options.map((option) => ({ id: option.id, label: option.fullLabel })),
+                ...(allowCustom ? [{ id: DATE_RANGE_CUSTOM_ID, label: customActive && customLabel ? `Custom range: ${customLabel}` : 'Custom range…' }] : []),
+              ],
+              selectedId: value,
+              onSelect: (id) => (allowCustom && id === DATE_RANGE_CUSTOM_ID ? openPicker() : select(id)),
+            },
+          ]}
+        />
+      )}
 
       {allowCustom && (
-        <Popover open={pickerOpen} onClose={() => setPickerOpen(false)} anchorRef={narrow ? triggerRef : customRef} label="Custom date range" align="end">
+        <Popover open={pickerOpen} onClose={() => setPickerOpen(false)} anchorRef={narrow ? (pills ? customPillRef : triggerRef) : customRef} label="Custom date range" align="end">
           <div className="vs-drp">
             <div className="vs-drp-fields">
               <div className="vs-drp-field">

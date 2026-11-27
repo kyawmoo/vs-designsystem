@@ -1524,6 +1524,61 @@
   }
 }
 
+/* phoneLayout="pills": a row of round pills on phones (hidden on desktop). The row scrolls sideways instead of widening
+   the page; the selected pill is dark. */
+.vs-date-range__pills {
+  display: none;
+  gap: 0.5rem;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.vs-date-range__pills::-webkit-scrollbar {
+  display: none;
+}
+
+.vs-date-range__pill {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: var(--vs-radius-full);
+  background: var(--vs-color-surface);
+  border: 1px solid var(--vs-color-border);
+  font-family: var(--vs-font-family);
+  font-size: var(--vs-font-size-body-sm);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--vs-color-text-heading);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.vs-date-range__pill.is-active {
+  background: var(--vs-color-brand-secondary);
+  border-color: var(--vs-color-brand-secondary);
+  color: var(--vs-color-surface);
+}
+
+.vs-date-range__pill:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: var(--vs-focus-ring-offset);
+}
+
+@media (max-width: 767px) {
+  .vs-date-range--pills {
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .vs-date-range--pills > .vs-date-range__pills {
+    display: flex;
+  }
+}
+
 /* Popover: a panel under a button; a bottom sheet under 768px (same breakpoint as FilterSheet's `md`). Drawn in a portal,
    position: fixed, so z-index 60 puts it above Modal / Drawer / FilterSheet (50). */
 .vs-popover {
