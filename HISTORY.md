@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-27 - DateRangeSelector: opt-in phone pills (`phoneLayout="pills"`), for kyawmoo/Report-VectorSticker#366; branch claude/jolly-rubin-rpz0bd; not merged
+
+- Asked: Master KMO: do kyawmoo/Report-VectorSticker#366 (the ticket sits in the reports repo; the change is this component).
+- Changed: `DateRangeSelector` gets `phoneLayout` (`'button'` default, unchanged; `'pills'`): under 768px every option is a round pill in a sideways-scrolling row, the selected one dark (`--vs-color-brand-secondary`, `aria-pressed="true"`); with `allowCustom` a Custom pill opens the same RangeCalendar bottom sheet (Apply calls `onCustomChange`, then `onChange('custom')`); no trigger and no FilterSheet in that mode. Desktop unchanged. Styles `.vs-date-range__pills` / `__pill` in `react/src/styles.css` (tokens only; the look of the reports site's approved phone pills). Docs page: new "On a phone: pills" section, usage line, `phoneLayout` prop row. 8 new tests.
+- Checked: `vitest run` 29 files, 434 tests pass; the 6 pills tests fail with the old component; `tsc --noEmit` exit 0; `check:tokens` OK. Chromium with the real component: 320 / 390 px no sideways page scroll, the pill row scrolls inside itself, tapping 90D presses only 90D, Custom opens the bottom sheet; 1024 px pills hidden, desktop buttons shown; no page errors.
+- Open: the reports site uses it on Server Health after this is merged (package bump + `phoneLayout="pills"`). Docs site not deployed.
+
+---
+
 ## 2026-11-27 - CI cost rules: money amounts and other repository names removed (public repo); branch claude/gracious-gauss-hwjdhk; not merged
 
 - Asked: Master KMO: keep the repo public, remove the amounts and repo names from `docs/CI_COST_RULES.md`.

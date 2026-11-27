@@ -434,3 +434,112 @@ describe('DateRangeSelector: custom range on a phone', () => {
     expect(within(sheet).getByText('Custom range: 14–20 Oct')).toBeTruthy();
   });
 });
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Phone pills layout (phoneLayout="pills")
+// ---------------------------------------------------------------------------------------------------------------------
+
+const pillGroup = () => document.querySelector('.vs-date-range__pills') as HTMLElement;
+const pills = () => within(pillGroup()).getAllByRole('button');
+
+describe('DateRangeSelector: phone layout default (button + sheet)', () => {
+  it('renders the trigger and no pill row when phoneLayout is omitted', () => {
+    render(<Harness />);
+    expect(trigger()).toBeTruthy();
+    expect(pillGroup()).toBeNull();
+    expect(document.querySelector('.vs-date-range--pills')).toBeNull();
+  });
+});
+
+describe('DateRangeSelector: phone pills layout', () => {
+  fakeToday();
+
+  it('shows every option as a pill, only the selected one pressed and dark (is-active), and no trigger', () => {
+    stubNarrow(true);
+    render(<CustomHarness phoneLayout="pills" initialValue="3d" />);
+    expect(pillGroup().getAttribute('role')).toBe('group');
+    expect(pillGroup().getAttribute('aria-label')).toBe('Date range');
+    expect(pills().map((b) => b.textContent)).toEqual(['Today', '3D', '7D', '90D', 'Custom']);
+    expect(pills().map((b) => b.getAttribute('aria-pressed'))).toEqual(['false', 'true', 'false', 'false', 'false']);
+    expect(pills().filter((b) => b.classList.contains('is-active'))).toHaveLength(1);
+    expect(pills()[1].classList.contains('is-active')).toBe(true);
+    expect(screen.queryByRole('button', { name: /^Date range:/ })).toBeNull();
+    expect(document.querySelector('.vs-date-range--pills')).not.toBeNull();
+  });
+
+  it('calls onChange with the tapped pill and moves the selection; the selected pill does not call it again', async () => {
+    stubNarrow(true);
+    const onChange = vi.fn();
+    render(<CustomHarness phoneLayout="pills" onChange={onChange} />);
+    await userEvent.click(within(pillGroup()).getByRole('button', { name: '90D, 90 Days' }));
+    expect(onChange).toHaveBeenCalledWith('90d');
+    expect(pills()[3].getAttribute('aria-pressed')).toBe('true');
+    await userEvent.click(pills()[3]);
+    expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('has no Custom pill without allowCustom', () => {
+    stubNarrow(true);
+    render(<DateRangeSelector phoneLayout="pills" value="7d" onChange={() => {}} />);
+    expect(pills().map((b) => b.textContent)).toEqual(['Today', '3D', '7D', '90D']);
+  });
+
+  it('Custom pill opens the RangeCalendar sheet; Apply calls onCustomChange then onChange("custom") and the pill shows the dates', async () => {
+    stubNarrow(true);
+    const calls: string[] = [];
+    render(
+      <CustomHarness
+        phoneLayout="pills"
+        onCustomChange={(r) => calls.push(`custom ${r.from}..${r.to}`)}
+        onChange={(id) => calls.push(`change ${id}`)}
+      />
+    );
+    const custom = within(pillGroup()).getByRole('button', { name: 'Custom range' });
+    expect(custom.getAttribute('aria-haspopup')).toBe('dialog');
+    await userEvent.click(custom);
+    const dlg = pickerDialog();
+    expect(dlg.classList.contains('vs-popover--sheet')).toBe(true);
+    expect(document.querySelectorAll('.vs-rc-title')).toHaveLength(1);
+    await userEvent.click(screen.getByRole('button', { name: 'Previous month' }));
+    await userEvent.click(calendarDay('14 October 2026'));
+    await userEvent.click(calendarDay('20 October 2026'));
+    await userEvent.click(screen.getByRole('button', { name: 'Apply' }));
+    expect(calls).toEqual(['custom 2026-10-14..2026-10-20', 'change custom']);
+    expect(screen.queryByRole('dialog', { name: 'Custom date range' })).toBeNull();
+    const pill = within(pillGroup()).getByRole('button', { name: 'Custom range 14–20 Oct' });
+    expect(pill.textContent).toBe('14–20 Oct');
+    expect(pill.getAttribute('aria-pressed')).toBe('true');
+    expect(pills().filter((b) => b.getAttribute('aria-pressed') === 'true')).toHaveLength(1);
+  });
+
+  it('Cancel closes the picker without calling onChange or onCustomChange', async () => {
+    stubNarrow(true);
+    const onChange = vi.fn();
+    const onCustomChange = vi.fn();
+    render(<CustomHarness phoneLayout="pills" onChange={onChange} onCustomChange={onCustomChange} />);
+    await userEvent.click(within(pillGroup()).getByRole('button', { name: 'Custom range' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+    expect(screen.queryByRole('dialog', { name: 'Custom date range' })).toBeNull();
+    expect(onChange).not.toHaveBeenCalled();
+    expect(onCustomChange).not.toHaveBeenCalled();
+  });
+
+  it('marks only the selected pill busy while loading', () => {
+    stubNarrow(true);
+    render(<CustomHarness phoneLayout="pills" loading />);
+    expect(pills().map((b) => b.getAttribute('aria-busy'))).toEqual([null, null, 'true', null, null]);
+    expect(pills()[2].querySelector('.vs-date-range__spinner')).not.toBeNull();
+  });
+
+  it('keeps the desktop buttons unchanged', () => {
+    stubNarrow(false);
+    render(<CustomHarness phoneLayout="pills" />);
+    expect(within(document.querySelector('.vs-date-range__desktop') as HTMLElement).getAllByRole('button').map((b) => b.textContent)).toEqual([
+      'Today',
+      '3D',
+      '7D',
+      '90D',
+      '',
+    ]);
+  });
+});
