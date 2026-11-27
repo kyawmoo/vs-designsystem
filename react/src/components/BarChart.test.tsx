@@ -18,7 +18,7 @@ vi.mock('chart.js', () => {
   return { Chart, BarController: el, BarElement: el, CategoryScale: el, Filler: el, LinearScale: el, LineController: el, LineElement: el, PointElement: el, Tooltip: el };
 });
 
-import { BarChart, linePointPosition } from './BarChart';
+import { BarChart, BAR_CHART_GROW_MS, linePointPosition } from './BarChart';
 
 const TODAY = new Date(2026, 9, 22, 12);
 const DATES = ['2026-10-20', '2026-10-22'];
@@ -373,7 +373,7 @@ describe('BarChart dashboard options (Task 7)', () => {
   it('defaults keep the old look: no markers plugin, smooth line, wide full-colour bars, visible right axis', () => {
     render(<BarChart dates={DATES} series={MIXED} ariaLabel="x" today={TODAY} />);
     const c = last();
-    expect(c.plugins.map((p: any) => p.id)).toEqual(['vsTodayLine', 'vsValueLabels']);
+    expect(c.plugins.map((p: any) => p.id)).toEqual(['vsTodayLine', 'vsValueLabels', 'vsLiveDot']);
     const [bars, line] = c.data.datasets;
     expect(line.tension).toBe(0.35);
     expect(line.borderWidth).toBe(2.5);
@@ -434,7 +434,7 @@ describe('BarChart dashboard options (Task 7)', () => {
     expect(line.pointRadius({ dataIndex: 0 })).toBe(3.5);
     expect(line.pointRadius({ dataIndex: 2 })).toBe(0); // today: the plugin draws the large dot
     expect(line.pointBackgroundColor).toBe('#ffffff');
-    expect(c.plugins.map((p: any) => p.id)).toEqual(['vsTodayLine', 'vsValueLabels', 'vsLineMarkers']);
+    expect(c.plugins.map((p: any) => p.id)).toEqual(['vsTodayLine', 'vsValueLabels', 'vsLineMarkers', 'vsLiveDot']);
   });
 
   const drawMarkers = (c: any, width: number, textWidth: number) => {
@@ -455,8 +455,8 @@ describe('BarChart dashboard options (Task 7)', () => {
     return calls;
   };
 
-  it('lineStyle="markers" writes every line value while they fit, none when one does not, and a dark today dot with a halo', () => {
-    render(<BarChart dates={DATES} series={MIXED} ariaLabel="x" today={TODAY} lineStyle="markers" />);
+  it('lineStyle="markers" writes every line value while they fit, none when one does not, and a dark today dot with a halo (no live dot)', () => {
+    render(<BarChart dates={DATES} series={MIXED} ariaLabel="x" today={TODAY} lineStyle="markers" liveDot={false} />);
     const c = last();
     const fits = drawMarkers(c, 400, 10);
     expect(fits.texts).toEqual(['30', '40']); // line values only, not the bars
@@ -547,5 +547,70 @@ describe('BarChart dashboard options (Task 7)', () => {
     rerender(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} barStyle="soft" lineStyle="markers" tooltipTone="dark" xLabels="ends" />);
     rerender(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} barStyle="soft" lineStyle="markers" tooltipTone="dark" xLabels="ends" rightAxis="hidden" />);
     expect(charts).toHaveLength(6);
+  });
+});
+
+describe('BarChart live dot (27 Nov 2026)', () => {
+  const MIX = [
+    { id: 'dl', label: 'Downloads', data: [3, 4], axis: 'right' as const, color: '#743cee' },
+    { id: 'u', label: 'Visitors', data: [30, 40], type: 'line' as const, color: '#2e7d32' },
+  ];
+  const fakeChart = () => ({
+    chartArea: { left: 0, right: 100, top: 0, bottom: 100 },
+    getDatasetMeta: () => ({ data: Array.from({ length: 4 }, (_, i) => ({ getProps: () => ({ x: i * 20, y: 60 }) })) }),
+  });
+
+  it('only line series get a dot, on the newest value up to today, in the series colour, replacing the today point', () => {
+    const { container } = render(<BarChart dates={DATES} series={MIX} ariaLabel="x" today={TODAY} />);
+    const dots = container.querySelectorAll('.vs-live-dot');
+    expect(dots).toHaveLength(1);
+    expect(dots[0].className).toBe('vs-live-dot');
+    const c = last();
+    expect(c.data.datasets[1].pointRadius({ dataIndex: 2 })).toBe(0); // today: the live dot instead of the hollow point
+    c.plugins.find((p: any) => p.id === 'vsLiveDot').afterDraw(fakeChart());
+    const dot = dots[0] as HTMLElement;
+    expect(dot.hidden).toBe(false);
+    expect(dot.style.left).toBe('40px');
+    expect(dot.style.getPropertyValue('--vs-live-dot-color')).toBe('#2e7d32');
+    expect(dot.style.getPropertyValue('--vs-live-dot-delay')).toBe(`${Math.round((3 * BAR_CHART_GROW_MS) / 4)}ms`);
+  });
+
+  it('a bars-only chart and liveDot={false} have no dot and no plugin', () => {
+    const { container, rerender } = render(<BarChart dates={DATES} series={[FREE]} ariaLabel="x" today={TODAY} />);
+    expect(container.querySelector('.vs-live-dot')).toBeNull();
+    rerender(<BarChart dates={DATES} series={MIX} ariaLabel="x" today={TODAY} liveDot={false} />);
+    expect(container.querySelector('.vs-live-dot')).toBeNull();
+    expect(last().plugins.map((p: any) => p.id)).not.toContain('vsLiveDot');
+    expect(last().data.datasets[1].pointRadius({ dataIndex: 2 })).toBe(4);
+  });
+
+  it('lineStyle="markers": the large today dot stays, its halo becomes the ripple ring in the dark marker colour', () => {
+    const { container } = render(<BarChart dates={DATES} series={MIX} ariaLabel="x" today={TODAY} lineStyle="markers" />);
+    const dot = container.querySelector('.vs-live-dot') as HTMLElement;
+    expect(dot.className).toBe('vs-live-dot vs-live-dot--ring');
+    const c = last();
+    const arcs: number[] = [];
+    let fill = '';
+    const g: any = {
+      save() {}, restore() {}, beginPath() {}, stroke() {}, fillText() {},
+      measureText: () => ({ width: 5 }),
+      arc: (_x: number, _y: number, r: number) => arcs.push(r),
+      fill() {},
+      set fillStyle(v: string) { fill = v; }, get fillStyle() { return fill; },
+      set font(_v: string) {}, set textAlign(_v: string) {}, set textBaseline(_v: string) {}, set lineWidth(_v: number) {}, set strokeStyle(_v: string) {},
+    };
+    const points = [{ x: 10, y: 50 }, { x: 20, y: 50 }, { x: 30, y: 40 }, { x: 40, y: 40 }];
+    c.plugins.find((p: any) => p.id === 'vsLineMarkers').afterDatasetsDraw({ ctx: g, chartArea: { width: 400 }, getDatasetMeta: () => ({ data: points }) });
+    expect(arcs).toEqual([10]); // the dot, no halo
+    c.plugins.find((p: any) => p.id === 'vsLiveDot').afterDraw(fakeChart());
+    expect(dot.style.getPropertyValue('--vs-live-dot-color')).toBe('#222222');
+  });
+
+  it('lineStyle="markers" with no value today: a normal dot on the last value, and that point loses its hollow marker', () => {
+    const { container } = render(
+      <BarChart dates={DATES} series={[{ id: 'u', label: 'V', type: 'line', data: [5, null], color: '#2e7d32' }]} ariaLabel="x" today={TODAY} lineStyle="markers" />
+    );
+    expect((container.querySelector('.vs-live-dot') as HTMLElement).className).toBe('vs-live-dot');
+    expect(last().data.datasets[0].pointRadius({ dataIndex: 0 })).toBe(0);
   });
 });

@@ -6,6 +6,16 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-27 - LineChart / BarChart: live dot with a soft ripple on the newest reading of every line (`liveDot`, default on); branch claude/elegant-mccarthy-x12gh4; not merged
+
+- Asked: Master KMO: the live dot of the reports site's Site Monitor CPU line on every line graph, sparklines included; chose 1a (build it in the design system), 2a (every line that ends at today/now), 3a (smaller on sparklines).
+- Changed: new `react/src/components/liveDot.ts` (`newestIndex`, `liveDotPlugin`: an HTML dot placed over the canvas on the point's final position after every draw; hidden when the point is missing or outside the plot). `LineChart` and `BarChart` get `liveDot` (default `true`): one dot per line series on the newest value up to today, in the series colour, replacing the hollow today point; sparklines get `--sm`; BarChart bars get none; `lineStyle="markers"` keeps the large dark today dot and its halo becomes the ripple (`--ring`, `--vs-chart-today-marker` colour); a dot fades in once the line has drawn up to it. `styles.css`: `.vs-live-dot` (8px, ripple to 5.5x, 50% to 0, 2.4s; `--sm` 5px / 3.5x; `--ring` 20px / 2.6x), no ripple with reduced motion. Docs: rule and prop rows on the LineChart and BarChart pages (static demos not animated).
+- Checked: `vitest run` 29 files, 441 tests pass (7 new; 3 old expectations changed for the added plugin; the markers halo test now runs with `liveDot={false}`); turning the default off fails 10 tests, drawing the halo with the ring fails the ring test; `tsc --noEmit` exit 0; `check:tokens` OK. In the reports site with this source copied in: its lint, 1011 tests and Chromium at 960 px on fixture data: dot on a SummaryCard sparkline (5px), area LineChart, Revenue-style bar + line, the desktop Visitors markers chart (ring), Site Monitor; ripple running, `none` with reduced motion; no page errors.
+- Open: reports site: bump the package and drop its own `.vs-live-dot` CSS (done on its branch, waiting for this merge). Docs site not deployed.
+- Not verified: Safari / Firefox; touch; real data.
+
+---
+
 ## 2026-11-27 - DateRangeSelector: opt-in phone pills (`phoneLayout="pills"`), for kyawmoo/Report-VectorSticker#366; branch claude/jolly-rubin-rpz0bd; not merged
 
 - Asked: Master KMO: do kyawmoo/Report-VectorSticker#366 (the ticket sits in the reports repo; the change is this component).
