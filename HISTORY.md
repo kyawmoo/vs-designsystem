@@ -6,6 +6,16 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-27 - LiveDot: the chart's live dot as its own component (React `LiveDot`, Blade `<x-vs-live-dot>`) and an Animation & Effects page; branch claude/elegant-mccarthy-x12gh4; not merged
+
+- Asked: Master KMO: the ripple in the Animation section, usable on its own, not only in charts; chose 1a (name `LiveDot` / `x-vs-live-dot`) and 2a (React and Blade).
+- Changed: CSS: the live-dot rules became the `vs-live-dot` block (start/end markers), identical in `react/src/styles.css` and `blade/components.css` (+ docs copy); new `--inline` (in the text flow, no fade-in), `--lg` (12px, 4x), `--still` (no ripple); default colour `--vs-color-brand-primary` when none is set; the chart look is unchanged. `check-tokens.mjs` (new check 9): the two copies must match, every `--vs-*` token read must exist, reduced motion must stop the ripple. New `react/src/components/LiveDot.tsx` (`color`, `size` sm/md/lg, `ripple`, `label` -> `role="img"` + name, else `aria-hidden`; other props passed on), exported from `index.ts`. New `blade/components/vs-live-dot.blade.php` (same props; `color` only `var(--vs-...)` or hex, anything else ignored; `style` merged after the colour). New `docs/animation/live-dot.html` (sizes, colours, avatar / text examples, usage, props) and its menu entry; `blade/README.md` section.
+- Checked: `vitest run` 30 files, 445 pass (4 new); `tsc --noEmit` exit 0; `check:tokens` OK. Blade rendered with a real Laravel view engine (illuminate/view 10, scratch dir): default, sm + no ripple + token colour + label + class/id, lg + hex + caller `style` (first run showed the two styles joined without `;`: fixed), a CSS-injection colour and `" onclick=` both dropped, `<b>` in the label escaped. Docs page in Chromium (local static server) at 1280 / 390 px and with reduced motion: menu entry, 10 dots with the right sizes and colours, ripple running (`none` with reduced motion), no sideways scroll, no page errors.
+- Not verified: Safari / Firefox; the Blade component on the main site (not copied there). (Drift check provoked: changing one value in the Blade copy fails `check:tokens` with "the vs-live-dot block differs".)
+- Open: docs site deploy; reports site may use `LiveDot` after the next package bump (nothing there needs it now).
+
+---
+
 ## 2026-11-27 - Docs deployed (`main` `84a3574`): live dot rows on LineChart / BarChart, Date Range Selector phone pills
 
 - Deployed by Master KMO on the VPS (ssh as `deploy`, hostname `vectorsticker`), one command in a `set -e` subshell: shallow clone of `main` over HTTPS, backup `/var/www/ds.vectorsticker.com.bak-20261127-180922`, `rsync -rt` of `docs/` with `--exclude 'CI_COST_RULES.md'` (internal rules stay off the docs site; no `--delete`), `chown -R www-data:www-data`, temp dir removed. Output: `commit: 84a3574`, `/`, `/components/line-chart.html`, `/components/bar-chart.html`, `/components/date-range-selector.html` all `200`, `/CI_COST_RULES.md` `404`, `liveDot rows: 1`. `sudo` asked for the password three times (two typos). Only `/var/www/ds.vectorsticker.com` was touched; no Apache or pm2 restart.

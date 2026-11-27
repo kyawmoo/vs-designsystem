@@ -1448,11 +1448,14 @@
   width: 100%;
 }
 
-/* Live dot (27 Nov 2026): LineChart / BarChart put it on the newest reading of each line. A dot in the line's colour with a
-   surface ring, and a ripple that grows and fades on repeat. It fades in once the line has drawn up to it
-   (--vs-live-dot-delay, set by the chart). Colour: --vs-live-dot-color, the series colour resolved by the chart.
-   Sizes: default 8px dot, ripple to 5.5x; --sm (sparklines) 5px, 3.5x; --ring (the large today dot of lineStyle="markers",
-   which the canvas draws) the ripple only, 20px, to 2.6x. */
+/* vs-live-dot:start (this block is identical in react/src/styles.css and blade/components.css; check-tokens keeps them equal) */
+/* Live dot (27 Nov 2026): a dot with a ripple that grows and fades on repeat. Colour: --vs-live-dot-color (default the brand
+   green). Sizes: default 8px, ripple to 5.5x; --sm 5px, 3.5x; --lg 12px, 4x; --ring (the large today dot of BarChart
+   lineStyle="markers", which the canvas draws) the ripple only, 20px, 2.6x. --still: no ripple.
+   Two uses:
+   - in a chart (LineChart / BarChart): placed over the canvas on the newest reading (position from the chart, left/top),
+     fading in once the line has drawn up to it (--vs-live-dot-delay, set by the chart);
+   - on its own (--inline, the LiveDot component / <x-vs-live-dot>): in the text flow, next to a label or an avatar. */
 .vs-live-dot {
   --vs-live-dot-size: 8px;
   --vs-live-dot-scale: 5.5;
@@ -1462,7 +1465,7 @@
   height: var(--vs-live-dot-size);
   margin: calc(var(--vs-live-dot-size) / -2) 0 0 calc(var(--vs-live-dot-size) / -2);
   border-radius: 50%;
-  background: var(--vs-live-dot-color);
+  background: var(--vs-live-dot-color, var(--vs-color-brand-primary));
   box-shadow: 0 0 0 var(--vs-live-dot-ring) var(--vs-color-surface);
   pointer-events: none;
   opacity: 0;
@@ -1471,10 +1474,23 @@
 .vs-live-dot[hidden] {
   display: none;
 }
+.vs-live-dot--inline {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  margin: 0;
+  vertical-align: middle;
+  opacity: 1;
+  animation: none;
+}
 .vs-live-dot--sm {
   --vs-live-dot-size: 5px;
   --vs-live-dot-scale: 3.5;
   --vs-live-dot-ring: 1.5px;
+}
+.vs-live-dot--lg {
+  --vs-live-dot-size: 12px;
+  --vs-live-dot-scale: 4;
 }
 .vs-live-dot--ring {
   --vs-live-dot-size: 20px;
@@ -1487,9 +1503,12 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: var(--vs-live-dot-color);
+  background: var(--vs-live-dot-color, var(--vs-color-brand-primary));
   opacity: 0;
   animation: vs-live-dot-ripple 2.4s var(--vs-motion-ease-decelerate) infinite;
+}
+.vs-live-dot--still::after {
+  animation: none;
 }
 @keyframes vs-live-dot-in {
   to {
@@ -1516,6 +1535,7 @@
     animation: none;
   }
 }
+/* vs-live-dot:end */
 
 /* Date Range Selector: desktop = the segmented control above (small buttons); phones = one trigger button + the
    FilterSheet. Breakpoint 768px = Tailwind `md`, the same one FilterSheet uses (`md:hidden`). */
