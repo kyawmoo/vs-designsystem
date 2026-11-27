@@ -6,7 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
-## 2026-11-27 - LineChart / BarChart: live dot with a soft ripple on the newest reading of every line (`liveDot`, default on); branch claude/elegant-mccarthy-x12gh4; not merged
+## 2026-11-27 - Docs deployed (`main` `84a3574`): live dot rows on LineChart / BarChart, Date Range Selector phone pills
+
+- Deployed by Master KMO on the VPS (ssh as `deploy`, hostname `vectorsticker`), one command in a `set -e` subshell: shallow clone of `main` over HTTPS, backup `/var/www/ds.vectorsticker.com.bak-20261127-180922`, `rsync -rt` of `docs/` with `--exclude 'CI_COST_RULES.md'` (internal rules stay off the docs site; no `--delete`), `chown -R www-data:www-data`, temp dir removed. Output: `commit: 84a3574`, `/`, `/components/line-chart.html`, `/components/bar-chart.html`, `/components/date-range-selector.html` all `200`, `/CI_COST_RULES.md` `404`, `liveDot rows: 1`. `sudo` asked for the password three times (two typos). Only `/var/www/ds.vectorsticker.com` was touched; no Apache or pm2 restart.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261127-180922/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the pages in a browser (this session's network cannot reach the site).
+
+---
+
+## 2026-11-27 - LineChart / BarChart: live dot with a soft ripple on the newest reading of every line (`liveDot`, default on); merged as `84a3574` (#127)
 
 - Asked: Master KMO: the live dot of the reports site's Site Monitor CPU line on every line graph, sparklines included; chose 1a (build it in the design system), 2a (every line that ends at today/now), 3a (smaller on sparklines).
 - Changed: new `react/src/components/liveDot.ts` (`newestIndex`, `liveDotPlugin`: an HTML dot placed over the canvas on the point's final position after every draw; hidden when the point is missing or outside the plot). `LineChart` and `BarChart` get `liveDot` (default `true`): one dot per line series on the newest value up to today, in the series colour, replacing the hollow today point; sparklines get `--sm`; BarChart bars get none; `lineStyle="markers"` keeps the large dark today dot and its halo becomes the ripple (`--ring`, `--vs-chart-today-marker` colour); a dot fades in once the line has drawn up to it. `styles.css`: `.vs-live-dot` (8px, ripple to 5.5x, 50% to 0, 2.4s; `--sm` 5px / 3.5x; `--ring` 20px / 2.6x), no ripple with reduced motion. Docs: rule and prop rows on the LineChart and BarChart pages (static demos not animated).
