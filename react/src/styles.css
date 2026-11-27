@@ -1448,6 +1448,75 @@
   width: 100%;
 }
 
+/* Live dot (27 Nov 2026): LineChart / BarChart put it on the newest reading of each line. A dot in the line's colour with a
+   surface ring, and a ripple that grows and fades on repeat. It fades in once the line has drawn up to it
+   (--vs-live-dot-delay, set by the chart). Colour: --vs-live-dot-color, the series colour resolved by the chart.
+   Sizes: default 8px dot, ripple to 5.5x; --sm (sparklines) 5px, 3.5x; --ring (the large today dot of lineStyle="markers",
+   which the canvas draws) the ripple only, 20px, to 2.6x. */
+.vs-live-dot {
+  --vs-live-dot-size: 8px;
+  --vs-live-dot-scale: 5.5;
+  --vs-live-dot-ring: 2px;
+  position: absolute;
+  width: var(--vs-live-dot-size);
+  height: var(--vs-live-dot-size);
+  margin: calc(var(--vs-live-dot-size) / -2) 0 0 calc(var(--vs-live-dot-size) / -2);
+  border-radius: 50%;
+  background: var(--vs-live-dot-color);
+  box-shadow: 0 0 0 var(--vs-live-dot-ring) var(--vs-color-surface);
+  pointer-events: none;
+  opacity: 0;
+  animation: vs-live-dot-in 240ms var(--vs-motion-ease-decelerate) var(--vs-live-dot-delay, 0ms) forwards;
+}
+.vs-live-dot[hidden] {
+  display: none;
+}
+.vs-live-dot--sm {
+  --vs-live-dot-size: 5px;
+  --vs-live-dot-scale: 3.5;
+  --vs-live-dot-ring: 1.5px;
+}
+.vs-live-dot--ring {
+  --vs-live-dot-size: 20px;
+  --vs-live-dot-scale: 2.6;
+  background: transparent;
+  box-shadow: none;
+}
+.vs-live-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--vs-live-dot-color);
+  opacity: 0;
+  animation: vs-live-dot-ripple 2.4s var(--vs-motion-ease-decelerate) infinite;
+}
+@keyframes vs-live-dot-in {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes vs-live-dot-ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  75%,
+  100% {
+    transform: scale(var(--vs-live-dot-scale));
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vs-live-dot {
+    opacity: 1;
+    animation: none;
+  }
+  .vs-live-dot::after {
+    animation: none;
+  }
+}
+
 /* Date Range Selector: desktop = the segmented control above (small buttons); phones = one trigger button + the
    FilterSheet. Breakpoint 768px = Tailwind `md`, the same one FilterSheet uses (`md:hidden`). */
 .vs-date-range {

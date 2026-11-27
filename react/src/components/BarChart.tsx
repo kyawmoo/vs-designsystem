@@ -22,6 +22,8 @@ declare module 'chart.js' {
 import { buildTimeline, visibleTicks } from './lineChartTimeline';
 import { prefersReducedMotion, progressiveAnimation, resolveColor, withAlpha } from './chartShared';
 import { DEFAULT_SERIES_COLORS } from './LineChart';
+import { liveDotClass, liveDotPlugin, newestIndex } from './liveDot';
+import type { LiveDotTarget } from './liveDot';
 
 Chart.register(BarController, BarElement, LineController, LineElement, PointElement, LinearScale, CategoryScale, Filler, Tooltip);
 
@@ -87,6 +89,12 @@ export interface BarChartProps {
   formatValue?: (value: number) => string;
   /** "Now" for the axis; for tests and stories. */
   today?: Date;
+  /**
+   * A dot on the newest reading (up to today) of each line series, with a soft repeating ripple (added 27 Nov 2026). With
+   * `lineStyle="markers"` the large today dot stays and the ripple takes the place of its halo. No ripple with reduced
+   * motion. Default true. Bars get no dot.
+   */
+  liveDot?: boolean;
   className?: string;
 }
 
@@ -151,6 +159,7 @@ export function BarChart({
   rightAxis = 'visible',
   formatValue = (v) => v.toLocaleString(),
   today,
+  liveDot = true,
   className,
 }: BarChartProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -164,6 +173,18 @@ export function BarChart({
 
   const timeline = useMemo(() => buildTimeline(dates, today ?? new Date()), [datesKey, todayKey]);
   const rows = useMemo(() => series.map((s) => timeline.align(dates, s.data)), [seriesKey, timeline]);
+  // Newest reading of each line series (up to today), where the live dot sits; -1 = none (and every bar series).
+  const liveIdx = useMemo(
+    () =>
+      rows.map((row, i) =>
+        liveDot && series[i]?.type === 'line' ? newestIndex(row, timeline.todayIndex >= 0 ? timeline.todayIndex : row.length - 1) : -1
+      ),
+    [rows, timeline, liveDot, seriesKey]
+  );
+  const markersMode = lineStyle === 'markers';
+  // markers: today's large dot is drawn on the canvas, so its live dot is the ripple only.
+  const dotSize = (i: number): LiveDotTarget['size'] => (markersMode && liveIdx[i] >= 0 && liveIdx[i] === timeline.todayIndex ? 'ring' : 'md');
+  const dotRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -191,6 +212,13 @@ export function BarChart({
     const reduce = prefersReducedMotion();
     const hasRight = series.some((s) => s.axis === 'right');
     const barIdx = series.map((s, i) => (s.type === 'line' ? -1 : i)).filter((i) => i >= 0);
+    const dotTargets: LiveDotTarget[] = series.map((_, i) => {
+      const size = dotSize(i);
+      return { datasetIndex: i, index: liveIdx[i], color: size === 'ring' ? theme.dark : colors[i], size };
+    });
+    // The dot fades in once the line has drawn up to it (line points draw in over BAR_CHART_GROW_MS, left to right).
+    const dotDelay = reduce ? 0 : ((Math.max(-1, ...liveIdx) + 1) * BAR_CHART_GROW_MS) / Math.max(1, count);
+    const dots = liveDotPlugin(() => dotRefs.current, dotTargets, dotDelay);
 
     // Day total of the bar series (null when none of them has a value that day).
     const totals = Array.from({ length: count }, (_, d) => {
@@ -301,10 +329,13 @@ export function BarChart({
           lineIdx.forEach((i) => {
             const el: any = chart.getDatasetMeta(i).data[todayIndex];
             if (rows[i][todayIndex] === null || !el) return;
-            c.beginPath();
-            c.arc(el.x, el.y, TODAY_HALO_RADIUS, 0, Math.PI * 2);
-            c.fillStyle = withAlpha(theme.dark, 0.16);
-            c.fill();
+            // With a live dot, its ripple takes the place of the halo.
+            if (dotTargets[i].size !== 'ring') {
+              c.beginPath();
+              c.arc(el.x, el.y, TODAY_HALO_RADIUS, 0, Math.PI * 2);
+              c.fillStyle = withAlpha(theme.dark, 0.16);
+              c.fill();
+            }
             c.beginPath();
             c.arc(el.x, el.y, TODAY_DOT_RADIUS, 0, Math.PI * 2);
             c.fillStyle = theme.dark;
@@ -398,7 +429,17 @@ export function BarChart({
                 return g;
               },
               // markers: a hollow dot on every value; today's large dot is drawn by the vsLineMarkers plugin.
-              pointRadius: markers ? (c: any) => (c.dataIndex === todayIndex ? 0 : MARKER_RADIUS) : (c: any) => (c.dataIndex === todayIndex ? 4 : 0),
+              // A point with a live dot (md) is drawn by that dot instead.
+              pointRadius: (c: any) =>
+                c.dataIndex === liveIdx[i] && dotTargets[i].size === 'md'
+                  ? 0
+                  : markers
+                    ? c.dataIndex === todayIndex
+                      ? 0
+                      : MARKER_RADIUS
+                    : c.dataIndex === todayIndex
+                      ? 4
+                      : 0,
               pointHoverRadius: 5,
               pointBackgroundColor: theme.surface,
               pointBorderColor: colors[i],
@@ -511,12 +552,12 @@ export function BarChart({
           ...(hasRight ? { y1: yScale('right', false, false) as any } : {}),
         },
       },
-      plugins: [todayLine, valueLabels, ...(markers ? [lineMarkers] : []), ...(pinTooltip ? [pinTooltipPlugin] : [])],
+      plugins: [todayLine, valueLabels, ...(markers ? [lineMarkers] : []), ...(pinTooltip ? [pinTooltipPlugin] : []), ...(liveIdx.some((d) => d >= 0) ? [dots] : [])],
     };
 
     const chart = new Chart(canvas, config);
     return () => chart.destroy();
-  }, [timeline, rows, seriesKey, stacked, showValues, pinTooltip, todayMarker, barStyle, lineStyle, tooltipTone, xLabels, rightAxis]);
+  }, [timeline, rows, seriesKey, stacked, showValues, pinTooltip, todayMarker, barStyle, lineStyle, tooltipTone, xLabels, rightAxis, liveIdx, liveDot]);
 
   const legendColors = series.map((s, i) => s.color || DEFAULT_SERIES_COLORS[i % DEFAULT_SERIES_COLORS.length]);
 
@@ -547,6 +588,19 @@ export function BarChart({
       {showLegend && legendPosition === 'top' && legend}
       <div className="vs-line-chart-canvas" style={{ height }}>
         <canvas ref={canvasRef} role="img" aria-label={ariaLabel} />
+        {liveIdx.map((d, i) =>
+          d >= 0 ? (
+            <span
+              key={series[i].id}
+              ref={(el) => {
+                dotRefs.current[i] = el;
+              }}
+              className={liveDotClass(dotSize(i))}
+              aria-hidden="true"
+              hidden
+            />
+          ) : null
+        )}
       </div>
       {showLegend && legendPosition !== 'top' && legend}
     </div>
