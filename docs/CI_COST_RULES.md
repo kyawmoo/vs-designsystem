@@ -1,23 +1,21 @@
 # CI Cost Rules (GitHub Actions)
 
 Owner: Master KMO. Set 2026-11-27. The same rules are in every repository of
-this account (Report-VectorSticker, VectorSticker.Com, social-designkmo,
-vs-designsystem); keep the copies the same.
+this account; keep the copies the same. This repository is public, so this
+copy leaves out the money amounts and the other repository names.
 
 Goal: the lowest reasonable CI cost while every necessary check still runs.
 A skipped necessary check is a failure, not a saving.
 
-Why (2026-11-27): the private repositories used the whole $12 of included
-Actions compute by 2026-11-22. From then on every job was refused ("The job
-was not started because ... your spending limit needs to be increased") and
-PRs were still merged without CI. November gross usage: VectorSticker.Com
-$5.92, social-designkmo $5.36, vs-designsystem $2.63 (public, not charged),
-Report-VectorSticker $0.73.
+Why (2026-11-27): the private repositories used all of the included
+Actions compute before the month ended. From then on every job was refused
+("The job was not started because ... your spending limit needs to be
+increased") and PRs were still merged without CI.
 
 ## Rules
 
-1. Budget: Actions $5/month (stop usage on, alerts on); every other product
-   $0. Never change a budget without Master KMO.
+1. Budget: a fixed monthly Actions budget (stop usage on, alerts on); every
+   other product capped at zero. Never change a budget without Master KMO.
 2. No merge unless CI is green. Failed, blocked (billing), cancelled or
    pending CI means no merge. A docs-only PR where no workflow runs by design
    is allowed: say so in the PR.
