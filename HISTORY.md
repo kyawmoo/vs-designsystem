@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-27 - CI cost rules added (docs only); branch claude/gracious-gauss-hwjdhk; not merged
+
+- Asked: Master KMO: add the shared CI cost rules (the same text in every repository of the account). Tier A, docs only.
+- Changed: new `docs/CI_COST_RULES.md` (the exact text given); a short "CI Cost Rules" section at the end of `CLAUDE.md` pointing to it; this entry. No workflow, code or config changed; no CI re-run or workflow_dispatch.
+- Note: `docs/` is what the deploy copies (`rsync -rt docs/`), so the next docs deploy will also put `CI_COST_RULES.md` on ds.vectorsticker.com. The repo is public, so the text is already public on GitHub.
+- Open: PR not opened (Master KMO to decide).
+
+---
+
 ## 2026-11-26 - Docs: fourth deploy of the day (`main` `c17a28e`, PR #121 added): every page reads as titled cards
 
 - Asked: Master KMO: do all the pages, no questions.
