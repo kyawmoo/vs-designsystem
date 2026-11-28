@@ -6,6 +6,33 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - Ranked Bar Chart: one bar per label, not per date (issue 144)
+
+- Asked: Master KMO: the reports "Downloads by Country" chart draws one bar per country, which BarChart (dates only) cannot.
+- Changed: new `react/src/components/RankedBarChart.tsx` (Chart.js, horizontal bars in the order given, value text past each bar end, height `max(minHeight 240, rows x rowHeight 34)`, long names shortened with "…" via exported `fitLabel`, tooltip with the full name and formatted value, `empty` text and no canvas when there are no rows, negative / non-finite values count as 0, reduced motion = no animation, colours from tokens). Exported from `react/src/index.ts`; `.vs-ranked-bar-chart` CSS in `react/src/styles.css`; docs page `docs/components/ranked-bar-chart.html` + a menu entry under Charts in `docs/assets/shell.js`; new `RankedBarChart.test.tsx` (11 tests, Chart.js mocked as in BarChart tests).
+- Checked: see the pull request.
+- Not verified: the drawn chart in a browser (jsdom has no canvas; the tests check the Chart.js config), the docs page look.
+
+---
+
+## 2026-11-28 - Radio: card variant with a title and a hint (issue 143)
+
+- Asked: Master KMO: the reports Server Health "Investigation status" options are selectable cards, which the DS Radio could not draw.
+- Changed: `react/src/components/Radio.tsx`: `variant="card"` + `description` (the whole card is one label: circle, bold title, smaller hint; `row` stays the default and unchanged). `react/src/styles.css`: `.vs-radio-card` (tokens only; chosen = dark border via `:has(input:checked)`, focus ring on `:focus-within`, dimmed when the input is disabled, also inside a disabled fieldset). `docs/components/radio.html` props. New `Radio.test.tsx`. Blade untouched.
+- Checked: see the pull request.
+- Not verified: a browser look (`:has()` support in older browsers).
+
+---
+
+## 2026-11-28 - Select: option groups, compact size, optional name (issue 142)
+
+- Asked: Master KMO: the reports download-feed filters need `<optgroup>`, a compact size and no form name before they can use the DS Select.
+- Changed: `react/src/components/Select.tsx`: `SelectOption.group` (same group = one `<optgroup>`, ungrouped first, groups in first-seen order), `size="sm"` (12px, padding `6px 30px 6px 10px`), `name` optional. `docs/components/select.html` props. New `Select.test.tsx`. Blade `x-vs-select` untouched. Defaults give the same output as before.
+- Checked: see the pull request.
+- Not verified: a browser look.
+
+---
+
 ## 2026-11-28 - TableWidget: muted rows are italic; scrollLabel for keyboard-reachable scrolling (issues 140, 141)
 
 - Asked: Master KMO: the reports Measurement tables need these before they can use the DS table. The reports site found `--vs-color-text-muted` too faint for partial rows (about 2.8:1 on white, per its CSS comment; not re-measured here) and keeps its scroll areas keyboard-reachable.

@@ -111,6 +111,8 @@ export type { LineChartProps, LineChartSeries, LineChartVariant } from './compon
 
 export { BarChart, BAR_CHART_GROW_MS, BAR_CHART_FEW_DAYS } from './components/BarChart';
 export type { BarChartProps, BarChartSeries } from './components/BarChart';
+export { RankedBarChart } from './components/RankedBarChart';
+export type { RankedBarChartProps, RankedBarRow } from './components/RankedBarChart';
 
 export { AnimatedNumber, ANIMATED_NUMBER_MS } from './components/AnimatedNumber';
 export { LiveDot } from './components/LiveDot';
