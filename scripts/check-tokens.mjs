@@ -9,6 +9,8 @@
 //  6. motion tokens: durations in ms, easings are cubic-bezier(), rise distance in px, and tokens.json holds the same values
 //  8. the Rewind Reveal CSS block (vs-rewind:start ... vs-rewind:end) is identical in both files, reads only existing tokens, is switched off
 //     under reduced motion; docs/assets/rewind-reveal.js is an exact copy of blade/rewind-reveal.js
+//  9. the Live dot CSS block (vs-live-dot:start ... vs-live-dot:end) is identical in both files, reads only existing tokens and stops
+//     the ripple under reduced motion
 //  7. the Reveal CSS block (vs-reveal:start ... vs-reveal:end) is identical in react/src/styles.css and blade/components.css,
 //     and every --vs-* token it reads exists
 import { readFileSync } from 'node:fs';
@@ -254,6 +256,16 @@ if (read('blade/rewind-reveal.js') !== read('docs/assets/rewind-reveal.js')) fai
     }
   }
 }
+
+// Live dot CSS: one block in two files (React charts / LiveDot and <x-vs-live-dot>), same rule as the Reveal block; reduced motion stops the ripple.
+const liveDotBlock = (src) => src.match(/\/\* vs-live-dot:start[\s\S]*?\/\* vs-live-dot:end \*\//)?.[0];
+const reactLiveDot = liveDotBlock(read('react/src/styles.css'));
+const bladeLiveDot = liveDotBlock(bladeCss);
+if (!reactLiveDot) fail('react/src/styles.css has no vs-live-dot block (vs-live-dot:start ... vs-live-dot:end)');
+if (!bladeLiveDot) fail('blade/components.css has no vs-live-dot block (vs-live-dot:start ... vs-live-dot:end)');
+if (reactLiveDot && bladeLiveDot && reactLiveDot !== bladeLiveDot) fail('the vs-live-dot block differs between react/src/styles.css and blade/components.css (copy one into the other)');
+for (const m of (reactLiveDot || '').replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/var\((--vs-[a-z0-9-]+)[,)]/g)) if (!tokens.has(m[1]) && !m[1].startsWith('--vs-live-dot-')) fail(`the vs-live-dot block reads ${m[1]}, which tokens.css does not define`);
+if (reactLiveDot && !/@media \(prefers-reduced-motion: reduce\)\s*\{[\s\S]*?\.vs-live-dot::after\s*\{\s*animation:\s*none;/.test(reactLiveDot)) fail('the vs-live-dot block must stop the ripple under prefers-reduced-motion');
 
 // The Blade count-up script has a copy for the docs site; they must be the same file.
 if (read('blade/animated-number.js') !== read('docs/assets/animated-number.js')) fail('docs/assets/animated-number.js differs from blade/animated-number.js (copy it)');

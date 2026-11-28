@@ -260,3 +260,19 @@ Laravel's `old($name, $value)` on a failed-validation redirect.
 
 Navigation, Table/Filter/Tab, Modal & Toast — see the design-system
 rollout plan.
+
+### `<x-vs-live-dot>` (27 Nov 2026)
+
+A small dot with a soft ripple that grows and fades on repeat, for "live" / "online" / "newest" marks. Same CSS as the React
+`LiveDot` (the `vs-live-dot` block in `components.css`, kept identical to `react/src/styles.css` by `check:tokens`); no script.
+
+```blade
+<x-vs-live-dot /> Live
+<x-vs-live-dot size="sm" color="var(--vs-meter-fill-danger)" label="Danger" />
+<x-vs-live-dot :ripple="false" />
+```
+
+- `color`: `var(--vs-...)` or a hex colour only; anything else is ignored (default the brand green).
+- `size`: `sm` | `md` (default) | `lg`. `ripple`: `false` / `"false"` / `0` turns the ripple off.
+- `label`: name for screen readers (`role="img"`); without it the dot is `aria-hidden`.
+- Reduced motion: the dot stays, no ripple. Docs: `/animation/live-dot.html`.
