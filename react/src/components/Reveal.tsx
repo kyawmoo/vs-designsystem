@@ -36,16 +36,30 @@ function tokenMs(name: string, fallback: number): number {
 }
 
 /**
- * How long an opening can run: the curtain, then the longest entrance (body delay + enter time) or the longest title (body delay + the
- * time of a letter + the stagger of the 30th letter), plus a little room. Read from the tokens, so a changed token changes it.
+ * When the opening can be over. `first` is when the curtain has ended and the body starts (the earliest the entrances can be done);
+ * `max` is the longest it can run: the curtain, then the longer of an entrance (body delay + enter time) and a 30-letter title, plus a
+ * little room. Both are read from the tokens, so a changed token changes them. Reduced motion: over at once (0 and 0).
  */
-function openingDurationMs(): number {
-  if (typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return 0;
+function openingTiming(): { first: number; max: number } {
+  if (typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return { first: 0, max: 0 };
   const curtain = tokenMs('--vs-motion-duration-curtain', 1050);
   const body = tokenMs('--vs-motion-delay-body', 150);
   const enter = tokenMs('--vs-motion-duration-enter', 700);
   const text = tokenMs('--vs-motion-text-duration', 420) + 30 * tokenMs('--vs-motion-text-stagger', 35);
-  return curtain + body + Math.max(enter, text) + 200;
+  return { first: curtain + body, max: curtain + body + Math.max(enter, text) + 200 };
+}
+
+/**
+ * Whether an entrance or a title letter is still waiting or moving. A finished animation is not counted (the curtain's own finished
+ * animation is kept on purpose, to hold its visibility, and is finished). Where the browser cannot list animations the answer is "yes",
+ * and the opening ends at its longest time instead.
+ */
+function entrancesRunning(): boolean {
+  if (typeof document.getAnimations !== 'function') return true;
+  return document.getAnimations().some((a) => {
+    const name = (a as CSSAnimation).animationName;
+    return typeof name === 'string' && name.startsWith('vs-reveal') && a.playState !== 'finished';
+  });
 }
 
 /**
@@ -64,7 +78,17 @@ export function Reveal({ children, play }: RevealProps) {
   }, []);
   useEffect(() => {
     if (!shouldPlay) return;
-    const timer = setTimeout(() => setPlaying(false), openingDurationMs());
+    // The opening is over when its entrances and title letters have finished, checked every 100ms from the end of the curtain, and at the
+    // latest after its longest time. A short title therefore ends it sooner than the 30-letter worst case, so a view shown again soon after
+    // does not replay it.
+    const { first, max } = openingTiming();
+    const startedAt = Date.now();
+    let timer: ReturnType<typeof setTimeout>;
+    const check = () => {
+      if (Date.now() - startedAt >= max || !entrancesRunning()) setPlaying(false);
+      else timer = setTimeout(check, 100);
+    };
+    timer = setTimeout(check, first);
     return () => clearTimeout(timer);
   }, [shouldPlay]);
   return (
