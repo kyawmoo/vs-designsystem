@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - Disclosure (issue 70)
+
+- Asked: Master KMO (decision 2a): move the reports site's approved phone accordion stand-in into the DS as it is, plus the ticket's needs.
+- Changed: new `react/src/components/Disclosure.tsx` (native `<details>/<summary>`: icon tile, title, description, chevron; `defaultOpen`; `aria-expanded` on the header kept in step through `onToggle`). CSS `.vs-disclosure*` (tokens only; 8px card, 20px below 1024px; header at least 60px; chevron turns, not with reduced motion). Export, docs page `disclosure.html` + menu entry under Navigation, `Disclosure.test.tsx` (5).
+- Checked: see the pull request.
+- Not verified: a real phone; screen readers.
+
+---
+
 ## 2026-11-28 - ListRow (issue 71)
 
 - Asked: Master KMO (decision 2a): move the reports site's approved phone list row stand-in into the DS as it is, plus the ticket's needs.

@@ -117,6 +117,8 @@ export { StackedBar } from './components/StackedBar';
 export type { StackedBarProps, StackedBarPart } from './components/StackedBar';
 export { MobileTabBar, MobileTabBarDock } from './components/MobileTabBar';
 export { ListRow } from './components/ListRow';
+export { Disclosure } from './components/Disclosure';
+export type { DisclosureProps } from './components/Disclosure';
 export type { ListRowProps } from './components/ListRow';
 export type { MobileTabBarProps, MobileTabBarItem, MobileTabBarIcon } from './components/MobileTabBar';
 export { WeeklyColumnChart } from './components/WeeklyColumnChart';

@@ -74,6 +74,7 @@
             { id: 'pagination', label: 'Pagination', href: '/components/pagination.html', icon: 'ellipsis' },
             { id: 'mobile-tab-bar', label: 'Mobile Tab Bar', href: '/components/mobile-tab-bar.html', icon: 'panel-top' },
             { id: 'list-row', label: 'List Row', href: '/components/list-row.html', icon: 'chevrons-right' },
+            { id: 'disclosure', label: 'Disclosure', href: '/components/disclosure.html', icon: 'square-chevron-down' },
           ],
         },
         {
