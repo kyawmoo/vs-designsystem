@@ -2460,3 +2460,33 @@
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* Card corner (moved from the inline style, issue #156, so a media query can change it). */
+.vs-card {
+  border-radius: var(--vs-card-radius);
+}
+
+/* Phone style (issue #156; spike #67, decision (b) by Master KMO, 28 Nov 2026). Below 1024px: cards 20px, a card inside a
+   card 12px, segmented controls a pill with a dark selected option (as variant="dark"). From 1024px up nothing changes.
+   A bare TableWidget keeps no frame. */
+@media (max-width: 1023.98px) {
+  .vs-card,
+  .vs-summary-card,
+  .vs-table-card:not(.vs-table-card--bare) {
+    border-radius: var(--vs-card-radius-lg);
+  }
+  :is(.vs-card, .vs-summary-card, .vs-table-card) :is(.vs-card, .vs-summary-card, .vs-table-card:not(.vs-table-card--bare)) {
+    border-radius: var(--vs-radius-lg);
+  }
+  .vs-segment-control,
+  .vs-segment-button {
+    border-radius: var(--vs-radius-full);
+  }
+  .vs-segment-button:not(.is-active) {
+    color: var(--vs-color-text-body);
+  }
+  .vs-segment-button.is-active {
+    background-color: var(--vs-color-brand-secondary);
+    color: var(--vs-color-surface);
+  }
+}

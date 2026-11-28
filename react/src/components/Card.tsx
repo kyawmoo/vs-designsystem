@@ -25,7 +25,7 @@ export function Card({ children, className, style, onClick }: CardProps) {
   const baseStyle: React.CSSProperties = {
     background: 'var(--vs-color-surface)',
     border: '1px solid var(--vs-card-border)',
-    borderRadius: 'var(--vs-card-radius)',
+    // The corner is in styles.css (.vs-card), so the phone style (below 1024px) can change it; a `style` prop still wins.
     boxShadow: 'var(--vs-shadow-none)',
     padding: '20px',
     fontFamily: 'var(--vs-font-family)',

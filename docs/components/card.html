@@ -438,6 +438,11 @@
 
     <!-- 10 -->
     <div class="vs-docs-section-head">
+      <div><span class="vs-docs-section-num">09b // Phone style</span><h2>Phone style (below 1024px)</h2></div>
+      <p class="vs-docs-section-desc">Issue #156 (spike #67, decision (b), 28 Nov 2026). Below 1024px, <code>Card</code>, <code>SummaryCard</code> and a framed <code>TableWidget</code> have 20px corners (<code>--vs-card-radius-lg</code>), and a card inside a card has 12px (<code>--vs-radius-lg</code>). From 1024px up the corners stay 8px (<code>--vs-card-radius</code>). The Card corner is set by the <code>.vs-card</code> class (no longer inline), so a <code>style</code> prop can still set its own.</p>
+    </div>
+
+    <div class="vs-docs-section-head">
       <div><span class="vs-docs-section-num">10 // Platform Difference</span><h2>Generic Card: React vs. Blade</h2></div>
       <p class="vs-docs-section-desc">Same name, different default border.</p>
     </div>
