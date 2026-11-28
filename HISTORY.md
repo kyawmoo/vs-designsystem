@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - ListRow (issue 71)
+
+- Asked: Master KMO (decision 2a): move the reports site's approved phone list row stand-in into the DS as it is, plus the ticket's needs.
+- Changed: new `react/src/components/ListRow.tsx` (icon tile or `avatar`, title with optional `badge`, one-line description cut with an ellipsis, optional trailing `value`, chevron by default, `danger`; `href` = link else button). CSS `.vs-list-row*` (tokens only: the stand-in's site tokens resolved to `--vs-color-lavender-surface` / `--vs-color-badge-free`; at least 60px; divider between rows). Export, docs page `list-row.html` + menu entry under Navigation, `ListRow.test.tsx` (7).
+- Checked: see the pull request.
+- Not verified: a real phone.
+
+---
+
 ## 2026-11-28 - MobileTabBar and MobileTabBarDock (issue 68)
 
 - Asked: Master KMO (decision 2a): move the reports site's approved phone tab bar stand-in into the DS as it is, plus the ticket's needs.

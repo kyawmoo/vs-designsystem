@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>List Row — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-lr { width: 100%; max-width: 390px; background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-xl); overflow: hidden; font-family: var(--vs-font-family); }
+  .demo-lr-row { display: flex; align-items: center; gap: 14px; min-height: 60px; padding: 8px 16px; box-sizing: border-box; border-top: 1px solid var(--vs-color-border); }
+  .demo-lr-row:first-child { border-top: 0; }
+  .demo-lr-icon { width: 40px; height: 40px; flex: none; border-radius: var(--vs-radius-lg); background: var(--vs-color-lavender-surface); }
+  .demo-lr-row.danger .demo-lr-icon { background: var(--vs-color-danger-bg); }
+  .demo-lr-text { flex: 1; min-width: 0; }
+  .demo-lr-text b { display: block; font: 600 15px/1.3 var(--vs-font-family); color: var(--vs-color-text-heading); }
+  .demo-lr-row.danger b { color: var(--vs-color-danger-border); }
+  .demo-lr-text span { display: block; font: 400 12px/1.4 var(--vs-font-family); color: var(--vs-color-text-body); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .demo-lr-chev { color: var(--vs-color-text-muted); }
+</style>
+</head>
+<body data-page="list-row">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> List Row</p>
+    <h1>List Row</h1>
+    <p class="vs-docs-hero-lede">
+      One tappable row: an icon tile or avatar, a title, a one-line description, an optional badge and value, and a chevron (issue #71). React only.
+      Moved from the reports site's approved stand-in (spike #67, decision (b)). Implemented in <code>react/src/components/ListRow.tsx</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <h2>Default</h2>
+    <div class="vs-docs-preview"><div class="demo-lr">
+      <div class="demo-lr-row"><span class="demo-lr-icon"></span><span class="demo-lr-text"><b>Feedback</b><span>What visitors tell us about the site and the downloads</span></span><span class="demo-lr-chev">›</span></div>
+      <div class="demo-lr-row"><span class="demo-lr-icon"></span><span class="demo-lr-text"><b>Server Health</b><span>CPU, memory and disk of the server</span></span><span class="demo-lr-chev">›</span></div>
+      <div class="demo-lr-row danger"><span class="demo-lr-icon"></span><span class="demo-lr-text"><b>Sign out</b></span></div>
+    </div></div>
+
+    <h2>Rules</h2>
+    <ul>
+      <li>With <code>href</code> the row is a link; otherwise a button that calls <code>onClick</code>. At least 60px high; the focus ring is <code>--vs-focus-ring-color</code>.</li>
+      <li>The icon sits in a 40px tile (<code>--vs-color-lavender-surface</code>, icon <code>--vs-color-badge-free</code>) and is hidden from screen readers; <code>avatar</code> replaces the tile.</li>
+      <li>The description is one line; a long one ends with "…" and never pushes the chevron out.</li>
+      <li>Rows one after another get a <code>--vs-color-border</code> line between them (none above the first). <code>danger</code> makes the icon and title red (<code>--vs-color-danger-*</code>).</li>
+    </ul>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { ListRow } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;ListRow</span> <span class="attr">icon</span>=<span class="str">{&lt;MessageSquare /&gt;}</span> <span class="attr">title</span>=<span class="str">"Feedback"</span> <span class="attr">description</span>=<span class="str">"What visitors tell us"</span> <span class="attr">onClick</span>=<span class="str">{open}</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;ListRow</span> <span class="attr">icon</span>=<span class="str">{&lt;LogOut /&gt;}</span> <span class="attr">title</span>=<span class="str">"Sign out"</span> <span class="attr">danger</span> <span class="attr">chevron</span>=<span class="str">{false}</span> <span class="attr">onClick</span>=<span class="str">{logout}</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>title</code></td><td>string (required)</td><td></td></tr>
+        <tr><td><code>description</code></td><td>one line, cut with "…"</td><td>—</td></tr>
+        <tr><td><code>icon</code> / <code>avatar</code></td><td>icon in a tile / any node instead of the tile</td><td>—</td></tr>
+        <tr><td><code>badge</code></td><td>small tag after the title, e.g. "NEW"</td><td>—</td></tr>
+        <tr><td><code>value</code></td><td>short trailing value before the chevron</td><td>—</td></tr>
+        <tr><td><code>chevron</code></td><td>boolean</td><td><code>true</code></td></tr>
+        <tr><td><code>danger</code></td><td>red icon and title</td><td><code>false</code></td></tr>
+        <tr><td><code>href</code> / <code>onClick</code></td><td>link / button</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>
