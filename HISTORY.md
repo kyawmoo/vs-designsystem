@@ -6,6 +6,14 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - Docs deployed (`main` `2850378`): side menu keeps its place, Date Range Selector pill look
+
+- Deployed by Master KMO on the VPS (ssh as `deploy`) with one `set -e` command: hostname check `vectorsticker`, shallow clone of `main`, backup `/var/www/ds.vectorsticker.com.bak-20261128-044502`, `rsync -rt` of `docs/` excluding `CI_COST_RULES.md` (no `--delete`), `chown -R www-data:www-data`. Output: `/`, `/components/date-range-selector.html`, `/components/pagination.html`, `/assets/shell.js`, `/assets/shell.css` all `200`, `/CI_COST_RULES.md` `404`, `menu keep-place: 1`, `view transition: 1`. Only `/var/www/ds.vectorsticker.com` was touched; no Apache or pm2 restart.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261128-044502/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the `commit:` line was not in the pasted output (the two markers show the new `shell.js` / `shell.css` are there); the pages in a browser (this session's network cannot reach the site).
+
+---
+
 ## 2026-11-28 - Docs deployed (`main` `2d29dc4`): Animation & Effects > Live Dot page
 
 - Deployed by Master KMO on the VPS (hostname `vectorsticker`, user `deploy`), the same one command as the `84a3574` docs deploy (`set -e` subshell, shallow clone, backup, `rsync -rt` of `docs/` excluding `CI_COST_RULES.md`, `chown`). Output: `commit: 2d29dc4`, backup `/var/www/ds.vectorsticker.com.bak-20261128-034745`, `/`, `/animation/live-dot.html`, `/animation/text-effects.html`, `/components/line-chart.html` all `200`, `/CI_COST_RULES.md` `404`, `menu entry: 1`, `live-dot css: 1`. Only `/var/www/ds.vectorsticker.com` was touched.
@@ -14,7 +22,7 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
-## 2026-11-28 - Docs menu keeps its place between pages; DateRangeSelector gets the pill look by default; branch claude/hopeful-bardeen-n2x75g; not merged
+## 2026-11-28 - Docs menu keeps its place between pages; DateRangeSelector gets the pill look by default; merged as `2850378` (#132)
 
 - Asked: Master KMO: (2) after a page loads the menu link just clicked has to be found again: only the right side should change, not the left menu; (3) the reports dashboard's period selector (pill track, dark selected button, calendar button) as the DateRangeSelector default.
 - Changed (`a300a4e`): `docs/assets/shell.js`: the menu is drawn as soon as the script runs (it sits at the end of `<body>`), its scroll position is saved in `sessionStorage` on a menu click / `pagehide` and restored before the first paint; a page opened directly scrolls its own link into view; storage errors are caught. `docs/assets/shell.css`: cross-document view transitions (`@view-transition`), the menu is one still layer, the page area fades 150 ms (none with reduced motion). (`2581c03`): `react/src/styles.css`: `.vs-date-range__desktop` = pill track (4px, no gap), buttons 56 x 36 px round, 13px / 500, body colour, selected `--vs-color-brand-secondary` + `--vs-color-surface`; phone trigger round (`--vs-radius-full`). Scoped to the selector: SegmentedControl / TableWidget tabs unchanged. Docs page demo CSS and measurement guide updated.
