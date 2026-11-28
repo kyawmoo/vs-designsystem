@@ -6,6 +6,20 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - DS tickets for the reports site: TextInput, BreakdownList, StackedBar, WeeklyColumnChart, token colours (issues 148-152, 154)
+
+- Asked: Master KMO: "Do all the DS tickets" (the gaps found while moving the reports site to DS components).
+- Changed (one commit per ticket):
+  - #148/#149 `TextInput.tsx`: `autoComplete`, `inputMode`, `icon` (decorative, left, `aria-hidden`, text starts after it). New `TextInput.test.tsx`; `docs/components/text-input.html` props.
+  - #152 `BreakdownList.tsx`: row `color` (any colour or token, used instead of `tone`), optional `share` (left out: no percent, bar scaled to the largest value), `title` tooltip on the name. `MeterBar` got an internal `fillColor`. Tests + docs props.
+  - #151 new `StackedBar.tsx` (one bar of the parts of a whole, swatch legend with %, 0 parts listed as 0%, `<1%`, donut palette tokens). Export, CSS, docs page + menu, tests.
+  - #150 new `WeeklyColumnChart.tsx` (stacked weekly columns, one empty future week, Today line, gap for a week with no data, hatched running week, numbered markers on 3 rows + marker legend; positions in weeks). Export, CSS, docs page + menu, tests. Bars set `background-color` only, so the hatch shows (the reports stand-in set `background`, which wiped the hatch).
+  - #154 `FilterSheet`, `MobilePageHeader`, `WidgetLoader`: Tailwind greys to `--vs-color-*` tokens (the sheet's dim overlay stays `rgba(0,0,0,0.4)`, raw like the Modal and Drawer overlays: no overlay token exists). `FilterBar` already rendered none (its 2 hits were a comment, reworded). `MobilePageHeader.test.tsx` saved markup updated with the same class mapping only. New `ComponentColours.test.tsx`.
+- Checked: see the pull request.
+- Not verified: FilterSheet / MobilePageHeader / WidgetLoader in a browser after the token change; the reports site using the new parts (next step there, after this merges).
+
+---
+
 ## 2026-11-28 - TableWidget colours from tokens (no Tailwind greys)
 
 - Asked: Master KMO: tables on the reports site must follow the design system. Found while fixing table edges there: `TableWidget` drew its colours with Tailwind palette classes (`text-gray-*`, `bg-gray-50/50`, `border-gray-*`, `divide-gray-100`, `hover:bg-gray-50/60`, `bg-white`), so a token change did not reach any table.
