@@ -2580,3 +2580,92 @@
     transition: none;
   }
 }
+
+/* ListRow (issue #71, 28 Nov 2026): moved from the reports site's approved stand-in. Tokens only. */
+.vs-list-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 60px;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  border: 0;
+  border-top: 1px solid var(--vs-color-border);
+  background: transparent;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: var(--vs-font-family);
+}
+.vs-list-row:first-child {
+  border-top: 0;
+}
+.vs-list-row:hover {
+  background: var(--vs-color-background);
+}
+.vs-list-row:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: -2px;
+}
+.vs-list-row__icon {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--vs-radius-lg);
+  background: var(--vs-color-lavender-surface);
+  color: var(--vs-color-badge-free);
+}
+.vs-list-row__avatar {
+  flex: none;
+  display: inline-flex;
+}
+.vs-list-row--danger .vs-list-row__icon {
+  background: var(--vs-color-danger-bg);
+  color: var(--vs-color-danger-border);
+}
+.vs-list-row--danger .vs-list-row__title {
+  color: var(--vs-color-danger-border);
+}
+.vs-list-row__text {
+  flex: 1;
+  min-width: 0;
+}
+.vs-list-row__title {
+  display: block;
+  font: 600 15px/1.3 var(--vs-font-family);
+  color: var(--vs-color-text-heading);
+}
+.vs-list-row__badge {
+  margin-left: 0.5rem;
+  padding: 0.125rem 0.4375rem;
+  border-radius: var(--vs-radius-full);
+  background: var(--vs-color-brand-accent);
+  color: var(--vs-color-brand-secondary);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  vertical-align: 1px;
+}
+.vs-list-row__desc {
+  display: block;
+  margin-top: 1px;
+  font: 400 12px/1.4 var(--vs-font-family);
+  color: var(--vs-color-text-body);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vs-list-row__value {
+  flex: none;
+  font: 600 14px/1.3 var(--vs-font-family);
+  font-variant-numeric: tabular-nums;
+  color: var(--vs-color-text-heading);
+}
+.vs-list-row__chev {
+  flex: none;
+  color: var(--vs-color-text-muted);
+}
