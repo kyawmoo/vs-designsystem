@@ -39,3 +39,6 @@ Reply to Master KMO in Burmese. Keep anything meant for copy-paste (commands, co
 
 ## PROJECT-SPECIFIC LAYER (fill per project, do not copy between projects)
 - Server/host to project mapping, backup location, test/CI tools, deploy command, Tier C extras.
+
+# CI Cost Rules (Master KMO, 2026-11-27)
+Read `docs/CI_COST_RULES.md` before any push, PR, merge, re-run or workflow change. In short: no merge unless CI is green; no re-runs or workflow_dispatch without approval; few pushes per PR; no workflow change without approval.

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Weekly Column Chart — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-wk { width: 100%; max-width: 32rem; font-family: var(--vs-font-family); }
+  .demo-wk-plot { position: relative; height: 11.875rem; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.625rem; align-items: end; margin-top: 1.25rem; border-bottom: 1px solid var(--vs-chart-grid); }
+  .demo-wk-col { display: flex; flex-direction: column-reverse; height: 100%; }
+  .demo-wk-col span { display: block; width: 100%; }
+  .demo-wk-col span:last-child { border-radius: 0.25rem 0.25rem 0 0; }
+  .demo-wk-part { background-image: repeating-linear-gradient(135deg, color-mix(in srgb, var(--vs-color-surface) 55%, transparent) 0 4px, transparent 4px 8px); }
+  .demo-wk-axis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.625rem; margin-top: 0.375rem; }
+  .demo-wk-axis span { text-align: center; font-size: 11px; color: var(--vs-chart-axis-text); }
+  .demo-wk-today { position: absolute; top: 0; bottom: 0; border-left: 1.5px dashed var(--vs-chart-today); }
+  .demo-wk-today b { position: absolute; top: -1rem; transform: translateX(-50%); font-size: 11px; color: var(--vs-color-text-heading); }
+  .demo-wk-mk { position: absolute; top: 0; bottom: 0; border-left: 1px dashed var(--vs-chart-axis-text); }
+  .demo-wk-dot { display: inline-grid; place-items: center; width: 1.125rem; height: 1.125rem; border-radius: 50%; font-size: 10px; font-weight: 600; background: var(--vs-color-brand-secondary); color: var(--vs-color-surface); }
+  .demo-wk-mk .demo-wk-dot { position: absolute; left: -0.5625rem; }
+  .demo-wk-list { list-style: none; margin: 0.625rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.375rem 0.875rem; font-size: 12px; color: var(--vs-color-text-body); }
+  .demo-wk-list li { display: inline-flex; align-items: center; gap: 0.375rem; }
+  .demo-wk-list i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; }
+</style>
+</head>
+<body data-page="weekly-column-chart">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Weekly Column Chart</p>
+    <h1>Weekly Column Chart</h1>
+    <p class="vs-docs-hero-lede">
+      One stacked column per week, for weekly numbers that cannot be added up from days (distinct visitors, a returning rate), with change markers on the axis (issue #150). React only; plain HTML, no chart library.
+      For one column per day use the <a href="/components/bar-chart.html">Bar Chart</a>. Implemented in <code>react/src/components/WeeklyColumnChart.tsx</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <h2>Default</h2>
+    <p>Four weeks: the second has no data (a gap), the last is still running (hatched), then the one empty future week. Marker 1 is a change in the first week.</p>
+    <div class="vs-docs-preview"><div class="demo-wk">
+      <div class="demo-wk-plot" role="img" aria-label="Links per week, example">
+        <div class="demo-wk-col"><span style="height:60%;background:var(--vs-chart-series-1)"></span><span style="height:20%;background:var(--vs-chart-series-2)"></span></div>
+        <div class="demo-wk-col"></div>
+        <div class="demo-wk-col"><span style="height:70%;background:var(--vs-chart-series-1)"></span><span style="height:30%;background:var(--vs-chart-series-2)"></span></div>
+        <div class="demo-wk-col"><span class="demo-wk-part" style="height:30%;background:var(--vs-chart-series-1)"></span><span class="demo-wk-part" style="height:10%;background:var(--vs-chart-series-2)"></span></div>
+        <div class="demo-wk-col"></div>
+        <div class="demo-wk-today" style="left:72%"><b>Today</b></div>
+        <div class="demo-wk-mk" style="left:8%"><span class="demo-wk-dot">1</span></div>
+      </div>
+      <div class="demo-wk-axis"><span>2 Nov</span><span>9 Nov</span><span>16 Nov</span><span>23 Nov*</span><span></span></div>
+      <ul class="demo-wk-list"><li><i style="background:var(--vs-chart-series-1)"></i>File on our site</li><li><i style="background:var(--vs-chart-series-2)"></i>External link</li></ul>
+      <ul class="demo-wk-list"><li><span class="demo-wk-dot">1</span>New download page 3 Nov</li></ul>
+    </div></div>
+
+    <h2>Rules</h2>
+    <ul>
+      <li>Chart Rule: there is always exactly one empty future week slot after the last week. <code>todayAt</code> draws a dotted Today line (<code>--vs-chart-today</code>) with a "Today" label; none when it is off the axis.</li>
+      <li>A week where no part has a value (<code>null</code>, negative or not a finite number) is a gap, never a 0 bar. A <code>partial</code> week (still running) is hatched.</li>
+      <li>Columns are scaled to the largest week total. Positions (<code>todayAt</code>, marker <code>at</code>) are in weeks from the left edge of the first column: <code>2.5</code> = the middle of the third week.</li>
+      <li>Markers on the axis get a dashed line and a numbered dot; close markers drop to a lower row (up to 3) so they never cover each other. A marker with no position, or outside the axis, is listed in the marker legend only. <code>variant: 'unconfirmed'</code> draws a hollow dashed dot.</li>
+      <li>Colours are tokens: series <code>color</code>, otherwise <code>--vs-chart-series-1</code> to <code>-3</code>; grid <code>--vs-chart-grid</code>, axis <code>--vs-chart-axis-text</code>, dots <code>--vs-color-brand-secondary</code>. No animation.</li>
+    </ul>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { WeeklyColumnChart } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;WeeklyColumnChart</span> <span class="attr">ariaLabel</span>=<span class="str">"Download links per week"</span>
+  <span class="attr">series</span>=<span class="str">{[{ label: 'File on our site' }, { label: 'External link' }]}</span>
+  <span class="attr">columns</span>=<span class="str">{[{ key: '2026-11-02', label: '2 Nov', values: [120, 40] }, { key: '2026-11-09', label: '9 Nov*', values: [30, 8], partial: true }]}</span>
+  <span class="attr">todayAt</span>=<span class="str">{1.6}</span> <span class="attr">markers</span>=<span class="str">{[{ id: 1, label: 'New download page 3 Nov', at: 0.2 }]}</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>columns</code></td><td><code>{ key, label, values: (number | null)[], partial?, title? }[]</code>; <code>values</code> bottom to top, one per series; <code>title</code> = hover text</td><td></td></tr>
+        <tr><td><code>series</code></td><td><code>{ label, color? }[]</code>; also the series legend</td><td></td></tr>
+        <tr><td><code>ariaLabel</code></td><td>describes the chart (required)</td><td></td></tr>
+        <tr><td><code>todayAt</code></td><td>position of today in weeks, or <code>null</code></td><td><code>null</code></td></tr>
+        <tr><td><code>markers</code></td><td><code>{ id, label, at: number | null, variant?: 'default' | 'unconfirmed' }[]</code></td><td><code>[]</code></td></tr>
+        <tr><td><code>empty</code></td><td>text shown when there are no columns</td><td>"No data"</td></tr>
+        <tr><td><code>legend</code></td><td><code>bottom</code> · <code>none</code> (series legend)</td><td><code>bottom</code></td></tr>
+        <tr><td><code>className</code></td><td>extra class on the wrapper</td><td></td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Accessibility</h2>
+    <p>The plot is <code>role="img"</code> with your <code>ariaLabel</code>; put the main numbers in it, or in a nearby table. The series and marker legends are real text; the dots on the axis are <code>aria-hidden</code> because the marker legend repeats them.</p>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

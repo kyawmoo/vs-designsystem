@@ -12,6 +12,8 @@ import {
 import type { ChartConfiguration, Plugin } from 'chart.js';
 import { buildTimeline, visibleTicks } from './lineChartTimeline';
 import { prefersReducedMotion, progressiveAnimation, resolveColor, withAlpha } from './chartShared';
+import { liveDotClass, liveDotPlugin, newestIndex } from './liveDotPlugin';
+import type { LiveDotTarget } from './liveDotPlugin';
 
 export { withAlpha };
 
@@ -46,6 +48,11 @@ export interface LineChartProps {
   formatValue?: (value: number) => string;
   /** "Now" for the axis; for tests and stories. */
   today?: Date;
+  /**
+   * A dot on the newest reading (up to today) of each line, with a soft repeating ripple (added 27 Nov 2026). Smaller on a
+   * sparkline. No ripple with reduced motion. Default true.
+   */
+  liveDot?: boolean;
   className?: string;
 }
 
@@ -67,6 +74,7 @@ export function LineChart({
   showLegend = true,
   formatValue = (v) => v.toLocaleString(),
   today,
+  liveDot = true,
   className,
 }: LineChartProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -81,6 +89,12 @@ export function LineChart({
 
   const timeline = useMemo(() => buildTimeline(dates, today ?? new Date()), [datesKey, todayKey]);
   const rows = useMemo(() => series.map((s) => timeline.align(dates, s.data)), [seriesKey, timeline]);
+  // Newest reading per series (up to today), where the live dot sits; -1 = none.
+  const liveIdx = useMemo(
+    () => rows.map((row) => (liveDot ? newestIndex(row, timeline.todayIndex >= 0 ? timeline.todayIndex : row.length - 1) : -1)),
+    [rows, timeline, liveDot]
+  );
+  const dotRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -100,6 +114,11 @@ export function LineChart({
     const { labels, todayIndex } = timeline;
     const reduce = prefersReducedMotion();
     const hasRight = series.some((s) => s.axis === 'right');
+    const drawMs = sparkline ? LINE_CHART_DRAW_MS * 0.75 : LINE_CHART_DRAW_MS;
+    const dotTargets: LiveDotTarget[] = series.map((_, i) => ({ datasetIndex: i, index: liveIdx[i], color: colors[i], size: sparkline ? 'sm' : 'md' }));
+    // The dot fades in once the line has drawn up to it.
+    const dotDelay = (index: number) => (reduce ? 0 : variant === 'line' ? LINE_CHART_DRAW_MS : ((index + 1) * drawMs) / Math.max(1, labels.length));
+    const dots = liveDotPlugin(() => dotRefs.current, dotTargets, dotDelay(Math.max(-1, ...liveIdx)));
 
     const todayLine: Plugin<'line'> = {
       id: 'vsTodayLine',
@@ -172,7 +191,8 @@ export function LineChart({
           tension: 0.4,
           spanGaps: false,
           yAxisID: s.axis === 'right' ? 'y1' : 'y',
-          pointRadius: (c: any) => (!sparkline && variant === 'area' && c.dataIndex === todayIndex ? 4 : 0),
+          // The live dot replaces the hollow today point.
+          pointRadius: (c: any) => (!sparkline && variant === 'area' && c.dataIndex === todayIndex && liveIdx[i] !== todayIndex ? 4 : 0),
           pointHoverRadius: sparkline ? 0 : 5,
           pointBackgroundColor: variant === 'area' ? theme.surface : colors[i],
           pointBorderColor: colors[i],
@@ -188,7 +208,7 @@ export function LineChart({
           ? false
           : variant === 'line'
             ? ({ duration: LINE_CHART_DRAW_MS, easing: 'easeOutQuart', y: { from: (c: any) => c.chart.chartArea?.bottom ?? 0 } } as any)
-            : (progressiveAnimation(sparkline ? LINE_CHART_DRAW_MS * 0.75 : LINE_CHART_DRAW_MS, labels.length) as any),
+            : (progressiveAnimation(drawMs, labels.length) as any),
         // Without a right axis, room for the longer "(Today)" label next to the one empty day.
         layout: { padding: sparkline ? { top: 4, bottom: 2 } : { top: 8, right: hasRight ? 8 : 40 } },
         plugins: {
@@ -230,12 +250,12 @@ export function LineChart({
           ...(hasRight ? { y1: yScale('right', false) as any } : {}),
         },
       },
-      plugins: sparkline ? [] : [todayLine, crosshair],
+      plugins: [...(sparkline ? [] : [todayLine, crosshair]), ...(liveIdx.some((d) => d >= 0) ? [dots] : [])],
     };
 
     const chart = new Chart(canvas, config);
     return () => chart.destroy();
-  }, [timeline, rows, seriesKey, variant]);
+  }, [timeline, rows, seriesKey, variant, liveIdx, liveDot]);
 
   const legendColors = series.map((s, i) => s.color || DEFAULT_SERIES_COLORS[i % DEFAULT_SERIES_COLORS.length]);
   const h = height ?? (sparkline ? 56 : 280);
@@ -254,6 +274,19 @@ export function LineChart({
       )}
       <div className="vs-line-chart-canvas" style={{ height: h }}>
         <canvas ref={canvasRef} role="img" aria-label={ariaLabel} />
+        {liveIdx.map((d, i) =>
+          d >= 0 ? (
+            <span
+              key={series[i].id}
+              ref={(el) => {
+                dotRefs.current[i] = el;
+              }}
+              className={liveDotClass(sparkline ? 'sm' : 'md')}
+              aria-hidden="true"
+              hidden
+            />
+          ) : null
+        )}
       </div>
     </div>
   );

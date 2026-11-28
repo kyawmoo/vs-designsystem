@@ -1,10 +1,6 @@
 /**
  * VectorSticker Design System docs — shared "Site Shell".
- * Near-black top header + left sidebar, white content body. Agreed with
- * Master KMO during the Stitch phase: "top header, left side bar and
- * content title section [are dark]. The body is white as we do."
- * Header/sidebar colors, sizes and the icon-per-item nav were matched
- * to the reference screenshot Master KMO supplied on 2026-09-24.
+ * White page (Master KMO, 2026-11-26): white sidebar, fluid body, big centred title, code in a drawer.
  */
 
 /* Copy of ../../tokens/tokens.css, not a reference — this docs site
@@ -18,8 +14,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --vs-docs-sidebar-width: 240px;
-  --vs-docs-chrome-sidebar-bg: #0e0e10;
+  --vs-docs-sidebar-width: 248px;
+  --vs-docs-gutter: max(16px, 5%);
 }
 
 * {
@@ -30,14 +26,14 @@ body {
   margin: 0;
   font-family: var(--vs-font-family);
   color: var(--vs-color-text-body);
-  background: var(--vs-color-background);
+  background: var(--vs-color-surface);
 }
 
 a {
   color: inherit;
 }
 
-/* ---- Sidebar (full height: logo on top, page links scroll in the middle, GitHub pinned at the bottom) ---- */
+/* ---- Sidebar (white; logo on top, page links scroll in the middle, GitHub pinned at the bottom) ---- */
 .vs-docs-sidebar {
   position: fixed;
   top: 0;
@@ -46,7 +42,8 @@ a {
   width: var(--vs-docs-sidebar-width);
   display: flex;
   flex-direction: column;
-  background: var(--vs-docs-chrome-sidebar-bg);
+  background: var(--vs-color-surface);
+  border-right: 1px solid var(--vs-color-border);
   z-index: 90;
 }
 
@@ -54,7 +51,7 @@ a {
   display: block;
   flex-shrink: 0;
   margin: 0;
-  padding: 32px 20px 28px;
+  padding: 24px 20px 16px;
   border-radius: 0;
   background: none;
 }
@@ -65,7 +62,7 @@ a {
 
 .vs-docs-sidebar-brand img {
   display: block;
-  width: 180px;
+  width: 150px;
   height: auto;
 }
 
@@ -79,14 +76,14 @@ a {
 .vs-docs-sidebar-footer {
   flex-shrink: 0;
   padding: 12px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--vs-color-border);
 }
 
 .vs-docs-sidebar-group {
   margin-bottom: 8px;
 }
 
-/* Group heading = the accordion button: same small caps look as before, plus a chevron that turns when open. */
+/* Group heading = the accordion button: small caps, plus a chevron that turns when open. */
 .vs-docs-sidebar-group-toggle {
   display: flex;
   align-items: center;
@@ -101,18 +98,19 @@ a {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #717179;
+  color: var(--vs-color-text-muted);
   text-align: left;
   cursor: pointer;
   transition: color 120ms ease;
 }
 
 .vs-docs-sidebar-group-toggle:hover {
-  color: #d4d4d8;
+  color: var(--vs-color-text-heading);
 }
 
-.vs-docs-sidebar-group-toggle:focus-visible {
-  outline: 2px solid var(--vs-color-brand-accent);
+.vs-docs-sidebar-group-toggle:focus-visible,
+.vs-docs-sidebar a:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
   outline-offset: -2px;
 }
 
@@ -132,137 +130,279 @@ a {
   }
 }
 
+/* Sub-sections inside a group (Components: General, Info Display, Cards, ...): a lighter accordion row under the group heading. */
+.vs-docs-sidebar-sub-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: calc(100% - 20px);
+  margin: 0 10px 2px;
+  padding: 8px 12px;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--vs-color-text-heading);
+  text-align: left;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.vs-docs-sidebar-sub-toggle:hover {
+  background: var(--vs-color-background);
+}
+
+.vs-docs-sidebar-sub-toggle:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: -2px;
+}
+
+.vs-docs-sidebar-sub-toggle > span:first-child {
+  flex: 1;
+}
+
+.vs-docs-sidebar-sub-count {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--vs-color-text-body);
+}
+
+.vs-docs-sidebar-sub-toggle svg {
+  width: 14px;
+  height: 14px;
+  color: var(--vs-color-text-muted);
+  transition: transform 150ms ease;
+}
+
+.vs-docs-sidebar-sub.is-open .vs-docs-sidebar-sub-toggle svg {
+  transform: rotate(90deg);
+}
+
+.vs-docs-sidebar-sub-links {
+  margin: 0 0 6px 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vs-docs-sidebar-sub-toggle svg {
+    transition: none;
+  }
+}
+
+/* Page to page (Master KMO, 2026-11-28): only the page area changes, the menu stays still. Browsers with cross-document
+   view transitions (Chrome / Edge 126+, Safari 18.2+) keep the menu as one still layer and fade the page area; others just
+   load the page (the menu still keeps its scroll place, see shell.js). No fade with reduced motion. */
+@view-transition {
+  navigation: auto;
+}
+
+.vs-docs-sidebar {
+  view-transition-name: vs-docs-sidebar;
+}
+
+::view-transition-group(vs-docs-sidebar),
+::view-transition-old(vs-docs-sidebar),
+::view-transition-new(vs-docs-sidebar) {
+  animation: none;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 150ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
 .vs-docs-sidebar a {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 0 10px 4px;
-  padding: 11px 12px;
+  margin: 0 10px 2px;
+  padding: 9px 12px;
   border-radius: 8px;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 500;
   line-height: 18px;
-  color: #d4d4d8;
+  color: var(--vs-color-text-body);
   text-decoration: none;
   transition: color 120ms ease, background 120ms ease;
 }
 
 .vs-docs-sidebar-icon {
   flex-shrink: 0;
-  color: #717179;
+  color: var(--vs-color-text-muted);
   transition: color 120ms ease;
 }
 
-.vs-docs-sidebar a:focus-visible {
-  outline: 2px solid var(--vs-color-brand-accent);
-  outline-offset: -2px;
+.vs-docs-sidebar a:hover {
+  color: var(--vs-color-text-heading);
+  background: var(--vs-color-background);
 }
 
+/* After :hover on purpose, so the current page keeps its highlight. */
 .vs-docs-sidebar a.is-active {
-  color: #fafafa;
-  font-weight: 500;
-  background: #2a2a2d;
+  color: var(--vs-color-text-heading);
+  font-weight: 600;
+  background: color-mix(in srgb, var(--vs-color-brand-primary) 14%, var(--vs-color-surface));
 }
 
 .vs-docs-sidebar a.is-active .vs-docs-sidebar-icon {
-  color: #e4e4e7;
-}
-
-/* After .is-active on purpose, so the current page highlights on hover too. */
-.vs-docs-sidebar a:hover,
-.vs-docs-sidebar a:hover .vs-docs-sidebar-icon {
-  color: #ffd854;
-}
-
-.vs-docs-sidebar a:hover {
-  background: rgba(255, 255, 255, 0.05);
+  color: var(--vs-color-brand-primary-text);
 }
 
 /* ---- Content ----
-   Three layers, matching the Stitch reference Master KMO pointed at:
-   1. Dark hero band (page title/breadcrumb) at the top of the page
-   2. Gray canvas
-   3. White, bordered, rounded card holding the actual content
-   Kept border-only (no shadow) on the card, since this system's own
-   Shadow principle is flat design: "Elevation comes only from a 1px
-   border and background-color contrast." One shared edit here applies
-   to every page. */
+   White page: a top bar (menu button on phones, breadcrumb, search), a centred title, then the sections. The body is fluid:
+   no fixed width, only a side padding of 5% (at least 16px), so a bigger screen shows more. The code and the notes of a page
+   are not in the page: shell.js moves them into the "Code" drawer (the big button at the bottom right). */
 .vs-docs-main {
   margin-left: var(--vs-docs-sidebar-width);
   min-height: 100vh;
 }
 
+.vs-docs-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px var(--vs-docs-gutter);
+  background: var(--vs-color-surface);
+  border-bottom: 1px solid var(--vs-color-border);
+}
+
+.vs-docs-crumb {
+  margin-right: auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--vs-color-text-muted);
+}
+
+.vs-docs-crumb strong {
+  font-weight: 600;
+  color: var(--vs-color-text-heading);
+}
+
+.vs-docs-search {
+  width: min(280px, 100%);
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--vs-color-border);
+  border-radius: 10px;
+  background: var(--vs-color-background);
+  font: inherit;
+  font-size: 14px;
+  color: var(--vs-color-text-body);
+}
+
+.vs-docs-search:focus {
+  outline: none;
+  background: var(--vs-color-surface);
+  border-color: var(--vs-color-brand-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--vs-color-brand-primary) 22%, transparent);
+}
+
+.vs-docs-menu-btn {
+  display: none;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid var(--vs-color-border);
+  border-radius: 10px;
+  background: var(--vs-color-surface);
+  color: var(--vs-color-text-heading);
+  cursor: pointer;
+}
+
 .vs-docs-hero {
-  /* Deliberately lighter than the sidebar so the hero band reads as
-     this page's content, not more persistent chrome. */
-  background: #2c2c2c;
-  color: #ffffff;
-  padding: 36px 40px 40px;
+  background: var(--vs-color-surface);
+  color: var(--vs-color-text-heading);
+  padding: clamp(72px, 11vw, 168px) var(--vs-docs-gutter) clamp(48px, 7vw, 104px);
+  text-align: center;
 }
 
 .vs-docs-hero-inner {
-  max-width: 880px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
 }
 
 .vs-docs-hero-eyebrow {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: #a1a1aa;
+  color: var(--vs-color-text-muted);
   margin: 0 0 10px;
 }
 
 .vs-docs-hero-eyebrow strong {
-  color: var(--vs-color-brand-accent);
+  color: var(--vs-color-brand-primary-text);
 }
 
 .vs-docs-hero h1 {
-  font-size: var(--vs-font-size-display);
-  font-weight: 600;
-  color: #ffffff;
-  margin: 0 0 10px;
-  letter-spacing: -0.01em;
+  font-size: clamp(40px, 5.6vw, 84px);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--vs-color-text-heading);
+  margin: 0;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
 }
 
 .vs-docs-hero-lede {
   font-size: 16px;
   line-height: var(--vs-line-height-body);
-  color: #c9cdd3;
+  color: var(--vs-color-text-body);
   max-width: 640px;
-  margin: 0;
+  margin: 20px auto 0;
+}
+
+/* With the script on, the eyebrow becomes the breadcrumb and the lede goes to the drawer. Without it, both stay in the page. */
+.vs-docs-js .vs-docs-hero-eyebrow,
+.vs-docs-js .vs-docs-hero-lede {
+  display: none;
 }
 
 .vs-docs-canvas {
-  background: var(--vs-color-background);
-  padding: 40px 40px 80px;
+  background: var(--vs-color-surface);
+  padding: 0 var(--vs-docs-gutter) 120px;
 }
 
 .vs-docs-content {
-  max-width: 880px;
-  margin: 0 auto;
-  background: var(--vs-color-surface);
-  border: 1px solid var(--vs-color-border);
-  border-radius: var(--vs-radius-lg);
-  padding: 48px 56px 64px;
+  max-width: none;
+  margin: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
 }
 
 .vs-docs-content h2 {
-  font-size: var(--vs-font-size-heading-md);
-  font-weight: 600;
+  font-size: clamp(24px, 2.2vw, 32px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--vs-color-text-heading);
-  margin: 48px 0 16px;
-  padding-top: 8px;
-  border-top: 1px solid var(--vs-color-border);
+  margin: clamp(56px, 7vw, 96px) 0 28px;
+  padding: 0;
+  border: none;
 }
 
 .vs-docs-content h2:first-of-type {
-  border-top: none;
-  padding-top: 0;
+  margin-top: 0;
 }
 
 .vs-docs-content h3 {
@@ -304,6 +444,321 @@ a {
 .vs-docs-code-block .attr { color: #bcfd1d; }
 .vs-docs-code-block .str { color: #a488ff; }
 .vs-docs-code-block .cmt { color: #7d838c; }
+
+/* ---- Section + card grid (every component page): a title, an optional one line, then equal cards. Columns grow with the screen. ---- */
+.vs-docs-lead {
+  margin: -14px 0 28px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--vs-color-text-body);
+}
+
+.vs-docs-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.vs-docs-cards.is-wide {
+  grid-template-columns: repeat(auto-fill, minmax(min(420px, 100%), 1fr));
+}
+
+.vs-docs-content > section + section {
+  margin-top: clamp(56px, 7vw, 96px);
+}
+
+/* Four cards: 2 x 2 on a normal screen, one row of four on a wide one (never three and one alone). */
+.vs-docs-cards.is-quad {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 1700px) {
+  .vs-docs-cards.is-quad {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .vs-docs-cards.is-quad {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.vs-docs-cards > .vs-docs-preview,
+.vs-docs-cards > .demo-browser,
+.vs-docs-cards > .demo-redline {
+  min-width: 0;
+  margin: 0;
+}
+
+.vs-docs-card > .vs-docs-preview {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  overflow-x: auto;
+}
+
+.vs-docs-content > .vs-docs-card {
+  margin: 0 0 20px;
+}
+
+.vs-docs-card > .vs-docs-example-grid,
+.vs-docs-card > .vs-docs-swatch-grid,
+.vs-docs-card > .demo-scroll {
+  margin-bottom: 0;
+}
+
+.vs-docs-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--vs-color-border);
+  border-radius: 18px;
+  background: var(--vs-color-surface);
+}
+
+.vs-docs-card > h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--vs-color-text-heading);
+}
+
+.vs-docs-card-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.vs-docs-sizes,
+.vs-docs-states {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: 18px 14px;
+}
+
+.vs-docs-cap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+
+.vs-docs-cap small {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--vs-color-text-muted);
+}
+
+.vs-docs-rule {
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: var(--vs-color-border);
+}
+
+/* Text, lists, spec tables and notes that shell.js sends to the drawer keep a readable padding there. */
+.vs-docs-acc-body [data-vs-drawer] {
+  padding: 8px 22px 18px;
+}
+
+.vs-docs-acc-body [data-vs-drawer] > :first-child {
+  margin-top: 8px;
+}
+
+.vs-docs-acc-body [data-vs-drawer] .vs-docs-code-block {
+  margin: 0 -22px 18px;
+  width: calc(100% + 44px);
+}
+
+.vs-docs-acc-body [data-vs-drawer] .vs-docs-code-block:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- Code drawer: opens from the right over the page; one card open at a time ---- */
+.vs-docs-fab {
+  position: fixed;
+  right: max(20px, env(safe-area-inset-right, 0px));
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  height: 56px;
+  padding: 0 26px;
+  border: 0;
+  border-radius: var(--vs-radius-full);
+  background: var(--vs-color-text-heading);
+  color: var(--vs-color-surface);
+  font: 600 16px var(--vs-font-family);
+  cursor: pointer;
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--vs-color-text-heading) 30%, transparent);
+  transition: transform 150ms ease;
+}
+
+.vs-docs-fab:hover {
+  transform: translateY(-2px);
+}
+
+.vs-docs-fab[hidden] {
+  display: none;
+}
+
+.vs-docs-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: color-mix(in srgb, var(--vs-color-text-heading) 35%, transparent);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 250ms ease, visibility 250ms;
+}
+
+.vs-docs-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 101;
+  width: min(780px, 100%);
+  display: flex;
+  flex-direction: column;
+  background: var(--vs-color-surface);
+  transform: translateX(100%);
+  visibility: hidden;
+  transition: transform 300ms cubic-bezier(0.2, 0.7, 0.2, 1), visibility 300ms;
+  box-shadow: -24px 0 60px color-mix(in srgb, var(--vs-color-text-heading) 18%, transparent);
+}
+
+.vs-docs-code-open .vs-docs-scrim {
+  opacity: 1;
+  visibility: visible;
+}
+
+.vs-docs-code-open .vs-docs-drawer {
+  transform: none;
+  visibility: visible;
+}
+
+.vs-docs-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: max(18px, env(safe-area-inset-top, 0px)) 24px 18px;
+  border-bottom: 1px solid var(--vs-color-border);
+}
+
+.vs-docs-drawer-head h2 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--vs-color-text-heading);
+}
+
+.vs-docs-drawer-close {
+  height: 36px;
+  padding: 0 18px;
+  border: 1px solid var(--vs-color-border);
+  border-radius: var(--vs-radius-full);
+  background: var(--vs-color-surface);
+  color: var(--vs-color-text-heading);
+  font: 600 13px var(--vs-font-family);
+  cursor: pointer;
+}
+
+.vs-docs-drawer-close:hover {
+  background: var(--vs-color-background);
+}
+
+.vs-docs-drawer-body {
+  flex: 1;
+  overflow: auto;
+  padding: 24px 24px max(24px, env(safe-area-inset-bottom, 0px));
+}
+
+.vs-docs-acc {
+  margin-bottom: 14px;
+  overflow: hidden;
+  border: 1px solid var(--vs-color-border);
+  border-radius: 18px;
+  background: var(--vs-color-surface);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.vs-docs-acc > button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 20px 22px;
+  border: 0;
+  background: none;
+  font: 600 18px var(--vs-font-family);
+  color: var(--vs-color-text-heading);
+  text-align: left;
+  cursor: pointer;
+}
+
+.vs-docs-acc > button svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  transition: transform 200ms ease;
+}
+
+.vs-docs-acc.is-open {
+  border-color: var(--vs-color-brand-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--vs-color-brand-primary) 22%, transparent);
+}
+
+.vs-docs-acc.is-open > button {
+  background: color-mix(in srgb, var(--vs-color-brand-primary) 12%, var(--vs-color-surface));
+}
+
+.vs-docs-acc.is-open > button svg {
+  transform: rotate(90deg);
+}
+
+.vs-docs-acc-body {
+  display: none;
+}
+
+.vs-docs-acc.is-open .vs-docs-acc-body {
+  display: block;
+}
+
+.vs-docs-acc-body .vs-docs-code-block {
+  margin: 0;
+  border-radius: 0;
+  padding: 22px;
+}
+
+.vs-docs-acc-note {
+  margin: 0;
+  padding: 18px 22px 22px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--vs-color-text-body);
+}
+
+.vs-docs-acc-note code {
+  font-size: 0.85em;
+  background: var(--vs-color-background);
+  border: 1px solid var(--vs-color-border);
+  border-radius: var(--vs-radius-xs);
+  padding: 1px 6px;
+}
 
 /* ---- Reusable doc widgets ---- */
 .vs-docs-swatch-grid {
@@ -413,10 +868,10 @@ a {
   align-items: center;
   gap: 14px;
   border: 1px solid var(--vs-color-border);
-  border-radius: var(--vs-radius-sm);
-  padding: 24px;
+  border-radius: 18px;
+  padding: 28px;
   margin: 0 0 20px;
-  background: var(--vs-color-background);
+  background: var(--vs-color-surface);
 }
 
 /* ---- Section header with a numbered eyebrow + right-aligned note ---- */
@@ -436,7 +891,7 @@ a {
 }
 
 .vs-docs-section-num {
-  display: block;
+  display: none;
   font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
@@ -530,39 +985,37 @@ a {
 }
 
 @media (max-width: 900px) {
-  /* No room for a side column: the sidebar collapses to a strip above the
-     page with the logo and GitHub link; the page links stay hidden as before. */
+  /* No room for a side column: the sidebar slides in from the left (menu button in the top bar). */
   .vs-docs-sidebar {
-    position: static;
-    width: auto;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 8px 0 0;
+    transform: translateX(-100%);
+    visibility: hidden;
+    width: min(300px, 86vw);
+    transition: transform 250ms ease, visibility 250ms;
   }
-  .vs-docs-sidebar .vs-docs-sidebar-brand {
-    padding: 14px 16px;
-  }
-  .vs-docs-sidebar-brand img {
-    width: 120px;
-  }
-  .vs-docs-sidebar-nav {
-    display: none;
-  }
-  .vs-docs-sidebar-footer {
-    border-top: none;
-    padding: 0;
+  .vs-docs-menu-open .vs-docs-sidebar {
+    transform: none;
+    visibility: visible;
+    box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--vs-color-text-heading) 35%, transparent);
   }
   .vs-docs-main {
     margin-left: 0;
   }
-  .vs-docs-hero {
-    padding: 28px 24px;
+  .vs-docs-menu-btn {
+    display: grid;
   }
-  .vs-docs-canvas {
-    padding: 16px;
+  .vs-docs-search {
+    width: 140px;
   }
-  .vs-docs-content {
-    padding: 32px 24px 64px;
+  /* A wide demo or table scrolls inside itself, so the page never scrolls sideways. */
+  .vs-docs-preview,
+  .demo-browser,
+  .demo-states,
+  .demo-redline {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  .vs-docs-table {
+    display: block;
+    overflow-x: auto;
   }
 }

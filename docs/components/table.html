@@ -307,6 +307,11 @@
         <tr><td><code>rowKey</code></td><td>no</td><td><code>(row, index) =&gt; string | number</code></td></tr>
         <tr><td><code>emptyLabel</code></td><td>no</td><td>default <code>'No data available'</code></td></tr>
         <tr><td><code>bare</code></td><td>no</td><td><code>boolean</code>, default <code>false</code></td></tr>
+        <tr><td><code>startRank</code></td><td>no</td><td>number shown for the first row, default <code>1</code>; use it so ranks continue across pages (a value below 1 or not a whole number counts as 1)</td></tr>
+        <tr><td><code>showRank</code></td><td>no</td><td><code>boolean</code>, default <code>true</code>; <code>false</code> removes the <code>#</code> column</td></tr>
+        <tr><td><code>rowMuted</code></td><td>no</td><td><code>(row, index) =&gt; boolean</code>; <code>true</code> draws that row in italic, same text colour (partial or incomplete data)</td></tr>
+        <tr><td><code>scrollLabel</code></td><td>no</td><td>string; makes the sideways-scroll area a keyboard-focusable region with this accessible name</td></tr>
+        <tr><td><code>columns[].align</code></td><td>no</td><td><code>'left' | 'center' | 'right'</code>, default <code>'right'</code>; the title and the cells use the same alignment</td></tr>
       </tbody>
     </table></div>
 

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Donut Chart — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-rank { width: 100%; max-width: 28rem; font-family: var(--vs-font-family); }
+  .demo-rank-row { display: grid; grid-template-columns: 8.5rem 1fr 3.5rem; align-items: center; gap: 0.75rem; min-height: 34px; font-size: 12px; color: var(--vs-color-text-body); }
+  .demo-rank-bar { height: 16px; border-radius: 6px; background: var(--vs-chart-series-1); }
+  .demo-rank-val { font-weight: 600; font-size: 11px; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body data-page="ranked-bar-chart">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Ranked Bar Chart</p>
+    <h1>Ranked Bar Chart</h1>
+    <p class="vs-docs-hero-lede">
+      One horizontal bar per label (a country, a category), the value written just past each bar's end (issue #144). React only; Chart.js.
+      For values over time use the <a href="/components/bar-chart.html">Bar Chart</a>. Implemented in <code>react/src/components/RankedBarChart.tsx</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <h2>Default</h2>
+    <p>The examples on this page are static drawings of the same layout (the real chart is drawn on a canvas).</p>
+    <div class="vs-docs-preview"><div class="demo-rank" role="img" aria-label="Downloads by country, example">
+      <div class="demo-rank-row"><span>Thailand</span><span><span class="demo-rank-bar" style="display:block;width:100%"></span></span><span class="demo-rank-val">1,200</span></div>
+      <div class="demo-rank-row"><span>India</span><span><span class="demo-rank-bar" style="display:block;width:72%"></span></span><span class="demo-rank-val">860</span></div>
+      <div class="demo-rank-row"><span>Brazil</span><span><span class="demo-rank-bar" style="display:block;width:31%"></span></span><span class="demo-rank-val">370</span></div>
+    </div></div>
+
+    <h2>Rules</h2>
+    <ul>
+      <li>The chart grows with the number of rows (<code>rowHeight</code>, default 34px) and is never shorter than <code>minHeight</code> (240px).</li>
+      <li>Long names are shortened with "…" (a trailing "(TH)" part is dropped first); the hover text has the full name.</li>
+      <li>No rows draws the <code>empty</code> text instead of a chart. A negative or non-finite value counts as 0 (no bar, no NaN).</li>
+      <li>Colours are tokens: bars <code>--vs-chart-series-1</code> (or your <code>color</code>), grid <code>--vs-chart-grid</code>, axis <code>--vs-chart-axis-text</code>, text <code>--vs-color-text-body</code>. Reduced motion draws it without animation.</li>
+    </ul>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { RankedBarChart } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;RankedBarChart</span> <span class="attr">ariaLabel</span>=<span class="str">"Downloads by country"</span> <span class="attr">valueLabel</span>=<span class="str">"Downloads"</span>
+  <span class="attr">rows</span>=<span class="str">{[{ label: 'Thailand (TH)', value: 1200 }, { label: 'India (IN)', value: 860 }]}</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>rows</code></td><td><code>{ label, value }[]</code>, in the order to draw</td><td></td></tr>
+        <tr><td><code>ariaLabel</code></td><td>describes the chart (required)</td><td></td></tr>
+        <tr><td><code>color</code></td><td>any CSS colour or <code>var(--token)</code></td><td><code>--vs-chart-series-1</code></td></tr>
+        <tr><td><code>valueLabel</code></td><td>what the value means, in the hover text</td><td>"Value"</td></tr>
+        <tr><td><code>formatValue</code></td><td>number format at the bar end and in the hover text</td><td><code>toLocaleString</code></td></tr>
+        <tr><td><code>rowHeight</code> / <code>minHeight</code></td><td>px</td><td><code>34</code> / <code>240</code></td></tr>
+        <tr><td><code>empty</code></td><td>text shown when there are no rows</td><td>"No data"</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Accessibility</h2>
+    <p>The canvas is <code>role="img"</code> with your <code>ariaLabel</code>; the values are only drawn on it, so put the same numbers in a nearby list or table when they matter (the Downloads page has one). Name and value text use <code>--vs-color-text-body</code>.</p>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

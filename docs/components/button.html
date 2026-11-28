@@ -121,6 +121,13 @@
   .vs-docs-content p code, .demo-panel code { overflow-wrap: anywhere; }
   .demo-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .demo-scroll > .vs-docs-table { min-width: 560px; }
+
+  /* Accent (lime pill, opt-in) */
+  .demo-btn--accent { background: var(--vs-button-accent); border-color: var(--vs-button-accent); color: var(--vs-button-accent-text); border-radius: var(--vs-radius-full); font-weight: var(--vs-button-accent-font-weight); }
+  .demo-btn--accent:hover:not(:disabled), .demo-btn--accent.is-hover { background: var(--vs-button-accent-hover); border-color: var(--vs-button-accent-hover); }
+  .demo-btn--accent:active:not(:disabled), .demo-btn--accent.is-pressed { background: var(--vs-button-accent-pressed); border-color: var(--vs-button-accent-pressed); }
+  .demo-icon--accent { background: var(--vs-button-accent); border: 1px solid var(--vs-button-accent); color: var(--vs-button-accent-text); border-radius: var(--vs-radius-full); }
+  .demo-icon--accent:hover { background: var(--vs-button-accent-hover); }
 </style>
 </head>
 <body data-page="button">
@@ -142,242 +149,234 @@
   <div class="vs-docs-canvas">
   <div class="vs-docs-content">
 
-    <!-- 01 -->
-    <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">01 // Interaction &amp; Size Matrix</span><h2>States &amp; Sizes Matrix</h2></div>
-      <p class="vs-docs-section-desc">Every state across all three size tiers. The Default column is live — hover and click it.</p>
+    <section>
+    <h2>Emphasis</h2>
+    <p class="vs-docs-lead">Four levels, three sizes, four states.</p>
+    <div class="vs-docs-cards is-quad">
+      <article class="vs-docs-card">
+        <h3>Primary</h3>
+        <div class="vs-docs-sizes"><div class="vs-docs-cap"><button class="demo-btn demo-btn--primary demo-btn--lg">Button</button><small>lg 48</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--primary demo-btn--md">Button</button><small>md 40</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--primary demo-btn--sm">Button</button><small>sm 32</small></div></div>
+        <hr class="vs-docs-rule">
+        <div class="vs-docs-states"><div class="vs-docs-cap"><button class="demo-btn demo-btn--primary demo-btn--md">Button</button><small>Default</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--primary demo-btn--md is-hover">Button</button><small>Hover</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--primary demo-btn--md is-pressed">Button</button><small>Pressed</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--primary demo-btn--md" disabled>Button</button><small>Disabled</small></div></div>
+      </article>
+      <article class="vs-docs-card">
+        <h3>Secondary</h3>
+        <div class="vs-docs-sizes"><div class="vs-docs-cap"><button class="demo-btn demo-btn--secondary demo-btn--lg">Button</button><small>lg 48</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--secondary demo-btn--md">Button</button><small>md 40</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--secondary demo-btn--sm">Button</button><small>sm 32</small></div></div>
+        <hr class="vs-docs-rule">
+        <div class="vs-docs-states"><div class="vs-docs-cap"><button class="demo-btn demo-btn--secondary demo-btn--md">Button</button><small>Default</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--secondary demo-btn--md is-hover">Button</button><small>Hover</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--secondary demo-btn--md is-pressed">Button</button><small>Pressed</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--secondary demo-btn--md" disabled>Button</button><small>Disabled</small></div></div>
+      </article>
+      <article class="vs-docs-card">
+        <h3>Tertiary</h3>
+        <div class="vs-docs-sizes"><div class="vs-docs-cap"><button class="demo-btn demo-btn--tertiary demo-btn--lg"><i class="fa-solid fa-table-cells"></i>Toggle</button><small>lg 48</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--tertiary demo-btn--md"><i class="fa-solid fa-table-cells"></i>Toggle</button><small>md 40</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--tertiary demo-btn--sm"><i class="fa-solid fa-table-cells"></i>Toggle</button><small>sm 32</small></div></div>
+        <hr class="vs-docs-rule">
+        <div class="vs-docs-states"><div class="vs-docs-cap"><button class="demo-btn demo-btn--tertiary demo-btn--md"><i class="fa-solid fa-table-cells"></i>Toggle</button><small>Default</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--tertiary demo-btn--md is-hover"><i class="fa-solid fa-table-cells"></i>Toggle</button><small>Hover</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--tertiary demo-btn--md is-pressed"><i class="fa-solid fa-table-cells"></i>Toggle</button><small>Pressed</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--tertiary demo-btn--md" disabled><i class="fa-solid fa-table-cells"></i>Toggle</button><small>Disabled</small></div></div>
+      </article>
+      <article class="vs-docs-card">
+        <h3>Accent</h3>
+        <div class="vs-docs-sizes"><div class="vs-docs-cap"><button class="demo-btn demo-btn--accent demo-btn--lg">Sign Up</button><small>lg 48</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--accent demo-btn--md">Sign Up</button><small>md 40</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--accent demo-btn--sm">Sign Up</button><small>sm 32</small></div></div>
+        <hr class="vs-docs-rule">
+        <div class="vs-docs-states"><div class="vs-docs-cap"><button class="demo-btn demo-btn--accent demo-btn--md">Sign Up</button><small>Default</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--accent demo-btn--md is-hover">Sign Up</button><small>Hover</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--accent demo-btn--md is-pressed">Sign Up</button><small>Pressed</small></div><div class="vs-docs-cap"><button class="demo-btn demo-btn--accent demo-btn--md" disabled>Sign Up</button><small>Disabled</small></div></div>
+      </article>
     </div>
-    <div class="demo-scroll"><table class="vs-docs-table vs-docs-state-table">
-      <thead><tr><th>Variant / size</th><th>Default <code>:default</code></th><th>Hover <code>:hover</code></th><th>Pressed <code>:active</code> + scale(0.98)</th><th>Disabled <code>:disabled</code></th></tr></thead>
-      <tbody>
-        <tr class="demo-group-row"><td colspan="5">Primary variant · <code>$button-text-primary</code></td></tr>
-        <tr>
-          <td class="demo-size-cell"><strong>Primary Large (lg)</strong><span>48px high · 32px side padding · 16px text</span></td>
-          <td><button class="demo-btn demo-btn--primary demo-btn--lg">Button</button><span class="demo-note">#4caf50</span></td>
-          <td><button class="demo-btn demo-btn--primary demo-btn--lg is-hover">Button</button><span class="demo-note">#43a047</span></td>
-          <td><button class="demo-btn demo-btn--primary demo-btn--lg is-pressed">Button</button><span class="demo-note">#388e3c</span></td>
-          <td><button class="demo-btn demo-btn--primary demo-btn--lg" disabled>Button</button><span class="demo-note">opacity: 50%</span></td>
-        </tr>
-        <tr>
-          <td class="demo-size-cell"><strong>Primary Medium (md · default)</strong><span>40px high · 28px side padding · 14px text</span></td>
-          <td><button class="demo-btn demo-btn--primary demo-btn--md">Button</button><span class="demo-note">#4caf50</span></td>
-          <td><button class="demo-btn demo-btn--primary demo-btn--md is-hover">Button</button><span class="demo-note">#43a047</span></td>
-          <td><button class="demo-btn demo-btn--primary demo-btn--md is-pressed">Button</button><span class="demo-note">#388e3c</span></td>
-          <td><button class="demo-btn demo-btn--primary demo-btn--md" disabled>Button</button><span class="demo-note">opacity: 50%</span></td>
-        </tr>
-        <tr>
-          <td class="demo-size-cell"><strong>Primary Small (sm)</strong><span>32px high · 16px side padding · 13px text</span></td>
-          <td><button class="demo-btn demo-btn--primary demo-btn--sm">Button</button><span class="demo-note">#4caf50</span></td>
-          <td><button class="demo-btn demo-btn--primary demo-btn--sm is-hover">Button</button><span class="demo-note">#43a047</span></td>
-          <td><button class="demo-btn demo-btn--primary demo-btn--sm is-pressed">Button</button><span class="demo-note">#388e3c</span></td>
-          <td><button class="demo-btn demo-btn--primary demo-btn--sm" disabled>Button</button><span class="demo-note">opacity: 50%</span></td>
-        </tr>
-        <tr class="demo-group-row"><td colspan="5">Secondary variant · <code>$button-text-secondary</code></td></tr>
-        <tr>
-          <td class="demo-size-cell"><strong>Secondary Large (lg)</strong><span>48px high · 32px side padding · 16px text</span></td>
-          <td><button class="demo-btn demo-btn--secondary demo-btn--lg">Button</button><span class="demo-note">#222222</span></td>
-          <td><button class="demo-btn demo-btn--secondary demo-btn--lg is-hover">Button</button><span class="demo-note">#333333</span></td>
-          <td><button class="demo-btn demo-btn--secondary demo-btn--lg is-pressed">Button</button><span class="demo-note">#151515</span></td>
-          <td><button class="demo-btn demo-btn--secondary demo-btn--lg" disabled>Button</button><span class="demo-note">opacity: 50%</span></td>
-        </tr>
-        <tr>
-          <td class="demo-size-cell"><strong>Secondary Medium (md · default)</strong><span>40px high · 28px side padding · 14px text</span></td>
-          <td><button class="demo-btn demo-btn--secondary demo-btn--md">Button</button><span class="demo-note">#222222</span></td>
-          <td><button class="demo-btn demo-btn--secondary demo-btn--md is-hover">Button</button><span class="demo-note">#333333</span></td>
-          <td><button class="demo-btn demo-btn--secondary demo-btn--md is-pressed">Button</button><span class="demo-note">#151515</span></td>
-          <td><button class="demo-btn demo-btn--secondary demo-btn--md" disabled>Button</button><span class="demo-note">opacity: 50%</span></td>
-        </tr>
-        <tr>
-          <td class="demo-size-cell"><strong>Secondary Small (sm)</strong><span>32px high · 16px side padding · 13px text</span></td>
-          <td><button class="demo-btn demo-btn--secondary demo-btn--sm">Button</button><span class="demo-note">#222222</span></td>
-          <td><button class="demo-btn demo-btn--secondary demo-btn--sm is-hover">Button</button><span class="demo-note">#333333</span></td>
-          <td><button class="demo-btn demo-btn--secondary demo-btn--sm is-pressed">Button</button><span class="demo-note">#151515</span></td>
-          <td><button class="demo-btn demo-btn--secondary demo-btn--sm" disabled>Button</button><span class="demo-note">opacity: 50%</span></td>
-        </tr>
-        <tr class="demo-group-row"><td colspan="5">Tertiary variant · <code>$button-text-tertiary</code></td></tr>
-        <tr>
-          <td class="demo-size-cell"><strong>Tertiary Large (lg)</strong><span>48px high · 32px side padding · 16px text</span></td>
-          <td><button class="demo-btn demo-btn--tertiary demo-btn--lg"><i class="fa-solid fa-table-cells"></i>Toggle</button><span class="demo-note">border #d1d5db</span></td>
-          <td><button class="demo-btn demo-btn--tertiary demo-btn--lg is-hover"><i class="fa-solid fa-table-cells"></i>Toggle</button><span class="demo-note">#4caf50 10% tint</span></td>
-          <td><button class="demo-btn demo-btn--tertiary demo-btn--lg is-pressed"><i class="fa-solid fa-table-cells"></i>Toggle</button><span class="demo-note">#4caf50 20% tint</span></td>
-          <td><button class="demo-btn demo-btn--tertiary demo-btn--lg" disabled><i class="fa-solid fa-table-cells"></i>Toggle</button><span class="demo-note">opacity: 50%</span></td>
-        </tr>
-        <tr>
-          <td class="demo-size-cell"><strong>Tertiary Medium (md · default)</strong><span>40px high · 28px side padding · 14px text</span></td>
-          <td><button class="demo-btn demo-btn--tertiary demo-btn--md"><i class="fa-solid fa-table-cells"></i>Toggle</button><span class="demo-note">border #d1d5db</span></td>
-          <td><button class="demo-btn demo-btn--tertiary demo-btn--md is-hover"><i class="fa-solid fa-table-cells"></i>Toggle</button><span class="demo-note">#4caf50 10% tint</span></td>
-          <td><button class="demo-btn demo-btn--tertiary demo-btn--md is-pressed"><i class="fa-solid fa-table-cells"></i>Toggle</button><span class="demo-note">#4caf50 20% tint</span></td>
-          <td><button class="demo-btn demo-btn--tertiary demo-btn--md" disabled><i class="fa-solid fa-table-cells"></i>Toggle</button><span class="demo-note">opacity: 50%</span></td>
-        </tr>
-        <tr>
-          <td class="demo-size-cell"><strong>Tertiary Small (sm)</strong><span>32px high · 16px side padding · 13px text</span></td>
-          <td><button class="demo-btn demo-btn--tertiary demo-btn--sm"><i class="fa-solid fa-table-cells"></i>Toggle</button><span class="demo-note">border #d1d5db</span></td>
-          <td><button class="demo-btn demo-btn--tertiary demo-btn--sm is-hover"><i class="fa-solid fa-table-cells"></i>Toggle</button><span class="demo-note">#4caf50 10% tint</span></td>
-          <td><button class="demo-btn demo-btn--tertiary demo-btn--sm is-pressed"><i class="fa-solid fa-table-cells"></i>Toggle</button><span class="demo-note">#4caf50 20% tint</span></td>
-          <td><button class="demo-btn demo-btn--tertiary demo-btn--sm" disabled><i class="fa-solid fa-table-cells"></i>Toggle</button><span class="demo-note">opacity: 50%</span></td>
-        </tr>
-      </tbody>
-    </table></div>
+    </section>
 
-    <!-- 02 -->
-    <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">02 // Icon-only Buttons</span><h2>Icon-only Buttons</h2></div>
-      <p class="vs-docs-section-desc">Square 38 × 38px actions.</p>
+    <section>
+    <h2>Formats</h2>
+    <p class="vs-docs-lead">Icon, label, or both.</p>
+    <div class="vs-docs-cards">
+      <article class="vs-docs-card">
+        <h3>Icon only</h3>
+        <div class="vs-docs-card-row">
+          <div class="vs-docs-cap"><button class="demo-btn demo-icon demo-icon--primary" aria-label="Add to cart"><i class="fa-solid fa-cart-shopping"></i></button><small>Primary</small></div>
+          <div class="vs-docs-cap"><button class="demo-btn demo-icon demo-icon--secondary" aria-label="Preview asset"><i class="fa-solid fa-eye"></i></button><small>Secondary</small></div>
+          <div class="vs-docs-cap"><button class="demo-btn demo-icon demo-icon--toggle is-active" aria-label="Grid view (active)" aria-pressed="true"><i class="fa-solid fa-table-cells"></i></button><small>Active</small></div>
+          <div class="vs-docs-cap"><button class="demo-btn demo-icon demo-icon--toggle" aria-label="List view" aria-pressed="false"><i class="fa-solid fa-list"></i></button><small>Inactive</small></div>
+          <div class="vs-docs-cap"><button class="demo-btn demo-icon demo-icon--accent" aria-label="Search"><i class="fa-solid fa-magnifying-glass"></i></button><small>Accent</small></div>
+        </div>
+      </article>
+      <article class="vs-docs-card">
+        <h3>Icon + text</h3>
+        <div class="vs-docs-cap"><button class="demo-btn demo-btn--primary demo-btn--md demo-btn--soft"><i class="fa-regular fa-circle-question"></i>Description</button><small>Primary</small></div>
+        <div class="vs-docs-cap"><button class="demo-btn demo-btn--outline-dark demo-btn--md"><i class="fa-regular fa-comment"></i>Comments (0)</button><small>Secondary</small></div>
+        <div class="vs-docs-cap"><button class="demo-btn demo-btn--minimal demo-btn--sm"><i class="fa-solid fa-filter"></i>Filter</button><small>Tertiary</small></div>
+      </article>
+      <article class="vs-docs-card">
+        <h3>Text only</h3>
+        <div class="vs-docs-cap"><button class="demo-btn demo-btn--primary demo-btn--md">Add to Cart</button><small>Primary</small></div>
+        <div class="vs-docs-cap"><button class="demo-btn demo-btn--secondary demo-btn--md">Cancel</button><small>Secondary</small></div>
+        <div class="vs-docs-cap"><button class="demo-btn demo-btn--link demo-btn--md">View More <i class="fa-solid fa-arrow-right"></i></button><small>Tertiary</small></div>
+      </article>
     </div>
-    <div class="vs-docs-example-grid">
-      <div class="vs-docs-example-card">
-        <div class="vs-docs-example-stage">
-          <button class="demo-btn demo-icon demo-icon--primary" aria-label="Add to cart"><i class="fa-solid fa-cart-shopping"></i></button>
-        </div>
-        <p class="vs-docs-example-label">Primary Icon Button</p>
-        <p class="vs-docs-example-spec"><code>$button-icon-primary</code></p>
-        <p class="vs-docs-example-spec">Size 38 × 38px · radius 8px · border 2px</p>
-      </div>
-      <div class="vs-docs-example-card">
-        <div class="vs-docs-example-stage">
-          <button class="demo-btn demo-icon demo-icon--secondary" aria-label="Preview asset"><i class="fa-solid fa-eye"></i></button>
-        </div>
-        <p class="vs-docs-example-label">Secondary Icon Button</p>
-        <p class="vs-docs-example-spec"><code>$button-icon-secondary</code></p>
-        <p class="vs-docs-example-spec">Size 38 × 38px · radius 8px · border 1px</p>
-      </div>
-      <div class="vs-docs-example-card">
-        <div class="vs-docs-example-stage">
-          <span class="demo-stack"><button class="demo-btn demo-icon demo-icon--toggle is-active" aria-label="Grid view (active)" aria-pressed="true"><i class="fa-solid fa-table-cells"></i></button>Active</span>
-          <span class="demo-stack"><button class="demo-btn demo-icon demo-icon--toggle" aria-label="List view" aria-pressed="false"><i class="fa-solid fa-list"></i></button>Inactive</span>
-        </div>
-        <p class="vs-docs-example-label">Tertiary / View Toggle</p>
-        <p class="vs-docs-example-spec"><code>$button-icon-tertiary</code></p>
-        <p class="vs-docs-example-spec">Size 38 × 38px · state: .btn-check:checked</p>
-      </div>
-    </div>
+    </section>
 
-    <!-- 03 -->
-    <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">03 // Icon + Text Buttons</span><h2>Icon + Text Buttons</h2></div>
-      <p class="vs-docs-section-desc">Paired icon and label, 6px radius.</p>
-    </div>
-    <div class="vs-docs-example-grid">
-      <div class="vs-docs-example-card">
-        <div class="vs-docs-example-stage">
-          <button class="demo-btn demo-btn--primary demo-btn--md demo-btn--soft"><i class="fa-regular fa-circle-question"></i>Description</button>
-        </div>
-        <p class="vs-docs-example-label">Primary Tab / Action</p>
-        <p class="vs-docs-example-spec"><code>$button-icon-text-primary</code></p>
-      </div>
-      <div class="vs-docs-example-card">
-        <div class="vs-docs-example-stage">
-          <button class="demo-btn demo-btn--outline-dark demo-btn--md"><i class="fa-regular fa-comment"></i>Comments (0)</button>
-        </div>
-        <p class="vs-docs-example-label">Secondary Tab / Outline</p>
-        <p class="vs-docs-example-spec"><code>$button-icon-text-secondary</code></p>
-      </div>
-      <div class="vs-docs-example-card">
-        <div class="vs-docs-example-stage">
-          <button class="demo-btn demo-btn--minimal demo-btn--sm"><i class="fa-solid fa-filter"></i>Filter</button>
-        </div>
-        <p class="vs-docs-example-label">Tertiary Minimal</p>
-        <p class="vs-docs-example-spec"><code>$button-icon-text-tertiary</code></p>
-      </div>
-    </div>
+    <section>
+    <h2>Special</h2>
+    <div class="vs-docs-cards">
+      <article class="vs-docs-card">
+        <h3>Social</h3>
+        <div class="vs-docs-card-row">
+<button class="demo-btn demo-social demo-social--facebook" aria-label="Share on Facebook"><i class="fa-brands fa-facebook-f"></i></button>
+      <button class="demo-btn demo-social demo-social--x" aria-label="Share on X"><i class="fa-brands fa-x-twitter"></i></button>
+      <button class="demo-btn demo-social demo-social--linkedin" aria-label="Share on LinkedIn"><i class="fa-brands fa-linkedin-in"></i></button>
+      <button class="demo-btn demo-social demo-social--whatsapp" aria-label="Share on WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
+      <button class="demo-btn demo-social demo-social--pinterest" aria-label="Share on Pinterest"><i class="fa-brands fa-pinterest-p"></i></button>
 
-    <!-- 04 -->
-    <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">04 // Text-only Buttons</span><h2>Text-only Buttons</h2></div>
-      <p class="vs-docs-section-desc">Primary actions and text links.</p>
-    </div>
-    <div class="vs-docs-example-grid">
-      <div class="vs-docs-example-card">
-        <div class="vs-docs-example-stage"><button class="demo-btn demo-btn--primary demo-btn--md">Add to Cart</button></div>
-        <p class="vs-docs-example-label">Primary CTA</p>
-        <p class="vs-docs-example-spec"><code>$button-text-primary</code></p>
-      </div>
-      <div class="vs-docs-example-card">
-        <div class="vs-docs-example-stage"><button class="demo-btn demo-btn--secondary demo-btn--md">Cancel</button></div>
-        <p class="vs-docs-example-label">Secondary Dark</p>
-        <p class="vs-docs-example-spec"><code>$button-text-secondary</code></p>
-      </div>
-      <div class="vs-docs-example-card">
-        <div class="vs-docs-example-stage"><button class="demo-btn demo-btn--link demo-btn--md">View More <i class="fa-solid fa-arrow-right"></i></button></div>
-        <p class="vs-docs-example-label">Tertiary Link</p>
-        <p class="vs-docs-example-spec"><code>$button-text-tertiary</code></p>
-      </div>
-    </div>
-
-    <!-- 05 -->
-    <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">05 // Social Buttons (Icon-only)</span><h2>Social Share Swatches</h2></div>
-      <p class="vs-docs-section-desc">40 × 40px share buttons, brand colors, 5px radius. <code>$button-social-icon</code></p>
-    </div>
-    <div class="vs-docs-preview">
-      <span class="demo-stack"><button class="demo-btn demo-social demo-social--facebook" aria-label="Share on Facebook"><i class="fa-brands fa-facebook-f"></i></button>#1877F2</span>
-      <span class="demo-stack"><button class="demo-btn demo-social demo-social--x" aria-label="Share on X"><i class="fa-brands fa-x-twitter"></i></button>#000000</span>
-      <span class="demo-stack"><button class="demo-btn demo-social demo-social--linkedin" aria-label="Share on LinkedIn"><i class="fa-brands fa-linkedin-in"></i></button>#0A66C2</span>
-      <span class="demo-stack"><button class="demo-btn demo-social demo-social--whatsapp" aria-label="Share on WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>#25D366</span>
-      <span class="demo-stack"><button class="demo-btn demo-social demo-social--pinterest" aria-label="Share on Pinterest"><i class="fa-brands fa-pinterest-p"></i></button>#CC0200</span>
-    </div>
-    <div class="vs-docs-callout">
-      <p>Same five networks, in the same order, as the site's share row
-      (<code>resources/views/themes/basic/partials/share-buttons.blade.php</code>).</p>
-    </div>
-
-    <!-- 06 -->
-    <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">06 // Social Authentication</span><h2>Social Buttons — Icon + Text</h2></div>
-      <p class="vs-docs-section-desc">OAuth sign-in. <code>$button-social-text</code></p>
-    </div>
-    <div class="vs-docs-preview">
-      <button class="demo-btn demo-google">
+        </div>
+      </article>
+      <article class="vs-docs-card">
+        <h3>Google</h3>
+        <button class="demo-btn demo-google">
         <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09a6.6 6.6 0 010-4.18V7.06H2.18a11 11 0 000 9.87l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/></svg>
         Continue with Google
       </button>
-    </div>
-    <p>Google Single Sign-On: white background, <code>#dadce0</code> border, 42px high, 6px radius. On Blade this is <code>oauth-buttons.blade.php</code> (<code>.btn-social</code>).</p>
-
-    <!-- 07 -->
-    <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">07 // Specialized CTA — Support &amp; Sponsor</span><h2>Support / Sponsor CTA Button</h2></div>
-      <p class="vs-docs-section-desc">Warm golden-amber pill for creator tips, coffee sponsorships and patron links.</p>
-    </div>
-    <div class="demo-two-col">
-      <div class="demo-panel">
-        <div class="vs-docs-example-stage" style="min-height:120px">
-          <button class="demo-btn demo-cta demo-cta--lg">Buy Me a Coffee <i class="fa-solid fa-arrow-right"></i></button>
+      </article>
+      <article class="vs-docs-card">
+        <h3>Support</h3>
+        <div class="vs-docs-cap"><button class="demo-btn demo-cta demo-cta--lg">Buy Me a Coffee <i class="fa-solid fa-arrow-right"></i></button></div>
+        <hr class="vs-docs-rule">
+        <div class="vs-docs-states">
+          <div class="vs-docs-cap"><button class="demo-btn demo-cta demo-cta--md is-hover">Coffee</button><small>Hover</small></div>
+          <div class="vs-docs-cap"><button class="demo-btn demo-cta demo-cta--md is-pressed">Coffee</button><small>Pressed</small></div>
         </div>
-        <p class="vs-docs-example-label">Support / Patron Pill</p>
-        <p class="vs-docs-example-spec"><code>$button-cta-support</code></p>
-        <p>Dark text on a bright golden-yellow background for high contrast and click-through on donation widgets and checkout footnotes.</p>
+      </article>
+    </div>
+    </section>
+
+    <section>
+    <h2>In context</h2>
+    <div class="vs-docs-cards is-wide">
+      <div class="vs-docs-card demo-browser" style="padding:0">
+        <div class="demo-browser-bar"><i></i><i></i><i></i> vectorsticker.com/item/cyber-holo-pack</div>
+        <div class="demo-browser-body">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div><strong>Cyber Hologram Sticker</strong><br><span style="font-size:12px;color:var(--vs-color-text-muted)">Vector layered bundle · SVG + EPS</span></div>
+            <strong>$4.99</strong>
+          </div>
+          <div class="demo-row">
+            <button class="demo-btn demo-btn--primary demo-btn--md" style="flex:1"><i class="fa-solid fa-cart-shopping"></i>Add to Cart</button>
+            <button class="demo-btn demo-icon demo-icon--secondary" aria-label="Preview details"><i class="fa-solid fa-eye"></i></button>
+          </div>
+          <div style="font-size:11px;color:var(--vs-color-text-muted)">Share this asset</div>
+          <div class="demo-row" style="gap:6px">
+            <button class="demo-btn demo-social demo-social--sm demo-social--facebook" aria-label="Share on Facebook"><i class="fa-brands fa-facebook-f"></i></button>
+            <button class="demo-btn demo-social demo-social--sm demo-social--x" aria-label="Share on X"><i class="fa-brands fa-x-twitter"></i></button>
+            <button class="demo-btn demo-social demo-social--sm demo-social--linkedin" aria-label="Share on LinkedIn"><i class="fa-brands fa-linkedin-in"></i></button>
+            <button class="demo-btn demo-social demo-social--sm demo-social--whatsapp" aria-label="Share on WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
+            <button class="demo-btn demo-social demo-social--sm demo-social--pinterest" aria-label="Share on Pinterest"><i class="fa-brands fa-pinterest-p"></i></button>
+          </div>
+        </div>
       </div>
-      <div class="demo-panel">
-        <table class="vs-docs-table" style="margin:0">
-          <tbody>
-            <tr><td>Height</td><td>50–52px</td></tr>
-            <tr><td>Radius</td><td>12px (<code>--vs-button-radius-cta</code>)</td></tr>
-            <tr><td>Padding</td><td>14px 32px</td></tr>
-            <tr><td>Font</td><td>Poppins 700 (bold)</td></tr>
-            <tr><td>Colors</td><td>#f59e0b default · #f5a623 hover · #d97706 pressed · text #18181b</td></tr>
-          </tbody>
-        </table>
+      <div class="vs-docs-card demo-browser" style="padding:0">
+        <div class="demo-browser-bar"><i></i><i></i><i></i> vectorsticker.com/items?search=animal</div>
+        <div class="demo-browser-body">
+          <div style="display:flex;justify-content:space-between;font-size:13px"><strong>Search: “animal stickers”</strong><span style="color:var(--vs-color-text-muted)">148 assets</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:12px;color:var(--vs-color-text-muted)">Display view</span>
+            <div class="demo-row" style="gap:6px">
+              <button class="demo-btn demo-icon demo-icon--toggle is-active" aria-label="Grid layout" aria-pressed="true"><i class="fa-solid fa-table-cells"></i></button>
+              <button class="demo-btn demo-icon demo-icon--toggle" aria-label="List layout" aria-pressed="false"><i class="fa-solid fa-list"></i></button>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div class="demo-fake-input" style="height:56px">Asset item 01</div>
+            <div class="demo-fake-input" style="height:56px">Asset item 02</div>
+          </div>
+          <p style="margin:0;font-size:12px;color:var(--vs-color-text-muted)">The green active border makes it clear which layout is selected.</p>
+        </div>
+      </div>
+      <div class="vs-docs-card demo-browser" style="padding:0">
+        <div class="demo-browser-bar"><i></i><i></i><i></i> vectorsticker.com/login</div>
+        <div class="demo-browser-body">
+          <strong>Log in to your account</strong>
+          <div class="demo-fake-input">you@example.com</div>
+          <div class="demo-fake-input">••••••••••••</div>
+          <button class="demo-btn demo-btn--primary demo-btn--md" style="width:100%">Log In</button>
+          <div class="demo-divider">or</div>
+          <button class="demo-btn demo-google" style="max-width:none;height:38px">
+            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09a6.6 6.6 0 010-4.18V7.06H2.18a11 11 0 000 9.87l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/></svg>
+            Continue with Google
+          </button>
+        </div>
       </div>
     </div>
-    <div class="demo-scroll"><table class="vs-docs-table vs-docs-state-table">
-      <thead><tr><th>Default</th><th>Hover</th><th>Pressed</th><th>Disabled</th></tr></thead>
-      <tbody><tr>
-        <td><button class="demo-btn demo-cta demo-cta--md">Buy Me a Coffee <i class="fa-solid fa-arrow-right"></i></button><span class="demo-note">#f59e0b · text #18181b</span></td>
-        <td><button class="demo-btn demo-cta demo-cta--md is-hover">Buy Me a Coffee <i class="fa-solid fa-arrow-right"></i></button><span class="demo-note">#f5a623</span></td>
-        <td><button class="demo-btn demo-cta demo-cta--md is-pressed">Buy Me a Coffee <i class="fa-solid fa-arrow-right"></i></button><span class="demo-note">#d97706</span></td>
-        <td><button class="demo-btn demo-cta demo-cta--md" disabled>Buy Me a Coffee <i class="fa-solid fa-arrow-right"></i></button><span class="demo-note">opacity: 50%</span></td>
-      </tr></tbody>
-    </table></div>
-    <div class="vs-docs-callout">
-      <p>The live donate box (<code>resources/views/custom/donate-box.blade.php</code>) already uses <code>#F5A623</code> — this spec makes it the hover shade and adds <code>#f59e0b</code> as the default.</p>
+    </section>
+
+    <section>
+    <h2>Do and don’t</h2>
+    <div class="vs-docs-cards is-quad">
+      <div class="vs-docs-card">
+        <h3><span class="demo-pill demo-pill--do"><i class="fa-solid fa-circle-check"></i> Do</span> Single clear intent</h3>
+        <div class="demo-row">
+          <button class="demo-btn demo-btn--primary demo-btn--md">Save Changes</button>
+          <button class="demo-btn demo-btn--secondary demo-btn--md">Cancel</button>
+          <button class="demo-btn demo-btn--link demo-btn--md">Discard Draft</button>
+        </div>
+        <p>Use only one primary button per view.</p>
+      </div>
+      <div class="vs-docs-card">
+        <h3><span class="demo-pill demo-pill--dont"><i class="fa-solid fa-circle-xmark"></i> Don’t</span> Competing focus</h3>
+        <div class="demo-row">
+          <button class="demo-btn demo-btn--primary demo-btn--sm">Save</button>
+          <button class="demo-btn demo-btn--primary demo-btn--sm">Publish</button>
+          <button class="demo-btn demo-btn--primary demo-btn--sm">Export</button>
+        </div>
+        <p>Don’t repeat primary emphasis — it kills the hierarchy.</p>
+      </div>
+      <div class="vs-docs-card">
+        <h3><span class="demo-pill demo-pill--do"><i class="fa-solid fa-circle-check"></i> Do</span> Contextual anchoring</h3>
+        <div class="demo-row">
+          <i class="fa-solid fa-file-lines" style="color:var(--vs-color-text-muted)"></i>
+          <span style="font-size:13px">Vector_Spec.svg</span>
+          <button class="demo-btn demo-icon demo-icon--secondary" aria-label="Preview asset" style="margin-left:auto"><i class="fa-solid fa-eye"></i></button>
+        </div>
+        <p>Icon-only buttons need context — place them where their function is obvious, and always give them an <code>aria-label</code>.</p>
+      </div>
+      <div class="vs-docs-card">
+        <h3><span class="demo-pill demo-pill--dont"><i class="fa-solid fa-circle-xmark"></i> Don’t</span> Mystery-meat navigation</h3>
+        <div class="demo-row">
+          <button class="demo-btn demo-icon demo-icon--toggle" aria-label="Action 1"><i class="fa-solid fa-bolt"></i></button>
+          <button class="demo-btn demo-icon demo-icon--toggle" aria-label="Action 2"><i class="fa-solid fa-layer-group"></i></button>
+          <button class="demo-btn demo-icon demo-icon--toggle" aria-label="Action 3"><i class="fa-solid fa-compass"></i></button>
+          <button class="demo-btn demo-icon demo-icon--toggle" aria-label="Action 4"><i class="fa-solid fa-ellipsis"></i></button>
+        </div>
+        <p>Don’t strand icon-only buttons without context — users can’t tell what they do.</p>
+      </div>
+    </div>
+    </section>
+
+    <div data-vs-drawer="React">
+    <div class="vs-docs-code-block"><span class="tag">import</span> { Button } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;Button</span> <span class="attr">emphasis</span>=<span class="str">"primary"</span><span class="tag">&gt;</span>Save changes<span class="tag">&lt;/Button&gt;</span>
+<span class="tag">&lt;Button</span> <span class="attr">emphasis</span>=<span class="str">"tertiary"</span> <span class="attr">size</span>=<span class="str">"sm"</span><span class="tag">&gt;</span>Cancel<span class="tag">&lt;/Button&gt;</span>
+<span class="tag">&lt;Button</span> <span class="attr">iconOnly</span> <span class="attr">icon</span>=<span class="tag">{&lt;Trash2 /&gt;}</span> <span class="attr">aria-label</span>=<span class="str">"Delete"</span> <span class="tag">/&gt;</span></div>
+
+    </div>
+    <div data-vs-drawer="Blade">
+    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-button</span> <span class="attr">variant</span>=<span class="str">"primary"</span><span class="tag">&gt;</span>Save changes<span class="tag">&lt;/x-vs-button&gt;</span>
+<span class="tag">&lt;x-vs-button</span> <span class="attr">variant</span>=<span class="str">"tertiary"</span> <span class="attr">size</span>=<span class="str">"sm"</span><span class="tag">&gt;</span>Cancel<span class="tag">&lt;/x-vs-button&gt;</span>
+<span class="tag">&lt;x-vs-button</span> <span class="attr">variant</span>=<span class="str">"tertiary"</span> <span class="attr">icon-only</span> <span class="attr">aria-label</span>=<span class="str">"Delete"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;x-slot:icon&gt;&lt;i</span> <span class="attr">class</span>=<span class="str">"fa-solid fa-trash"</span><span class="tag">&gt;&lt;/i&gt;&lt;/x-slot:icon&gt;</span>
+<span class="tag">&lt;/x-vs-button&gt;</span></div>
+    <div class="vs-docs-callout vs-docs-callout--gap">
+      <p><strong>Rollout status:</strong> the React <code>Button</code> follows spec v2. The Blade component still renders vectorsticker.com's own <code>.btn</code> styles (opacity hover, 6px radius) until that site's CSS is updated — a separate change on the main site.</p>
     </div>
 
-    <!-- 08 -->
-    <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">08 // Redline Specifications</span><h2>Measurement Guide</h2></div>
-      <p class="vs-docs-section-desc">CSS redline specifications.</p>
     </div>
+    <div data-vs-drawer="Props">
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>emphasis</code> / <code>variant</code></td><td><code>primary</code> · <code>secondary</code> · <code>tertiary</code> · <code>accent</code> (React only, see 07b) (Blade adds <code>oauth</code>)</td><td><code>primary</code></td></tr>
+        <tr><td><code>size</code></td><td><code>sm</code> · <code>md</code> · <code>lg</code></td><td><code>md</code></td></tr>
+        <tr><td><code>iconOnly</code> / <code>icon-only</code></td><td>boolean</td><td><code>false</code></td></tr>
+        <tr><td><code>outline</code></td><td>Blade only, primary/secondary</td><td><code>false</code></td></tr>
+        <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td></tr>
+      </tbody>
+    </table></div>
+
+    </div>
+    <div data-vs-drawer="Spec">
     <div class="demo-two-col">
       <div class="demo-panel">
         <div class="demo-redline">
@@ -419,11 +418,8 @@
       </tbody>
     </table></div>
 
-    <!-- 09 -->
-    <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">09 // System Divergence Audit</span><h2>⚠ One-System Gap: Public vs Admin</h2></div>
-      <p class="vs-docs-section-desc">Where the storefront and the admin panel style buttons differently today.</p>
     </div>
+    <div data-vs-drawer="Audit">
     <div class="demo-two-col">
       <div class="demo-panel">
         <h3>Card A: Primary button hover <span class="vs-docs-tag">Gap audit</span></h3>
@@ -438,145 +434,13 @@
       </div>
     </div>
 
-    <!-- 10 -->
-    <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">10 // Live Compositions</span><h2>Usage in Context</h2></div>
-      <p class="vs-docs-section-desc">Illustrative page mockups.</p>
     </div>
-    <div class="demo-two-col">
-      <div class="demo-browser">
-        <div class="demo-browser-bar"><i></i><i></i><i></i> vectorsticker.com/item/cyber-holo-pack</div>
-        <div class="demo-browser-body">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start">
-            <div><strong>Cyber Hologram Sticker</strong><br><span style="font-size:12px;color:var(--vs-color-text-muted)">Vector layered bundle · SVG + EPS</span></div>
-            <strong>$4.99</strong>
-          </div>
-          <div class="demo-row">
-            <button class="demo-btn demo-btn--primary demo-btn--md" style="flex:1"><i class="fa-solid fa-cart-shopping"></i>Add to Cart</button>
-            <button class="demo-btn demo-icon demo-icon--secondary" aria-label="Preview details"><i class="fa-solid fa-eye"></i></button>
-          </div>
-          <div style="font-size:11px;color:var(--vs-color-text-muted)">Share this asset</div>
-          <div class="demo-row" style="gap:6px">
-            <button class="demo-btn demo-social demo-social--sm demo-social--facebook" aria-label="Share on Facebook"><i class="fa-brands fa-facebook-f"></i></button>
-            <button class="demo-btn demo-social demo-social--sm demo-social--x" aria-label="Share on X"><i class="fa-brands fa-x-twitter"></i></button>
-            <button class="demo-btn demo-social demo-social--sm demo-social--linkedin" aria-label="Share on LinkedIn"><i class="fa-brands fa-linkedin-in"></i></button>
-            <button class="demo-btn demo-social demo-social--sm demo-social--whatsapp" aria-label="Share on WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
-            <button class="demo-btn demo-social demo-social--sm demo-social--pinterest" aria-label="Share on Pinterest"><i class="fa-brands fa-pinterest-p"></i></button>
-          </div>
-        </div>
-      </div>
-      <div class="demo-browser">
-        <div class="demo-browser-bar"><i></i><i></i><i></i> vectorsticker.com/items?search=animal</div>
-        <div class="demo-browser-body">
-          <div style="display:flex;justify-content:space-between;font-size:13px"><strong>Search: “animal stickers”</strong><span style="color:var(--vs-color-text-muted)">148 assets</span></div>
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <span style="font-size:12px;color:var(--vs-color-text-muted)">Display view</span>
-            <div class="demo-row" style="gap:6px">
-              <button class="demo-btn demo-icon demo-icon--toggle is-active" aria-label="Grid layout" aria-pressed="true"><i class="fa-solid fa-table-cells"></i></button>
-              <button class="demo-btn demo-icon demo-icon--toggle" aria-label="List layout" aria-pressed="false"><i class="fa-solid fa-list"></i></button>
-            </div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-            <div class="demo-fake-input" style="height:56px">Asset item 01</div>
-            <div class="demo-fake-input" style="height:56px">Asset item 02</div>
-          </div>
-          <p style="margin:0;font-size:12px;color:var(--vs-color-text-muted)">The green active border makes it clear which layout is selected.</p>
-        </div>
-      </div>
-      <div class="demo-browser">
-        <div class="demo-browser-bar"><i></i><i></i><i></i> vectorsticker.com/login</div>
-        <div class="demo-browser-body">
-          <strong>Log in to your account</strong>
-          <div class="demo-fake-input">you@example.com</div>
-          <div class="demo-fake-input">••••••••••••</div>
-          <button class="demo-btn demo-btn--primary demo-btn--md" style="width:100%">Log In</button>
-          <div class="demo-divider">or</div>
-          <button class="demo-btn demo-google" style="max-width:none;height:38px">
-            <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09a6.6 6.6 0 010-4.18V7.06H2.18a11 11 0 000 9.87l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/></svg>
-            Continue with Google
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- 11 -->
-    <div class="vs-docs-section-head">
-      <div><span class="vs-docs-section-num">11 // Ergonomics &amp; Governance</span><h2>Do’s and Don’ts</h2></div>
-      <p class="vs-docs-section-desc">Hierarchy guidelines.</p>
-    </div>
-    <div class="demo-two-col">
-      <div class="demo-panel">
-        <h3><span class="demo-pill demo-pill--do"><i class="fa-solid fa-circle-check"></i> Do</span> Single clear intent</h3>
-        <div class="demo-row">
-          <button class="demo-btn demo-btn--primary demo-btn--md">Save Changes</button>
-          <button class="demo-btn demo-btn--secondary demo-btn--md">Cancel</button>
-          <button class="demo-btn demo-btn--link demo-btn--md">Discard Draft</button>
-        </div>
-        <p>Use only one primary button per view.</p>
-      </div>
-      <div class="demo-panel">
-        <h3><span class="demo-pill demo-pill--dont"><i class="fa-solid fa-circle-xmark"></i> Don’t</span> Competing focus</h3>
-        <div class="demo-row">
-          <button class="demo-btn demo-btn--primary demo-btn--sm">Save</button>
-          <button class="demo-btn demo-btn--primary demo-btn--sm">Publish</button>
-          <button class="demo-btn demo-btn--primary demo-btn--sm">Export</button>
-        </div>
-        <p>Don’t repeat primary emphasis — it kills the hierarchy.</p>
-      </div>
-      <div class="demo-panel">
-        <h3><span class="demo-pill demo-pill--do"><i class="fa-solid fa-circle-check"></i> Do</span> Contextual anchoring</h3>
-        <div class="demo-row">
-          <i class="fa-solid fa-file-lines" style="color:var(--vs-color-text-muted)"></i>
-          <span style="font-size:13px">Vector_Spec.svg</span>
-          <button class="demo-btn demo-icon demo-icon--secondary" aria-label="Preview asset" style="margin-left:auto"><i class="fa-solid fa-eye"></i></button>
-        </div>
-        <p>Icon-only buttons need context — place them where their function is obvious, and always give them an <code>aria-label</code>.</p>
-      </div>
-      <div class="demo-panel">
-        <h3><span class="demo-pill demo-pill--dont"><i class="fa-solid fa-circle-xmark"></i> Don’t</span> Mystery-meat navigation</h3>
-        <div class="demo-row">
-          <button class="demo-btn demo-icon demo-icon--toggle" aria-label="Action 1"><i class="fa-solid fa-bolt"></i></button>
-          <button class="demo-btn demo-icon demo-icon--toggle" aria-label="Action 2"><i class="fa-solid fa-layer-group"></i></button>
-          <button class="demo-btn demo-icon demo-icon--toggle" aria-label="Action 3"><i class="fa-solid fa-compass"></i></button>
-          <button class="demo-btn demo-icon demo-icon--toggle" aria-label="Action 4"><i class="fa-solid fa-ellipsis"></i></button>
-        </div>
-        <p>Don’t strand icon-only buttons without context — users can’t tell what they do.</p>
-      </div>
-    </div>
-
-    <h2>Usage — React</h2>
-    <div class="vs-docs-code-block"><span class="tag">import</span> { Button } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
-
-<span class="tag">&lt;Button</span> <span class="attr">emphasis</span>=<span class="str">"primary"</span><span class="tag">&gt;</span>Save changes<span class="tag">&lt;/Button&gt;</span>
-<span class="tag">&lt;Button</span> <span class="attr">emphasis</span>=<span class="str">"tertiary"</span> <span class="attr">size</span>=<span class="str">"sm"</span><span class="tag">&gt;</span>Cancel<span class="tag">&lt;/Button&gt;</span>
-<span class="tag">&lt;Button</span> <span class="attr">iconOnly</span> <span class="attr">icon</span>=<span class="tag">{&lt;Trash2 /&gt;}</span> <span class="attr">aria-label</span>=<span class="str">"Delete"</span> <span class="tag">/&gt;</span></div>
-
-    <h2>Usage — Blade</h2>
-    <div class="vs-docs-code-block"><span class="tag">&lt;x-vs-button</span> <span class="attr">variant</span>=<span class="str">"primary"</span><span class="tag">&gt;</span>Save changes<span class="tag">&lt;/x-vs-button&gt;</span>
-<span class="tag">&lt;x-vs-button</span> <span class="attr">variant</span>=<span class="str">"tertiary"</span> <span class="attr">size</span>=<span class="str">"sm"</span><span class="tag">&gt;</span>Cancel<span class="tag">&lt;/x-vs-button&gt;</span>
-<span class="tag">&lt;x-vs-button</span> <span class="attr">variant</span>=<span class="str">"tertiary"</span> <span class="attr">icon-only</span> <span class="attr">aria-label</span>=<span class="str">"Delete"</span><span class="tag">&gt;</span>
-    <span class="tag">&lt;x-slot:icon&gt;&lt;i</span> <span class="attr">class</span>=<span class="str">"fa-solid fa-trash"</span><span class="tag">&gt;&lt;/i&gt;&lt;/x-slot:icon&gt;</span>
-<span class="tag">&lt;/x-vs-button&gt;</span></div>
-    <div class="vs-docs-callout vs-docs-callout--gap">
-      <p><strong>Rollout status:</strong> the React <code>Button</code> follows spec v2. The Blade component still renders vectorsticker.com's own <code>.btn</code> styles (opacity hover, 6px radius) until that site's CSS is updated — a separate change on the main site.</p>
-    </div>
-
-    <h2>Props</h2>
-    <div class="demo-scroll"><table class="vs-docs-table">
-      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
-      <tbody>
-        <tr><td><code>emphasis</code> / <code>variant</code></td><td><code>primary</code> · <code>secondary</code> · <code>tertiary</code> (Blade adds <code>oauth</code>)</td><td><code>primary</code></td></tr>
-        <tr><td><code>size</code></td><td><code>sm</code> · <code>md</code> · <code>lg</code></td><td><code>md</code></td></tr>
-        <tr><td><code>iconOnly</code> / <code>icon-only</code></td><td>boolean</td><td><code>false</code></td></tr>
-        <tr><td><code>outline</code></td><td>Blade only, primary/secondary</td><td><code>false</code></td></tr>
-        <tr><td><code>disabled</code></td><td>boolean</td><td><code>false</code></td></tr>
-      </tbody>
-    </table></div>
-
+    <div data-vs-drawer="Copy">
     <div class="demo-toolbar">
       <span>Sync button component tokens · spec revision #VS-BTN-REV1</span>
       <button class="demo-btn demo-btn--tertiary demo-btn--sm" type="button" data-copy="html"><i class="fa-regular fa-copy"></i><span>Copy HTML / JSX</span></button>
       <button class="demo-btn demo-btn--secondary demo-btn--sm" type="button" data-copy="css"><i class="fa-solid fa-code"></i><span>Copy CSS Variables</span></button>
+    </div>
     </div>
   </div>
   </div>

@@ -222,11 +222,11 @@ async function run(name) {
 
   { // the docs page
     const { context, page } = await open();
-    await page.goto(`${BASE}/components/reveal.html`);
+    await page.goto(`${BASE}/animation/reveal.html`);
     await sleep(500);
     const d = await page.evaluate(() => ({
       frame: !!document.querySelector('iframe.demo-frame'),
-      nav: [...document.querySelectorAll('a')].some((a) => a.getAttribute('href') === '/components/reveal.html'),
+      nav: [...document.querySelectorAll('a')].some((a) => a.getAttribute('href') === '/animation/reveal.html'),
       heading: document.querySelector('h1') && document.querySelector('h1').textContent,
     }));
     check(name, 'the docs page loads with the demo frame, and the sidebar lists Reveal', d.frame && d.nav && d.heading === 'Reveal', JSON.stringify(d));
@@ -235,7 +235,7 @@ async function run(name) {
 
   { // the Text Effects page: both effects, the menu entry, the count-up ends on its final figures, Replay works, reduced motion shows the final state
     const { context, page } = await open();
-    await page.goto(`${BASE}/components/text-effects.html`);
+    await page.goto(`${BASE}/animation/text-effects.html`);
     const figures = () => page.evaluate(() => [...document.querySelectorAll('#count-stage [data-vs-animated-number] [aria-hidden="true"]')].map((e) => e.textContent));
     await sleep(1500);
     const below = await page.evaluate(() => ({ top: document.getElementById('count-stage').getBoundingClientRect().top, height: innerHeight }));
@@ -246,7 +246,7 @@ async function run(name) {
     await waitForTextAnimations(page);
     await sleep(300); // the figure passes through its final text a frame or two before the last frame: let the last frame happen, then read
     const t = await page.evaluate(() => ({
-      nav: [...document.querySelectorAll('a')].some((a) => a.getAttribute('href') === '/components/text-effects.html'),
+      nav: [...document.querySelectorAll('a')].some((a) => a.getAttribute('href') === '/animation/text-effects.html'),
       sections: ['title-wipe', 'number-count-up', 'adding-an-effect'].every((id) => !!document.getElementById(id)),
       letters: [...document.querySelectorAll('#wipe-stage .vs-reveal-text__letter')].map((l) => { const c = getComputedStyle(l); return c.opacity === '1' && c.transform === 'none' && c.filter === 'none'; }),
       realText: document.querySelector('#wipe-stage .vs-reveal-text__sr')?.textContent,
@@ -264,7 +264,7 @@ async function run(name) {
     check(name, 'after Replay the figures end on the final text again', again[0] === '4,214' && again[1] === '12.35', JSON.stringify(again));
     await context.close();
     const reduced = await open({ reducedMotion: 'reduce' });
-    await reduced.page.goto(`${BASE}/components/text-effects.html`);
+    await reduced.page.goto(`${BASE}/animation/text-effects.html`);
     await sleep(300);
     const r = await reduced.page.evaluate(() => ({
       figures: [...document.querySelectorAll('#count-stage [data-vs-animated-number] [aria-hidden="true"]')].map((e) => e.textContent),

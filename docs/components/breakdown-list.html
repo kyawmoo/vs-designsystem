@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Breakdown List — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; width: 100%; }
+  .demo-cap { margin: 0 0 6px; font: var(--vs-type-body-01); color: var(--vs-color-text-body); }
+  .demo-meter { --cur: var(--vs-meter-fill); position: relative; width: 100%; height: var(--vs-meter-height); border-radius: var(--vs-radius-full); background: var(--vs-meter-track); }
+  .demo-meter--success { --cur: var(--vs-meter-fill-success); } .demo-meter--warning { --cur: var(--vs-meter-fill-warning); } .demo-meter--danger { --cur: var(--vs-meter-fill-danger); } .demo-meter--neutral { --cur: var(--vs-meter-fill-neutral); }
+  .demo-meter-fill { height: 100%; border-radius: var(--vs-radius-full); background: var(--cur); }
+  .demo-meter-tick { position: absolute; top: -2px; width: 2px; height: calc(var(--vs-meter-height) + 4px); border-radius: var(--vs-radius-full); }
+  .demo-meter-tick--warning { background: var(--vs-meter-fill-warning); } .demo-meter-tick--danger { background: var(--vs-meter-fill-danger); }
+  .demo-bd { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; font-family: var(--vs-font-family); width: 100%; max-width: 420px; }
+  .demo-bd li { display: flex; flex-direction: column; gap: 0.375rem; }
+  .demo-bd-head { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; font-size: 14px; }
+  .demo-bd-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; color: var(--vs-color-text-heading); }
+  .demo-bd-fig { flex: none; display: inline-flex; align-items: baseline; gap: 0.5rem; font-variant-numeric: tabular-nums; }
+  .demo-bd-val { font-weight: 700; color: var(--vs-color-text-heading); }
+  .demo-bd-share { min-width: 2.5rem; text-align: right; font-size: 12px; color: var(--vs-color-text-body); }
+</style>
+</head>
+<body data-page="breakdown-list">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Breakdown List</p>
+    <h1>Breakdown List</h1>
+    <p class="vs-docs-hero-lede">
+      Rows of a name, its count and its share, each with a thin bar for the share: traffic source, country, device.
+      Added 23 Nov 2026, React only. Implemented in <code>react/src/components/BreakdownList.tsx</code>; the bars are the <a href="/components/meter.html">Meter</a> track.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <h2>Share scale (default)</h2>
+    <p>A bar is as long as the share: 50% fills half of the track.</p>
+    <div class="vs-docs-preview" style="display:block"><ul class="demo-bd">
+      <li><div class="demo-bd-head"><span class="demo-bd-label">Canada (CA)</span><span class="demo-bd-fig"><span class="demo-bd-val">1</span><span class="demo-bd-share">50%</span></span></div><div class="demo-meter" aria-hidden="true"><div class="demo-meter-fill" style="width:50%"></div></div></li>
+      <li><div class="demo-bd-head"><span class="demo-bd-label">Egypt (EG)</span><span class="demo-bd-fig"><span class="demo-bd-val">1</span><span class="demo-bd-share">50%</span></span></div><div class="demo-meter" aria-hidden="true"><div class="demo-meter-fill" style="width:50%"></div></div></li>
+    </ul></div>
+
+    <h2>Relative scale</h2>
+    <p>The row with the largest share fills the track and the others are scaled to it. Use it when every share is small and the bars would all look empty.</p>
+    <div class="vs-docs-preview" style="display:block"><ul class="demo-bd">
+      <li><div class="demo-bd-head"><span class="demo-bd-label">Singapore</span><span class="demo-bd-fig"><span class="demo-bd-val">13,168</span><span class="demo-bd-share">74.7%</span></span></div><div class="demo-meter" aria-hidden="true"><div class="demo-meter-fill" style="width:100%"></div></div></li>
+      <li><div class="demo-bd-head"><span class="demo-bd-label">China</span><span class="demo-bd-fig"><span class="demo-bd-val">1,793</span><span class="demo-bd-share">10.2%</span></span></div><div class="demo-meter" aria-hidden="true"><div class="demo-meter-fill" style="width:13.7%"></div></div></li>
+      <li><div class="demo-bd-head"><span class="demo-bd-label">United States</span><span class="demo-bd-fig"><span class="demo-bd-val">1,120</span><span class="demo-bd-share">6.4%</span></span></div><div class="demo-meter demo-meter--neutral" aria-hidden="true"><div class="demo-meter-fill" style="width:8.6%"></div></div></li>
+    </ul></div>
+
+    <h2>Empty</h2>
+    <div class="vs-docs-preview" style="display:block"><p style="margin:0;padding:1rem 0;text-align:center;font-size:12px;color:var(--vs-color-text-body);width:100%">No device data in this period.</p></div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { BreakdownList } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;BreakdownList</span> <span class="attr">empty</span>=<span class="str">"No country data in this period."</span>
+  <span class="attr">rows</span>=<span class="str">{[{ key: 'ca', label: 'Canada (CA)', value: 1, share: 50 }]}</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>rows</code></td><td><code>{ key, label, value, share?, valueText?, tone?, color?, title? }[]</code>; <code>share</code> is 0 to 100. Without <code>share</code> no percent is written and the bar is scaled to the largest <code>value</code>. <code>color</code>: any CSS colour or token (e.g. <code>var(--vs-chart-series-2)</code>), used instead of <code>tone</code>. <code>title</code>: tooltip on the name.</td><td></td></tr>
+        <tr><td><code>empty</code></td><td>text shown when there are no rows (required)</td><td></td></tr>
+        <tr><td><code>barScale</code></td><td><code>share</code> · <code>relative</code></td><td><code>share</code></td></tr>
+        <tr><td><code>formatValue</code></td><td>formats <code>value</code> when a row has no <code>valueText</code></td><td><code>toLocaleString('en-US')</code></td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Accessibility</h2>
+    <p>The row text (name, count, share) is the information. The bar repeats it, so it is <code>aria-hidden</code> and has no <code>meter</code> role (a list of 20 meters would only add noise). The share text uses <code>--vs-color-text-body</code> (14:1 on white); the muted grey is only 2.8:1. A row whose share is not a number shows its count and no bar or percent. Names are cut with an ellipsis, never wrapped.</p>
+    <div class="vs-docs-callout"><p>Not included: a layout with the bar beside the name (the phone row), stacked multi-colour bars and circular charts.</p></div>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

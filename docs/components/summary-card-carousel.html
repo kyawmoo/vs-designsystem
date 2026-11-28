@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Summary Card Carousel — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  /* Stand-in cards: the real ones are SummaryCard. Same layout rules as SummaryCardCarousel (Tailwind classes in react/src/components/SummaryCardCarousel.tsx). */
+  .demo-kpi-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; width: 100%; }
+  .demo-kpi { background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-lg); padding: 16px; font-family: var(--vs-font-family); }
+  .demo-kpi span { display: block; font-size: 12px; color: var(--vs-color-text-body); }
+  .demo-kpi b { display: block; margin-top: 4px; font-size: 24px; color: var(--vs-color-text-heading); }
+  .demo-phone { width: 360px; max-width: 100%; border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-lg); background: var(--vs-color-background); padding: 16px 0 8px; overflow: hidden; }
+  .demo-kpi-row { display: flex; gap: 0.75rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 0.25rem 0.25rem 0.5rem; }
+  .demo-kpi-row::-webkit-scrollbar { display: none; }
+  .demo-kpi-row .demo-kpi { flex: none; width: 88%; scroll-snap-align: center; }
+  .demo-dots { display: flex; justify-content: center; align-items: center; gap: 0.375rem; margin-top: 0.625rem; }
+  .demo-dots i { display: block; width: 8px; height: 8px; border-radius: 9999px; background: var(--vs-color-border); }
+  .demo-dots i.is-active { width: 20px; background: var(--vs-color-brand-primary); }
+</style>
+</head>
+<body data-page="summary-card-carousel">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Summary Card Carousel</p>
+    <h1>Summary Card Carousel</h1>
+    <p class="vs-docs-hero-lede">
+      A row of KPI cards (<code>SummaryCard</code>): a grid from 768px, one swipeable row with dots below it. Moved here from the reports dashboard
+      (27 Nov 2026), React only. Implemented in <code>react/src/components/SummaryCardCarousel.tsx</code>, on top of <code>SwipeCarousel</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <h2>Grid (768px and up)</h2>
+    <p>2 columns from 768px (shown here), 4 from 1024px. With exactly five cards, 5 columns from 1280px, so the fifth card is not alone on a second row. The gap is 1rem.</p>
+    <div class="vs-docs-preview"><div class="demo-kpi-grid">
+      <div class="demo-kpi"><span>Total users</span><b>1,240</b></div>
+      <div class="demo-kpi"><span>Downloads</span><b>820</b></div>
+      <div class="demo-kpi"><span>Views</span><b>16,080</b></div>
+      <div class="demo-kpi"><span>Conv. rate</span><b>14.2%</b></div>
+    </div></div>
+
+    <h2>On a phone (under 768px)</h2>
+    <p>One row that scrolls sideways and snaps to a card. Each card is 88% wide, so the next one peeks in. A dot per card; tapping a dot scrolls to that card. A single card shows no dots.</p>
+    <div class="vs-docs-preview" style="justify-content:center"><div class="demo-phone">
+      <div class="demo-kpi-row">
+        <div class="demo-kpi"><span>Total users</span><b>1,240</b></div>
+        <div class="demo-kpi"><span>Downloads</span><b>820</b></div>
+        <div class="demo-kpi"><span>Views</span><b>16,080</b></div>
+        <div class="demo-kpi"><span>Conv. rate</span><b>14.2%</b></div>
+      </div>
+      <div class="demo-dots"><i class="is-active"></i><i></i><i></i><i></i></div>
+    </div></div>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { SummaryCard, SummaryCardCarousel } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;SummaryCardCarousel&gt;</span>
+  <span class="tag">&lt;SummaryCard</span> <span class="attr">label</span>=<span class="str">"Total users"</span> <span class="attr">value</span>=<span class="tag">{1240}</span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;SummaryCard</span> <span class="attr">label</span>=<span class="str">"Downloads"</span> <span class="attr">value</span>=<span class="tag">{820}</span> <span class="tag">/&gt;</span>
+  <span class="tag">&lt;SummaryCard</span> <span class="attr">label</span>=<span class="str">"Views"</span> <span class="attr">value</span>=<span class="tag">{16080}</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;/SummaryCardCarousel&gt;</span></div>
+
+    <h2>Props</h2>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>children</code></td><td>the cards, normally <code>SummaryCard</code>s; <code>null</code> and <code>false</code> are ignored (they are not counted either)</td><td></td></tr>
+        <tr><td><code>className</code></td><td>extra classes on the wrapper</td><td>none</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Notes</h2>
+    <p>Both layouts are rendered and CSS shows one of them, so each card exists twice in the page (the same as <code>SwipeCarousel</code>). The swipe row hides its scrollbar with the site's <code>no-scrollbar</code> utility, which this package does not define. Utility classes in the component (<code>md:grid</code>, <code>xl:grid-cols-5</code>, <code>w-[88%]</code>) need the site's Tailwind to scan <code>react/src</code>, as it already does for <code>SwipeCarousel</code>.</p>
+    <p>It rests on <code>SwipeCarousel</code>, which got one optional prop for this, <code>mobileClassName</code> (default <code>'sm:hidden'</code>, so existing uses do not change): the swipe row must hide at the same breakpoint where the grid appears.</p>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

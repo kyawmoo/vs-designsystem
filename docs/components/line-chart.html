@@ -78,6 +78,7 @@
         <tr><td>One point per day</td><td>The axis is every calendar day from the first date to one day after today</td></tr>
         <tr><td>Today marked</td><td>Dotted vertical line and a bold <code>(Today)</code> label in <code>--vs-chart-today</code>; that label is never thinned out</td></tr>
         <tr><td>Exactly 1 empty future day</td><td>The axis ends one day after today, with no value</td></tr>
+        <tr><td>Live dot <em>(27 Nov 2026)</em></td><td>A dot in the line's colour on the newest reading up to today, with a soft ripple that grows and fades on repeat (<code>.vs-live-dot</code>); smaller on a sparkline; it fades in once the line has drawn up to it; no ripple with reduced motion. Not drawn in this static demo</td></tr>
         <tr><td>Missing data is a gap</td><td>A day with no value is <code>null</code> and the line breaks (<code>spanGaps: false</code>)</td></tr>
         <tr><td>Regular legend</td><td>Swatch + short label per series, above the chart (none for sparklines)</td></tr>
         <tr><td>Reduced motion</td><td>No animation when the user asks for reduced motion</td></tr>
@@ -97,6 +98,15 @@
         <tr><td><code>--vs-chart-today</code></td><td><code>var(--vs-color-item-status-pending)</code></td><td>Today line and label</td></tr>
         <tr><td><code>--vs-chart-grid</code></td><td><code>var(--vs-color-border)</code></td><td>Grid lines, hover crosshair</td></tr>
         <tr><td><code>--vs-chart-axis-text</code></td><td><code>var(--vs-color-text-muted)</code></td><td>Axis labels, legend text</td></tr>
+      </tbody>
+    </table></div>
+    <p style="font-size:13px">Reports dashboard direction (added 23 Nov 2026, additive and opt-in; the tokens above keep their values and no component reads these yet). The secondary series of this direction is the existing <code>--vs-chart-series-2</code>.</p>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Token</th><th>Default</th><th>Used for</th></tr></thead>
+      <tbody>
+        <tr><td><code>--vs-chart-line-primary</code></td><td><code>#2E7D32</code> (5.1:1 on white)</td><td>Primary line (dark green)</td></tr>
+        <tr><td><code>--vs-chart-series-downloads</code></td><td><code>var(--vs-color-badge-free)</code></td><td>Downloads series (violet)</td></tr>
+        <tr><td><code>--vs-chart-today-marker</code></td><td><code>var(--vs-color-brand-secondary)</code></td><td>Today marker; the orange <code>--vs-chart-today</code> is unchanged</td></tr>
       </tbody>
     </table></div>
 
@@ -125,11 +135,12 @@
         <tr><td><code>showLegend</code></td><td><code>boolean</code></td><td>Default true (never for sparklines)</td></tr>
         <tr><td><code>formatValue</code></td><td><code>(v) =&gt; string</code></td><td>Tooltip and y axis; default <code>toLocaleString</code></td></tr>
         <tr><td><code>today</code></td><td><code>Date</code></td><td>For tests and stories; default now</td></tr>
+        <tr><td><code>liveDot</code></td><td><code>boolean</code></td><td>The live dot on each line's newest reading. Default <code>true</code></td></tr>
       </tbody>
     </table></div>
 
     <h2>Props — AnimatedNumber</h2>
-    <p><code>AnimatedNumber</code> is documented with the other text effects: <a href="/components/text-effects.html#number-count-up">Text Effects: Number count-up</a> (props, empty value, decimals, Blade version).</p>
+    <p><code>AnimatedNumber</code> is documented with the other text effects: <a href="/animation/text-effects.html#number-count-up">Text Effects: Number count-up</a> (props, empty value, decimals, Blade version).</p>
 
   </div>
   </div>

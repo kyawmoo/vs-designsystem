@@ -14,14 +14,16 @@ export type {
 } from './components/Badge';
 
 export { SummaryCard } from './components/SummaryCard';
-export type { SummaryCardProps } from './components/SummaryCard';
+export type { SummaryCardProps, SummaryCardChange } from './components/SummaryCard';
 
 export { TableWidget } from './components/TableWidget';
-export type { TableWidgetProps, TableColumn, TableTab } from './components/TableWidget';
+export type { TableWidgetProps, TableColumn, TableColumnAlign, TableTab } from './components/TableWidget';
 
 export { WidgetLoader } from './components/WidgetLoader';
 
 export { SwipeCarousel } from './components/SwipeCarousel';
+export { SummaryCardCarousel } from './components/SummaryCardCarousel';
+export type { SummaryCardCarouselProps } from './components/SummaryCardCarousel';
 
 export { MobilePageHeader } from './components/MobilePageHeader';
 
@@ -64,6 +66,15 @@ export type { PaginationProps } from './components/Pagination';
 export { SegmentedControl } from './components/SegmentedControl';
 export type { SegmentedControlProps, SegmentedControlItem } from './components/SegmentedControl';
 
+export { Meter } from './components/Meter';
+export type { MeterProps, MeterTone, MeterThreshold } from './components/Meter';
+export { BreakdownList } from './components/BreakdownList';
+export type { BreakdownListProps, BreakdownRow } from './components/BreakdownList';
+export { DonutChart } from './components/DonutChart';
+export type { DonutChartProps, DonutSegment } from './components/DonutChart';
+export { RankPill } from './components/RankPill';
+export type { RankPillProps, RankPillTone } from './components/RankPill';
+
 export { Popover } from './components/Popover';
 export type { PopoverProps, PopoverAlign } from './components/Popover';
 
@@ -100,8 +111,16 @@ export type { LineChartProps, LineChartSeries, LineChartVariant } from './compon
 
 export { BarChart, BAR_CHART_GROW_MS, BAR_CHART_FEW_DAYS } from './components/BarChart';
 export type { BarChartProps, BarChartSeries } from './components/BarChart';
+export { RankedBarChart } from './components/RankedBarChart';
+export type { RankedBarChartProps, RankedBarRow } from './components/RankedBarChart';
+export { StackedBar } from './components/StackedBar';
+export type { StackedBarProps, StackedBarPart } from './components/StackedBar';
+export { WeeklyColumnChart } from './components/WeeklyColumnChart';
+export type { WeeklyColumnChartProps, WeeklyColumn, WeeklySeries, WeeklyMarker } from './components/WeeklyColumnChart';
 
 export { AnimatedNumber, ANIMATED_NUMBER_MS } from './components/AnimatedNumber';
+export { LiveDot } from './components/LiveDot';
+export type { LiveDotProps, LiveDotSize } from './components/LiveDot';
 export type { AnimatedNumberProps } from './components/AnimatedNumber';
 
 export { Avatar, getInitials } from './components/Avatar';
@@ -121,6 +140,10 @@ export type { TooltipProps, TooltipPlacement } from './components/Tooltip';
 
 export { Reveal, RevealItem, RevealText } from './components/Reveal';
 export type { RevealProps, RevealItemProps, RevealTextProps, RevealVariant } from './components/Reveal';
+
+export { RewindItem } from './components/RewindItem';
+export type { RewindItemProps } from './components/RewindItem';
+export { rewindIndexes, isRewindDay, rewindMaxSteps, REWIND_DEFAULT_MAX_STEPS, REWIND_HARD_MAX_STEPS } from './components/rewindOrder';
 
 import '../../tokens/tokens.css';
 import './styles.css';

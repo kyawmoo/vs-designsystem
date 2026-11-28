@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Stacked Bar — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-sb { display: flex; flex-direction: column; gap: 0.625rem; width: 100%; max-width: 28rem; font-family: var(--vs-font-family); }
+  .demo-sb-track { display: flex; height: 1.375rem; border-radius: var(--vs-radius-xs); overflow: hidden; background: var(--vs-color-border); }
+  .demo-sb-track > span { height: 100%; }
+  .demo-sb-legend { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; font-size: 13px; }
+  .demo-sb-legend li { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--vs-color-text-body); }
+  .demo-sb-legend i { display: inline-block; flex: none; width: 10px; height: 10px; border-radius: 3px; }
+  .demo-sb-legend b { font-weight: 600; color: var(--vs-color-text-heading); font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body data-page="stacked-bar">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Stacked Bar</p>
+    <h1>Stacked Bar</h1>
+    <p class="vs-docs-hero-lede">
+      One horizontal bar made of the parts of one whole (file vs. external link, guest / member / subscriber), with a swatch legend (issue #151). React only; plain HTML, no chart library.
+      For one value use the <a href="/components/meter.html">Meter</a>, for rows the <a href="/components/breakdown-list.html">Breakdown List</a>. Implemented in <code>react/src/components/StackedBar.tsx</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <h2>Default</h2>
+    <div class="vs-docs-preview"><div class="demo-sb">
+      <div class="demo-sb-track" role="img" aria-label="Downloads by type: File 75%, External link 25%">
+        <span style="width:75%;background:var(--vs-chart-donut-1)"></span><span style="width:25%;background:var(--vs-chart-donut-2)"></span>
+      </div>
+      <ul class="demo-sb-legend">
+        <li><i style="background:var(--vs-chart-donut-1)"></i>File <b>75%</b></li>
+        <li><i style="background:var(--vs-chart-donut-2)"></i>External link <b>25%</b></li>
+      </ul>
+    </div></div>
+
+    <h2>Rules</h2>
+    <ul>
+      <li>Each segment is as wide as its share of the total, so the parts always fill the track exactly (never wider, whatever the values add up to).</li>
+      <li>A part with 0 (or a negative / non-finite value) gets no segment but stays in the legend as <code>0%</code>. A share above 0 and below 1% is written <code>&lt;1%</code>; others are rounded.</li>
+      <li>No parts, or every value 0: the <code>empty</code> text instead of the bar.</li>
+      <li>Colours are tokens: a part's <code>color</code>, otherwise <code>--vs-chart-donut-1</code> to <code>-6</code> in order (the same palette as the Donut Chart). Track <code>--vs-color-border</code>, legend text <code>--vs-color-text-body</code> / <code>--vs-color-text-heading</code>.</li>
+    </ul>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { StackedBar } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;StackedBar</span> <span class="attr">ariaLabel</span>=<span class="str">"Downloads by type: File 75%, External link 25%"</span>
+  <span class="attr">parts</span>=<span class="str">{[{ key: 'file', label: 'File', value: 300 }, { key: 'link', label: 'External link', value: 100 }]}</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>parts</code></td><td><code>{ key, label, value, color? }[]</code>, in the order to draw (left to right)</td><td></td></tr>
+        <tr><td><code>ariaLabel</code></td><td>describes the bar (required); include the shares</td><td></td></tr>
+        <tr><td><code>empty</code></td><td>text shown when there is nothing to draw</td><td>"No data"</td></tr>
+        <tr><td><code>legend</code></td><td><code>bottom</code> · <code>none</code></td><td><code>bottom</code></td></tr>
+        <tr><td><code>className</code></td><td>extra class on the wrapper</td><td></td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Accessibility</h2>
+    <p>The bar is <code>role="img"</code> with your <code>ariaLabel</code>; the legend is real text (name and percentage), so the colour is never the only signal. Swatches are <code>aria-hidden</code>.</p>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

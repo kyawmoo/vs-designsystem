@@ -17,42 +17,104 @@
     },
     {
       group: 'Components',
+      // Sub-sections (Master KMO, 2026-11-28: the list was 38 links long). Only the section holding the current page is open.
+      sections: [
+        {
+          name: 'General',
+          items: [
+            { id: 'button', label: 'Button', href: '/components/button.html', icon: 'square-mouse-pointer' },
+            { id: 'badge', label: 'Badge', href: '/components/badge.html', icon: 'tag' },
+            { id: 'avatar', label: 'Avatar', href: '/components/avatar.html', icon: 'circle-user' },
+            { id: 'rating', label: 'Rating', href: '/components/rating.html', icon: 'star' },
+            { id: 'rank-pill', label: 'Rank Pill', href: '/components/rank-pill.html', icon: 'tag' },
+          ],
+        },
+        {
+          name: 'Info Display',
+          items: [
+            { id: 'alert', label: 'Alert', href: '/components/alert.html', icon: 'triangle-alert' },
+            { id: 'toast', label: 'Toast', href: '/components/toast.html', icon: 'bell' },
+            { id: 'tooltip', label: 'Tooltip', href: '/components/tooltip.html', icon: 'message-square' },
+            { id: 'empty-state', label: 'Empty State', href: '/components/empty-state.html', icon: 'inbox' },
+          ],
+        },
+        {
+          name: 'Cards',
+          items: [
+            { id: 'card', label: 'Card', href: '/components/card.html', icon: 'layout-panel-top' },
+            { id: 'summary-card-carousel', label: 'Summary Card Carousel', href: '/components/summary-card-carousel.html', icon: 'layout-panel-top' },
+            { id: 'item-card', label: 'Item Card', href: '/components/item-card.html', icon: 'layout-panel-top' },
+          ],
+        },
+        {
+          name: 'Data Display',
+          items: [
+            { id: 'table', label: 'Table', href: '/components/table.html', icon: 'table-2' },
+            { id: 'breakdown-list', label: 'Breakdown List', href: '/components/breakdown-list.html', icon: 'table-2' },
+            { id: 'meter', label: 'Meter', href: '/components/meter.html', icon: 'chart-column' },
+          ],
+        },
+        {
+          name: 'Charts',
+          items: [
+            { id: 'line-chart', label: 'Line Chart', href: '/components/line-chart.html', icon: 'chart-line' },
+            { id: 'bar-chart', label: 'Bar Chart', href: '/components/bar-chart.html', icon: 'align-end-horizontal' },
+            { id: 'ranked-bar-chart', label: 'Ranked Bar Chart', href: '/components/ranked-bar-chart.html', icon: 'align-end-horizontal' },
+            { id: 'donut-chart', label: 'Donut Chart', href: '/components/donut-chart.html', icon: 'chart-pie' },
+            { id: 'stacked-bar', label: 'Stacked Bar', href: '/components/stacked-bar.html', icon: 'align-end-horizontal' },
+            { id: 'weekly-column-chart', label: 'Weekly Column Chart', href: '/components/weekly-column-chart.html', icon: 'chart-column' },
+          ],
+        },
+        {
+          name: 'Navigation',
+          items: [
+            { id: 'navigation', label: 'Navigation', href: '/components/navigation.html', icon: 'chevrons-right' },
+            { id: 'breadcrumb', label: 'Breadcrumb', href: '/components/breadcrumb.html', icon: 'chevrons-right' },
+            { id: 'tabs', label: 'Tabs', href: '/components/tabs.html', icon: 'panel-top' },
+            { id: 'pagination', label: 'Pagination', href: '/components/pagination.html', icon: 'ellipsis' },
+          ],
+        },
+        {
+          name: 'Filters & Dates',
+          items: [
+            { id: 'filter-bar', label: 'Filter Bar', href: '/components/filter-bar.html', icon: 'filter' },
+            { id: 'date-range-selector', label: 'Date Range Selector', href: '/components/date-range-selector.html', icon: 'calendar' },
+            { id: 'range-calendar', label: 'Range Calendar', href: '/components/range-calendar.html', icon: 'calendar' },
+          ],
+        },
+        {
+          name: 'Overlays',
+          items: [
+            { id: 'modal', label: 'Modal', href: '/components/modal.html', icon: 'app-window' },
+            { id: 'drawer', label: 'Drawer', href: '/components/drawer.html', icon: 'panel-right' },
+            { id: 'popover', label: 'Popover', href: '/components/popover.html', icon: 'app-window' },
+          ],
+        },
+        {
+          name: 'Forms',
+          items: [
+            { id: 'form-elements', label: 'All Form Elements', href: '/components/form-elements.html', icon: 'panels-top-left' },
+            { id: 'text-input', label: 'Text Input', href: '/components/text-input.html', icon: 'text-cursor-input' },
+            { id: 'textarea', label: 'Textarea', href: '/components/textarea.html', icon: 'square-pen' },
+            { id: 'select', label: 'Select', href: '/components/select.html', icon: 'square-chevron-down' },
+            { id: 'checkbox', label: 'Checkbox', href: '/components/checkbox.html', icon: 'square-check' },
+            { id: 'radio', label: 'Radio', href: '/components/radio.html', icon: 'circle-dot' },
+            { id: 'switch', label: 'Switch', href: '/components/switch.html', icon: 'toggle-right' },
+            { id: 'search-input', label: 'Search Input', href: '/components/search-input.html', icon: 'search' },
+            { id: 'file-input', label: 'File Input', href: '/components/file-input.html', icon: 'upload' },
+            { id: 'input-group', label: 'Input Group', href: '/components/input-group.html', icon: 'group' },
+          ],
+        },
+      ],
+    },
+    {
+      // Every animation and effect lives here, not under Components (Master KMO, 2026-11-26).
+      group: 'Animation & Effects',
       items: [
-        { id: 'button', label: 'Button', href: '/components/button.html', icon: 'square-mouse-pointer' },
-        { id: 'badge', label: 'Badge', href: '/components/badge.html', icon: 'tag' },
-        { id: 'alert', label: 'Alert', href: '/components/alert.html', icon: 'triangle-alert' },
-        { id: 'rating', label: 'Rating', href: '/components/rating.html', icon: 'star' },
-        { id: 'avatar', label: 'Avatar', href: '/components/avatar.html', icon: 'circle-user' },
-        { id: 'empty-state', label: 'Empty State', href: '/components/empty-state.html', icon: 'inbox' },
-        { id: 'card', label: 'Card', href: '/components/card.html', icon: 'layout-panel-top' },
-        { id: 'item-card', label: 'Item Card', href: '/components/item-card.html', icon: 'layout-panel-top' },
-        { id: 'table', label: 'Table', href: '/components/table.html', icon: 'table-2' },
-        { id: 'line-chart', label: 'Line Chart', href: '/components/line-chart.html', icon: 'chart-line' },
-        { id: 'bar-chart', label: 'Bar Chart', href: '/components/bar-chart.html', icon: 'chart-column' },
-        { id: 'breadcrumb', label: 'Breadcrumb', href: '/components/breadcrumb.html', icon: 'chevrons-right' },
-        { id: 'pagination', label: 'Pagination', href: '/components/pagination.html', icon: 'ellipsis' },
-        { id: 'tabs', label: 'Tabs', href: '/components/tabs.html', icon: 'panel-top' },
-        { id: 'date-range-selector', label: 'Date Range Selector', href: '/components/date-range-selector.html', icon: 'calendar' },
-        { id: 'filter-bar', label: 'Filter Bar', href: '/components/filter-bar.html', icon: 'filter' },
-        { id: 'navigation', label: 'Navigation', href: '/components/navigation.html', icon: 'chevrons-right' },
-        { id: 'modal', label: 'Modal', href: '/components/modal.html', icon: 'app-window' },
-        { id: 'drawer', label: 'Drawer', href: '/components/drawer.html', icon: 'panel-right' },
-        { id: 'reveal', label: 'Reveal', href: '/components/reveal.html', icon: 'layers' },
-        { id: 'text-effects', label: 'Text Effects', href: '/components/text-effects.html', icon: 'type' },
-        { id: 'toast', label: 'Toast', href: '/components/toast.html', icon: 'bell' },
-        { id: 'tooltip', label: 'Tooltip', href: '/components/tooltip.html', icon: 'message-square' },
-        { id: 'popover', label: 'Popover', href: '/components/popover.html', icon: 'app-window' },
-        { id: 'range-calendar', label: 'Range Calendar', href: '/components/range-calendar.html', icon: 'calendar' },
-        { id: 'form-elements', label: 'All Form Elements', href: '/components/form-elements.html', icon: 'panels-top-left' },
-        { id: 'text-input', label: 'Text Input', href: '/components/text-input.html', icon: 'text-cursor-input' },
-        { id: 'textarea', label: 'Textarea', href: '/components/textarea.html', icon: 'square-pen' },
-        { id: 'select', label: 'Select', href: '/components/select.html', icon: 'square-chevron-down' },
-        { id: 'checkbox', label: 'Checkbox', href: '/components/checkbox.html', icon: 'square-check' },
-        { id: 'radio', label: 'Radio', href: '/components/radio.html', icon: 'circle-dot' },
-        { id: 'switch', label: 'Switch', href: '/components/switch.html', icon: 'toggle-right' },
-        { id: 'search-input', label: 'Search Input', href: '/components/search-input.html', icon: 'search' },
-        { id: 'file-input', label: 'File Input', href: '/components/file-input.html', icon: 'upload' },
-        { id: 'input-group', label: 'Input Group', href: '/components/input-group.html', icon: 'group' },
+        { id: 'reveal', label: 'Reveal', href: '/animation/reveal.html', icon: 'layers' },
+        { id: 'rewind-reveal', label: 'Rewind Reveal', href: '/animation/rewind-reveal.html', icon: 'calendar' },
+        { id: 'text-effects', label: 'Text Effects', href: '/animation/text-effects.html', icon: 'type' },
+        { id: 'live-dot', label: 'Live Dot', href: '/animation/live-dot.html', icon: 'circle-dot' },
       ],
     },
   ];
@@ -74,6 +136,8 @@
     'layout-panel-top': '<rect width="18" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" />',
     'table-2': '<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18" />',
     'panel-right': '<rect width="18" height="18" x="3" y="3" rx="2" /> <path d="M15 3v18" />',
+    'align-end-horizontal': '<rect width="6" height="16" x="4" y="2" rx="2" /> <rect width="6" height="9" x="14" y="9" rx="2" /> <path d="M22 22H2" />',
+    'chart-pie': '<path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z" /> <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />',
     'chart-line': '<path d="M3 3v16a2 2 0 0 0 2 2h16" /> <path d="m19 9-5 5-4-4-3 3" />',
     'chart-column': '<path d="M3 3v16a2 2 0 0 0 2 2h16" /> <path d="M18 17V9" /> <path d="M13 17V5" /> <path d="M8 17v-3" />',
     'chevrons-right': '<path d="m6 17 5-5-5-5" /> <path d="m13 17 5-5-5-5" />',
@@ -103,24 +167,40 @@
     return `<svg class="vs-docs-sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
   }
 
-  // Two collapsible groups, one open at a time (opening one closes the other; the open one can also be closed).
+  // Collapsible groups (Foundations, Components, Animation & Effects), one open at a time (opening one closes the other; the open one can also be closed).
   // Default open: the group holding the current page, otherwise Components.
   function renderSidebar() {
     const mount = document.getElementById('vs-docs-sidebar-mount');
     if (!mount) return;
     const active = document.body.dataset.page;
     const slug = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-    const holder = NAV.find((group) => group.items.some((item) => item.id === active));
+    const itemsOf = (group) => group.items || group.sections.flatMap((section) => section.items);
+    const holder = NAV.find((group) => itemsOf(group).some((item) => item.id === active));
     const openSlug = slug((holder || NAV.find((group) => group.group === 'Components') || NAV[0]).group);
+    const linkHtml = (item) => {
+      const isActive = item.id === active;
+      return `<a href="${item.href}" class="${isActive ? 'is-active' : ''}"${isActive ? ' aria-current="page"' : ''}>${icon(item.icon)}<span>${item.label}</span></a>`;
+    };
     const groups = NAV.map((group) => {
       const key = slug(group.group);
       const isOpen = key === openSlug;
-      const links = group.items
-        .map((item) => {
-          const isActive = item.id === active;
-          return `<a href="${item.href}" class="${isActive ? 'is-active' : ''}"${isActive ? ' aria-current="page"' : ''}>${icon(item.icon)}<span>${item.label}</span></a>`;
-        })
-        .join('');
+      let links;
+      if (group.sections) {
+        // Sub-sections: the one holding the current page is open, otherwise the first one.
+        const openIndex = Math.max(0, group.sections.findIndex((section) => section.items.some((item) => item.id === active)));
+        links = group.sections
+          .map((section, i) => {
+            const subKey = `${key}-${slug(section.name)}`;
+            const subOpen = i === openIndex;
+            return `<div class="vs-docs-sidebar-sub${subOpen ? ' is-open' : ''}" data-default-open="${subOpen}">
+              <button type="button" class="vs-docs-sidebar-sub-toggle" id="vs-docs-toggle-${subKey}" aria-expanded="${subOpen}" aria-controls="vs-docs-group-${subKey}"><span>${section.name}</span><span class="vs-docs-sidebar-sub-count">${section.items.length}</span>${icon('chevron-right')}</button>
+              <div class="vs-docs-sidebar-sub-links" id="vs-docs-group-${subKey}" role="group" aria-labelledby="vs-docs-toggle-${subKey}"${subOpen ? '' : ' hidden'}>${section.items.map(linkHtml).join('')}</div>
+            </div>`;
+          })
+          .join('');
+      } else {
+        links = group.items.map(linkHtml).join('');
+      }
       return `<div class="vs-docs-sidebar-group${isOpen ? ' is-open' : ''}">
         <button type="button" class="vs-docs-sidebar-group-toggle" id="vs-docs-toggle-${key}" aria-expanded="${isOpen}" aria-controls="vs-docs-group-${key}"><span>${group.group}</span>${icon('chevron-right')}</button>
         <div class="vs-docs-sidebar-group-links" id="vs-docs-group-${key}" role="group" aria-labelledby="vs-docs-toggle-${key}"${isOpen ? '' : ' hidden'}>${links}</div>
@@ -137,6 +217,8 @@
         </div>
       </aside>`;
 
+    keepSidebarPlace(mount);
+
     mount.querySelectorAll('.vs-docs-sidebar-group-toggle').forEach((toggle) => {
       toggle.addEventListener('click', () => {
         const wasOpen = toggle.getAttribute('aria-expanded') === 'true';
@@ -150,7 +232,385 @@
         });
       });
     });
+
+    // Sub-sections inside a group: one open at a time, like the groups (the open one can also be closed).
+    mount.querySelectorAll('.vs-docs-sidebar-sub-toggle').forEach((toggle) => {
+      toggle.addEventListener('click', () => {
+        const wasOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.closest('.vs-docs-sidebar-group').querySelectorAll('.vs-docs-sidebar-sub').forEach((sub) => {
+          setSubOpen(sub, sub.querySelector('.vs-docs-sidebar-sub-toggle') === toggle && !wasOpen);
+        });
+      });
+    });
   }
 
-  document.addEventListener('DOMContentLoaded', renderSidebar);
+  function setSubOpen(sub, open) {
+    sub.classList.toggle('is-open', open);
+    sub.querySelector('.vs-docs-sidebar-sub-toggle').setAttribute('aria-expanded', String(open));
+    sub.querySelector('.vs-docs-sidebar-sub-links').hidden = !open;
+  }
+
+  // The menu keeps its place across page loads (Master KMO, 2026-11-28: "only the right side refreshes, not the left
+  // menu"). Every page is its own HTML file, so the menu is drawn again on each load; its scroll position is saved when a
+  // menu link is clicked (and when the page is left) and put back before the first paint. With no saved position (a page
+  // opened directly) or when the current page's link would be out of view, the link is scrolled into the middle.
+  const PLACE_KEY = 'vs-docs-sidebar-scroll';
+  function keepSidebarPlace(mount) {
+    const nav = mount.querySelector('.vs-docs-sidebar-nav');
+    if (!nav) return;
+    const save = () => {
+      try {
+        sessionStorage.setItem(PLACE_KEY, String(Math.round(nav.scrollTop)));
+      } catch (e) {
+        /* storage blocked (private mode): the menu falls back to showing the current link */
+      }
+    };
+    let saved = null;
+    try {
+      saved = sessionStorage.getItem(PLACE_KEY);
+    } catch (e) {
+      saved = null;
+    }
+    const top = saved === null ? NaN : Number(saved);
+    if (Number.isFinite(top) && top >= 0) nav.scrollTop = top;
+    const link = nav.querySelector('a.is-active');
+    if (link) {
+      const navBox = nav.getBoundingClientRect();
+      const linkBox = link.getBoundingClientRect();
+      if (linkBox.top < navBox.top || linkBox.bottom > navBox.bottom) {
+        nav.scrollTop += linkBox.top - navBox.top - (navBox.height - linkBox.height) / 2;
+      }
+    }
+    nav.addEventListener('click', (e) => {
+      if (e.target.closest('a[href]')) save();
+    });
+    window.addEventListener('pagehide', save);
+  }
+
+  // Page chrome (Master KMO, 2026-11-26): a top bar (breadcrumb, search, menu button on phones) and a "Code" drawer.
+  // The code blocks and the lede of the page are moved into the drawer, so the page itself shows the design first.
+  // Without the script the page keeps everything where it is (the stylesheet hides nothing until `vs-docs-js` is set).
+  function enhance() {
+    const main = document.querySelector('.vs-docs-main');
+    if (!main) return;
+    const root = document.documentElement;
+    root.classList.add('vs-docs-js');
+    const arrow = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>';
+
+    // Top bar: breadcrumb from the eyebrow ("Components // Badge"), search over the menu, menu button on phones.
+    const eyebrow = main.querySelector('.vs-docs-hero-eyebrow');
+    const crumbText = eyebrow
+      ? Array.from(eyebrow.childNodes)
+          .filter((n) => n.nodeType === 3 || n.tagName === 'STRONG')
+          .map((n) => n.textContent)
+          .join(' ')
+          .replace(/\s*\/\/\s*/g, ' / ')
+          .replace(/\s+/g, ' ')
+          .trim()
+      : '';
+    const parts = crumbText ? crumbText.split(' / ') : [];
+    const last = parts.pop();
+    const crumbHtml = parts.map((s) => s + ' / ').join('') + (last ? `<strong>${last}</strong>` : '');
+    const bar = document.createElement('div');
+    bar.className = 'vs-docs-topbar';
+    bar.innerHTML = `<button type="button" class="vs-docs-menu-btn" aria-label="Menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg></button>
+      <div class="vs-docs-crumb">${crumbHtml}</div>
+      <input class="vs-docs-search" type="search" placeholder="Search" aria-label="Search the menu">`;
+    main.insertBefore(bar, main.firstChild);
+    bar.querySelector('.vs-docs-menu-btn').addEventListener('click', () => root.classList.toggle('vs-docs-menu-open'));
+    document.addEventListener('click', (e) => {
+      if (root.classList.contains('vs-docs-menu-open') && !e.target.closest('.vs-docs-sidebar') && !e.target.closest('.vs-docs-menu-btn')) root.classList.remove('vs-docs-menu-open');
+    });
+    bar.querySelector('.vs-docs-search').addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      document.querySelectorAll('.vs-docs-sidebar-group').forEach((group) => {
+        let any = false;
+        group.querySelectorAll('.vs-docs-sidebar-group-links a').forEach((a) => {
+          const hit = !q || a.textContent.toLowerCase().includes(q);
+          a.hidden = !hit;
+          if (hit) any = true;
+        });
+        group.hidden = !any;
+        if (q) {
+          group.classList.toggle('is-open', any);
+          group.querySelector('.vs-docs-sidebar-group-toggle').setAttribute('aria-expanded', String(any));
+          group.querySelector('.vs-docs-sidebar-group-links').hidden = !any;
+        }
+        // Sub-sections: while searching, show only those with a match, opened; with the box empty, back to the default.
+        group.querySelectorAll('.vs-docs-sidebar-sub').forEach((sub) => {
+          const subHit = Array.from(sub.querySelectorAll('a')).some((a) => !a.hidden);
+          sub.hidden = !subHit;
+          setSubOpen(sub, q ? subHit : sub.dataset.defaultOpen === 'true');
+        });
+      });
+    });
+
+    // Pages written in the old way (a long run of headings, paragraphs, tables and demos) are tidied here, so the whole site
+    // follows the new layout without editing every page: the demos stay in the page; the text, lists, notes, spec tables and
+    // code of each section move to the drawer under that section's title. A page that already uses <section> is left alone.
+    const content = main.querySelector('.vs-docs-content');
+    if (content && !content.querySelector(':scope > section')) {
+      const interactive = 'button, input, select, textarea, svg, img, canvas, iframe, [class^="demo-"]:not(.demo-scroll)';
+      const isSpecTable = (el) => {
+        const table = el.tagName === 'TABLE' ? el : (el.classList.contains('demo-scroll') ? el.querySelector(':scope > table') : null);
+        return !!table && !table.classList.contains('vs-docs-state-table') && !table.querySelector(interactive);
+      };
+      const isText = (el) => ['P', 'UL', 'OL'].includes(el.tagName) || el.classList.contains('vs-docs-callout') || isSpecTable(el);
+      let title = 'Notes';
+      let wrapper = null;
+      // Sections that are all reference (props, measurements, tokens, usage) go to the drawer whole, demos included.
+      const referenceTitle = /^(props|measurement|anatomy|redline|spec|token|design token|accessib|keyboard|usage\s*[—-]|rollout|api|blade|governance)/i;
+      let reference = false;
+      const send = (el, label) => {
+        if (!wrapper) {
+          wrapper = document.createElement('div');
+          wrapper.setAttribute('data-vs-drawer', label || title);
+          el.before(wrapper);
+        }
+        wrapper.appendChild(el);
+      };
+      Array.from(content.children).forEach((el) => {
+        const isHead = el.classList.contains('vs-docs-section-head');
+        if (isHead || el.tagName === 'H2') {
+          const h2 = el.tagName === 'H2' ? el : el.querySelector('h2');
+          title = h2 ? h2.textContent.trim() : title;
+          reference = referenceTitle.test(title);
+          wrapper = null;
+          if (isHead) {
+            const desc = el.querySelector('.vs-docs-section-desc');
+            const short = false; // every section note goes to the drawer; a short line under a title is added by hand (.vs-docs-lead) only where it is needed
+            if (h2) { if (el.id && !h2.id) h2.id = el.id; el.before(h2); }
+            if (short) {
+              const lead = document.createElement('p');
+              lead.className = 'vs-docs-lead';
+              lead.textContent = desc.textContent.trim();
+              (h2 || el).after(lead);
+            } else if (desc) {
+              const note = document.createElement('p');
+              note.innerHTML = desc.innerHTML;
+              el.before(note);
+              send(note);
+              wrapper = null;
+            }
+            el.remove();
+          }
+          return;
+        }
+        if (el.classList.contains('vs-docs-code-block')) return;
+        if (isText(el) || reference) send(el);
+      });
+      // Two or more sections in a row that each hold just one demo box become one grid of titled cards (the section title is the
+      // card title). A lone such section stays a title with its box.
+      const boxOf = (h2) => {
+        let n = h2.nextElementSibling;
+        let box = null;
+        while (n && n.tagName !== 'H2') {
+          if (n.hasAttribute('data-vs-drawer') || n.hidden || n.classList.contains('vs-docs-lead')) { n = n.nextElementSibling; continue; }
+          if (box || !(n.matches && n.matches('.vs-docs-preview'))) return null;
+          box = n;
+          n = n.nextElementSibling;
+        }
+        return box;
+      };
+      let cardRun = [];
+      const flushCards = () => {
+        if (cardRun.length >= 2) {
+          const grid = document.createElement('div');
+          grid.className = 'vs-docs-cards';
+          cardRun[0].h2.before(grid);
+          cardRun.forEach(({ h2, box }) => {
+            const card = document.createElement('article');
+            card.className = 'vs-docs-card';
+            if (h2.id) card.id = h2.id;
+            const title = document.createElement('h3');
+            title.textContent = h2.textContent.trim();
+            card.append(title, box);
+            grid.appendChild(card);
+            let n = h2.nextElementSibling;
+            while (n && n.classList.contains('vs-docs-lead')) { const x = n; n = n.nextElementSibling; x.remove(); }
+            h2.remove();
+          });
+        }
+        cardRun = [];
+      };
+      Array.from(content.querySelectorAll(':scope > h2')).forEach((h2) => {
+        const box = boxOf(h2);
+        if (box) cardRun.push({ h2, box });
+        else flushCards();
+      });
+      flushCards();
+      // Two or more demo boxes in a row become equal cards side by side (a lone one stays full width). Demos that already sit in a
+      // grid of their own, and tables, are left as they are.
+      const groupable = (el) => el.matches && el.matches('.vs-docs-preview, .demo-browser, .demo-redline');
+      const rendered = (el) => !el.hasAttribute('data-vs-drawer') && !el.hidden;
+      let run = [];
+      const flush = () => {
+        if (run.length >= 2) {
+          const grid = document.createElement('div');
+          grid.className = 'vs-docs-cards is-wide';
+          run[0].before(grid);
+          run.forEach((el) => grid.appendChild(el));
+        }
+        run = [];
+      };
+      Array.from(content.children).forEach((el) => {
+        if (!rendered(el)) return;
+        if (groupable(el)) run.push(el);
+        else flush();
+      });
+      flush();
+      // Every section still left (a title with several demos under it) becomes one titled card holding those demos, so the whole
+      // page reads as cards. The title is the card title (small); the section id moves to the card.
+      Array.from(content.querySelectorAll(':scope > h2')).forEach((h2) => {
+        const items = [];
+        let codeWrap = null;
+        let n = h2.nextElementSibling;
+        while (n && n.tagName !== 'H2' && !n.classList.contains('vs-docs-cards') && !n.classList.contains('vs-docs-card')) {
+          const x = n;
+          n = n.nextElementSibling;
+          if (x.hasAttribute('data-vs-drawer') || x.hidden) continue;
+          if (x.classList.contains('vs-docs-lead')) { x.remove(); continue; }
+          if (x.classList.contains('vs-docs-code-block')) {
+            // code goes to the drawer under this heading's title, so the title must travel with it
+            if (!codeWrap) {
+              codeWrap = document.createElement('div');
+              codeWrap.setAttribute('data-vs-drawer', h2.textContent.trim());
+              x.before(codeWrap);
+            }
+            codeWrap.appendChild(x);
+            continue;
+          }
+          items.push(x);
+        }
+        if (!items.length) {
+          // nothing visual under this title: the title goes, its address stays
+          if (h2.id) {
+            const anchor = document.createElement('div');
+            anchor.id = h2.id;
+            anchor.hidden = true;
+            h2.replaceWith(anchor);
+          } else {
+            h2.remove();
+          }
+          return;
+        }
+        const card = document.createElement('article');
+        card.className = 'vs-docs-card';
+        if (h2.id) card.id = h2.id;
+        const title = document.createElement('h3');
+        title.textContent = h2.textContent.trim();
+        card.appendChild(title);
+        h2.before(card);
+        items.forEach((x) => card.appendChild(x));
+        h2.remove();
+      });
+      // A heading left with nothing under it (its content went to the drawer) is dropped.
+      Array.from(content.querySelectorAll(':scope > h2')).forEach((h2) => {
+        let n = h2.nextElementSibling;
+        while (n && (n.classList.contains('vs-docs-lead') || n.hasAttribute('data-vs-drawer') || n.classList.contains('vs-docs-code-block'))) n = n.nextElementSibling;
+        if (!n || n.tagName === 'H2') {
+          while (h2.nextElementSibling && h2.nextElementSibling.classList.contains('vs-docs-lead')) h2.nextElementSibling.remove();
+          // The title goes, its address stays: a link or a test that looks for the id still finds it.
+          if (h2.id) {
+            const anchor = document.createElement('div');
+            anchor.id = h2.id;
+            anchor.hidden = true;
+            h2.replaceWith(anchor);
+          } else {
+            h2.remove();
+          }
+        }
+      });
+    }
+
+    // Code drawer: one card per section that has code, plus an "About" card with the lede. One card open at a time.
+    const lede = main.querySelector('.vs-docs-hero-lede');
+    // Anything with data-vs-drawer="Title" goes to the drawer under that title; so does every code block (titled by its heading).
+    const blocks = Array.from(main.querySelectorAll('.vs-docs-content .vs-docs-code-block, .vs-docs-content [data-vs-drawer]'))
+      .filter((el) => !el.parentElement.closest('[data-vs-drawer]'));
+    if (!lede && !blocks.length) return;
+    const titleOf = (el) => {
+      if (el.hasAttribute('data-vs-drawer')) return el.getAttribute('data-vs-drawer');
+      let n = el;
+      while (n && !n.classList.contains('vs-docs-content')) {
+        while (n.previousElementSibling) {
+          n = n.previousElementSibling;
+          if (/^H[23]$/.test(n.tagName)) return n.textContent.trim();
+          const hs = n.querySelectorAll ? n.querySelectorAll('h2, h3') : [];
+          if (hs.length) return hs[hs.length - 1].textContent.trim();
+        }
+        n = n.parentElement;
+      }
+      return 'Code';
+    };
+    const cards = [];
+    if (lede) cards.push({ title: 'About', note: lede.cloneNode(true) });
+    blocks.forEach((block) => {
+      const title = titleOf(block);
+      let card = cards.find((c) => !c.note && c.title === title);
+      if (!card) { card = { title, nodes: [] }; cards.push(card); }
+      card.nodes.push(block);
+    });
+
+    const scrim = document.createElement('div');
+    scrim.className = 'vs-docs-scrim';
+    const drawer = document.createElement('aside');
+    drawer.className = 'vs-docs-drawer';
+    drawer.setAttribute('role', 'dialog');
+    drawer.setAttribute('aria-modal', 'true');
+    drawer.setAttribute('aria-label', 'Code');
+    drawer.setAttribute('aria-hidden', 'true');
+    drawer.innerHTML = '<div class="vs-docs-drawer-head"><h2>Code</h2><button type="button" class="vs-docs-drawer-close">Close</button></div><div class="vs-docs-drawer-body"></div>';
+    const body = drawer.querySelector('.vs-docs-drawer-body');
+    cards.forEach((card, i) => {
+      const acc = document.createElement('div');
+      acc.className = 'vs-docs-acc' + (i === 0 ? ' is-open' : '');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('aria-expanded', String(i === 0));
+      btn.innerHTML = `<span></span>${arrow}`;
+      btn.firstChild.textContent = card.title;
+      const panel = document.createElement('div');
+      panel.className = 'vs-docs-acc-body';
+      if (card.note) { card.note.className = 'vs-docs-acc-note'; panel.appendChild(card.note); }
+      else card.nodes.forEach((n) => panel.appendChild(n));
+      acc.append(btn, panel);
+      btn.addEventListener('click', () => {
+        const wasOpen = acc.classList.contains('is-open');
+        body.querySelectorAll('.vs-docs-acc').forEach((a) => { a.classList.remove('is-open'); a.firstChild.setAttribute('aria-expanded', 'false'); });
+        if (!wasOpen) { acc.classList.add('is-open'); btn.setAttribute('aria-expanded', 'true'); }
+      });
+      body.appendChild(acc);
+    });
+    const fab = document.createElement('button');
+    fab.type = 'button';
+    fab.className = 'vs-docs-fab';
+    fab.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16" /></svg>Code';
+    document.body.append(scrim, drawer, fab);
+
+    const closeBtn = drawer.querySelector('.vs-docs-drawer-close');
+    const open = () => {
+      root.classList.add('vs-docs-code-open');
+      drawer.setAttribute('aria-hidden', 'false');
+      fab.hidden = true;
+      setTimeout(() => closeBtn.focus(), 60);
+    };
+    const close = () => {
+      root.classList.remove('vs-docs-code-open');
+      drawer.setAttribute('aria-hidden', 'true');
+      fab.hidden = false;
+      fab.focus();
+    };
+    fab.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+    scrim.addEventListener('click', close);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && root.classList.contains('vs-docs-code-open')) close(); });
+  }
+
+  // shell.js sits at the end of <body>, so the menu mount already exists: draw the menu now, before the first paint, so
+  // it never shows empty and its saved place is restored without a jump. `enhance` still waits for the whole document.
+  if (document.getElementById('vs-docs-sidebar-mount')) renderSidebar();
+  else document.addEventListener('DOMContentLoaded', renderSidebar);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', enhance);
+  else enhance();
 })();

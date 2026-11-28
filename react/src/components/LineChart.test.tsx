@@ -58,7 +58,7 @@ describe('LineChart', () => {
     expect(labels).toEqual(['19 Oct', '20 Oct', '21 Oct', '22 Oct (Today)', '23 Oct']);
     expect(datasets[0].data).toEqual([5, 7, null, 9, null]);
     expect(datasets[0].spanGaps).toBe(false);
-    expect(last().plugins.map((p: any) => p.id)).toEqual(['vsTodayLine', 'vsCrosshair']);
+    expect(last().plugins.map((p: any) => p.id)).toEqual(['vsTodayLine', 'vsCrosshair', 'vsLiveDot']);
   });
 
   it('area draws left to right, line rises, and reduced motion turns animation off', () => {
@@ -77,14 +77,14 @@ describe('LineChart', () => {
     expect(last().options.animation).toBe(false);
   });
 
-  it('a sparkline has no axes, legend, tooltip, events or today line', () => {
+  it('a sparkline has no axes, legend, tooltip, events or today line (only the live dot)', () => {
     render(<LineChart dates={DATES} series={SERIES} ariaLabel="x" today={TODAY} variant="sparkline" />);
     const c = last();
     expect(c.options.scales.x.display).toBe(false);
     expect(c.options.scales.y.display).toBe(false);
     expect(c.options.plugins.tooltip.enabled).toBe(false);
     expect(c.options.events).toEqual([]);
-    expect(c.plugins).toEqual([]);
+    expect(c.plugins.map((p: any) => p.id)).toEqual(['vsLiveDot']);
     expect(screen.queryByText('Downloads')).toBeNull();
   });
 
@@ -174,5 +174,53 @@ describe('AnimatedNumber', () => {
     cleanup();
     render(<AnimatedNumber value={Number.NaN} />);
     expect(screen.getByText('0', { selector: '.vs-animated-number__sr' }).parentElement!.querySelector('[aria-hidden="true"]')!.textContent).toBe('0');
+  });
+});
+
+describe('LineChart live dot (27 Nov 2026)', () => {
+  // A fake chart for the live-dot plugin: points at x = 10 * index, inside a plot from 0 to 100.
+  const fakeChart = (right = 100) => ({
+    chartArea: { left: 0, right, top: 0, bottom: 100 },
+    getDatasetMeta: () => ({ data: Array.from({ length: 10 }, (_, i) => ({ getProps: () => ({ x: i * 10, y: 50 - i }) })) }),
+  });
+
+  it('puts a dot on the newest reading up to today, replaces the hollow today point and places it after each draw', () => {
+    const { container } = render(<LineChart dates={DATES} series={SERIES} ariaLabel="x" today={TODAY} />);
+    const c = last();
+    const dot = container.querySelector('.vs-live-dot') as HTMLElement;
+    expect(dot.className).toBe('vs-live-dot');
+    expect(dot.hidden).toBe(true); // until the chart has drawn
+    // Axis: 19, 20, 21, 22 (today), 23 Oct; data on 19, 20 and 22 -> newest up to today is index 3.
+    expect(c.data.datasets[0].pointRadius({ dataIndex: 3 })).toBe(0);
+    c.plugins.find((p: any) => p.id === 'vsLiveDot').afterDraw(fakeChart());
+    expect(dot.hidden).toBe(false);
+    expect(dot.style.left).toBe('30px');
+    expect(dot.style.top).toBe('47px');
+    expect(dot.style.getPropertyValue('--vs-live-dot-color')).not.toBe('');
+    expect(dot.style.getPropertyValue('--vs-live-dot-delay')).toBe(`${Math.round((4 * LINE_CHART_DRAW_MS) / 5)}ms`);
+  });
+
+  it('a gap today puts the dot on the last day with a value; a point outside the plot hides it', () => {
+    const { container } = render(<LineChart dates={DATES} series={[{ id: 'dl', label: 'Downloads', data: [5, 7, null] }]} ariaLabel="x" today={TODAY} />);
+    const plugin = last().plugins.find((p: any) => p.id === 'vsLiveDot');
+    const dot = container.querySelector('.vs-live-dot') as HTMLElement;
+    plugin.afterDraw(fakeChart());
+    expect(dot.style.left).toBe('10px'); // 20 Oct
+    plugin.afterDraw(fakeChart(5));
+    expect(dot.hidden).toBe(true);
+  });
+
+  it('a sparkline gets the small dot; with reduced motion it shows at once; liveDot={false} and no data give no dot', () => {
+    reducedMotion = true;
+    const { container, rerender } = render(<LineChart dates={DATES} series={SERIES} ariaLabel="x" today={TODAY} variant="sparkline" />);
+    const dot = container.querySelector('.vs-live-dot') as HTMLElement;
+    expect(dot.className).toBe('vs-live-dot vs-live-dot--sm');
+    last().plugins.find((p: any) => p.id === 'vsLiveDot').afterDraw(fakeChart());
+    expect(dot.style.getPropertyValue('--vs-live-dot-delay')).toBe('0ms');
+    rerender(<LineChart dates={DATES} series={SERIES} ariaLabel="x" today={TODAY} variant="sparkline" liveDot={false} />);
+    expect(container.querySelector('.vs-live-dot')).toBeNull();
+    expect(last().plugins).toEqual([]);
+    rerender(<LineChart dates={DATES} series={[{ id: 'dl', label: 'Downloads', data: [null, null, null] }]} ariaLabel="x" today={TODAY} variant="sparkline" />);
+    expect(container.querySelector('.vs-live-dot')).toBeNull();
   });
 });

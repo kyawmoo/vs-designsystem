@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rewind Reveal demo — VectorSticker Design System</title>
+<!-- Plain HTML + blade/rewind-reveal.js. The calendar is drawn here only for the demo: today is fixed to 12 Nov 2026 so the demo
+     always looks the same. Used by the docs page (in an iframe) and for checks in a real browser. -->
+<link rel="stylesheet" href="/assets/tokens.css">
+<link rel="stylesheet" href="/assets/blade-components.css">
+<style>
+  body { margin: 0; padding: var(--vs-spacing-md); font-family: var(--vs-font-family); color: var(--vs-color-text-body); background: var(--vs-color-background); }
+  .demo-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--vs-spacing-md); }
+  .demo-bar h1 { margin: 0; font-size: 20px; color: var(--vs-color-text-heading); }
+  .demo-replay { font: 600 13px var(--vs-font-family); padding: 8px 14px; border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); background: var(--vs-color-surface); color: var(--vs-color-text-heading); cursor: pointer; }
+  .demo-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+  .demo-dow { font-size: 12px; color: var(--vs-color-text-muted); padding: 0 4px; }
+  .demo-day { min-height: 64px; box-sizing: border-box; padding: 6px; border: 1px solid var(--vs-color-border); border-radius: var(--vs-radius-sm); background: color-mix(in srgb, var(--vs-color-brand-primary) calc(var(--n, 0) * 7%), var(--vs-color-surface)); font-size: 13px; color: var(--vs-color-text-heading); }
+  .demo-day--out { background: transparent; border-color: transparent; color: var(--vs-color-text-muted); }
+  .demo-day--today { border: 2px solid var(--vs-color-text-heading); }
+  .demo-day small { display: block; margin-top: 4px; color: var(--vs-color-text-body); font-size: 12px; }
+</style>
+</head>
+<body>
+<div class="demo-bar"><h1>November 2026</h1><button class="demo-replay" id="demo-replay" type="button">Replay</button></div>
+<div class="demo-grid" id="demo-grid"></div>
+<script src="/assets/rewind-reveal.js"></script>
+<script>
+(function () {
+  var TODAY = '2026-11-12';
+  var COUNTS = { 2:1, 3:1, 4:2, 5:4, 6:2, 9:1, 10:3, 11:1, 12:5, 13:4, 16:2, 17:2, 18:3, 19:4, 20:6, 24:3, 25:4, 27:1 };
+  var grid = document.getElementById('demo-grid');
+  function p2(n) { return (n < 10 ? '0' : '') + n; }
+  function draw() {
+    var html = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(function (d) { return '<div class="demo-dow">' + d + '</div>'; }).join('');
+    var start = new Date(Date.UTC(2026, 9, 26)); // Monday 26 Oct 2026, the first cell of the month grid
+    for (var i = 0; i < 42; i++) {
+      var d = new Date(start.getTime() + i * 86400000);
+      var key = d.getUTCFullYear() + '-' + p2(d.getUTCMonth() + 1) + '-' + p2(d.getUTCDate());
+      var inMonth = d.getUTCMonth() === 10;
+      var n = inMonth ? COUNTS[d.getUTCDate()] || 0 : 0;
+      html += '<div class="demo-day' + (inMonth ? '' : ' demo-day--out') + (key === TODAY ? ' demo-day--today' : '') + '" data-vs-rewind-day="' + key + '" style="--n:' + n + '">' + d.getUTCDate() + (n ? '<small>' + n + (n === 1 ? ' post' : ' posts') + '</small>' : '') + '</div>';
+    }
+    grid.innerHTML = html;
+    VsRewind.apply(grid, TODAY);
+  }
+  draw();
+  document.getElementById('demo-replay').addEventListener('click', draw);
+})();
+</script>
+</body>
+</html>

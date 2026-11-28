@@ -126,9 +126,9 @@
     <table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
       <tbody>
-        <tr><td><code>name</code></td><td>required</td><td>—</td></tr>
-        <tr><td><code>options</code></td><td>array of <code>{value, label}</code></td><td>—</td></tr>
-        <tr><td><code>size</code></td><td><code>md</code> · <code>lg</code></td><td><code>md</code></td></tr>
+        <tr><td><code>name</code></td><td>required in Blade; optional in React (a filter that only drives the page needs none)</td><td>—</td></tr>
+        <tr><td><code>options</code></td><td>array of <code>{value, label}</code>; React also takes <code>group</code> (options with the same group share one heading, ungrouped options come first)</td><td>—</td></tr>
+        <tr><td><code>size</code></td><td><code>md</code> · <code>lg</code>; React also has <code>sm</code> (compact, 12px, for filter rows)</td><td><code>md</code></td></tr>
         <tr><td><code>placeholder</code></td><td>string — disabled first option</td><td>—</td></tr>
         <tr><td><code>error</code></td><td>string — red border + message</td><td>—</td></tr>
       </tbody>

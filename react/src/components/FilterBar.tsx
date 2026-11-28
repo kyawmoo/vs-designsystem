@@ -19,8 +19,8 @@ export interface FilterBarProps {
  * The reports dashboard's own search + sort bar — a bordered white
  * card holding a search field and a segment-control sort group.
  * Formalizes the pattern already duplicated across ItemsView and
- * CategoryView (both: `bg-white rounded-xl border ... p-4` container,
- * `bg-gray-50` search input focusing to #005c55). React-only: this is
+ * CategoryView (both: a white rounded bordered card container and a
+ * light grey search input with the brand focus colour). React-only: this is
  * the reports dashboard's own convention, not derived from any real
  * main-site markup, so there is no Blade counterpart — same treatment
  * as SummaryCard/TableWidget/FilterSheet.

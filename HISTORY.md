@@ -6,12 +6,446 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
-## 2026-11-22 - Reveal: the opening ends when its animations end, not at the worst-case time (found with the reports site); branch fix/reveal-end-when-animations-end; not merged
+## 2026-11-22 - Reveal: the opening ends when its animations end, not at the worst-case time (found with the reports site); branch fix/reveal-end-when-animations-end (main merged into it on 2026-11-28, Master KMO decision 3a)
 
 - Found: after #97 the end of the opening was a fixed time (curtain + body delay + the longer of an entrance and a 30-letter title + 200ms = 2870ms with the default tokens). In the reports site (Chromium, real flow) a visitor who went to another tab and back about 2.4 s after load, when the 8-letter title had already finished (about 1.9 s), still got the title written again: the view mounted inside the "opening" window, hid its letters for the curtain delay and replayed (122 animations running). The audit's problem again, in a smaller window.
 - Changed (`Reveal.tsx`): the end is now checked, not assumed. From the end of the curtain plus body delay (1200ms), every 100ms, the opening ends as soon as no `vs-reveal*` animation is waiting or moving (`document.getAnimations()`, finished ones, including the curtain's own, are not counted), and at the latest after the old worst-case time. Where a browser cannot list animations (jsdom) it ends at the worst-case time as before. Reduced motion: over at once. The timer is still cancelled on unmount. A short title now ends the opening around 1.2 to 2 s. Docs rule updated.
 - Checked: `npm test` 280 pass (4 new: nothing running at the end of the curtain ends it at once, a moving letter keeps it open until done, an animation that never ends cannot keep it open past the worst case, a waiting entrance counts as running), `tsc` clean. Deliberate breaks, each caught: finished animations counted, no maximum, running animations ignored. (A guard that skipped the curtain by name turned out to be redundant with the finished state and was removed rather than left untested.)
 - Not verified here: the end-to-end replay in a real browser after this change (the reports site check runs after its pin bump); WebKit and Firefox (CI: this change has no CSS but uses `document.getAnimations`, supported in all three).
+
+---
+
+## 2026-11-28 - DS tickets for the reports site: TextInput, BreakdownList, StackedBar, WeeklyColumnChart, token colours (issues 148-152, 154)
+
+- Asked: Master KMO: "Do all the DS tickets" (the gaps found while moving the reports site to DS components).
+- Changed (one commit per ticket):
+  - #148/#149 `TextInput.tsx`: `autoComplete`, `inputMode`, `icon` (decorative, left, `aria-hidden`, text starts after it). New `TextInput.test.tsx`; `docs/components/text-input.html` props.
+  - #152 `BreakdownList.tsx`: row `color` (any colour or token, used instead of `tone`), optional `share` (left out: no percent, bar scaled to the largest value), `title` tooltip on the name. `MeterBar` got an internal `fillColor`. Tests + docs props.
+  - #151 new `StackedBar.tsx` (one bar of the parts of a whole, swatch legend with %, 0 parts listed as 0%, `<1%`, donut palette tokens). Export, CSS, docs page + menu, tests.
+  - #150 new `WeeklyColumnChart.tsx` (stacked weekly columns, one empty future week, Today line, gap for a week with no data, hatched running week, numbered markers on 3 rows + marker legend; positions in weeks). Export, CSS, docs page + menu, tests. Bars set `background-color` only, so the hatch shows (the reports stand-in set `background`, which wiped the hatch).
+  - #154 `FilterSheet`, `MobilePageHeader`, `WidgetLoader`: Tailwind greys to `--vs-color-*` tokens (the sheet's dim overlay stays `rgba(0,0,0,0.4)`, raw like the Modal and Drawer overlays: no overlay token exists). `FilterBar` already rendered none (its 2 hits were a comment, reworded). `MobilePageHeader.test.tsx` saved markup updated with the same class mapping only. New `ComponentColours.test.tsx`.
+- Checked: see the pull request.
+- Not verified: FilterSheet / MobilePageHeader / WidgetLoader in a browser after the token change; the reports site using the new parts (next step there, after this merges).
+
+---
+
+## 2026-11-28 - TableWidget colours from tokens (no Tailwind greys)
+
+- Asked: Master KMO: tables on the reports site must follow the design system. Found while fixing table edges there: `TableWidget` drew its colours with Tailwind palette classes (`text-gray-*`, `bg-gray-50/50`, `border-gray-*`, `divide-gray-100`, `hover:bg-gray-50/60`, `bg-white`), so a token change did not reach any table.
+- Changed: `react/src/components/TableWidget.tsx`: every colour is a `--vs-color-*` token (border, background for the header row and row hover, heading text for titles, item names and strong values, body text for header labels and values, muted text for the subtitle, rank and empty text); the card's own `bg-white` / `rounded-xl` / `border-gray-200` are gone (`.vs-table-card` in `styles.css` already sets them from tokens). New test: no palette class in the rendered table.
+- Checked: see the pull request.
+- Not verified: a browser look; `--vs-color-text-muted` contrast for the small rank / subtitle text (issue 74 is about an accessible muted token). Still with Tailwind palette classes (separate ticket): FilterSheet, MobilePageHeader, FilterBar, WidgetLoader.
+
+---
+
+## 2026-11-28 - Ranked Bar Chart: one bar per label, not per date (issue 144)
+
+- Asked: Master KMO: the reports "Downloads by Country" chart draws one bar per country, which BarChart (dates only) cannot.
+- Changed: new `react/src/components/RankedBarChart.tsx` (Chart.js, horizontal bars in the order given, value text past each bar end, height `max(minHeight 240, rows x rowHeight 34)`, long names shortened with "…" via exported `fitLabel`, tooltip with the full name and formatted value, `empty` text and no canvas when there are no rows, negative / non-finite values count as 0, reduced motion = no animation, colours from tokens). Exported from `react/src/index.ts`; `.vs-ranked-bar-chart` CSS in `react/src/styles.css`; docs page `docs/components/ranked-bar-chart.html` + a menu entry under Charts in `docs/assets/shell.js`; new `RankedBarChart.test.tsx` (11 tests, Chart.js mocked as in BarChart tests).
+- Checked: see the pull request.
+- Not verified: the drawn chart in a browser (jsdom has no canvas; the tests check the Chart.js config), the docs page look.
+
+---
+
+## 2026-11-28 - Radio: card variant with a title and a hint (issue 143)
+
+- Asked: Master KMO: the reports Server Health "Investigation status" options are selectable cards, which the DS Radio could not draw.
+- Changed: `react/src/components/Radio.tsx`: `variant="card"` + `description` (the whole card is one label: circle, bold title, smaller hint; `row` stays the default and unchanged). `react/src/styles.css`: `.vs-radio-card` (tokens only; chosen = dark border via `:has(input:checked)`, focus ring on `:focus-within`, dimmed when the input is disabled, also inside a disabled fieldset). `docs/components/radio.html` props. New `Radio.test.tsx`. Blade untouched.
+- Checked: see the pull request.
+- Not verified: a browser look (`:has()` support in older browsers).
+
+---
+
+## 2026-11-28 - Select: option groups, compact size, optional name (issue 142)
+
+- Asked: Master KMO: the reports download-feed filters need `<optgroup>`, a compact size and no form name before they can use the DS Select.
+- Changed: `react/src/components/Select.tsx`: `SelectOption.group` (same group = one `<optgroup>`, ungrouped first, groups in first-seen order), `size="sm"` (12px, padding `6px 30px 6px 10px`), `name` optional. `docs/components/select.html` props. New `Select.test.tsx`. Blade `x-vs-select` untouched. Defaults give the same output as before.
+- Checked: see the pull request.
+- Not verified: a browser look.
+
+---
+
+## 2026-11-28 - TableWidget: muted rows are italic; scrollLabel for keyboard-reachable scrolling (issues 140, 141)
+
+- Asked: Master KMO: the reports Measurement tables need these before they can use the DS table. The reports site found `--vs-color-text-muted` too faint for partial rows (about 2.8:1 on white, per its CSS comment; not re-measured here) and keeps its scroll areas keyboard-reachable.
+- Changed: `react/src/components/TableWidget.tsx`: `rowMuted` rows are now italic with the normal text colour; new optional `scrollLabel` makes the scroll area `tabindex=0 role=region aria-label`. `react/src/styles.css`: `.vs-table-row--muted td` italic; `.vs-table-scroll:focus-visible` ring from `--vs-focus-ring-*`. `docs/components/table.html` props. Tests added. Nothing uses `rowMuted` yet; no default output changed.
+- Checked: see the pull request.
+- Not verified: a browser look.
+
+---
+
+## 2026-11-28 - TableWidget: startRank, showRank, rowMuted, column align (issues 135, 136, 137, 138)
+
+- Asked: Master KMO: the reports site must use DS components so a DS design change reaches it; its tables needed four things TableWidget lacked, so he chose to add them here.
+- Changed: `react/src/components/TableWidget.tsx` new optional props `startRank` (default 1; below 1, not a whole number or not a number counts as 1), `showRank` (default true; false drops the `#` th/td and the empty-row colSpan follows), `rowMuted(row, index)` (adds `vs-table-row--muted`), `columns[].align` (`left|center|right`, default and fallback `right`, title and cells together). `react/src/styles.css`: `.vs-table-row--muted td` uses `--vs-color-text-muted`. `react/src/index.ts`: exports `TableColumnAlign`. `docs/components/table.html`: props table. New `TableWidget.test.tsx` (20 tests). No default behaviour changed.
+- Checked: `vitest run` 476/476 pass (33 files); `tsc --noEmit` exit 0; `check-tokens` OK; with TableWidget.tsx reverted, 7 of the 20 new tests fail.
+- Not verified: a browser look; the Blade `x-vs-table` has none of these options (not asked); the muted colour contrast.
+
+---
+
+## 2026-11-28 - Docs menu: sections "Basics" -> "General", "Feedback" -> "Info Display"; branch claude/hopeful-bardeen-n2x75g; not merged
+
+- Asked: Master KMO: rename the two Components menu sections. Changed: the two `name` values in `docs/assets/shell.js` (their toggle ids follow: `vs-docs-toggle-components-general`, `-info-display`; nothing else uses them) and the CSS comment. Same pages in each section.
+- Checked: Chromium, all 48 docs pages, one menu each, no page errors; Button page opens "General", Alert page opens "Info Display".
+- Also (Master KMO): the Donut Chart menu icon was the line-chart icon; now Lucide `chart-pie` (paths copied from `lucide-react`'s `chart-pie.js`). Checked in Chromium: 2 paths drawn, no page errors. Bar Chart icon: Lucide `align-end-horizontal` (two standing blocks on a base line), chosen by Master KMO from 7 candidates (paths from `lucide-react`).
+- Not deployed.
+
+---
+
+## 2026-11-28 - Docs deployed (`main` `b2c1f8a`): Components menu in sections
+
+- Deployed by Master KMO on the VPS with the same one `set -e` command as `2850378`. Output: `commit: b2c1f8a`, backup `/var/www/ds.vectorsticker.com.bak-20261128-045642`, `/`, `/components/button.html`, `/components/date-range-selector.html`, `/assets/shell.js`, `/assets/shell.css` all `200`, `/CI_COST_RULES.md` `404`, `menu sections: 4`, `section styles: 1`. Only `/var/www/ds.vectorsticker.com` was touched.
+- A first run a few minutes earlier (backup `...bak-20261128-045517`) went out before #133 was merged, so it re-copied `2850378` (markers `0` / `0`); no harm, nothing changed. Cause: the "merge first" note was mixed into a long reply; Master KMO asked that steps to do first be marked with 🚨.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261128-045642/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the menu in a browser from this session (its network cannot reach the site).
+
+---
+
+## 2026-11-28 - Docs menu: Components split into 9 collapsible sub-sections; merged as `b2c1f8a` (#133)
+
+- Asked: Master KMO: the Components menu is too long, group it; chose 1a (collapsible sub-sections inside Components, the one holding the current page open) and 2a (the 9 groups proposed).
+- Changed: `docs/assets/shell.js`: the Components entry has `sections` (Basics 5, Feedback 4, Cards 3, Data Display 3, Charts 3, Navigation 4, Filters & Dates 3, Overlays 3, Forms 10; all 38 pages kept, no URL changed); each section is a button (`aria-expanded` / `aria-controls`) with its page count; one open at a time, the one holding the current page open (else the first); menu search opens only the sections with a match and hides the rest, an empty box restores the default. `docs/assets/shell.css`: sub-section row styles (tokens only), no chevron turn with reduced motion.
+- Checked: Chromium 1280 x 800 on the Date Range Selector page: 15 menu rows visible (before 41), menu height 625 px (before 1613), only "Filters & Dates" open; opening Charts closes it; clicking Bar Chart keeps the link at the same screen spot (424 px before and after); search "chart" shows only the 3 charts, "xyz" hides every group, an empty box restores; from Colors, opening Components shows Basics; all 48 docs pages draw one menu, the current page link is visible, no page errors.
+- Not verified: Safari / Firefox; a screen reader. Docs site not deployed.
+
+---
+
+## 2026-11-28 - Docs deployed (`main` `2850378`): side menu keeps its place, Date Range Selector pill look
+
+- Deployed by Master KMO on the VPS (ssh as `deploy`) with one `set -e` command: hostname check `vectorsticker`, shallow clone of `main`, backup `/var/www/ds.vectorsticker.com.bak-20261128-044502`, `rsync -rt` of `docs/` excluding `CI_COST_RULES.md` (no `--delete`), `chown -R www-data:www-data`. Output: `/`, `/components/date-range-selector.html`, `/components/pagination.html`, `/assets/shell.js`, `/assets/shell.css` all `200`, `/CI_COST_RULES.md` `404`, `menu keep-place: 1`, `view transition: 1`. Only `/var/www/ds.vectorsticker.com` was touched; no Apache or pm2 restart.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261128-044502/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the `commit:` line was not in the pasted output (the two markers show the new `shell.js` / `shell.css` are there); the pages in a browser (this session's network cannot reach the site).
+
+---
+
+## 2026-11-28 - Docs deployed (`main` `2d29dc4`): Animation & Effects > Live Dot page
+
+- Deployed by Master KMO on the VPS (hostname `vectorsticker`, user `deploy`), the same one command as the `84a3574` docs deploy (`set -e` subshell, shallow clone, backup, `rsync -rt` of `docs/` excluding `CI_COST_RULES.md`, `chown`). Output: `commit: 2d29dc4`, backup `/var/www/ds.vectorsticker.com.bak-20261128-034745`, `/`, `/animation/live-dot.html`, `/animation/text-effects.html`, `/components/line-chart.html` all `200`, `/CI_COST_RULES.md` `404`, `menu entry: 1`, `live-dot css: 1`. Only `/var/www/ds.vectorsticker.com` was touched.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261128-034745/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the page in a browser on the live site (this session cannot reach it).
+
+---
+
+## 2026-11-28 - Docs menu keeps its place between pages; DateRangeSelector gets the pill look by default; merged as `2850378` (#132)
+
+- Asked: Master KMO: (2) after a page loads the menu link just clicked has to be found again: only the right side should change, not the left menu; (3) the reports dashboard's period selector (pill track, dark selected button, calendar button) as the DateRangeSelector default.
+- Changed (`a300a4e`): `docs/assets/shell.js`: the menu is drawn as soon as the script runs (it sits at the end of `<body>`), its scroll position is saved in `sessionStorage` on a menu click / `pagehide` and restored before the first paint; a page opened directly scrolls its own link into view; storage errors are caught. `docs/assets/shell.css`: cross-document view transitions (`@view-transition`), the menu is one still layer, the page area fades 150 ms (none with reduced motion). (`2581c03`): `react/src/styles.css`: `.vs-date-range__desktop` = pill track (4px, no gap), buttons 56 x 36 px round, 13px / 500, body colour, selected `--vs-color-brand-secondary` + `--vs-color-surface`; phone trigger round (`--vs-radius-full`). Scoped to the selector: SegmentedControl / TableWidget tabs unchanged. Docs page demo CSS and measurement guide updated.
+- Checked: `vitest run` 32 files, 456 pass; `tsc --noEmit` exit 0; `check:tokens` OK. Chromium (local static server) at 1280 x 600: before, after a menu click the menu was back at the top (scrollTop 0, the clicked link 1164 px down); after, the clicked link stays at the same screen spot (5 clicks, incl. switching group), a page opened directly shows its link in view, blocked `sessionStorage` = no error, all 48 docs pages draw one menu + one top bar with no page errors, 390 px menu works; the view transition runs (`pagereveal` has one). Date range docs demo: 36 / 56 px, `rgb(34,34,34)` / white, 9999px radius. In the reports site with this source: same computed styles as its own override, identical headers.
+- Also fixed (Master KMO: "complete those new tasks"; ticket kyawmoo/vs-designsystem#131): `./liveDot` (in `LineChart.tsx` / `BarChart.tsx`) was resolved to `LiveDot.tsx` by the reports site's `vite` dev-server pre-bundle (esbuild), so `vite` dev failed with the current `main` (`vite build` was fine). `liveDot.ts` renamed to `liveDotPlugin.ts`, imports updated, no behaviour change. Checked: 456 tests pass, tsc ok; the reports site's `vite --force` with this source: 0 optimizer errors, app loads (before: 'No matching export in LiveDot.tsx'); no two files in `react/src` differ only in case.
+- Not verified: Safari / Firefox (Firefox has no cross-document view transitions; the scroll restore still works there by design, not tested).
+- Open: docs site deploy; reports site: lock bump, then delete its own date-range CSS.
+
+---
+
+## 2026-11-28 - SummaryCardCarousel added (moved from the reports dashboard), for kyawmoo/Report-VectorSticker#73; branch claude/jolly-rubin-rpz0bd; not merged
+
+- Asked: Master KMO: "B" = do reports ticket #73 (move `SummaryCardCarousel` into the package, document it, then switch the dashboard over).
+- Changed: new `SummaryCardCarousel` (`react/src/components/SummaryCardCarousel.tsx`, exported from `index.ts`): same layout as the dashboard's local copy: grid from 768px (2 columns, 4 from 1024px, 5 from 1280px when there are exactly five cards, gap 1rem), under 768px one swipeable row with 88% wide cards and a dot per card. Built on `SwipeCarousel`, which gets one optional prop, `mobileClassName` (default `'sm:hidden'`, so every existing use is unchanged): the swipe row must hide where the grid appears (768px here). Docs page `docs/components/summary-card-carousel.html` + sidebar entry in `docs/assets/shell.js`. 11 new tests (`SummaryCardCarousel.test.tsx`, `SwipeCarousel.test.tsx`).
+- Differences from the local copy, all in the phone swipe row: dots are buttons that scroll to their card (were plain marks), 20 px / 8 px (were 16 px / 6 px), the active dot is `--vs-color-brand-primary` (was the dashboard's old teal `--vs-color-brand`). The dashboard hides that row at every call site (`hidden md:block`), so the grid it shows is unchanged.
+- Checked: `vitest run` 31 files, 452 tests pass; the 2 tests that need `mobileClassName` fail without it; `tsc --noEmit` exit 0; `check:tokens` OK; docs page in Chromium at 1440 / 390 px (no JS error, no sideways scroll, sidebar entry present).
+- Open: the component with the real Tailwind build is checked in the dashboard after this is merged (the dashboard's Tailwind scans `react/src`); `SwipeCarousel` still relies on the site's `no-scrollbar` utility and has a raw `#d1d5db` for the inactive dot (not changed here). Docs site not deployed.
+
+---
+
+## 2026-11-27 - LiveDot: the chart's live dot as its own component (React `LiveDot`, Blade `<x-vs-live-dot>`) and an Animation & Effects page; merged as `2d29dc4` (#128)
+
+- Asked: Master KMO: the ripple in the Animation section, usable on its own, not only in charts; chose 1a (name `LiveDot` / `x-vs-live-dot`) and 2a (React and Blade).
+- Changed: CSS: the live-dot rules became the `vs-live-dot` block (start/end markers), identical in `react/src/styles.css` and `blade/components.css` (+ docs copy); new `--inline` (in the text flow, no fade-in), `--lg` (12px, 4x), `--still` (no ripple); default colour `--vs-color-brand-primary` when none is set; the chart look is unchanged. `check-tokens.mjs` (new check 9): the two copies must match, every `--vs-*` token read must exist, reduced motion must stop the ripple. New `react/src/components/LiveDot.tsx` (`color`, `size` sm/md/lg, `ripple`, `label` -> `role="img"` + name, else `aria-hidden`; other props passed on), exported from `index.ts`. New `blade/components/vs-live-dot.blade.php` (same props; `color` only `var(--vs-...)` or hex, anything else ignored; `style` merged after the colour). New `docs/animation/live-dot.html` (sizes, colours, avatar / text examples, usage, props) and its menu entry; `blade/README.md` section.
+- Checked: `vitest run` 30 files, 445 pass (4 new); `tsc --noEmit` exit 0; `check:tokens` OK. Blade rendered with a real Laravel view engine (illuminate/view 10, scratch dir): default, sm + no ripple + token colour + label + class/id, lg + hex + caller `style` (first run showed the two styles joined without `;`: fixed), a CSS-injection colour and `" onclick=` both dropped, `<b>` in the label escaped. Docs page in Chromium (local static server) at 1280 / 390 px and with reduced motion: menu entry, 10 dots with the right sizes and colours, ripple running (`none` with reduced motion), no sideways scroll, no page errors.
+- Not verified: Safari / Firefox; the Blade component on the main site (not copied there). (Drift check provoked: changing one value in the Blade copy fails `check:tokens` with "the vs-live-dot block differs".)
+- Open: docs site deploy; reports site may use `LiveDot` after the next package bump (nothing there needs it now).
+
+---
+
+## 2026-11-27 - Docs deployed (`main` `84a3574`): live dot rows on LineChart / BarChart, Date Range Selector phone pills
+
+- Deployed by Master KMO on the VPS (ssh as `deploy`, hostname `vectorsticker`), one command in a `set -e` subshell: shallow clone of `main` over HTTPS, backup `/var/www/ds.vectorsticker.com.bak-20261127-180922`, `rsync -rt` of `docs/` with `--exclude 'CI_COST_RULES.md'` (internal rules stay off the docs site; no `--delete`), `chown -R www-data:www-data`, temp dir removed. Output: `commit: 84a3574`, `/`, `/components/line-chart.html`, `/components/bar-chart.html`, `/components/date-range-selector.html` all `200`, `/CI_COST_RULES.md` `404`, `liveDot rows: 1`. `sudo` asked for the password three times (two typos). Only `/var/www/ds.vectorsticker.com` was touched; no Apache or pm2 restart.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261127-180922/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the pages in a browser (this session's network cannot reach the site).
+
+---
+
+## 2026-11-27 - LineChart / BarChart: live dot with a soft ripple on the newest reading of every line (`liveDot`, default on); merged as `84a3574` (#127)
+
+- Asked: Master KMO: the live dot of the reports site's Site Monitor CPU line on every line graph, sparklines included; chose 1a (build it in the design system), 2a (every line that ends at today/now), 3a (smaller on sparklines).
+- Changed: new `react/src/components/liveDot.ts` (`newestIndex`, `liveDotPlugin`: an HTML dot placed over the canvas on the point's final position after every draw; hidden when the point is missing or outside the plot). `LineChart` and `BarChart` get `liveDot` (default `true`): one dot per line series on the newest value up to today, in the series colour, replacing the hollow today point; sparklines get `--sm`; BarChart bars get none; `lineStyle="markers"` keeps the large dark today dot and its halo becomes the ripple (`--ring`, `--vs-chart-today-marker` colour); a dot fades in once the line has drawn up to it. `styles.css`: `.vs-live-dot` (8px, ripple to 5.5x, 50% to 0, 2.4s; `--sm` 5px / 3.5x; `--ring` 20px / 2.6x), no ripple with reduced motion. Docs: rule and prop rows on the LineChart and BarChart pages (static demos not animated).
+- Checked: `vitest run` 29 files, 441 tests pass (7 new; 3 old expectations changed for the added plugin; the markers halo test now runs with `liveDot={false}`); turning the default off fails 10 tests, drawing the halo with the ring fails the ring test; `tsc --noEmit` exit 0; `check:tokens` OK. In the reports site with this source copied in: its lint, 1011 tests and Chromium at 960 px on fixture data: dot on a SummaryCard sparkline (5px), area LineChart, Revenue-style bar + line, the desktop Visitors markers chart (ring), Site Monitor; ripple running, `none` with reduced motion; no page errors.
+- Open: reports site: bump the package and drop its own `.vs-live-dot` CSS (done on its branch, waiting for this merge). Docs site not deployed.
+- Not verified: Safari / Firefox; touch; real data.
+
+---
+
+## 2026-11-27 - DateRangeSelector: opt-in phone pills (`phoneLayout="pills"`), for kyawmoo/Report-VectorSticker#366; branch claude/jolly-rubin-rpz0bd; not merged
+
+- Asked: Master KMO: do kyawmoo/Report-VectorSticker#366 (the ticket sits in the reports repo; the change is this component).
+- Changed: `DateRangeSelector` gets `phoneLayout` (`'button'` default, unchanged; `'pills'`): under 768px every option is a round pill in a sideways-scrolling row, the selected one dark (`--vs-color-brand-secondary`, `aria-pressed="true"`); with `allowCustom` a Custom pill opens the same RangeCalendar bottom sheet (Apply calls `onCustomChange`, then `onChange('custom')`); no trigger and no FilterSheet in that mode. Desktop unchanged. Styles `.vs-date-range__pills` / `__pill` in `react/src/styles.css` (tokens only; the look of the reports site's approved phone pills). Docs page: new "On a phone: pills" section, usage line, `phoneLayout` prop row. 8 new tests.
+- Checked: `vitest run` 29 files, 434 tests pass; the 6 pills tests fail with the old component; `tsc --noEmit` exit 0; `check:tokens` OK. Chromium with the real component: 320 / 390 px no sideways page scroll, the pill row scrolls inside itself, tapping 90D presses only 90D, Custom opens the bottom sheet; 1024 px pills hidden, desktop buttons shown; no page errors.
+- Open: the reports site uses it on Server Health after this is merged (package bump + `phoneLayout="pills"`). Docs site not deployed.
+
+---
+
+## 2026-11-27 - CI cost rules: money amounts and other repository names removed (public repo); branch claude/gracious-gauss-hwjdhk; not merged
+
+- Asked: Master KMO: keep the repo public, remove the amounts and repo names from `docs/CI_COST_RULES.md`.
+- Changed: `docs/CI_COST_RULES.md` only: the list of the other repositories, the November usage per repository, the included-compute amount and the budget amounts are gone; the rules themselves are unchanged. A line says this public copy leaves them out, so it now differs from the copies in the private repositories.
+- Not changed: the text stays in git history (#123) and anywhere it was copied while public; the repo stays public. Docs site not deployed (with `CI_COST_RULES.md` excluded, nothing in `docs/` changed since `c17a28e`).
+
+---
+
+## 2026-11-27 - CI cost rules added (docs only); branch claude/gracious-gauss-hwjdhk; not merged
+
+- Asked: Master KMO: add the shared CI cost rules (the same text in every repository of the account). Tier A, docs only.
+- Changed: new `docs/CI_COST_RULES.md` (the exact text given); a short "CI Cost Rules" section at the end of `CLAUDE.md` pointing to it; this entry. No workflow, code or config changed; no CI re-run or workflow_dispatch.
+- Note: `docs/` is what the deploy copies (`rsync -rt docs/`), so the next docs deploy will also put `CI_COST_RULES.md` on ds.vectorsticker.com. The repo is public, so the text is already public on GitHub.
+- Open: PR not opened (Master KMO to decide).
+
+---
+
+## 2026-11-26 - Docs: fourth deploy of the day (`main` `c17a28e`, PR #121 added): every page reads as titled cards
+
+- Asked: Master KMO: do all the pages, no questions.
+- Merged by Claude: #121 (squash) after its CI was green on the head `44b0bd6` (5 of 5) and `mergeable_state` was clean.
+- Deployed by Master KMO on the VPS (ssh as `deploy` with `~/.ssh/vectorsticker_ed25519`, hostname check `vectorsticker`), the same one command as the earlier deploys. Output shown: `commit: c17a28e Docs: every remaining section becomes a titled card (#121)`, backup `/var/www/ds.vectorsticker.com.bak-20261126-105945`, `/`, `/components/button.html`, `/components/table.html`, `/components/alert.html`, `/components/checkbox.html`, `/foundations/colors.html`, `/animation/text-effects.html` all `200`, `all-sections cards in live shell.js: 6`. Only `/var/www/ds.vectorsticker.com` was touched.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261126-105945/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the live pages in a browser by Claude (this session cannot reach ds.vectorsticker.com); 43 of the 46 pages by eye in the local run (only Table, Alert, Checkbox, Card, Avatar, Meter, Colors, Tabs, Badge, Button were looked at); charts (Chart.js from a CDN did not draw in the sandbox).
+
+---
+
+## 2026-11-26 - Docs: every remaining section becomes a titled card, so all pages read as cards (shell.js); branch claude/all-sections-cards; not merged
+
+- Asked: Master KMO: do all the pages, no questions.
+- Changed (docs shell only, no page HTML): `docs/assets/shell.js`: after the earlier steps, every section still left (a title with several demos) becomes one `article.vs-docs-card` with the title as a small card title and the demos inside; the section id moves to the card; a title with nothing visual under it is removed and leaves a hidden anchor with its id; code blocks that sat under such a title go to the drawer under that title (data-vs-drawer). `docs/assets/shell.css`: card spacing, no margin under the last demo of a card.
+- Checked: Chromium (Playwright, files served from `docs/`) on all 46 pages at 1440 and 390px: no JS error, no sideways scroll; every `id` written in the source of every page still exists (Text Effects: `title-wipe`, `number-count-up`, `adding-an-effect`); Table, Alert, Checkbox looked at full page (stacked titled cards, no stray big titles).
+- Not verified: the other pages by eye; WebKit and Firefox locally (CI runs `reveal-check`); the live site (needs a deploy). Charts (Chart.js from a CDN) did not draw in the sandbox.
+
+---
+
+## 2026-11-26 - Docs: third deploy of the day (`main` `57f8ffc`, PR #119 added)
+
+- Asked: Master KMO: merge and deploy the titled-cards change (runs of one-demo sections become a grid of titled cards).
+- Merged by Claude: #119 (squash) after its CI was green on the head `8ba717a` (5 of 5) and a merge conflict in `HISTORY.md` with #118 was fixed by merging `main` into the branch.
+- Deployed by Master KMO on the VPS (ssh as `deploy` with `~/.ssh/vectorsticker_ed25519`, hostname check `vectorsticker`), the same one command as the earlier deploys. Output shown: `commit: 57f8ffc Docs: runs of one-demo sections become a grid of titled cards (#119)`, backup `/var/www/ds.vectorsticker.com.bak-20261126-103225`, `/`, `/components/button.html`, `/components/avatar.html`, `/components/meter.html`, `/components/tabs.html`, `/animation/text-effects.html` all `200`, `titled cards in live shell.js: 2`. Only `/var/www/ds.vectorsticker.com` was touched.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261126-103225/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the live pages in a browser by Claude (this session cannot reach ds.vectorsticker.com); the affected pages other than Avatar and Meter by eye. Pages with several demos in one section are still in their old layout (a hand-built layout, as Button and Badge, is needed).
+
+---
+
+## 2026-11-26 - Docs: runs of sections that each hold one demo become a grid of titled cards (shell.js); branch claude/simple-sections-cards; not merged
+
+- Asked: Master KMO: "proceed" (continue the new card layout on the other pages).
+- Changed (docs shell only): `docs/assets/shell.js`: two or more sections in a row that each hold just one `.vs-docs-preview` box become one `.vs-docs-cards` grid; the section title is the card title (small), the section id moves to the card. A lone such section stays a title with its box. `docs/assets/shell.css`: the box inside a card has no border or padding of its own (no box inside a box). In the local run this applies to Avatar, Breakdown List, Date Range Selector, Donut Chart, Empty State, Meter, Navigation (2 runs), Popover and Rank Pill, and also joins Bar Chart, Line Chart and Tabs.
+- Checked: Chromium (Playwright, files served from `docs/`) on all 46 pages at 1440 and 390px: no JS error, no sideways scroll; every `id` written in the source of every page still exists; Avatar and Meter looked at (three equal cards each).
+- Not verified: the other pages in this list by eye; WebKit and Firefox; the live site (needs another deploy). Pages with several demos per section, or demos in their own grids and tables, are unchanged (hand-built layout still needed, as Button and Badge).
+
+---
+
+## 2026-11-26 - Docs: second deploy of the day (`main` `e6568d7`, PRs #116 and #117 added)
+
+- Asked: Master KMO: merge the open docs PRs and tell him to deploy.
+- Merged by Claude (merge commits, in order): #111 shell, #112 Button page, #113 Badge page, #114 every page through the shell, #115 reference sections to the drawer; #116 (deploy record) and #117 (equal demo cards) by squash. CI was green on each head before its merge. #106 and #102 are older open PRs, not part of this work, not touched.
+- Deployed by Master KMO on the VPS (ssh as `deploy` with `~/.ssh/vectorsticker_ed25519`, hostname check `vectorsticker`), the same one command as the first deploy of the day. Output shown: `commit: e6568d7 Docs: group consecutive demo boxes into equal cards (#117)`, backup `/var/www/ds.vectorsticker.com.bak-20261126-085450`, `/`, `/components/button.html`, `/components/badge.html`, `/components/tabs.html`, `/animation/text-effects.html` all `200`, `grouping in live shell.js: 1`. Only `/var/www/ds.vectorsticker.com` was touched.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261126-085450/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the live pages in a browser by Claude (this session cannot reach ds.vectorsticker.com); Chart.js charts on the live Bar and Line Chart pages.
+
+---
+
+## 2026-11-26 - Docs: two or more demo boxes in a row become equal cards side by side (shell.js); branch claude/group-demos; not merged
+
+- Asked: Master KMO: the layout is good; continue with the other pages.
+- Changed (docs shell only): `docs/assets/shell.js` groups consecutive `.vs-docs-preview`, `.demo-browser` and `.demo-redline` boxes (two or more) into a `.vs-docs-cards.is-wide` grid; a lone box and demos that already sit in their own grid or table stay as they were. `docs/assets/shell.css`: no margin and `min-width: 0` for those boxes inside the grid. In the local run only Bar Chart, Line Chart and Tabs have such a run.
+- Checked: Chromium (Playwright, files served from `docs/`) on all 46 pages at 1440 and 390px: no JS error, no sideways scroll; every `id` in the source of every page still exists; Bar Chart looked at (two cards side by side; the charts themselves did not draw in the sandbox because Chart.js comes from a CDN it cannot reach).
+- Not verified: Line Chart and Tabs by eye; WebKit and Firefox; the live site.
+- Open: most other pages have one demo per section or demos in their own grids, so a hand-built card layout (as Button and Badge) is still needed to make them look the same.
+
+---
+
+## 2026-11-26 - Docs: the new white layout deployed (PRs #111 to #115, `main` `166b3d7`)
+
+- Asked: Master KMO: deploy the new docs layout (shell, Button and Badge pages, the tidy-up of all pages, reference sections in the Code drawer).
+- Deployed by Master KMO on the VPS (ssh as `deploy`, hostname check `vectorsticker`), one command under `set -e`: shallow clone of `main` over HTTPS, check that the new `shell.js` has the drawer code, backup `/var/www/ds.vectorsticker.com.bak-20261126-080953`, `rsync -rt docs/` into `/var/www/ds.vectorsticker.com` (no `--delete`), `chown -R www-data:www-data`, temp dir removed. Output shown: `commit: 166b3d7 Merge pull request #115`, `/`, `/components/button.html`, `/components/badge.html` and `/animation/text-effects.html` all `200`, `drawer in live shell.js: 4`. Only `/var/www/ds.vectorsticker.com` was touched; no Apache or pm2 restart, main site and reports site not touched.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261126-080953/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the live pages in a browser (this session cannot reach ds.vectorsticker.com); the 41 pages other than Button and Badge on the live site; their demos are still in their old layout (not regrouped into equal cards).
+
+---
+
+## 2026-11-26 - Docs: reference sections (props, measurements, anatomy, accessibility, tokens, usage, Blade) also go to the Code drawer; branch claude/card-tabs-table (on top of claude/all-pages); not merged
+
+- Asked: Master KMO: proceed with Card, Tabs and Table. They are large pages with many live demos, so instead of rewriting each by hand the generic tidy-up in `shell.js` now also sends a whole section to the drawer when its title starts with props, measurement, anatomy, redline, spec, token, design token, accessib, keyboard, usage -, rollout, api, blade or governance (demos included).
+- Checked: Chromium (Playwright, files served from `docs/`) on all 46 pages at 1440 and 390px: no JS error, no sideways scroll; every `id` written in the source of every page still exists; Card, Table and Tabs looked at (full page).
+- Not verified: the demos of Card, Tabs and Table are still in their old layout (not regrouped into equal cards by hand); WebKit and Firefox; `reveal-check` (CI runs it); the live site.
+
+---
+
+## 2026-11-26 - Docs: every page follows the new layout through the shell (text, notes and spec tables move to the Code drawer); branch claude/all-pages (on top of claude/badge-page); not merged
+
+- Asked: Master KMO: do all the pages one after another, as fast as possible, no approval questions.
+- Changed (docs shell only, no page HTML): `docs/assets/shell.js` tidies a page that is not already written in `<section>`s: a section head becomes a plain title; the paragraphs, lists, callouts, spec tables (tables without demos) and section notes of each section move to the Code drawer under the section's title (with the code blocks); sections left with nothing are dropped; the demos stay. `docs/assets/shell.css`: previews are white cards (18px radius), the drawer's text padding, and on phones wide demos and tables scroll inside themselves. A short line under a title is not added by the script; add `.vs-docs-lead` by hand where it is needed.
+- Checked: Chromium (Playwright, files served from `docs/`) on all 46 pages at 1440 and 390px: no JS error, no sideways scroll, no paragraph, list, callout or code block left directly in the page, every page has a Code drawer; samples looked at: card, tabs, colors; `npm run check:tokens` OK.
+- CI found a break: `reveal-check` (all three browsers) needs the ids `title-wipe`, `number-count-up`, `adding-an-effect` on the Text Effects page, and the tidy-up had dropped the "Adding an effect" heading (all its content went to the drawer). Fixed: a dropped heading leaves its id behind (a hidden anchor), and a section head's own id moves to its title. Checked in Chromium: the three ids exist, and every `id` written in the source of all 46 pages still exists after the script runs.
+- Not verified: every page by eye (only card, tabs, colors, badge, button looked at); WebKit and Firefox; the live site. Pages that keep text inside their own demo blocks keep it. Button and Badge are hand-built; the other pages use the generic tidy-up, so their demos are not yet grouped into equal cards.
+
+---
+
+## 2026-11-26 - Docs: Badge page in the new card layout; branch claude/badge-page (on top of claude/button-page); not merged
+
+- Asked: Master KMO: continue the new design with Badge, Card and Tabs (Badge first).
+- Changed (docs only): `docs/components/badge.html`: one section "Tones" with four equal cards (Semantic, Product, Item status, Dot); the notes, usage (React, Blade) and props are in the Code drawer (`data-vs-drawer`). Same badges and colours as before.
+- Checked: Chromium (Playwright, files served from `docs/`) at 1440 and 390px: no code block left in the page, 5 drawer cards, no JS error, no sideways scroll; `npm run check:tokens` OK.
+- Not verified: WebKit and Firefox; the live site.
+
+---
+
+## 2026-11-26 - Docs: Button page in the new card layout; branch claude/button-page (on top of claude/new-docs-shell); not merged
+
+- Asked: Master KMO: rewrite the Button page in the new design (sections of equal cards, code hidden in the Code drawer).
+- Changed (docs only): `docs/components/button.html` rebuilt from its own content: sections Emphasis (Primary, Secondary, Tertiary, Accent: sizes + Default / Hover / Pressed / Disabled), Formats (icon only, icon + text, text only), Special (social, Google, support), In context, Do and don't; the usage code, props, spec table (redlines), audit and copy buttons are in the Code drawer through `data-vs-drawer="Title"` (new in `shell.js`; any block can use it). `shell.css`: generic card grid (`.vs-docs-cards`, `.vs-docs-card`, `.is-quad` = 2 x 2, or 4 across from 1700px), optional one line under a section title (`.vs-docs-lead`), section spacing.
+- Checked: Chromium (Playwright, files served from `docs/`) at 1440, 1920 and 390px: no code block left in the page, 7 drawer cards, no JS error, no sideways scroll.
+- Not verified: Font Awesome icons (the sandbox cannot load the CDN, icons showed empty); WebKit and Firefox; the old matrix (all sizes x states of every variant) is now sizes + states per card, not one table; the live site.
+
+---
+
+## 2026-11-26 - Docs: new white shell for the whole site (sidebar, top bar, fluid body, Code drawer); branch claude/new-docs-shell; not merged
+
+- Asked: Master KMO: the docs look boring; white page, side menu + fluid body (side padding in %, no fixed width), big centred title, less text, design first, the code hidden in one big obvious place; no numbers or circles; "start implementing the whole ds site".
+- Changed (docs shell only, no component code, no page HTML): `docs/assets/shell.css` (white sidebar, top bar, centred title, body padding 5% with at least 16px, section titles 24 to 32px, wide tables scroll on phones, Code drawer styles) and `docs/assets/shell.js` (adds the top bar with breadcrumb + menu search, and moves every `.vs-docs-code-block` and the page lede into a "Code" drawer opened by the big button at the bottom right; one card open at a time; without the script the page stays as before). All 45 pages get it through the shared files.
+- Checked: `npm run check:tokens` OK; Chromium (Playwright, files served from `docs/`) on badge, button, tabs, text-effects, colors and the index at 1440px and 390px: the top bar, title and Code button show, no code block is left in the page, no JS error, no sideways scroll except text-effects at 390px (a table, fixed after).
+- Not verified: WebKit and Firefox; `npm run test:browser`; the other 39 pages one by one; the live site (Master KMO deploys the docs); a screen reader.
+
+---
+
+## 2026-11-26 - Docs: third menu section "Animation & Effects" (Reveal, Rewind Reveal, Text Effects moved there); merged (#109, `26b2bfa`); docs deployed
+
+- Asked: Master KMO: the docs have three sections, Foundations, Components and Animation & Effects; every animation and effect goes in the last one. Decision (b): the pages move too, not only the menu.
+- Changed (docs and checks only, no component code): `docs/components/{reveal,rewind-reveal,text-effects}.html` moved to `docs/animation/` (git mv); the menu (`docs/assets/shell.js`) has the new group after Components; the eyebrow of the three pages says "Animation & Effects"; links updated in `docs/components/line-chart.html`, `docs/animation/reveal.html`, `docs/animation/text-effects.html`, `react/browser/reveal-check.mjs`, `.github/workflows/reveal-browser-check.yml`, `blade/README.md`. The demo files stay in `docs/assets/`. Older HISTORY lines keep the old paths (they are a record).
+- Checked: `npm run test:browser -- --browsers=chromium` all pass (it opens the moved pages and checks the menu entries); `check-tokens` OK; Chromium on the local docs: the three pages answer 200 at `/animation/...` with "Animation & Effects" open and the page marked, Components pages open Components, the old `/components/...` addresses answer 404, no page errors.
+- Deploy note: the docs deploy is `rsync` without `--delete`, so the old three files stay on the server until they are removed by hand. Not verified: WebKit and Firefox locally (CI runs them); the live docs site (not deployed).
+- CI on #109 and on `main` `26b2bfa`: `design-system-checks` and `reveal-browser-check` (chromium, webkit, firefox) all success (looked at after the merge).
+- Docs deployed by Master KMO on the VPS (hostname check `vectorsticker`, user `deploy`), one command under `set -e`: shallow clone of `main` over HTTPS to a temp dir, backup `/var/www/ds.vectorsticker.com.bak-<date-time>`, `rsync -rt docs/` into `/var/www/ds.vectorsticker.com`, the three old files `components/{reveal,rewind-reveal,text-effects}.html` removed, `chown -R www-data:www-data`, temp dir removed. Output: `animation/reveal.html 200`, `animation/rewind-reveal.html 200`, `animation/text-effects.html 200`, `components/reveal.html 404`. This was also the first deploy of the Rewind Reveal page. Only `/var/www/ds.vectorsticker.com` was touched; no Apache or pm2 restart, main site and reports site not touched.
+- Not verified: the commit line of the clone (not in the output shown; the `animation/` pages answering 200 exist only from `26b2bfa`); the pages in a browser (this session cannot reach ds.vectorsticker.com).
+
+---
+
+## 2026-11-25 - BarChart soft bars widen on a short range (up to 32px); branch claude/barchart-soft-few-days; not merged
+
+- Asked: Master KMO (Reports live screenshot, 7 days): the downloads bars should be wide when there are only a few days; option (a): half of the column, at most 32px.
+- Changed: `barStyle="soft"` on a short range (`BAR_CHART_FEW_DAYS`, 10 slots or fewer including the empty day after today) caps the bars at the new `SOFT_BAR_FEW_DAYS_MAX_WIDTH` 32px instead of 12px; still `barPercentage` 0.5. 11 slots or more keep 12px. This replaces the rule of the entry below ("same for few and many days"). Docs (`bar-chart.html`) updated.
+- Checked: `react` 388 tests pass (1 changed, 1 new); reverting the code makes 2 tests fail; `tsc --noEmit` exit 0; `check:tokens` OK. Reports app with this change (local copy, API mocked, Chromium 1440px): 7D bars about 32px wide, 30D unchanged at 12px.
+- Not verified: touch devices; real data.
+
+---
+
+## 2026-11-25 - Rewind Reveal: a timeline fills in newest first (CSS + plain script + React); branch claude/rewind-reveal; not merged
+
+- Asked: Master KMO: an effect for a calendar where today appears first and the earlier days follow one after the other, to be used on social.designkmo.com (vanilla JS, no React) and easy to use from the DS. Decision (a): CSS + a small plain script as the base, React on top, a docs page with a demo.
+- Added: tokens `--vs-motion-rewind-duration` 360ms and `--vs-motion-rewind-step` 30ms (tokens.css, tokens.json, docs copy); CSS block `vs-rewind` (identical in `react/src/styles.css` and `blade/components.css`, off under reduced motion); `blade/rewind-reveal.js` (`VsRewind.apply / clear / indexByDay`, copy in `docs/assets`); React `RewindItem` and `rewindIndexes` (exported); docs page `components/rewind-reveal.html` with a demo (`assets/rewind-demo.html`) and a sidebar entry. Order: today step 0, earlier days 1, 2, 3 newest first, days after today not animated, steps stop at `maxSteps` (default 18, at most 60).
+- Checked: `tsc --noEmit` exit 0; 425 tests (29 files) pass, 38 of them new; 9 mutations of the new code (sort order, future days, cap, today step, negative index, dropped style, no reset) each fail a test; `check-tokens` OK and fails when the two CSS blocks or the script copy differ; Chromium (Playwright) on the demo: today delay 0s, 11 Nov 0.03s, 5 Nov 0.21s, days after today no animation, reduced motion no animation, opacity 0 then 1 over time, no page errors; the docs page opens with its sidebar entry.
+- Not verified: WebKit and Firefox; a screen reader; touch; the docs page after a deploy (Master KMO deploys the docs). The 360ms / 30ms times are an Estimate from the frames of a reference recording, not tested with users. Not done here: using it on social.designkmo.com (a separate task, next).
+
+---
+
+## 2026-11-25 - BarChart soft bars stand on the axis, tooltip beside the line point; branch claude/barchart-tooltip-bars; not merged
+
+- Asked: Master KMO, after the Reports deploy (screenshot): the tooltip covered the today dot and line; soft bars should have small bottom corners and a rounder top so they stand; bar width should follow the room but stop at a standard size.
+- Changed: `barStyle="soft"` bars take half of the day's column up to `SOFT_BAR_MAX_WIDTH` 12px (same for few and many days), corners top 999 / bottom 5 (`SOFT_BAR_BOTTOM_RADIUS`). `lineStyle="markers"`: tooltip positioner `vsLinePoint` (exported `linePointPosition`) anchors on the line point instead of Chart.js's average of bar top and point; `yAlign: 'center'`, caret 8, caret padding 21 (today halo + 4). Docs updated.
+- Checked: 387 tests (3 new), `tsc --noEmit` exit 0, `check:tokens` OK; Reports app (local copy, mocked API, Chromium): tooltip left of the today dot with its arrow, bars standing.
+- Not verified: the tooltip on the left half of a chart in a browser (Chart.js puts it on the right there); touch devices.
+
+---
+
+## 2026-11-25 - BarChart dashboard style options (Reports Overview "Visitors & Downloads"); branch claude/barchart-dashboard-style; not merged
+
+- Asked: Master KMO, the Reports Overview chart differs from the design "Overview (desktop, aligned)"; option (a): add the missing options to the DS `BarChart` (not a local chart in the app).
+- Added (all opt-in, defaults unchanged): `barStyle` (`soft`), `lineStyle` (`markers`: straight line, a dot and value on every day, large dark today dot with halo), `tooltipTone` (`dark`), `xLabels` (`ends`), `rightAxis` (`hidden`), `legendPosition="bottom-end"`; stylesheet rule `.vs-line-chart-legend--bottom.vs-line-chart-legend--end` gated in `check-tokens`; docs `bar-chart.html`.
+- Checked: the 28 existing BarChart tests pass unchanged (default options keys and plugin list); 12 new tests (40 BarChart, 384 in all); 7 mutations of the new code each fail a test; `tsc --noEmit` exit 0; `check:tokens` OK. In the Reports app (local copy of this change, API mocked, Chromium): the chart shows the soft bars, markers, dark today dot, dark tooltip pinned on today and back after the pointer leaves, 3 x labels, no right axis numbers.
+- Not verified: touch devices; a screen reader; the docs page in a browser.
+
+---
+
+## 2026-11-23 — Task 8: Reports canvas brand alignment (design file only); not deployed
+
+- Asked: Task 8 of the approved set. Answers: B1a the four desktop boards only, B2b four new "(aligned)" copies beside the originals (originals untouched), B3a flat `#F8F8F8` page with a lavender band behind the title and no pastel corners, B4a radius 16 to 12, 10 to 12, 18 to 20, 3 and 4 to 5, B5a the indigo `#5558B3` and its tints to the site violet family, B6a today marker dark, B7c weight 300 for long descriptive text only.
+- Done in the Reports redesign canvas (Design artifact, not a repo): `OverviewDesktopAligned`, `FeedbackDesktopAligned`, `ItemsDesktopAligned` at x 4100 (same y as the originals) and `ItemDetailDesktopAligned` at x 5640, plus note `a1` and `canvas.json`. Generated by one script from the live originals, so the change is repeatable. Violet map: `#5558B3` to `#743CEE`, `#E0E1F9` and `#D6D7F3` to `#E8E5FC`, `#F2F2FC` to `#F3F1FE`, `#AAABD9`, `#9B9EEA`, `#C9CAE8` to `#9E77F3` (downloads bars and swatches `#9E77F3` at 55%); dots, halo and line of today to `#222222`; the mint wash of the Overview board removed too.
+- Checked in Chromium (Playwright) on each pair: page background `rgb(248, 248, 248)`; the old violets are gone from the DOM (before: present on all four); every corner radius is now one of 5, 8, 12, 20, 50%, 9999 (before: also 3, 4, 10, 16, 18); weight-300 text nodes 3 / 1 / 3 / 7 (before: 0); board sizes unchanged; no page errors. Contrast computed: violet text on white 5.80, on `#E8E5FC` 4.70, on `#F3F1FE` 5.19, white on violet card 5.80, `#9E77F3` graphic on white 3.29. Published file of one board compared by sha256 with the local copy: equal.
+- Not touched: the 15 phone boards, the originals, `Report-VectorSticker` (clean), `VectorSticker.Com`. Tasks 9 and 10 (real Reports integration) are not started and need a new approval.
+- Not verified: Master's visual judgement (the pale downloads bars and the light-violet dashed reference line are the places most changed); the mobile boards; the published page in a browser by Master.
+
+---
+
+## 2026-11-23 — Task 7: BarChart dashboard options; not deployed
+
+- Asked: Task 7 of the approved set (6, 7, 8 together). Answers: C1a extend the existing `BarChart` with opt-in props (no new component), C2a three separate props, C3a `BarChart` only (LineChart is not changed), C4a pinned tooltip on the latest day with data and hover replaces it, C5a legend centred at the bottom, C6a this covers issue #14 (Master closes it).
+- Step 1 (own commit `3076941`): 4 baseline tests on the unchanged chart (legend above the canvas, dotted orange today line and bold today tick, hover-only tooltip and the exact `options` keys, `showLegend={false}`); they pass unchanged after step 2.
+- Step 2: `legendPosition` (`top` default | `bottom`), `pinTooltip` (default false), `todayMarker` (`default` | `dark` = `--vs-chart-today-marker`, already in tokens). Defaults are byte-identical: `options` keys, plugin list and animation object are the same unless a prop is set. Pin plugin: pins after the bars have grown (once; a later animation never overrides a hover), re-pins after the pointer leaves, clears the hover fade first so the tooltip swatches keep the full colour. New stylesheet rules `.vs-line-chart-legend--bottom` gated in `check-tokens`.
+- Checked: 28 BarChart tests (was 11); 13 component mutations each fail a test (first run found 2 gaps — a series with no value on the pinned day, a value dated after today — both got a test, then caught); `check:tokens` OK; `tsc --noEmit` exit 0; real component in Chromium: default chart identical, dashboard chart shows legend at the bottom, dark today line, "23 Nov (Today)" tooltip pinned, hover replaces it, leaving brings it back with no faded bars.
+- Found, not fixed (separate task, rule 5): in the default `BarChart`, after the pointer leaves the chart the hovered day stays bright and the other days stay faded (seen in Chromium on the unchanged chart). Not touched because default behaviour must not change.
+- Not verified: the reports app; touch devices (pinned tooltip on tap); resize while a tooltip is pinned; a screen reader (the tooltip is canvas-drawn); no lint or build script.
+
+---
+
+## 2026-11-23 — Task 6: RankPill, new component; not deployed
+
+- Asked: Master KMO approved Tasks 6, 7 and 8 together ("proceed your suggestions", every recommended answer); each is built and committed on its own. Task 6 answers: R1a `tone` auto (rank 1 lime, others dark) with an override; R2a `shape="pill"` and `"circle"`; R3a inline element, the caller places it; R4a visible "#1 · Top asset", spoken "Rank 1, Top asset", an invalid rank draws nothing; R5 ticket text in the report, no GitHub issue.
+- Added: `RankPill.tsx` (`rank`, `label`, `tone`, `shape`; also `isValidRank`), `.vs-rank*` in `styles.css`, `scripts/check-tokens.mjs` gates (3 contrast pairs of the pill, 7 stylesheet rules), docs page `docs/components/rank-pill.html` with a sidebar entry. No new token: the colours are `--vs-color-brand-accent`, `--vs-color-brand-secondary`, `--vs-color-surface`.
+- Checked: `check:tokens` OK (182 tokens, 54 raw colours); `tsc --noEmit` exit 0; 7 new tests; 7 component mutations each fail a test; 4 stylesheet mutations each fail `check-tokens`; the real component rendered in Chromium (lime `rgb(188, 253, 29)` with dark text, dark `rgb(34, 34, 34)` with white text, pill 24px high, circle 32px, spoken text 1x1 px).
+- Not verified: the reports app (its local `★ TOP ASSET` badge, which still uses the old `#005c55`, is not replaced yet); a screen reader; no lint or build script.
+
+---
+
+## 2026-11-23 — Task 5: DonutChart (issue #72), new component; not deployed
+
+- Asked: Master KMO approved Task 5 with every recommended answer (Q1a plain SVG, no chart library; Q2a six `--vs-chart-donut-*` tokens, each >= 3:1 on white; Q3a built-in legend, below by default, `legend="right"` and `"none"`; Q4a whole percentages, "<1%" under one percent; Q5a an empty ring of the same size with the `empty` text; Q6a CSS draw-in, off under reduced motion; Q7a native hover `<title>`; Q8a no automatic "Other", the palette repeats after six).
+- Added: `DonutChart.tsx` (`segments` {key, label, value, color?}, `ariaLabel`, `centerValue`, `centerCaption`, `size`, `formatValue`, `empty`, `legend`; ring `role="img"`, legend and middle are real text; negative / NaN / Infinity count as 0; one segment = whole ring; a small gap between neighbours; each segment sweeps in after the one before). `styles.css`: `.vs-donut*` and `@keyframes vs-donut-draw`, off under `prefers-reduced-motion: reduce`. Tokens (additive, mirrored in `tokens.json`): `--vs-chart-donut-1` to `-6` (brand-secondary, brand-primary-text, badge-free, badge-trending, muted + 30% black, badge-free 70% into white). The track is the Task 4 `--vs-meter-track`. No raw colour added.
+- `scripts/check-tokens.mjs`: the colour reader now also mixes a colour with another colour (not only with black); the six donut colours >= 3:1 on white, their values, the draw-in animation, the keyframe start and the reduced-motion rule, the legend and middle text colours. Docs: new page `docs/components/donut-chart.html` and a sidebar entry.
+- Checked: `check:tokens` OK (182 tokens, 54 raw colours); `tsc --noEmit` exit 0; `vitest` 295/295 (was 277; 18 new tests: [38, 34, 20, 8], all zero, empty list, negative, NaN, Infinity, tiny, single, 7+ segments, centre, legend, colours, hover text, ARIA); 12 component mutations each fail a test; 8 token/CSS mutations each fail `check-tokens`; the real component bundled with Vite and rendered in Chromium (legend below and right, 7 segments, empty, one segment): animation on with motion, `animation-name: none` with `prefers-reduced-motion: reduce`, no script errors; the docs page renders and is in the sidebar.
+- Not verified: the reports app (its `TrafficDonut` stand-in is not replaced yet, Task 9/10); a phone; a screen reader; colour-blind viewing of the black, dark green and slate-blue segments (they are told apart by the gap and the legend text); no lint or build script.
+- Open: Task 6 (RankPill) waits for Master KMO's approval.
+
+---
+
+## 2026-11-23 — Task 4: Meter (issue #25) and BreakdownList, new components; not deployed
+
+- Asked: Master KMO approved Task 4 with every recommended answer (Q1a the name `Meter`, as in issue #25, not `ProgressBar`; Q2a the whole of #25 including threshold ticks; Q3a fills darkened so each is >= 3:1 on the track, default fill the dark brand green; Q4a `aria-valuenow` kept inside 0..max, `aria-valuetext` keeps the real reading; Q5a the BreakdownList ticket text is given to Master KMO, no GitHub issue opened; Q6a `barScale="share" | "relative"`; Q7a stacked rows only).
+- Added: `Meter.tsx` (`value`, `max`, `tone`, `thresholds`, `label`, `valueText`; `role="meter"`; no reading = no fill element and "No reading"; invalid `max` falls back to 100; also exports `MeterBar`, `meterPercent`, `meterMax`) and `BreakdownList.tsx` (rows of name, count, share with a decorative Meter bar, `barScale`, `formatValue`, empty text). `styles.css`: `.vs-meter*` and `.vs-breakdown*`. Tokens (additive, mirrored in `tokens.json`): `--vs-meter-height` 6px, `--vs-meter-track`, `--vs-meter-fill`, `-success`, `-warning`, `-danger`, `-neutral` (status colours darkened with black: the plain warning yellow is 1.19:1 and success green 2.27:1 on the track; the warning fill therefore looks olive). No raw colour added.
+- `scripts/check-tokens.mjs`: every fill >= 3:1 on the track, the token values, the stylesheet rules of the meter, ticks and breakdown, share text 14:1. Docs: new pages `docs/components/meter.html` and `breakdown-list.html`, both in the sidebar (`shell.js`).
+- Checked: `check:tokens` OK (176 tokens, 54 raw colours); `tsc --noEmit` exit 0; `vitest` 277/277 (was 248; 29 new tests for the #25 acceptance cases: 0, 25, 50, 75, 100, null, negative, above max, threshold positions, invalid input, ARIA); 9 component mutations each fail a test; 9 token/CSS mutations each fail `check-tokens`; the real components bundled with Vite and rendered in Chromium (bar height 6px, fills, ticks, null = no fill, 120 capped at 100, -5 empty, relative scale), no script errors; both docs pages render and are in the sidebar.
+- Not verified: the reports app (its `UsageMeter` and `BreakdownList` stand-ins are not replaced yet, Task 9); the `--vs-alert-*` override path; a phone; a screen reader; no lint or build script. The ticket text for BreakdownList is in the Task 4 report; no GitHub issue was opened.
+- Open: Task 5 (DonutChart, issue #72) waits for Master KMO's approval.
+
+---
+
+## 2026-11-23 — Task 3: SummaryCard `variant="metric"`, `tone="dark"`, icon, change chip and sparkline slot, opt-in; not deployed
+
+- Asked: Master KMO approved Task 3 with every recommended answer (Q1a `variant="metric"`, Q2a `icon` in a DS 28px chip, Q3a `sparkline` slot, Q4a dark tone sets the first chart colour to lime, Q5a metric uses `--vs-card-radius-lg`, Q6a `change` prop with a new `--vs-color-danger-text`, Q7a `--vs-summary-value-letter-spacing` -0.05em on metric only).
+- Tests first: `SummaryCard.test.tsx` was written against the unchanged component and committed alone (`71bcb6c`): 4 tones with badge/unit/description, minimal, no tone, no badge, loading, extra class (9 combinations). They pass unchanged after the change.
+- Added: in `SummaryCard.tsx` `variant` (`classic` default | `metric`), `tone="dark"`, `icon`, `change` ({ text, direction }), `sparkline`; exported `SummaryCardChange`. Metric = header row (icon, label, change chip), then value and sparkline on one row, 20px corners. The change chip also reads its direction in words ("Increase: +18.4%"). `styles.css`: dark tone, metric, chip, icon, spark slot. Tokens (additive, mirrored in `tokens.json`): `--vs-color-danger-text` (danger border mixed 15% with black, 5.4:1 on the danger fill; the plain danger border is 4.18:1) and `--vs-summary-value-letter-spacing`. No raw colour added.
+- `scripts/check-tokens.mjs`: 7 contrast pairs of the new styles >= 4.5:1, 9 stylesheet rules and 2 token values. Docs: section 10b in `docs/components/card.html`, a "Danger as text" row in `docs/foundations/colors.html`.
+- Checked: `check:tokens` OK (169 tokens, 54 raw colours); `tsc --noEmit` exit 0; `vitest` 248/248 (was 235); 6 component mutations each fail a test; 7 token/CSS mutations each fail `check-tokens`; the real components (SummaryCard + `LineChart` sparkline at 24px) bundled with Vite and rendered in Chromium: value and sparkline share one centre line, no overlap, the sparkline is lime in the dark card without any prop, metric 20px and classic 8px corners.
+- Not verified: the reports app (no page uses the variants yet; its `.vs-summary-card` radius and entrance-animation rules were not touched); a phone; a screen reader; no lint or build script in this repo. Blade, `Badge` (its success text is 2.36:1, danger 4.18:1) and the main site are not changed.
+- Open: Task 4 (ProgressBar and BreakdownList) waits for Master KMO's approval.
+
+---
+
+## 2026-11-23 — Task 2: Button `accent` emphasis (lime pill) and SegmentedControl `variant="dark"`, opt-in; not deployed
+
+- Asked: Master KMO approved Task 2 with every recommended answer (Q1a `emphasis="accent"`, Q2a hover/pressed by `color-mix` in tokens, Q3a weight 700 token, Q4a `variant="dark"`, Q5a inactive text `--vs-color-text-body`, Q6a `DateRangeSelector` not touched, Q7a no Blade, Q8a regression tests first).
+- Tests first: `Button.test.tsx` and `SegmentedControl.test.tsx` were written against the unchanged components and committed alone (`b01445f`): every emphasis x size, defaults, disabled, icon + text, icon-only, pass-through props; every SegmentedControl combination. They still pass unchanged after the change.
+- Added: `emphasis="accent"` in `Button.tsx` (lime fill, dark text, pill, weight 700; icon-only = filled lime circle) with hover/pressed rules in `styles.css`; tokens `--vs-button-accent`, `-text`, `-hover` (92% lime + black), `-pressed` (84%), `-font-weight` (700), mirrored in `tokens.json`; `variant="dark"` in `SegmentedControl.tsx` (class `vs-segment-control--dark`: pill track, dark selected option with white text, inactive text `--vs-color-text-body`). No raw colour added; defaults (`emphasis="primary"`, `variant="default"`) render byte-for-byte as before.
+- `scripts/check-tokens.mjs`: accent text on lime / hover / pressed >= 4.5:1 (13.0 / 10.9 / 9.1), white on the dark option and body text on white >= 4.5:1, the accent tokens point at their primitives, and `react/src/styles.css` must hold the hover, pressed and dark rules. Docs: section 07b in `docs/components/button.html`, 06b in `docs/components/tabs.html`, `accent` in the Props table.
+- Checked: `check:tokens` OK (167 tokens, 54 raw colours); `tsc --noEmit` exit 0; `vitest` 235/235 (was 223); 6 mutation checks of the components each fail a test; 6 of the stylesheet/token gates each fail `check-tokens`; docs pages render without script errors.
+- Not verified: the look in the reports app (no page uses the variants yet); lime/dark on real devices; a screen reader; no lint or build script exists here. Blade and `DateRangeSelector` are not changed (their own tasks).
+- Open: Task 3 (SummaryCard) waits for Master KMO's approval.
+
+---
+
+## 2026-11-23 — Dashboard design tokens, Task 1 of the controlled migration (additive only); not deployed
+
+- Asked: Master KMO approved decisions D1-D4 (via ChatGPT) and Task 1 only: add additive tokens for the Reports dashboard direction. D1 option B: `--vs-card-radius` and `--vs-item-card-radius` stay as they are, a new `--vs-card-radius-lg`. D2: lime action colour with dark text. D3: lavender header band on a flat `#F8F8F8` page. D4: violet and chart colours.
+- Added (7 tokens in `tokens/tokens.css`, mirrored in `tokens/tokens.json`, docs copy synced): `--vs-card-radius-lg` (= `--vs-radius-xl`, 20px); `--vs-color-lavender-surface`, `--vs-color-lavender-surface-strong`, `--vs-gradient-header-lavender` (same colour-mix formula as the vectorsticker.com facelift, no new raw colour); `--vs-chart-line-primary` (`#2E7D32`, one new allowlisted raw colour), `--vs-chart-series-downloads` (= badge-free violet), `--vs-chart-today-marker` (= brand-secondary).
+- Reused, not duplicated: the lime action colour is `--vs-color-brand-accent` with `--vs-color-brand-secondary` text; the secondary chart series is the existing `--vs-chart-series-2`. The orange `--vs-chart-today` is unchanged (the marker has its own token).
+- `scripts/check-tokens.mjs` gets gates: dark text on lime >= 4.5:1 (13.0:1), the three new chart colours >= 3:1 on white, and the additive tokens must exist and point at their primitives. Docs: Lavender section in `docs/foundations/colors.html`, a `--vs-card-radius-lg` row in `docs/components/card.html`, the three chart tokens in `docs/components/line-chart.html`.
+- Checked: `npm run check:tokens` OK (155 -> 162 tokens, 53 -> 54 raw colours); all 155 earlier tokens have identical values; 5 mutation checks each fail the gate; `tsc --noEmit` exit 0; `vitest` 223/223. The lavender token renders the same colour as the live site's header band (`color(srgb 0.952695 0.94472 0.994427)`).
+- Not verified: no component reads the new tokens yet (Tasks 2-10); the Blade copy on the main site is a separate file and is not touched (it still has the old copy, e.g. `--vs-card-radius: 3px`); no lint or build script exists in this repo.
+- Open: Task 2 (Button and SegmentedControl variants) waits for Master KMO's approval.
 
 ## 2026-11-21 - Reveal owns its lifecycle: nothing replays after the opening (audit finding 2, decision 2a); branch feat/reveal-provider-lifecycle; merged (PR #97, 9e15076)
 
