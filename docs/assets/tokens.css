@@ -179,6 +179,12 @@
   /* Large card/panel corner of the dashboard and facelift direction (additive, 23 Nov 2026): the card step of the
      facelift radius scale = --vs-radius-xl (20px). --vs-card-radius and --vs-item-card-radius keep their values. */
   --vs-card-radius-lg: var(--vs-radius-xl);
+  /* ---- SegmentedControl theme hooks (issue #158, 28 Nov 2026): a product sets these instead of copying the CSS.
+     The defaults keep the default variant exactly as before. ---- */
+  --vs-segment-active-bg: var(--vs-color-brand-primary);
+  --vs-segment-active-text: var(--vs-color-text-on-primary);
+  --vs-segment-text: var(--vs-color-text-muted);
+  --vs-segment-font-size: var(--vs-font-size-body-md);
   /* SummaryCard `metric` variant (additive, 23 Nov 2026, Task 3): the KPI value is set tighter than the classic card (-0.01em), as in the
      approved dashboard design. The classic SummaryCard keeps its own letter-spacing. */
   --vs-summary-value-letter-spacing: -0.05em;

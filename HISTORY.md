@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - SegmentedControl theme tokens (issue 158)
+
+- Asked: Master KMO (decision 1a, then "a"): let the reports site theme the segmented control with tokens, so it can drop its own copy of the CSS (which also blocked the DS phone style).
+- Changed: `tokens/tokens.css` (+ `docs/assets/tokens.css` copy): `--vs-segment-active-bg`, `--vs-segment-active-text`, `--vs-segment-text`, `--vs-segment-font-size`, defaults = the values the default variant used. `react/src/styles.css`: `.vs-segment-button` and `.is-active` read them. Docs (tabs page "Theme tokens"). New `SegmentTokens.test.tsx` (3; 2 fail on the old code).
+- Checked: see the pull request.
+- Not verified: Firefox and WebKit.
+
+---
+
 ## 2026-11-28 - Disclosure (issue 70)
 
 - Asked: Master KMO (decision 2a): move the reports site's approved phone accordion stand-in into the DS as it is, plus the ticket's needs.
