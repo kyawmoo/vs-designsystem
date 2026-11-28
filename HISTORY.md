@@ -6,6 +6,14 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - Docs deployed (`main` `2d29dc4`): Animation & Effects > Live Dot page
+
+- Deployed by Master KMO on the VPS (hostname `vectorsticker`, user `deploy`), the same one command as the `84a3574` docs deploy (`set -e` subshell, shallow clone, backup, `rsync -rt` of `docs/` excluding `CI_COST_RULES.md`, `chown`). Output: `commit: 2d29dc4`, backup `/var/www/ds.vectorsticker.com.bak-20261128-034745`, `/`, `/animation/live-dot.html`, `/animation/text-effects.html`, `/components/line-chart.html` all `200`, `/CI_COST_RULES.md` `404`, `menu entry: 1`, `live-dot css: 1`. Only `/var/www/ds.vectorsticker.com` was touched.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261128-034745/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the page in a browser on the live site (this session cannot reach it).
+
+---
+
 ## 2026-11-28 - SummaryCardCarousel added (moved from the reports dashboard), for kyawmoo/Report-VectorSticker#73; branch claude/jolly-rubin-rpz0bd; not merged
 
 - Asked: Master KMO: "B" = do reports ticket #73 (move `SummaryCardCarousel` into the package, document it, then switch the dashboard over).
@@ -16,7 +24,7 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
-## 2026-11-27 - LiveDot: the chart's live dot as its own component (React `LiveDot`, Blade `<x-vs-live-dot>`) and an Animation & Effects page; branch claude/elegant-mccarthy-x12gh4; not merged
+## 2026-11-27 - LiveDot: the chart's live dot as its own component (React `LiveDot`, Blade `<x-vs-live-dot>`) and an Animation & Effects page; merged as `2d29dc4` (#128)
 
 - Asked: Master KMO: the ripple in the Animation section, usable on its own, not only in charts; chose 1a (name `LiveDot` / `x-vs-live-dot`) and 2a (React and Blade).
 - Changed: CSS: the live-dot rules became the `vs-live-dot` block (start/end markers), identical in `react/src/styles.css` and `blade/components.css` (+ docs copy); new `--inline` (in the text flow, no fade-in), `--lg` (12px, 4x), `--still` (no ripple); default colour `--vs-color-brand-primary` when none is set; the chart look is unchanged. `check-tokens.mjs` (new check 9): the two copies must match, every `--vs-*` token read must exist, reduced motion must stop the ripple. New `react/src/components/LiveDot.tsx` (`color`, `size` sm/md/lg, `ripple`, `label` -> `role="img"` + name, else `aria-hidden`; other props passed on), exported from `index.ts`. New `blade/components/vs-live-dot.blade.php` (same props; `color` only `var(--vs-...)` or hex, anything else ignored; `style` merged after the colour). New `docs/animation/live-dot.html` (sizes, colours, avatar / text examples, usage, props) and its menu entry; `blade/README.md` section.
