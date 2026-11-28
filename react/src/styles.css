@@ -225,9 +225,9 @@
   padding: 0.5rem 1.25rem;
   border-radius: var(--vs-radius-xs);
   font-family: var(--vs-font-family);
-  font-size: var(--vs-font-size-body-md);
+  font-size: var(--vs-segment-font-size);
   font-weight: 600;
-  color: var(--vs-color-text-muted);
+  color: var(--vs-segment-text);
   background: transparent;
   border: none;
   cursor: pointer;
@@ -244,8 +244,8 @@
 }
 
 .vs-segment-button.is-active {
-  background-color: var(--vs-color-brand-primary);
-  color: var(--vs-color-text-on-primary); /* white on the brand green is 2.78:1 */
+  background-color: var(--vs-segment-active-bg);
+  color: var(--vs-segment-active-text);
 }
 
 .vs-segment-button--sm {
