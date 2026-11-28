@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - Phone style in Card, SummaryCard, TableWidget and SegmentedControl (issue 156; spike 67 decision (b))
+
+- Asked: Master KMO decided spike #67 as (b): the DS draws the approved phone look itself (below 1024px), desktop unchanged. The reports site drew it with an `!important` override (`mobile.css`), because Card set its radius inline.
+- Changed: `react/src/components/Card.tsx`: no inline `borderRadius`; `.vs-card { border-radius: var(--vs-card-radius) }` in `styles.css` (a `style` prop still wins). `styles.css`: one `@media (max-width: 1023.98px)` block: `.vs-card`, `.vs-summary-card`, framed `.vs-table-card` = `--vs-card-radius-lg` (20px); a card inside a card = `--vs-radius-lg` (12px); a bare table keeps none; `.vs-segment-control` / `.vs-segment-button` = `--vs-radius-full`, selected option `--vs-color-brand-secondary` with `--vs-color-surface` text, others `--vs-color-text-body`. Docs: a "Phone style" section on card, tabs and table pages. New `PhoneStyle.test.tsx` (6; 5 fail on the old code).
+- Checked: `vitest` all pass, `tsc` clean, `check:tokens` OK. Chromium, real components, computed styles: 390 and 1023px card 20, inner 12, summary 20, table 20, bare 0, segmented 9999px, selected rgb(34,34,34) on white text; 1024 and 1280px all 8px, selected green as before.
+- Not verified: Firefox and WebKit (no CSS that differs between them is used); the reports site with this pin (next: Report-VectorSticker #422 removes its override).
+
+---
+
 ## 2026-11-22 - Reveal: the opening ends when its animations end, not at the worst-case time (found with the reports site); branch fix/reveal-end-when-animations-end (main merged into it on 2026-11-28, Master KMO decision 3a)
 
 - Found: after #97 the end of the opening was a fixed time (curtain + body delay + the longer of an entrance and a 30-letter title + 200ms = 2870ms with the default tokens). In the reports site (Chromium, real flow) a visitor who went to another tab and back about 2.4 s after load, when the 8-letter title had already finished (about 1.9 s), still got the title written again: the view mounted inside the "opening" window, hid its letters for the curtain delay and replayed (122 animations running). The audit's problem again, in a smaller window.
