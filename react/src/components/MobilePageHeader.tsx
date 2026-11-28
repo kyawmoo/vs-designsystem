@@ -38,7 +38,7 @@ export function MobilePageHeader({
       onClick={onFilterClick}
       aria-label="Filter"
       className={`w-9 h-9 rounded-lg flex items-center justify-center border transition-colors ${
-        filterActive ? '' : 'bg-white border-gray-200 text-gray-600 active:bg-gray-50'
+        filterActive ? '' : 'bg-[var(--vs-color-surface)] border-[var(--vs-color-border)] text-[var(--vs-color-text-body)] active:bg-[var(--vs-color-background)]'
       }`}
       style={
         filterActive
@@ -60,12 +60,12 @@ export function MobilePageHeader({
             type="button"
             onClick={() => window.history.back()}
             aria-label="Go back"
-            className="shrink-0 w-8 h-8 -ml-1.5 rounded-full flex items-center justify-center text-gray-600 active:bg-gray-100"
+            className="shrink-0 w-8 h-8 -ml-1.5 rounded-full flex items-center justify-center text-[var(--vs-color-text-body)] active:bg-[var(--vs-color-disabled-bg)]"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
         )}
-        <h1 className="text-xl font-bold tracking-tight text-gray-900 truncate">{title}</h1>
+        <h1 className="text-xl font-bold tracking-tight text-[var(--vs-color-text-heading)] truncate">{title}</h1>
       </div>
 
       {hasTrailing ? (

@@ -30,7 +30,7 @@ export function WidgetLoader({ className = '' }: { className?: string }) {
           strokeLinecap="round"
         />
       </svg>
-      <span className="text-xs font-medium text-gray-400">Loading...</span>
+      <span className="text-xs font-medium text-[var(--vs-color-text-muted)]">Loading...</span>
     </div>
   );
 }
