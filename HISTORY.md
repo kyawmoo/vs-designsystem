@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - Docs menu: Components split into 9 collapsible sub-sections; branch claude/hopeful-bardeen-n2x75g; not merged
+
+- Asked: Master KMO: the Components menu is too long, group it; chose 1a (collapsible sub-sections inside Components, the one holding the current page open) and 2a (the 9 groups proposed).
+- Changed: `docs/assets/shell.js`: the Components entry has `sections` (Basics 5, Feedback 4, Cards 3, Data Display 3, Charts 3, Navigation 4, Filters & Dates 3, Overlays 3, Forms 10; all 38 pages kept, no URL changed); each section is a button (`aria-expanded` / `aria-controls`) with its page count; one open at a time, the one holding the current page open (else the first); menu search opens only the sections with a match and hides the rest, an empty box restores the default. `docs/assets/shell.css`: sub-section row styles (tokens only), no chevron turn with reduced motion.
+- Checked: Chromium 1280 x 800 on the Date Range Selector page: 15 menu rows visible (before 41), menu height 625 px (before 1613), only "Filters & Dates" open; opening Charts closes it; clicking Bar Chart keeps the link at the same screen spot (424 px before and after); search "chart" shows only the 3 charts, "xyz" hides every group, an empty box restores; from Colors, opening Components shows Basics; all 48 docs pages draw one menu, the current page link is visible, no page errors.
+- Not verified: Safari / Firefox; a screen reader. Docs site not deployed.
+
+---
+
 ## 2026-11-28 - Docs deployed (`main` `2850378`): side menu keeps its place, Date Range Selector pill look
 
 - Deployed by Master KMO on the VPS (ssh as `deploy`) with one `set -e` command: hostname check `vectorsticker`, shallow clone of `main`, backup `/var/www/ds.vectorsticker.com.bak-20261128-044502`, `rsync -rt` of `docs/` excluding `CI_COST_RULES.md` (no `--delete`), `chown -R www-data:www-data`. Output: `/`, `/components/date-range-selector.html`, `/components/pagination.html`, `/assets/shell.js`, `/assets/shell.css` all `200`, `/CI_COST_RULES.md` `404`, `menu keep-place: 1`, `view transition: 1`. Only `/var/www/ds.vectorsticker.com` was touched; no Apache or pm2 restart.
