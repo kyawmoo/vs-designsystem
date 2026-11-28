@@ -822,6 +822,58 @@
   color: var(--vs-color-text-body);
 }
 
+/* StackedBar (issue #151, 28 Nov 2026): one bar made of the parts of one whole, a swatch legend below. Tokens only. */
+.vs-stacked-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  font-family: var(--vs-font-family);
+}
+.vs-stacked-bar__track {
+  display: flex;
+  height: 1.375rem;
+  border-radius: var(--vs-radius-xs);
+  overflow: hidden;
+  background: var(--vs-color-border);
+}
+.vs-stacked-bar__part {
+  height: 100%;
+}
+.vs-stacked-bar__legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  font-size: 13px;
+}
+.vs-stacked-bar__legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.vs-stacked-bar__swatch {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: calc(var(--vs-radius-xs) - 2px);
+}
+.vs-stacked-bar__legend-label {
+  color: var(--vs-color-text-body);
+}
+.vs-stacked-bar__legend-pct {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--vs-color-text-heading);
+}
+.vs-stacked-bar__empty {
+  margin: 0;
+  padding: 0.5rem 0;
+  font-size: 13px;
+  color: var(--vs-color-text-muted);
+}
+
 /* DonutChart (Task 5, 23 Nov 2026, issue #72). A ring of segments drawn as SVG circles; the middle and the legend are plain text.
    The ring draws in once (each segment sweeps after the one before it); under reduced motion it does not move. */
 .vs-donut {
