@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - TableWidget colours from tokens (no Tailwind greys)
+
+- Asked: Master KMO: tables on the reports site must follow the design system. Found while fixing table edges there: `TableWidget` drew its colours with Tailwind palette classes (`text-gray-*`, `bg-gray-50/50`, `border-gray-*`, `divide-gray-100`, `hover:bg-gray-50/60`, `bg-white`), so a token change did not reach any table.
+- Changed: `react/src/components/TableWidget.tsx`: every colour is a `--vs-color-*` token (border, background for the header row and row hover, heading text for titles, item names and strong values, body text for header labels and values, muted text for the subtitle, rank and empty text); the card's own `bg-white` / `rounded-xl` / `border-gray-200` are gone (`.vs-table-card` in `styles.css` already sets them from tokens). New test: no palette class in the rendered table.
+- Checked: see the pull request.
+- Not verified: a browser look; `--vs-color-text-muted` contrast for the small rank / subtitle text (issue 74 is about an accessible muted token). Still with Tailwind palette classes (separate ticket): FilterSheet, MobilePageHeader, FilterBar, WidgetLoader.
+
+---
+
 ## 2026-11-28 - Ranked Bar Chart: one bar per label, not per date (issue 144)
 
 - Asked: Master KMO: the reports "Downloads by Country" chart draws one bar per country, which BarChart (dates only) cannot.

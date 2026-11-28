@@ -136,3 +136,12 @@ describe('TableWidget rowMuted', () => {
     expect(seen).toEqual([0, 1, 2]);
   });
 });
+
+describe('TableWidget colours', () => {
+  it('uses design system tokens only: no Tailwind palette classes, so a token change reaches every table', () => {
+    const html = render({ title: 'T', subtitle: 'S', rowMuted: (r) => r.name === 'B' }) + render({ rows: [] }) + render({ bare: true });
+    expect(html).not.toMatch(/(?:text|bg|border|divide)-(?:gray|slate|zinc|neutral)-\d|bg-white|text-white/);
+    expect(html).toContain('var(--vs-color-border)');
+    expect(html).toContain('var(--vs-color-text-heading)');
+  });
+});
