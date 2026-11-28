@@ -5,6 +5,11 @@ interface SwipeCarouselProps {
   className?: string;
   itemClassName?: string;
   desktopGridClassName?: string;
+  /**
+   * Classes that hide the swipe row on wide screens, when `desktopGridClassName` shows the grid there. Default `'sm:hidden'`:
+   * it must switch at the same breakpoint as the grid's `sm:grid` / `md:grid` / ... or neither is visible in between.
+   */
+  mobileClassName?: string;
   dotsClassName?: string;
 }
 
@@ -13,6 +18,7 @@ export function SwipeCarousel({
   className = '',
   itemClassName = 'w-[84%] sm:w-[70%]',
   desktopGridClassName = 'hidden sm:grid sm:grid-cols-2 gap-3',
+  mobileClassName = 'sm:hidden',
   dotsClassName = '',
 }: SwipeCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -63,7 +69,7 @@ export function SwipeCarousel({
       )}
 
       {/* Mobile Swipeable View */}
-      <div className={desktopGridClassName ? 'sm:hidden' : 'block'}>
+      <div className={desktopGridClassName ? mobileClassName : 'block'}>
         <div
           ref={scrollRef}
           className="flex overflow-x-auto snap-x snap-mandatory no-scrollbar gap-3 pb-2 px-1 pt-1 scroll-smooth"

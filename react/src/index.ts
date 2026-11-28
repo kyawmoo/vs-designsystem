@@ -22,6 +22,8 @@ export type { TableWidgetProps, TableColumn, TableTab } from './components/Table
 export { WidgetLoader } from './components/WidgetLoader';
 
 export { SwipeCarousel } from './components/SwipeCarousel';
+export { SummaryCardCarousel } from './components/SummaryCardCarousel';
+export type { SummaryCardCarouselProps } from './components/SummaryCardCarousel';
 
 export { MobilePageHeader } from './components/MobilePageHeader';
 

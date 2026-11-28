@@ -25,6 +25,7 @@
         { id: 'avatar', label: 'Avatar', href: '/components/avatar.html', icon: 'circle-user' },
         { id: 'empty-state', label: 'Empty State', href: '/components/empty-state.html', icon: 'inbox' },
         { id: 'card', label: 'Card', href: '/components/card.html', icon: 'layout-panel-top' },
+        { id: 'summary-card-carousel', label: 'Summary Card Carousel', href: '/components/summary-card-carousel.html', icon: 'layout-panel-top' },
         { id: 'item-card', label: 'Item Card', href: '/components/item-card.html', icon: 'layout-panel-top' },
         { id: 'table', label: 'Table', href: '/components/table.html', icon: 'table-2' },
         { id: 'meter', label: 'Meter', href: '/components/meter.html', icon: 'chart-column' },
