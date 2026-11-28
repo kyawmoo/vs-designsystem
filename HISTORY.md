@@ -6,6 +6,14 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - Docs menu: sections "Basics" -> "General", "Feedback" -> "Info Display"; branch claude/hopeful-bardeen-n2x75g; not merged
+
+- Asked: Master KMO: rename the two Components menu sections. Changed: the two `name` values in `docs/assets/shell.js` (their toggle ids follow: `vs-docs-toggle-components-general`, `-info-display`; nothing else uses them) and the CSS comment. Same pages in each section.
+- Checked: Chromium, all 48 docs pages, one menu each, no page errors; Button page opens "General", Alert page opens "Info Display".
+- Not deployed.
+
+---
+
 ## 2026-11-28 - Docs deployed (`main` `b2c1f8a`): Components menu in sections
 
 - Deployed by Master KMO on the VPS with the same one `set -e` command as `2850378`. Output: `commit: b2c1f8a`, backup `/var/www/ds.vectorsticker.com.bak-20261128-045642`, `/`, `/components/button.html`, `/components/date-range-selector.html`, `/assets/shell.js`, `/assets/shell.css` all `200`, `/CI_COST_RULES.md` `404`, `menu sections: 4`, `section styles: 1`. Only `/var/www/ds.vectorsticker.com` was touched.

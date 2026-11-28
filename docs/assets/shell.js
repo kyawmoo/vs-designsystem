@@ -20,7 +20,7 @@
       // Sub-sections (Master KMO, 2026-11-28: the list was 38 links long). Only the section holding the current page is open.
       sections: [
         {
-          name: 'Basics',
+          name: 'General',
           items: [
             { id: 'button', label: 'Button', href: '/components/button.html', icon: 'square-mouse-pointer' },
             { id: 'badge', label: 'Badge', href: '/components/badge.html', icon: 'tag' },
@@ -30,7 +30,7 @@
           ],
         },
         {
-          name: 'Feedback',
+          name: 'Info Display',
           items: [
             { id: 'alert', label: 'Alert', href: '/components/alert.html', icon: 'triangle-alert' },
             { id: 'toast', label: 'Toast', href: '/components/toast.html', icon: 'bell' },
