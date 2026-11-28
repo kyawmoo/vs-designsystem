@@ -10,7 +10,7 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 - Asked: Master KMO: rename the two Components menu sections. Changed: the two `name` values in `docs/assets/shell.js` (their toggle ids follow: `vs-docs-toggle-components-general`, `-info-display`; nothing else uses them) and the CSS comment. Same pages in each section.
 - Checked: Chromium, all 48 docs pages, one menu each, no page errors; Button page opens "General", Alert page opens "Info Display".
-- Also (Master KMO): the Donut Chart menu icon was the line-chart icon; now Lucide `chart-pie` (paths copied from `lucide-react`'s `chart-pie.js`). Checked in Chromium: 2 paths drawn, no page errors.
+- Also (Master KMO): the Donut Chart menu icon was the line-chart icon; now Lucide `chart-pie` (paths copied from `lucide-react`'s `chart-pie.js`). Checked in Chromium: 2 paths drawn, no page errors. Bar Chart icon: Lucide `align-end-horizontal` (two standing blocks on a base line), chosen by Master KMO from 7 candidates (paths from `lucide-react`).
 - Not deployed.
 
 ---

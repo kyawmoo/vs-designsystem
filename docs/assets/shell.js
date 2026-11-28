@@ -58,7 +58,7 @@
           name: 'Charts',
           items: [
             { id: 'line-chart', label: 'Line Chart', href: '/components/line-chart.html', icon: 'chart-line' },
-            { id: 'bar-chart', label: 'Bar Chart', href: '/components/bar-chart.html', icon: 'chart-column' },
+            { id: 'bar-chart', label: 'Bar Chart', href: '/components/bar-chart.html', icon: 'align-end-horizontal' },
             { id: 'donut-chart', label: 'Donut Chart', href: '/components/donut-chart.html', icon: 'chart-pie' },
           ],
         },
@@ -133,6 +133,7 @@
     'layout-panel-top': '<rect width="18" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" />',
     'table-2': '<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18" />',
     'panel-right': '<rect width="18" height="18" x="3" y="3" rx="2" /> <path d="M15 3v18" />',
+    'align-end-horizontal': '<rect width="6" height="16" x="4" y="2" rx="2" /> <rect width="6" height="9" x="14" y="9" rx="2" /> <path d="M22 22H2" />',
     'chart-pie': '<path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z" /> <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />',
     'chart-line': '<path d="M3 3v16a2 2 0 0 0 2 2h16" /> <path d="m19 9-5 5-4-4-3 3" />',
     'chart-column': '<path d="M3 3v16a2 2 0 0 0 2 2h16" /> <path d="M18 17V9" /> <path d="M13 17V5" /> <path d="M8 17v-3" />',
