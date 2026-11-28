@@ -59,6 +59,7 @@
           items: [
             { id: 'line-chart', label: 'Line Chart', href: '/components/line-chart.html', icon: 'chart-line' },
             { id: 'bar-chart', label: 'Bar Chart', href: '/components/bar-chart.html', icon: 'align-end-horizontal' },
+            { id: 'ranked-bar-chart', label: 'Ranked Bar Chart', href: '/components/ranked-bar-chart.html', icon: 'align-end-horizontal' },
             { id: 'donut-chart', label: 'Donut Chart', href: '/components/donut-chart.html', icon: 'chart-pie' },
           ],
         },

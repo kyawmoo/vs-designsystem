@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - Ranked Bar Chart: one bar per label, not per date (issue 144)
+
+- Asked: Master KMO: the reports "Downloads by Country" chart draws one bar per country, which BarChart (dates only) cannot.
+- Changed: new `react/src/components/RankedBarChart.tsx` (Chart.js, horizontal bars in the order given, value text past each bar end, height `max(minHeight 240, rows x rowHeight 34)`, long names shortened with "…" via exported `fitLabel`, tooltip with the full name and formatted value, `empty` text and no canvas when there are no rows, negative / non-finite values count as 0, reduced motion = no animation, colours from tokens). Exported from `react/src/index.ts`; `.vs-ranked-bar-chart` CSS in `react/src/styles.css`; docs page `docs/components/ranked-bar-chart.html` + a menu entry under Charts in `docs/assets/shell.js`; new `RankedBarChart.test.tsx` (11 tests, Chart.js mocked as in BarChart tests).
+- Checked: see the pull request.
+- Not verified: the drawn chart in a browser (jsdom has no canvas; the tests check the Chart.js config), the docs page look.
+
+---
+
 ## 2026-11-28 - Radio: card variant with a title and a hint (issue 143)
 
 - Asked: Master KMO: the reports Server Health "Investigation status" options are selectable cards, which the DS Radio could not draw.

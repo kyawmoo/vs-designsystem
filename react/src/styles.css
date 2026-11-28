@@ -1004,6 +1004,18 @@
   color: var(--vs-color-text-body);
 }
 
+.vs-ranked-bar-chart {
+  width: 100%;
+  font-family: var(--vs-font-family);
+}
+.vs-ranked-bar-chart__empty {
+  margin: 0;
+  padding: 2rem 1rem;
+  text-align: center;
+  font-size: var(--vs-font-size-body-sm);
+  color: var(--vs-color-text-body);
+}
+
 /* Table Widget */
 .vs-table-card {
   background: var(--vs-color-surface);
