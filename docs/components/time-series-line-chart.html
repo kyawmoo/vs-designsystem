@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Time Series Line Chart — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+</head>
+<body data-page="time-series-line-chart">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Time Series Line Chart</p>
+    <h1>Time Series Line Chart</h1>
+    <p class="vs-docs-hero-lede">
+      A time-series line with dotted Warning and Danger lines, gaps for missing readings, spike markers, a "Highest" ring and an optional "Now" space (issue #13). React only; Chart.js.
+      Moved from the reports site's Server Health chart (decision 2a). Implemented in <code>react/src/components/TimeSeriesLineChart.tsx</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <h2>Rules</h2>
+    <ul>
+      <li>A <code>null</code> reading is a gap in the line, never 0. Segments are straight. A reading with no neighbour is drawn as a dot so it is never invisible.</li>
+      <li><code>thresholds</code> draws dotted Warning and Danger lines; a stretch that reaches one (judged on <code>maxPoints</code> when given) is drawn in its colour.</li>
+      <li>Markers: shape = severity (Warning triangle, Danger ⚠ sign), colour or tick = status (<code>new</code>, <code>investigating</code> dulled, <code>resolved</code> green tick, <code>ignored</code> small grey dot); urgent ones are drawn on top. <code>peakStyle="pin"</code> puts a dot at the peak with a dotted drop to the line.</li>
+      <li><code>futureMs</code> adds empty space after <code>to</code> with a dotted "Now" line (Chart Rule). <code>tickStep="day"</code>: one tick per local day, today bold with "(Today)"; narrow charts show the day number.</li>
+      <li>Click a marker: <code>onSelectMarker(id)</code>. Click empty plot: <code>onZoomAt(t)</code> (magnifier cursor). Tooltips say severity, status and value in words.</li>
+      <li>Colours: any CSS colour or <code>var(--token)</code> through <code>colors</code>, read at draw time. Defaults: line <code>--vs-color-brand-primary</code>, warning <code>--vs-color-warning-border</code>, danger <code>--vs-color-danger-border</code>, grid <code>--vs-color-border</code>. Animates the first drawing and new data only; never with reduced motion.</li>
+      <li>Pass <code>points</code>, <code>thresholds</code>, <code>markers</code> and <code>colors</code> as stable values (e.g. <code>useMemo</code>): a new object on each render rebuilds the chart.</li>
+    </ul>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { TimeSeriesLineChart } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;TimeSeriesLineChart</span> <span class="attr">ariaLabel</span>=<span class="str">"CPU usage, last 24 hours"</span> <span class="attr">seriesLabel</span>=<span class="str">"CPU"</span>
+  <span class="attr">points</span>=<span class="str">{points}</span> <span class="attr">thresholds</span>=<span class="str">{{ warning: 70, danger: 90 }}</span> <span class="attr">markers</span>=<span class="str">{markers}</span>
+  <span class="attr">from</span>=<span class="str">{from}</span> <span class="attr">to</span>=<span class="str">{now}</span> <span class="attr">days</span>=<span class="str">{1}</span> <span class="attr">futureMs</span>=<span class="str">{2 * 3600_000}</span> <span class="attr">yMax</span>=<span class="str">{100}</span>
+  <span class="attr">formatValue</span>=<span class="str">{(v) =&gt; `${v.toFixed(1)}%`}</span> <span class="attr">onSelectMarker</span>=<span class="str">{openEvent}</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>points</code> / <code>maxPoints</code></td><td><code>{ x: ms, y: number | null }[]</code>; max drawn faintly</td><td></td></tr>
+        <tr><td><code>thresholds</code></td><td><code>{ warning, danger }</code></td><td></td></tr>
+        <tr><td><code>markers</code></td><td><code>{ id, x, y, severity, status?, primary? }[]</code></td><td><code>[]</code></td></tr>
+        <tr><td><code>highest</code></td><td><code>{ value, t }</code></td><td>—</td></tr>
+        <tr><td><code>from</code> / <code>to</code> / <code>days</code></td><td>axis range (ms) and period length</td><td></td></tr>
+        <tr><td><code>futureMs</code></td><td>empty space after <code>to</code> + Now line</td><td><code>0</code></td></tr>
+        <tr><td><code>tickStep</code></td><td><code>day</code> · <code>3h</code></td><td>automatic</td></tr>
+        <tr><td><code>peakStyle</code></td><td><code>sign</code> · <code>pin</code></td><td><code>sign</code></td></tr>
+        <tr><td><code>yMax</code></td><td>top of the y axis</td><td>15% above the data</td></tr>
+        <tr><td><code>formatValue</code> / <code>formatYTick</code> / <code>formatTime</code> / <code>formatTick</code></td><td>text formatters</td><td>2 decimals / number / "2:05 PM, 26 Sep 2026" / day + clock</td></tr>
+        <tr><td><code>onSelectMarker</code> / <code>onZoomAt</code></td><td>click handlers</td><td>—</td></tr>
+        <tr><td><code>liveDot</code></td><td>dot on the newest reading</td><td><code>false</code></td></tr>
+        <tr><td><code>colors</code></td><td><code>Partial&lt;TimeSeriesColors&gt;</code></td><td>tokens above</td></tr>
+        <tr><td><code>seriesLabel</code> / <code>ariaLabel</code> / <code>height</code></td><td>tooltip name / canvas label / px</td><td>— / — / <code>280</code></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>
