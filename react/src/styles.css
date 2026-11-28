@@ -970,6 +970,40 @@
   border: 0;
 }
 
+.vs-radio-card {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+  border-radius: var(--vs-radius-lg);
+  border: 1.5px solid var(--vs-color-border);
+  background: var(--vs-color-surface);
+  font-family: var(--vs-font-family);
+  cursor: pointer;
+}
+.vs-radio-card .vs-check { margin: 0 0 6px; }
+.vs-radio-card:has(input:checked) {
+  border-color: var(--vs-color-text-heading);
+  box-shadow: inset 0 0 0 1px var(--vs-color-text-heading);
+}
+.vs-radio-card:focus-within {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: var(--vs-focus-ring-offset);
+}
+.vs-radio-card:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+.vs-radio-card__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--vs-color-text-heading);
+}
+.vs-radio-card__hint {
+  font-size: 12px;
+  color: var(--vs-color-text-body);
+}
+
 /* Table Widget */
 .vs-table-card {
   background: var(--vs-color-surface);

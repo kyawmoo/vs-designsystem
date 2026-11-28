@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - Radio: card variant with a title and a hint (issue 143)
+
+- Asked: Master KMO: the reports Server Health "Investigation status" options are selectable cards, which the DS Radio could not draw.
+- Changed: `react/src/components/Radio.tsx`: `variant="card"` + `description` (the whole card is one label: circle, bold title, smaller hint; `row` stays the default and unchanged). `react/src/styles.css`: `.vs-radio-card` (tokens only; chosen = dark border via `:has(input:checked)`, focus ring on `:focus-within`, dimmed when the input is disabled, also inside a disabled fieldset). `docs/components/radio.html` props. New `Radio.test.tsx`. Blade untouched.
+- Checked: see the pull request.
+- Not verified: a browser look (`:has()` support in older browsers).
+
+---
+
 ## 2026-11-28 - Select: option groups, compact size, optional name (issue 142)
 
 - Asked: Master KMO: the reports download-feed filters need `<optgroup>`, a compact size and no form name before they can use the DS Select.
