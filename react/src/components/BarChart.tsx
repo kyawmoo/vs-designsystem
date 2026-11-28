@@ -22,8 +22,8 @@ declare module 'chart.js' {
 import { buildTimeline, visibleTicks } from './lineChartTimeline';
 import { prefersReducedMotion, progressiveAnimation, resolveColor, withAlpha } from './chartShared';
 import { DEFAULT_SERIES_COLORS } from './LineChart';
-import { liveDotClass, liveDotPlugin, newestIndex } from './liveDot';
-import type { LiveDotTarget } from './liveDot';
+import { liveDotClass, liveDotPlugin, newestIndex } from './liveDotPlugin';
+import type { LiveDotTarget } from './liveDotPlugin';
 
 Chart.register(BarController, BarElement, LineController, LineElement, PointElement, LinearScale, CategoryScale, Filler, Tooltip);
 
