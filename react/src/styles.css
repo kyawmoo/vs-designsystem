@@ -992,6 +992,10 @@
   border-collapse: collapse;
 }
 
+.vs-table-row--muted td {
+  color: var(--vs-color-text-muted);
+}
+
 .vs-table-link {
   color: var(--vs-color-brand-primary);
   font-weight: 500;
