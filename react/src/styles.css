@@ -993,7 +993,12 @@
 }
 
 .vs-table-row--muted td {
-  color: var(--vs-color-text-muted);
+  font-style: italic; /* the normal text colour, not --vs-color-text-muted (too faint on white) */
+}
+
+.vs-table-scroll:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: 2px;
 }
 
 .vs-table-link {

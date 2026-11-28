@@ -48,8 +48,13 @@ export interface TableWidgetProps<T> {
   startRank?: number;
   /** Show the "#" rank column. Default true. */
   showRank?: boolean;
-  /** True for a partial or incomplete row: it is drawn muted. */
+  /** True for a partial or incomplete row: it is drawn in italic (same text colour, so it stays readable). */
   rowMuted?: (row: T, index: number) => boolean;
+  /**
+   * Makes the sideways-scrolling area reachable with the keyboard: it becomes a focusable region with this accessible name
+   * (for example "Weekly numbers table, scrolls sideways"). Without it the markup is unchanged.
+   */
+  scrollLabel?: string;
 }
 
 export function TableWidget<T>({
@@ -68,6 +73,7 @@ export function TableWidget<T>({
   startRank,
   showRank = true,
   rowMuted,
+  scrollLabel,
 }: TableWidgetProps<T>) {
   const firstRank = safeStartRank(startRank);
   return (
@@ -103,7 +109,10 @@ export function TableWidget<T>({
           )}
         </div>
       )}
-      <div className="overflow-x-auto">
+      <div
+        className={scrollLabel ? 'overflow-x-auto vs-table-scroll' : 'overflow-x-auto'}
+        {...(scrollLabel ? { tabIndex: 0, role: 'region', 'aria-label': scrollLabel } : {})}
+      >
         <table className="vs-table w-full text-left text-sm">
           <thead>
             <tr className="border-b border-gray-200 bg-gray-50/50">
