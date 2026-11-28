@@ -6,7 +6,16 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
-## 2026-11-28 - Docs menu: Components split into 9 collapsible sub-sections; branch claude/hopeful-bardeen-n2x75g; not merged
+## 2026-11-28 - Docs deployed (`main` `b2c1f8a`): Components menu in sections
+
+- Deployed by Master KMO on the VPS with the same one `set -e` command as `2850378`. Output: `commit: b2c1f8a`, backup `/var/www/ds.vectorsticker.com.bak-20261128-045642`, `/`, `/components/button.html`, `/components/date-range-selector.html`, `/assets/shell.js`, `/assets/shell.css` all `200`, `/CI_COST_RULES.md` `404`, `menu sections: 4`, `section styles: 1`. Only `/var/www/ds.vectorsticker.com` was touched.
+- A first run a few minutes earlier (backup `...bak-20261128-045517`) went out before #133 was merged, so it re-copied `2850378` (markers `0` / `0`); no harm, nothing changed. Cause: the "merge first" note was mixed into a long reply; Master KMO asked that steps to do first be marked with 🚨.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261128-045642/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the menu in a browser from this session (its network cannot reach the site).
+
+---
+
+## 2026-11-28 - Docs menu: Components split into 9 collapsible sub-sections; merged as `b2c1f8a` (#133)
 
 - Asked: Master KMO: the Components menu is too long, group it; chose 1a (collapsible sub-sections inside Components, the one holding the current page open) and 2a (the 9 groups proposed).
 - Changed: `docs/assets/shell.js`: the Components entry has `sections` (Basics 5, Feedback 4, Cards 3, Data Display 3, Charts 3, Navigation 4, Filters & Dates 3, Overlays 3, Forms 10; all 38 pages kept, no URL changed); each section is a button (`aria-expanded` / `aria-controls`) with its page count; one open at a time, the one holding the current page open (else the first); menu search opens only the sections with a match and hides the rest, an empty box restores the default. `docs/assets/shell.css`: sub-section row styles (tokens only), no chevron turn with reduced motion.
