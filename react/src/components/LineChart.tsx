@@ -12,8 +12,8 @@ import {
 import type { ChartConfiguration, Plugin } from 'chart.js';
 import { buildTimeline, visibleTicks } from './lineChartTimeline';
 import { prefersReducedMotion, progressiveAnimation, resolveColor, withAlpha } from './chartShared';
-import { liveDotClass, liveDotPlugin, newestIndex } from './liveDot';
-import type { LiveDotTarget } from './liveDot';
+import { liveDotClass, liveDotPlugin, newestIndex } from './liveDotPlugin';
+import type { LiveDotTarget } from './liveDotPlugin';
 
 export { withAlpha };
 

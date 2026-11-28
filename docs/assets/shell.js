@@ -150,6 +150,8 @@
         </div>
       </aside>`;
 
+    keepSidebarPlace(mount);
+
     mount.querySelectorAll('.vs-docs-sidebar-group-toggle').forEach((toggle) => {
       toggle.addEventListener('click', () => {
         const wasOpen = toggle.getAttribute('aria-expanded') === 'true';
@@ -163,6 +165,43 @@
         });
       });
     });
+  }
+
+  // The menu keeps its place across page loads (Master KMO, 2026-11-28: "only the right side refreshes, not the left
+  // menu"). Every page is its own HTML file, so the menu is drawn again on each load; its scroll position is saved when a
+  // menu link is clicked (and when the page is left) and put back before the first paint. With no saved position (a page
+  // opened directly) or when the current page's link would be out of view, the link is scrolled into the middle.
+  const PLACE_KEY = 'vs-docs-sidebar-scroll';
+  function keepSidebarPlace(mount) {
+    const nav = mount.querySelector('.vs-docs-sidebar-nav');
+    if (!nav) return;
+    const save = () => {
+      try {
+        sessionStorage.setItem(PLACE_KEY, String(Math.round(nav.scrollTop)));
+      } catch (e) {
+        /* storage blocked (private mode): the menu falls back to showing the current link */
+      }
+    };
+    let saved = null;
+    try {
+      saved = sessionStorage.getItem(PLACE_KEY);
+    } catch (e) {
+      saved = null;
+    }
+    const top = saved === null ? NaN : Number(saved);
+    if (Number.isFinite(top) && top >= 0) nav.scrollTop = top;
+    const link = nav.querySelector('a.is-active');
+    if (link) {
+      const navBox = nav.getBoundingClientRect();
+      const linkBox = link.getBoundingClientRect();
+      if (linkBox.top < navBox.top || linkBox.bottom > navBox.bottom) {
+        nav.scrollTop += linkBox.top - navBox.top - (navBox.height - linkBox.height) / 2;
+      }
+    }
+    nav.addEventListener('click', (e) => {
+      if (e.target.closest('a[href]')) save();
+    });
+    window.addEventListener('pagehide', save);
   }
 
   // Page chrome (Master KMO, 2026-11-26): a top bar (breadcrumb, search, menu button on phones) and a "Code" drawer.
@@ -479,5 +518,10 @@
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && root.classList.contains('vs-docs-code-open')) close(); });
   }
 
-  document.addEventListener('DOMContentLoaded', () => { renderSidebar(); enhance(); });
+  // shell.js sits at the end of <body>, so the menu mount already exists: draw the menu now, before the first paint, so
+  // it never shows empty and its saved place is restored without a jump. `enhance` still waits for the whole document.
+  if (document.getElementById('vs-docs-sidebar-mount')) renderSidebar();
+  else document.addEventListener('DOMContentLoaded', renderSidebar);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', enhance);
+  else enhance();
 })();

@@ -130,6 +130,35 @@ a {
   }
 }
 
+/* Page to page (Master KMO, 2026-11-28): only the page area changes, the menu stays still. Browsers with cross-document
+   view transitions (Chrome / Edge 126+, Safari 18.2+) keep the menu as one still layer and fade the page area; others just
+   load the page (the menu still keeps its scroll place, see shell.js). No fade with reduced motion. */
+@view-transition {
+  navigation: auto;
+}
+
+.vs-docs-sidebar {
+  view-transition-name: vs-docs-sidebar;
+}
+
+::view-transition-group(vs-docs-sidebar),
+::view-transition-old(vs-docs-sidebar),
+::view-transition-new(vs-docs-sidebar) {
+  animation: none;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 150ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
 .vs-docs-sidebar a {
   display: flex;
   align-items: center;
