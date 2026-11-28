@@ -68,7 +68,7 @@
     <div class="demo-scroll"><table class="vs-docs-table">
       <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
       <tbody>
-        <tr><td><code>rows</code></td><td><code>{ key, label, value, share, valueText?, tone? }[]</code>; <code>share</code> is 0 to 100</td><td></td></tr>
+        <tr><td><code>rows</code></td><td><code>{ key, label, value, share?, valueText?, tone?, color?, title? }[]</code>; <code>share</code> is 0 to 100. Without <code>share</code> no percent is written and the bar is scaled to the largest <code>value</code>. <code>color</code>: any CSS colour or token (e.g. <code>var(--vs-chart-series-2)</code>), used instead of <code>tone</code>. <code>title</code>: tooltip on the name.</td><td></td></tr>
         <tr><td><code>empty</code></td><td>text shown when there are no rows (required)</td><td></td></tr>
         <tr><td><code>barScale</code></td><td><code>share</code> · <code>relative</code></td><td><code>share</code></td></tr>
         <tr><td><code>formatValue</code></td><td>formats <code>value</code> when a row has no <code>valueText</code></td><td><code>toLocaleString('en-US')</code></td></tr>

@@ -8,12 +8,19 @@ export interface BreakdownRow {
   label: React.ReactNode;
   /** The count shown in bold, e.g. 1 download. */
   value: number;
-  /** The share of the total in percent (0 to 100). Written as "50%" and, with `barScale="share"`, the length of the bar. */
-  share: number;
+  /**
+   * The share of the total in percent (0 to 100). Written as "50%" and, with `barScale="share"`, the length of the bar.
+   * Left out: no percent is written and the bar is scaled to the largest `value` of the rows that also leave it out.
+   */
+  share?: number;
   /** Replaces the formatted `value`, e.g. "1.2k". */
   valueText?: string;
   /** Bar colour; default = brand green. */
   tone?: MeterTone;
+  /** Bar colour as any CSS colour or `var(--token)`, e.g. a chart token; used instead of `tone`. */
+  color?: string;
+  /** Tooltip on the name, e.g. the full text of a long label. */
+  title?: string;
 }
 
 export interface BreakdownListProps {
@@ -41,21 +48,25 @@ export function BreakdownList({ rows, empty, barScale = 'share', formatValue = (
     return <p className="vs-breakdown__empty">{empty}</p>;
   }
   const maxShare = Math.max(0, ...rows.map((r) => (isNum(r.share) ? r.share : 0)));
+  const maxValue = Math.max(0, ...rows.map((r) => (r.share === undefined && isNum(r.value) ? r.value : 0)));
   return (
     <ul className={className ? `vs-breakdown ${className}` : 'vs-breakdown'}>
       {rows.map((row) => {
         const share = isNum(row.share) ? row.share : null;
-        const bar = share === null ? null : barScale === 'relative' ? (maxShare > 0 ? (share / maxShare) * 100 : 0) : share;
+        const bar =
+          row.share === undefined
+            ? isNum(row.value) ? (maxValue > 0 ? (Math.max(0, row.value) / maxValue) * 100 : 0) : null
+            : share === null ? null : barScale === 'relative' ? (maxShare > 0 ? (share / maxShare) * 100 : 0) : share;
         return (
           <li key={row.key} className="vs-breakdown__row">
             <div className="vs-breakdown__head">
-              <span className="vs-breakdown__label">{row.label}</span>
+              <span className="vs-breakdown__label" title={row.title}>{row.label}</span>
               <span className="vs-breakdown__figures">
                 <span className="vs-breakdown__value">{row.valueText ?? (isNum(row.value) ? formatValue(row.value) : '—')}</span>
                 {share !== null && <span className="vs-breakdown__share">{`${share}%`}</span>}
               </span>
             </div>
-            <MeterBar value={bar} max={100} tone={row.tone} attrs={{ 'aria-hidden': true }} />
+            <MeterBar value={bar} max={100} tone={row.tone} fillColor={row.color} attrs={{ 'aria-hidden': true }} />
           </li>
         );
       })}

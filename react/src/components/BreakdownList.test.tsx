@@ -76,4 +76,35 @@ describe('BreakdownList', () => {
   it('passes a class name through', () => {
     expect(renderToStaticMarkup(<BreakdownList rows={rows} empty="-" className="mine" />)).toContain('<ul class="vs-breakdown mine">');
   });
+
+  it('without new props the markup is unchanged (no style colour, no title)', () => {
+    const html = renderToStaticMarkup(<BreakdownList rows={rows} empty="-" />);
+    expect(html).not.toContain('background');
+    expect(html).not.toContain('title=');
+    expect(html).toContain('<span class="vs-breakdown__share">50%</span>');
+  });
+
+  it('a row colour paints the bar, tokens included', () => {
+    const html = renderToStaticMarkup(<BreakdownList rows={[{ key: 'a', label: 'A', value: 1, share: 40, color: 'var(--vs-chart-series-2)' }]} empty="-" />);
+    expect(html).toContain('style="width:40%;background:var(--vs-chart-series-2)"');
+  });
+
+  it('rows without share: bars scale to the largest value and no percent is written', () => {
+    const html = renderToStaticMarkup(
+      <BreakdownList rows={[{ key: 'a', label: 'A', value: 8 }, { key: 'b', label: 'B', value: 2 }, { key: 'c', label: 'C', value: 0 }]} empty="-" />
+    );
+    expect(widths(html)).toEqual(['100', '25', '0']);
+    expect(html).not.toContain('vs-breakdown__share');
+    expect(html).not.toContain('%</span>');
+  });
+
+  it('rows without share and all values 0 or invalid never print NaN', () => {
+    const html = renderToStaticMarkup(<BreakdownList rows={[{ key: 'a', label: 'A', value: 0 }, { key: 'b', label: 'B', value: NaN }]} empty="-" />);
+    expect(html).not.toMatch(/NaN|Infinity/);
+    expect(widths(html)).toEqual(['0']);
+  });
+
+  it('title becomes the tooltip of the name', () => {
+    expect(renderToStaticMarkup(<BreakdownList rows={[{ key: 'a', label: 'A', value: 1, title: 'Full name A' }]} empty="-" />)).toContain('title="Full name A"');
+  });
 });

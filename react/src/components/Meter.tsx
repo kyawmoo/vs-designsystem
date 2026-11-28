@@ -46,17 +46,19 @@ interface MeterBarProps {
   tone?: MeterTone;
   thresholds?: MeterThreshold[];
   className?: string;
+  /** Fill colour (any CSS colour or `var(--token)`); replaces the tone's colour. */
+  fillColor?: string;
   /** Extra attributes for the track: the ARIA attributes of Meter, or `aria-hidden` when the number is written next to it. */
   attrs: React.HTMLAttributes<HTMLDivElement>;
 }
 
 /** The track, the fill and the tick marks. Also used by BreakdownList, where the row's text already says the value. */
-export function MeterBar({ value, max, tone = 'default', thresholds, className, attrs }: MeterBarProps) {
+export function MeterBar({ value, max, tone = 'default', thresholds, className, fillColor, attrs }: MeterBarProps) {
   const pct = meterPercent(value, max);
   const classes = ['vs-meter', tone !== 'default' ? `vs-meter--${tone}` : '', className ?? ''].filter(Boolean).join(' ');
   return (
     <div className={classes} {...attrs}>
-      {pct !== null && <div className="vs-meter__fill" style={{ width: `${pct}%` }} />}
+      {pct !== null && <div className="vs-meter__fill" style={fillColor ? { width: `${pct}%`, background: fillColor } : { width: `${pct}%` }} />}
       {(thresholds ?? []).map((t, i) => {
         const at = meterPercent(t.value, max);
         if (at === null) return null;
