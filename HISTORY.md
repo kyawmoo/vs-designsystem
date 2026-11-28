@@ -15,7 +15,25 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
-## 2026-11-28 - Docs menu: Components split into 9 collapsible sub-sections; branch claude/hopeful-bardeen-n2x75g; not merged
+## 2026-11-28 - Docs menu: sections "Basics" -> "General", "Feedback" -> "Info Display"; branch claude/hopeful-bardeen-n2x75g; not merged
+
+- Asked: Master KMO: rename the two Components menu sections. Changed: the two `name` values in `docs/assets/shell.js` (their toggle ids follow: `vs-docs-toggle-components-general`, `-info-display`; nothing else uses them) and the CSS comment. Same pages in each section.
+- Checked: Chromium, all 48 docs pages, one menu each, no page errors; Button page opens "General", Alert page opens "Info Display".
+- Also (Master KMO): the Donut Chart menu icon was the line-chart icon; now Lucide `chart-pie` (paths copied from `lucide-react`'s `chart-pie.js`). Checked in Chromium: 2 paths drawn, no page errors. Bar Chart icon: Lucide `align-end-horizontal` (two standing blocks on a base line), chosen by Master KMO from 7 candidates (paths from `lucide-react`).
+- Not deployed.
+
+---
+
+## 2026-11-28 - Docs deployed (`main` `b2c1f8a`): Components menu in sections
+
+- Deployed by Master KMO on the VPS with the same one `set -e` command as `2850378`. Output: `commit: b2c1f8a`, backup `/var/www/ds.vectorsticker.com.bak-20261128-045642`, `/`, `/components/button.html`, `/components/date-range-selector.html`, `/assets/shell.js`, `/assets/shell.css` all `200`, `/CI_COST_RULES.md` `404`, `menu sections: 4`, `section styles: 1`. Only `/var/www/ds.vectorsticker.com` was touched.
+- A first run a few minutes earlier (backup `...bak-20261128-045517`) went out before #133 was merged, so it re-copied `2850378` (markers `0` / `0`); no harm, nothing changed. Cause: the "merge first" note was mixed into a long reply; Master KMO asked that steps to do first be marked with 🚨.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261128-045642/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the menu in a browser from this session (its network cannot reach the site).
+
+---
+
+## 2026-11-28 - Docs menu: Components split into 9 collapsible sub-sections; merged as `b2c1f8a` (#133)
 
 - Asked: Master KMO: the Components menu is too long, group it; chose 1a (collapsible sub-sections inside Components, the one holding the current page open) and 2a (the 9 groups proposed).
 - Changed: `docs/assets/shell.js`: the Components entry has `sections` (Basics 5, Feedback 4, Cards 3, Data Display 3, Charts 3, Navigation 4, Filters & Dates 3, Overlays 3, Forms 10; all 38 pages kept, no URL changed); each section is a button (`aria-expanded` / `aria-controls`) with its page count; one open at a time, the one holding the current page open (else the first); menu search opens only the sections with a match and hides the rest, an empty box restores the default. `docs/assets/shell.css`: sub-section row styles (tokens only), no chevron turn with reduced motion.

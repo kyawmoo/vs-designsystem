@@ -130,7 +130,7 @@ a {
   }
 }
 
-/* Sub-sections inside a group (Components: Basics, Feedback, Cards, ...): a lighter accordion row under the group heading. */
+/* Sub-sections inside a group (Components: General, Info Display, Cards, ...): a lighter accordion row under the group heading. */
 .vs-docs-sidebar-sub-toggle {
   display: flex;
   align-items: center;
