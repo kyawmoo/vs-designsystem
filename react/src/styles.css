@@ -2742,3 +2742,54 @@
     transition: none;
   }
 }
+
+/* MobilePageHeader (issue #145 + decision 1a, 28 Nov 2026): moved from the reports site's approved phone header. Hidden from
+   768px up. Tokens only. */
+@media (min-width: 768px) {
+  .vs-page-head-wrap {
+    display: none;
+  }
+}
+.vs-page-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+}
+.vs-page-head__title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font: 600 28px/1.2 var(--vs-font-family);
+  letter-spacing: -0.02em;
+  color: var(--vs-color-text-heading);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vs-page-head--sub .vs-page-head__title {
+  font-size: 20px;
+  letter-spacing: -0.01em;
+}
+.vs-page-head__icon {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--vs-radius-full);
+  background: var(--vs-color-surface);
+  border: 1px solid var(--vs-color-border);
+  color: var(--vs-color-text-heading);
+  cursor: pointer;
+}
+.vs-page-head__icon--active {
+  background: var(--vs-color-brand-secondary);
+  border-color: var(--vs-color-brand-secondary);
+  color: var(--vs-color-surface);
+}
+.vs-page-head__icon:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: var(--vs-focus-ring-offset);
+}

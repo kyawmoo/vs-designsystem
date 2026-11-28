@@ -1,26 +1,25 @@
 import React from 'react';
 import { ArrowLeft, SlidersHorizontal, Calendar } from 'lucide-react';
 
-interface MobilePageHeaderProps {
+export interface MobilePageHeaderProps {
   title: string;
   onFilterClick?: () => void;
   filterActive?: boolean;
+  /** Pages opened from a menu or a list show a back arrow (and a smaller title). Default true. */
   showBack?: boolean;
   /** 'calendar' when the sheet is purely a day-range picker (7/30/90d); 'sliders' for any other filter. */
   filterIcon?: 'calendar' | 'sliders';
-  /**
-   * A control on the right of the title on the same row, for example a `DateRangeSelector`. The title then takes the rest
-   * of the row (and is cut with an ellipsis when it is too long) instead of 80%, and the back arrow stays. If
-   * `onFilterClick` is also given, the filter button sits after it. Without `trailing` the header is exactly as before.
-   */
+  /** A control on the right of the title on the same row, for example a `DateRangeSelector`; the filter button sits after it. */
   trailing?: React.ReactNode;
+  /** What the back arrow does (issue #145). Default: the browser's back; a full-screen panel passes its close. */
+  onBack?: () => void;
 }
 
 /**
- * Mobile-only page header: "[back icon] Title" on the left (~80% width),
- * an optional Filter icon on the right (~20% width) when the page has a
- * tab/segment control that collapses into a bottom sheet on mobile.
- * Desktop keeps each view's own existing header untouched.
+ * Mobile-only page header (hidden from 768px up; each view keeps its own desktop header), from the approved phone canvas
+ * (Master KMO, 2026-11-08; moved into the DS 2026-11-28, decision 1a). Tab pages (no back arrow): a 28px title. Pages opened
+ * from a menu or a list: a round 44px back button and a 20px title. An optional control (`trailing`) and a round 44px filter
+ * button sit on the same row; the active filter is dark.
  */
 export function MobilePageHeader({
   title,
@@ -29,57 +28,31 @@ export function MobilePageHeader({
   showBack = true,
   filterIcon = 'sliders',
   trailing,
+  onBack,
 }: MobilePageHeaderProps) {
   const FilterIcon = filterIcon === 'calendar' ? Calendar : SlidersHorizontal;
-  const hasTrailing = trailing !== undefined && trailing !== null && trailing !== false;
-  const filterButton = onFilterClick ? (
-    <button
-      type="button"
-      onClick={onFilterClick}
-      aria-label="Filter"
-      className={`w-9 h-9 rounded-lg flex items-center justify-center border transition-colors ${
-        filterActive ? '' : 'bg-[var(--vs-color-surface)] border-[var(--vs-color-border)] text-[var(--vs-color-text-body)] active:bg-[var(--vs-color-background)]'
-      }`}
-      style={
-        filterActive
-          ? { background: 'var(--vs-color-brand-primary)', borderColor: 'var(--vs-color-brand-primary)', color: 'var(--vs-color-text-on-primary)' }
-          : undefined
-      }
-    >
-      <FilterIcon className="w-4 h-4" />
-    </button>
-  ) : null;
   return (
-    <div className="flex md:hidden items-center gap-2">
-      <div
-        className={hasTrailing ? 'flex items-center gap-1.5 min-w-0 flex-1' : 'flex items-center gap-1.5 min-w-0'}
-        style={hasTrailing ? undefined : { width: onFilterClick ? '80%' : '100%' }}
-      >
+    <div className="vs-page-head-wrap">
+      <header className={showBack ? 'vs-page-head vs-page-head--sub' : 'vs-page-head'}>
         {showBack && (
-          <button
-            type="button"
-            onClick={() => window.history.back()}
-            aria-label="Go back"
-            className="shrink-0 w-8 h-8 -ml-1.5 rounded-full flex items-center justify-center text-[var(--vs-color-text-body)] active:bg-[var(--vs-color-disabled-bg)]"
-          >
-            <ArrowLeft className="w-5 h-5" />
+          <button type="button" className="vs-page-head__icon" onClick={onBack ?? (() => window.history.back())} aria-label="Go back">
+            <ArrowLeft width={22} height={22} aria-hidden="true" />
           </button>
         )}
-        <h1 className="text-xl font-bold tracking-tight text-[var(--vs-color-text-heading)] truncate">{title}</h1>
-      </div>
-
-      {hasTrailing ? (
-        <div className="flex items-center justify-end gap-2 shrink-0">
-          {trailing}
-          {filterButton}
-        </div>
-      ) : (
-        filterButton && (
-          <div className="flex items-center justify-end shrink-0" style={{ width: '20%' }}>
-            {filterButton}
-          </div>
-        )
-      )}
+        <h1 className="vs-page-head__title">{title}</h1>
+        {trailing}
+        {onFilterClick && (
+          <button
+            type="button"
+            className={filterActive ? 'vs-page-head__icon vs-page-head__icon--active' : 'vs-page-head__icon'}
+            onClick={onFilterClick}
+            aria-label="Filter"
+            aria-pressed={filterActive}
+          >
+            <FilterIcon width={20} height={20} aria-hidden="true" />
+          </button>
+        )}
+      </header>
     </div>
   );
 }

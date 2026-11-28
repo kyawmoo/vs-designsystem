@@ -26,6 +26,7 @@ export { SummaryCardCarousel } from './components/SummaryCardCarousel';
 export type { SummaryCardCarouselProps } from './components/SummaryCardCarousel';
 
 export { MobilePageHeader } from './components/MobilePageHeader';
+export type { MobilePageHeaderProps } from './components/MobilePageHeader';
 
 export { FilterSheet } from './components/FilterSheet';
 export type { FilterOption, FilterGroup } from './components/FilterSheet';
