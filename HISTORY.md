@@ -14,6 +14,16 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - SummaryCardCarousel added (moved from the reports dashboard), for kyawmoo/Report-VectorSticker#73; branch claude/jolly-rubin-rpz0bd; not merged
+
+- Asked: Master KMO: "B" = do reports ticket #73 (move `SummaryCardCarousel` into the package, document it, then switch the dashboard over).
+- Changed: new `SummaryCardCarousel` (`react/src/components/SummaryCardCarousel.tsx`, exported from `index.ts`): same layout as the dashboard's local copy: grid from 768px (2 columns, 4 from 1024px, 5 from 1280px when there are exactly five cards, gap 1rem), under 768px one swipeable row with 88% wide cards and a dot per card. Built on `SwipeCarousel`, which gets one optional prop, `mobileClassName` (default `'sm:hidden'`, so every existing use is unchanged): the swipe row must hide where the grid appears (768px here). Docs page `docs/components/summary-card-carousel.html` + sidebar entry in `docs/assets/shell.js`. 11 new tests (`SummaryCardCarousel.test.tsx`, `SwipeCarousel.test.tsx`).
+- Differences from the local copy, all in the phone swipe row: dots are buttons that scroll to their card (were plain marks), 20 px / 8 px (were 16 px / 6 px), the active dot is `--vs-color-brand-primary` (was the dashboard's old teal `--vs-color-brand`). The dashboard hides that row at every call site (`hidden md:block`), so the grid it shows is unchanged.
+- Checked: `vitest run` 31 files, 452 tests pass; the 2 tests that need `mobileClassName` fail without it; `tsc --noEmit` exit 0; `check:tokens` OK; docs page in Chromium at 1440 / 390 px (no JS error, no sideways scroll, sidebar entry present).
+- Open: the component with the real Tailwind build is checked in the dashboard after this is merged (the dashboard's Tailwind scans `react/src`); `SwipeCarousel` still relies on the site's `no-scrollbar` utility and has a raw `#d1d5db` for the inactive dot (not changed here). Docs site not deployed.
+
+---
+
 ## 2026-11-27 - LiveDot: the chart's live dot as its own component (React `LiveDot`, Blade `<x-vs-live-dot>`) and an Animation & Effects page; merged as `2d29dc4` (#128)
 
 - Asked: Master KMO: the ripple in the Animation section, usable on its own, not only in charts; chose 1a (name `LiveDot` / `x-vs-live-dot`) and 2a (React and Blade).
