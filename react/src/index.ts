@@ -113,6 +113,8 @@ export { BarChart, BAR_CHART_GROW_MS, BAR_CHART_FEW_DAYS } from './components/Ba
 export type { BarChartProps, BarChartSeries } from './components/BarChart';
 
 export { AnimatedNumber, ANIMATED_NUMBER_MS } from './components/AnimatedNumber';
+export { LiveDot } from './components/LiveDot';
+export type { LiveDotProps, LiveDotSize } from './components/LiveDot';
 export type { AnimatedNumberProps } from './components/AnimatedNumber';
 
 export { Avatar, getInitials } from './components/Avatar';

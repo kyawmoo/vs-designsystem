@@ -640,3 +640,92 @@
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* vs-live-dot:start (this block is identical in react/src/styles.css and blade/components.css; check-tokens keeps them equal) */
+/* Live dot (27 Nov 2026): a dot with a ripple that grows and fades on repeat. Colour: --vs-live-dot-color (default the brand
+   green). Sizes: default 8px, ripple to 5.5x; --sm 5px, 3.5x; --lg 12px, 4x; --ring (the large today dot of BarChart
+   lineStyle="markers", which the canvas draws) the ripple only, 20px, 2.6x. --still: no ripple.
+   Two uses:
+   - in a chart (LineChart / BarChart): placed over the canvas on the newest reading (position from the chart, left/top),
+     fading in once the line has drawn up to it (--vs-live-dot-delay, set by the chart);
+   - on its own (--inline, the LiveDot component / <x-vs-live-dot>): in the text flow, next to a label or an avatar. */
+.vs-live-dot {
+  --vs-live-dot-size: 8px;
+  --vs-live-dot-scale: 5.5;
+  --vs-live-dot-ring: 2px;
+  position: absolute;
+  width: var(--vs-live-dot-size);
+  height: var(--vs-live-dot-size);
+  margin: calc(var(--vs-live-dot-size) / -2) 0 0 calc(var(--vs-live-dot-size) / -2);
+  border-radius: 50%;
+  background: var(--vs-live-dot-color, var(--vs-color-brand-primary));
+  box-shadow: 0 0 0 var(--vs-live-dot-ring) var(--vs-color-surface);
+  pointer-events: none;
+  opacity: 0;
+  animation: vs-live-dot-in 240ms var(--vs-motion-ease-decelerate) var(--vs-live-dot-delay, 0ms) forwards;
+}
+.vs-live-dot[hidden] {
+  display: none;
+}
+.vs-live-dot--inline {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  margin: 0;
+  vertical-align: middle;
+  opacity: 1;
+  animation: none;
+}
+.vs-live-dot--sm {
+  --vs-live-dot-size: 5px;
+  --vs-live-dot-scale: 3.5;
+  --vs-live-dot-ring: 1.5px;
+}
+.vs-live-dot--lg {
+  --vs-live-dot-size: 12px;
+  --vs-live-dot-scale: 4;
+}
+.vs-live-dot--ring {
+  --vs-live-dot-size: 20px;
+  --vs-live-dot-scale: 2.6;
+  background: transparent;
+  box-shadow: none;
+}
+.vs-live-dot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--vs-live-dot-color, var(--vs-color-brand-primary));
+  opacity: 0;
+  animation: vs-live-dot-ripple 2.4s var(--vs-motion-ease-decelerate) infinite;
+}
+.vs-live-dot--still::after {
+  animation: none;
+}
+@keyframes vs-live-dot-in {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes vs-live-dot-ripple {
+  0% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  75%,
+  100% {
+    transform: scale(var(--vs-live-dot-scale));
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vs-live-dot {
+    opacity: 1;
+    animation: none;
+  }
+  .vs-live-dot::after {
+    animation: none;
+  }
+}
+/* vs-live-dot:end */

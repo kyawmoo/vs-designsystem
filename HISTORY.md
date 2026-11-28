@@ -16,7 +16,25 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
-## 2026-11-27 - LineChart / BarChart: live dot with a soft ripple on the newest reading of every line (`liveDot`, default on); branch claude/elegant-mccarthy-x12gh4; not merged
+## 2026-11-27 - LiveDot: the chart's live dot as its own component (React `LiveDot`, Blade `<x-vs-live-dot>`) and an Animation & Effects page; branch claude/elegant-mccarthy-x12gh4; not merged
+
+- Asked: Master KMO: the ripple in the Animation section, usable on its own, not only in charts; chose 1a (name `LiveDot` / `x-vs-live-dot`) and 2a (React and Blade).
+- Changed: CSS: the live-dot rules became the `vs-live-dot` block (start/end markers), identical in `react/src/styles.css` and `blade/components.css` (+ docs copy); new `--inline` (in the text flow, no fade-in), `--lg` (12px, 4x), `--still` (no ripple); default colour `--vs-color-brand-primary` when none is set; the chart look is unchanged. `check-tokens.mjs` (new check 9): the two copies must match, every `--vs-*` token read must exist, reduced motion must stop the ripple. New `react/src/components/LiveDot.tsx` (`color`, `size` sm/md/lg, `ripple`, `label` -> `role="img"` + name, else `aria-hidden`; other props passed on), exported from `index.ts`. New `blade/components/vs-live-dot.blade.php` (same props; `color` only `var(--vs-...)` or hex, anything else ignored; `style` merged after the colour). New `docs/animation/live-dot.html` (sizes, colours, avatar / text examples, usage, props) and its menu entry; `blade/README.md` section.
+- Checked: `vitest run` 30 files, 445 pass (4 new); `tsc --noEmit` exit 0; `check:tokens` OK. Blade rendered with a real Laravel view engine (illuminate/view 10, scratch dir): default, sm + no ripple + token colour + label + class/id, lg + hex + caller `style` (first run showed the two styles joined without `;`: fixed), a CSS-injection colour and `" onclick=` both dropped, `<b>` in the label escaped. Docs page in Chromium (local static server) at 1280 / 390 px and with reduced motion: menu entry, 10 dots with the right sizes and colours, ripple running (`none` with reduced motion), no sideways scroll, no page errors.
+- Not verified: Safari / Firefox; the Blade component on the main site (not copied there). (Drift check provoked: changing one value in the Blade copy fails `check:tokens` with "the vs-live-dot block differs".)
+- Open: docs site deploy; reports site may use `LiveDot` after the next package bump (nothing there needs it now).
+
+---
+
+## 2026-11-27 - Docs deployed (`main` `84a3574`): live dot rows on LineChart / BarChart, Date Range Selector phone pills
+
+- Deployed by Master KMO on the VPS (ssh as `deploy`, hostname `vectorsticker`), one command in a `set -e` subshell: shallow clone of `main` over HTTPS, backup `/var/www/ds.vectorsticker.com.bak-20261127-180922`, `rsync -rt` of `docs/` with `--exclude 'CI_COST_RULES.md'` (internal rules stay off the docs site; no `--delete`), `chown -R www-data:www-data`, temp dir removed. Output: `commit: 84a3574`, `/`, `/components/line-chart.html`, `/components/bar-chart.html`, `/components/date-range-selector.html` all `200`, `/CI_COST_RULES.md` `404`, `liveDot rows: 1`. `sudo` asked for the password three times (two typos). Only `/var/www/ds.vectorsticker.com` was touched; no Apache or pm2 restart.
+- Rollback: `sudo rsync -a /var/www/ds.vectorsticker.com.bak-20261127-180922/ /var/www/ds.vectorsticker.com/`.
+- Not verified: the pages in a browser (this session's network cannot reach the site).
+
+---
+
+## 2026-11-27 - LineChart / BarChart: live dot with a soft ripple on the newest reading of every line (`liveDot`, default on); merged as `84a3574` (#127)
 
 - Asked: Master KMO: the live dot of the reports site's Site Monitor CPU line on every line graph, sparklines included; chose 1a (build it in the design system), 2a (every line that ends at today/now), 3a (smaller on sparklines).
 - Changed: new `react/src/components/liveDot.ts` (`newestIndex`, `liveDotPlugin`: an HTML dot placed over the canvas on the point's final position after every draw; hidden when the point is missing or outside the plot). `LineChart` and `BarChart` get `liveDot` (default `true`): one dot per line series on the newest value up to today, in the series colour, replacing the hollow today point; sparklines get `--sm`; BarChart bars get none; `lineStyle="markers"` keeps the large dark today dot and its halo becomes the ripple (`--ring`, `--vs-chart-today-marker` colour); a dot fades in once the line has drawn up to it. `styles.css`: `.vs-live-dot` (8px, ripple to 5.5x, 50% to 0, 2.4s; `--sm` 5px / 3.5x; `--ring` 20px / 2.6x), no ripple with reduced motion. Docs: rule and prop rows on the LineChart and BarChart pages (static demos not animated).

@@ -65,6 +65,7 @@
         { id: 'reveal', label: 'Reveal', href: '/animation/reveal.html', icon: 'layers' },
         { id: 'rewind-reveal', label: 'Rewind Reveal', href: '/animation/rewind-reveal.html', icon: 'calendar' },
         { id: 'text-effects', label: 'Text Effects', href: '/animation/text-effects.html', icon: 'type' },
+        { id: 'live-dot', label: 'Live Dot', href: '/animation/live-dot.html', icon: 'circle-dot' },
       ],
     },
   ];
