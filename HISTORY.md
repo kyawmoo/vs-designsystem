@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - Select: option groups, compact size, optional name (issue 142)
+
+- Asked: Master KMO: the reports download-feed filters need `<optgroup>`, a compact size and no form name before they can use the DS Select.
+- Changed: `react/src/components/Select.tsx`: `SelectOption.group` (same group = one `<optgroup>`, ungrouped first, groups in first-seen order), `size="sm"` (12px, padding `6px 30px 6px 10px`), `name` optional. `docs/components/select.html` props. New `Select.test.tsx`. Blade `x-vs-select` untouched. Defaults give the same output as before.
+- Checked: see the pull request.
+- Not verified: a browser look.
+
+---
+
 ## 2026-11-28 - TableWidget: muted rows are italic; scrollLabel for keyboard-reachable scrolling (issues 140, 141)
 
 - Asked: Master KMO: the reports Measurement tables need these before they can use the DS table. The reports site found `--vs-color-text-muted` too faint for partial rows (about 2.8:1 on white, per its CSS comment; not re-measured here) and keeps its scroll areas keyboard-reachable.
