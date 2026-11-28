@@ -14,6 +14,17 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - Docs menu keeps its place between pages; DateRangeSelector gets the pill look by default; branch claude/hopeful-bardeen-n2x75g; not merged
+
+- Asked: Master KMO: (2) after a page loads the menu link just clicked has to be found again: only the right side should change, not the left menu; (3) the reports dashboard's period selector (pill track, dark selected button, calendar button) as the DateRangeSelector default.
+- Changed (`a300a4e`): `docs/assets/shell.js`: the menu is drawn as soon as the script runs (it sits at the end of `<body>`), its scroll position is saved in `sessionStorage` on a menu click / `pagehide` and restored before the first paint; a page opened directly scrolls its own link into view; storage errors are caught. `docs/assets/shell.css`: cross-document view transitions (`@view-transition`), the menu is one still layer, the page area fades 150 ms (none with reduced motion). (`2581c03`): `react/src/styles.css`: `.vs-date-range__desktop` = pill track (4px, no gap), buttons 56 x 36 px round, 13px / 500, body colour, selected `--vs-color-brand-secondary` + `--vs-color-surface`; phone trigger round (`--vs-radius-full`). Scoped to the selector: SegmentedControl / TableWidget tabs unchanged. Docs page demo CSS and measurement guide updated.
+- Checked: `vitest run` 32 files, 456 pass; `tsc --noEmit` exit 0; `check:tokens` OK. Chromium (local static server) at 1280 x 600: before, after a menu click the menu was back at the top (scrollTop 0, the clicked link 1164 px down); after, the clicked link stays at the same screen spot (5 clicks, incl. switching group), a page opened directly shows its link in view, blocked `sessionStorage` = no error, all 48 docs pages draw one menu + one top bar with no page errors, 390 px menu works; the view transition runs (`pagereveal` has one). Date range docs demo: 36 / 56 px, `rgb(34,34,34)` / white, 9999px radius. In the reports site with this source: same computed styles as its own override, identical headers.
+- Found, not fixed (separate issue): `./liveDot` (in `LineChart.tsx` / `BarChart.tsx`) is resolved to `LiveDot.tsx` by the reports site's `vite` dev-server pre-bundle (esbuild), so `vite` dev fails with the current `main`; `vite build` is fine. Renaming one of the two files would fix it.
+- Not verified: Safari / Firefox (Firefox has no cross-document view transitions; the scroll restore still works there by design, not tested).
+- Open: docs site deploy; reports site: lock bump, then delete its own date-range CSS.
+
+---
+
 ## 2026-11-28 - SummaryCardCarousel added (moved from the reports dashboard), for kyawmoo/Report-VectorSticker#73; branch claude/jolly-rubin-rpz0bd; not merged
 
 - Asked: Master KMO: "B" = do reports ticket #73 (move `SummaryCardCarousel` into the package, document it, then switch the dashboard over).
