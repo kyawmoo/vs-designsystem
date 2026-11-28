@@ -113,6 +113,10 @@ export { BarChart, BAR_CHART_GROW_MS, BAR_CHART_FEW_DAYS } from './components/Ba
 export type { BarChartProps, BarChartSeries } from './components/BarChart';
 export { RankedBarChart } from './components/RankedBarChart';
 export type { RankedBarChartProps, RankedBarRow } from './components/RankedBarChart';
+export { StackedBar } from './components/StackedBar';
+export type { StackedBarProps, StackedBarPart } from './components/StackedBar';
+export { WeeklyColumnChart } from './components/WeeklyColumnChart';
+export type { WeeklyColumnChartProps, WeeklyColumn, WeeklySeries, WeeklyMarker } from './components/WeeklyColumnChart';
 
 export { AnimatedNumber, ANIMATED_NUMBER_MS } from './components/AnimatedNumber';
 export { LiveDot } from './components/LiveDot';

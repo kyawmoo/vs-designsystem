@@ -61,6 +61,8 @@
             { id: 'bar-chart', label: 'Bar Chart', href: '/components/bar-chart.html', icon: 'align-end-horizontal' },
             { id: 'ranked-bar-chart', label: 'Ranked Bar Chart', href: '/components/ranked-bar-chart.html', icon: 'align-end-horizontal' },
             { id: 'donut-chart', label: 'Donut Chart', href: '/components/donut-chart.html', icon: 'chart-pie' },
+            { id: 'stacked-bar', label: 'Stacked Bar', href: '/components/stacked-bar.html', icon: 'align-end-horizontal' },
+            { id: 'weekly-column-chart', label: 'Weekly Column Chart', href: '/components/weekly-column-chart.html', icon: 'chart-column' },
           ],
         },
         {
