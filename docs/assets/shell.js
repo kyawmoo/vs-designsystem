@@ -72,6 +72,7 @@
             { id: 'breadcrumb', label: 'Breadcrumb', href: '/components/breadcrumb.html', icon: 'chevrons-right' },
             { id: 'tabs', label: 'Tabs', href: '/components/tabs.html', icon: 'panel-top' },
             { id: 'pagination', label: 'Pagination', href: '/components/pagination.html', icon: 'ellipsis' },
+            { id: 'mobile-tab-bar', label: 'Mobile Tab Bar', href: '/components/mobile-tab-bar.html', icon: 'panel-top' },
           ],
         },
         {

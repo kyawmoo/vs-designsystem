@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - MobileTabBar and MobileTabBarDock (issue 68)
+
+- Asked: Master KMO (decision 2a): move the reports site's approved phone tab bar stand-in into the DS as it is, plus the ticket's needs.
+- Changed: new `react/src/components/MobileTabBar.tsx` (dark pill, one accent pill that slides to the selected item, round on the first and last item, `aria-current="page"`, `href` = link else button, `onSelect`; `MobileTabBarDock` fixes it to the bottom with at least 20px below and `env(safe-area-inset-bottom)` when larger). CSS `.vs-tabbar*` / `.vs-tabbar-dock` (tokens only; items at least 44 x 52px; focus ring on dark; no slide with reduced motion). Export, docs page `mobile-tab-bar.html` + menu entry under Navigation, `MobileTabBar.test.tsx` (9: 0 items, 6 items, unknown id, links).
+- Checked: see the pull request.
+- Not verified: a real phone with a home indicator.
+
+---
+
 ## 2026-11-28 - Phone style in Card, SummaryCard, TableWidget and SegmentedControl (issue 156; spike 67 decision (b))
 
 - Asked: Master KMO decided spike #67 as (b): the DS draws the approved phone look itself (below 1024px), desktop unchanged. The reports site drew it with an `!important` override (`mobile.css`), because Card set its radius inline.

@@ -115,6 +115,8 @@ export { RankedBarChart } from './components/RankedBarChart';
 export type { RankedBarChartProps, RankedBarRow } from './components/RankedBarChart';
 export { StackedBar } from './components/StackedBar';
 export type { StackedBarProps, StackedBarPart } from './components/StackedBar';
+export { MobileTabBar, MobileTabBarDock } from './components/MobileTabBar';
+export type { MobileTabBarProps, MobileTabBarItem, MobileTabBarIcon } from './components/MobileTabBar';
 export { WeeklyColumnChart } from './components/WeeklyColumnChart';
 export type { WeeklyColumnChartProps, WeeklyColumn, WeeklySeries, WeeklyMarker } from './components/WeeklyColumnChart';
 

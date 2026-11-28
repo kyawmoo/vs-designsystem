@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mobile Tab Bar — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-tb { position: relative; width: 100%; max-width: 390px; height: 68px; padding: 0 8px; box-sizing: border-box; display: grid; grid-template-columns: repeat(4, 1fr); align-items: center; justify-items: center; background: var(--vs-color-brand-secondary); border-radius: var(--vs-radius-full); font-family: var(--vs-font-family); }
+  .demo-tb-pill { position: absolute; top: 8px; bottom: 8px; left: 8px; width: calc((100% - 16px) / 4); border-radius: var(--vs-radius-full); background: var(--vs-color-brand-accent); }
+  .demo-tb-item { position: relative; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; font-weight: 500; color: var(--vs-color-text-muted); }
+  .demo-tb-item.on { color: var(--vs-color-text-on-primary); }
+  .demo-tb-item i { width: 22px; height: 22px; border: 2px solid currentColor; border-radius: 6px; box-sizing: border-box; }
+</style>
+</head>
+<body data-page="mobile-tab-bar">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Mobile Tab Bar</p>
+    <h1>Mobile Tab Bar</h1>
+    <p class="vs-docs-hero-lede">
+      The phone bottom navigation: a dark pill with icon + label items; one accent pill slides to the selected item (issue #68). React only.
+      Moved from the reports site's approved stand-in (spike #67, decision (b)). Implemented in <code>react/src/components/MobileTabBar.tsx</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <h2>Default</h2>
+    <p>A static drawing of the bar (the real one slides its pill to the tapped item).</p>
+    <div class="vs-docs-preview"><div class="demo-tb" role="img" aria-label="Tab bar example, Overview selected">
+      <span class="demo-tb-pill"></span>
+      <span class="demo-tb-item on"><i></i>Overview</span><span class="demo-tb-item"><i></i>Items</span><span class="demo-tb-item"><i></i>Users</span><span class="demo-tb-item"><i></i>More</span>
+    </div></div>
+
+    <h2>Rules</h2>
+    <ul>
+      <li>Designed for up to 5 items. Each item is an icon and a short label; an item with <code>href</code> is a link, otherwise a button.</li>
+      <li>The selected item has <code>aria-current="page"</code> and <code>--vs-color-text-on-primary</code> text on the <code>--vs-color-brand-accent</code> pill; the others are <code>--vs-color-text-muted</code> on <code>--vs-color-brand-secondary</code>. The pill is fully round on the first and last item, 12px corners between. It slides in 300ms; not with reduced motion.</li>
+      <li>Every item is at least 44 × 52 px and shows the focus ring <code>--vs-focus-ring-color-on-dark</code>.</li>
+      <li><code>MobileTabBarDock</code> fixes the bar to the bottom: 12px at the sides, at least 20px below, more where the home indicator needs it (<code>env(safe-area-inset-bottom)</code>).</li>
+      <li>No items: an empty navigation landmark. An unknown <code>activeId</code>: nothing selected, no pill.</li>
+    </ul>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { MobileTabBar, MobileTabBarDock } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;MobileTabBarDock</span> <span class="attr">className</span>=<span class="str">"lg:hidden"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;MobileTabBar</span> <span class="attr">items</span>=<span class="str">{[{ id: 'overview', label: 'Overview', icon: Home }, { id: 'more', label: 'More', icon: MoreHorizontal }]}</span>
+    <span class="attr">activeId</span>=<span class="str">"overview"</span> <span class="attr">onSelect</span>=<span class="str">{setTab}</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;/MobileTabBarDock&gt;</span></div>
+
+    <h2>Props</h2>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>items</code></td><td><code>{ id, label, icon, href? }[]</code>; <code>icon</code> is an icon component (e.g. lucide-react)</td><td></td></tr>
+        <tr><td><code>activeId</code></td><td>id of the current page</td><td></td></tr>
+        <tr><td><code>onSelect</code></td><td><code>(id) =&gt; void</code>, called on tap (links too)</td><td>—</td></tr>
+        <tr><td><code>ariaLabel</code></td><td>name of the navigation landmark</td><td>"Main"</td></tr>
+        <tr><td><code>className</code></td><td>extra class on the bar</td><td></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>
