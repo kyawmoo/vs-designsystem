@@ -81,19 +81,19 @@ export function TableWidget<T>({
       className={
         bare
           ? 'vs-table-card vs-table-card--bare'
-          : 'vs-table-card bg-white rounded-xl border border-gray-200 overflow-hidden'
+          : 'vs-table-card overflow-hidden'
       }
     >
       {(title || subtitle || (tabs && tabs.length > 0)) && (
-        <div className="vs-table-card-head px-5 py-4 border-b border-gray-100 flex items-start justify-between gap-4">
+        <div className="vs-table-card-head px-5 py-4 border-b border-[var(--vs-color-border)] flex items-start justify-between gap-4">
           <div className="min-w-0">
             {title && (
-              <h3 className="vs-table-card-title text-gray-900 text-base font-semibold">
+              <h3 className="vs-table-card-title text-[var(--vs-color-text-heading)] text-base font-semibold">
                 {title}
               </h3>
             )}
             {subtitle && (
-              <p className="vs-table-card-subtitle text-gray-500 text-sm mt-1">
+              <p className="vs-table-card-subtitle text-[var(--vs-color-text-muted)] text-sm mt-1">
                 {subtitle}
               </p>
             )}
@@ -115,47 +115,47 @@ export function TableWidget<T>({
       >
         <table className="vs-table w-full text-left text-sm">
           <thead>
-            <tr className="border-b border-gray-200 bg-gray-50/50">
+            <tr className="border-b border-[var(--vs-color-border)] bg-[var(--vs-color-background)]">
               {showRank && (
-                <th className="py-3 px-5 font-semibold text-gray-700 uppercase tracking-wider text-xs w-10">
+                <th className="py-3 px-5 font-semibold text-[var(--vs-color-text-body)] uppercase tracking-wider text-xs w-10">
                   #
                 </th>
               )}
-              <th className="py-3 px-5 font-semibold text-gray-700 uppercase tracking-wider text-xs">
+              <th className="py-3 px-5 font-semibold text-[var(--vs-color-text-body)] uppercase tracking-wider text-xs">
                 {itemLabel}
               </th>
               {columns.map((col, i) => (
                 <th
                   key={i}
-                  className={`py-3 px-5 ${alignClass(col.align)} font-semibold text-gray-700 uppercase tracking-wider text-xs whitespace-nowrap`}
+                  className={`py-3 px-5 ${alignClass(col.align)} font-semibold text-[var(--vs-color-text-body)] uppercase tracking-wider text-xs whitespace-nowrap`}
                 >
                   {col.label}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-[var(--vs-color-border)]">
             {rows && rows.length > 0 ? (
               rows.map((row, i) => (
                 <tr
                   key={rowKey ? rowKey(row, i) : i}
-                  className={`hover:bg-gray-50/60 transition-colors${
+                  className={`hover:bg-[var(--vs-color-background)] transition-colors${
                     rowMuted && rowMuted(row, i) ? ' vs-table-row--muted' : ''
                   }`}
                 >
                   {showRank && (
-                    <td className="py-3 px-5 text-gray-500 text-sm tabular-nums">
+                    <td className="py-3 px-5 text-[var(--vs-color-text-muted)] text-sm tabular-nums">
                       {firstRank + i}
                     </td>
                   )}
-                  <td className="py-3 px-5 text-gray-900 font-medium">
+                  <td className="py-3 px-5 text-[var(--vs-color-text-heading)] font-medium">
                     {renderItem(row, i)}
                   </td>
                   {columns.map((col, j) => (
                     <td
                       key={j}
                       className={`py-3 px-5 ${alignClass(col.align)} text-sm tabular-nums ${
-                        col.strong ? 'font-semibold text-gray-900' : 'text-gray-600'
+                        col.strong ? 'font-semibold text-[var(--vs-color-text-heading)]' : 'text-[var(--vs-color-text-body)]'
                       }`}
                     >
                       {col.value(row, i)}
@@ -167,7 +167,7 @@ export function TableWidget<T>({
               <tr>
                 <td
                   colSpan={(showRank ? 2 : 1) + columns.length}
-                  className="text-center text-gray-400 py-8 text-sm"
+                  className="text-center text-[var(--vs-color-text-muted)] py-8 text-sm"
                 >
                   {emptyLabel}
                 </td>
