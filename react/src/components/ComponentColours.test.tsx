@@ -30,7 +30,7 @@ describe('design system colours: tokens only, no Tailwind palette classes (issue
       .map((el) => renderToStaticMarkup(el))
       .join('');
     expect(html).not.toMatch(PALETTE);
-    expect(html).toContain('var(--vs-color-text-heading)');
+    expect(html).toContain('vs-page-head__title'); // its colours are tokens in styles.css (.vs-page-head*)
   });
   it('FilterBar (with tabs)', () => {
     const html = renderToStaticMarkup(

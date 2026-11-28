@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mobile Page Header — VectorSticker Design System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/shell.css">
+<style>
+  .demo-ph { width: 100%; max-width: 390px; display: grid; gap: 18px; font-family: var(--vs-font-family); }
+  .demo-ph header { display: flex; align-items: center; gap: 12px; min-height: 44px; }
+  .demo-ph h1 { flex: 1; margin: 0; font: 600 28px/1.2 var(--vs-font-family); letter-spacing: -0.02em; color: var(--vs-color-text-heading); }
+  .demo-ph .sub h1 { font-size: 20px; letter-spacing: -0.01em; }
+  .demo-ph .ic { width: 44px; height: 44px; flex: none; border-radius: var(--vs-radius-full); background: var(--vs-color-surface); border: 1px solid var(--vs-color-border); box-sizing: border-box; display: flex; align-items: center; justify-content: center; color: var(--vs-color-text-heading); }
+  .demo-ph .ic.on { background: var(--vs-color-brand-secondary); border-color: var(--vs-color-brand-secondary); color: var(--vs-color-surface); }
+</style>
+</head>
+<body data-page="mobile-page-header">
+<div id="vs-docs-sidebar-mount"></div>
+<main class="vs-docs-main">
+  <div class="vs-docs-hero">
+    <div class="vs-docs-hero-inner">
+    <p class="vs-docs-hero-eyebrow">Components <strong>//</strong> Mobile Page Header</p>
+    <h1>Mobile Page Header</h1>
+    <p class="vs-docs-hero-lede">
+      The phone page header (hidden from 768px up): the page title, a back button on pages opened from a menu or a list, and an optional control and filter button on the same row. React only.
+      From the approved phone canvas (issue #145, decision 1a). Implemented in <code>react/src/components/MobilePageHeader.tsx</code>.
+    </p>
+    </div>
+  </div>
+  <div class="vs-docs-canvas">
+  <div class="vs-docs-content">
+    <h2>Default</h2>
+    <div class="vs-docs-preview"><div class="demo-ph">
+      <header><h1>Overview</h1><span class="ic">▦</span></header>
+      <header class="sub"><span class="ic">←</span><h1>Server Health</h1><span class="ic on">≡</span></header>
+    </div></div>
+
+    <h2>Rules</h2>
+    <ul>
+      <li>Tab pages (<code>showBack={false}</code>): a 28px title. Pages opened from a menu or a list: a round 44px back button and a 20px title. Long titles end with "…".</li>
+      <li>The back button goes back in the browser history; <code>onBack</code> replaces that (e.g. a full-screen panel passes its close).</li>
+      <li>The filter button is round, 44px; when <code>filterActive</code> it is dark (<code>--vs-color-brand-secondary</code>) and has <code>aria-pressed="true"</code>. <code>filterIcon</code>: <code>calendar</code> for a day-range picker, <code>sliders</code> otherwise.</li>
+      <li><code>trailing</code> (e.g. a DateRangeSelector) sits after the title, before the filter button. The whole header is hidden from 768px up.</li>
+    </ul>
+
+    <h2>Usage — React</h2>
+    <div class="vs-docs-code-block"><span class="tag">import</span> { MobilePageHeader } <span class="tag">from</span> <span class="str">'@vectorsticker/design-system'</span>;
+
+<span class="tag">&lt;MobilePageHeader</span> <span class="attr">title</span>=<span class="str">"Server Health"</span> <span class="attr">onFilterClick</span>=<span class="str">{openSheet}</span> <span class="attr">filterActive</span>=<span class="str">{days !== 7}</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;MobilePageHeader</span> <span class="attr">title</span>=<span class="str">"Event details"</span> <span class="attr">onBack</span>=<span class="str">{closePanel}</span> <span class="tag">/&gt;</span></div>
+
+    <h2>Props</h2>
+    <div class="demo-scroll"><table class="vs-docs-table">
+      <thead><tr><th>Prop</th><th>Values</th><th>Default</th></tr></thead>
+      <tbody>
+        <tr><td><code>title</code></td><td>string (required)</td><td></td></tr>
+        <tr><td><code>showBack</code></td><td>boolean</td><td><code>true</code></td></tr>
+        <tr><td><code>onBack</code></td><td><code>() =&gt; void</code>, instead of the browser back</td><td>—</td></tr>
+        <tr><td><code>onFilterClick</code></td><td>shows the filter button</td><td>—</td></tr>
+        <tr><td><code>filterActive</code></td><td>boolean</td><td><code>false</code></td></tr>
+        <tr><td><code>filterIcon</code></td><td><code>calendar</code> · <code>sliders</code></td><td><code>sliders</code></td></tr>
+        <tr><td><code>trailing</code></td><td>a control on the same row</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  </div>
+</main>
+<script src="/assets/shell.js"></script>
+</body>
+</html>

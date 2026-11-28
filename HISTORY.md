@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - MobilePageHeader: the approved phone look and onBack (issue 145; decision 1a)
+
+- Asked: Master KMO (1a): the DS header takes the reports site's approved phone header (its stand-in `PhonePageHeader`), plus `onBack`.
+- Changed: `react/src/components/MobilePageHeader.tsx` rewritten: tab pages 28px title; pages with `showBack` a round 44px back button and a 20px title; `onBack` replaces the browser back; round 44px filter button, dark and `aria-pressed` when active; `trailing` before the filter; hidden from 768px up (`.vs-page-head-wrap`). CSS `.vs-page-head*` (tokens only; Tailwind classes gone). The old markup test is replaced on purpose. New docs page `mobile-page-header.html` + menu entry. `MobilePageHeaderProps` exported.
+- Checked: see the pull request.
+- Not verified: a real phone.
+
+---
+
 ## 2026-11-28 - SegmentedControl theme tokens (issue 158)
 
 - Asked: Master KMO (decision 1a, then "a"): let the reports site theme the segmented control with tokens, so it can drop its own copy of the CSS (which also blocked the DS phone style).
