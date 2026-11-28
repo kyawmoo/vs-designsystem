@@ -17,45 +17,91 @@
     },
     {
       group: 'Components',
-      items: [
-        { id: 'button', label: 'Button', href: '/components/button.html', icon: 'square-mouse-pointer' },
-        { id: 'badge', label: 'Badge', href: '/components/badge.html', icon: 'tag' },
-        { id: 'alert', label: 'Alert', href: '/components/alert.html', icon: 'triangle-alert' },
-        { id: 'rating', label: 'Rating', href: '/components/rating.html', icon: 'star' },
-        { id: 'avatar', label: 'Avatar', href: '/components/avatar.html', icon: 'circle-user' },
-        { id: 'empty-state', label: 'Empty State', href: '/components/empty-state.html', icon: 'inbox' },
-        { id: 'card', label: 'Card', href: '/components/card.html', icon: 'layout-panel-top' },
-        { id: 'summary-card-carousel', label: 'Summary Card Carousel', href: '/components/summary-card-carousel.html', icon: 'layout-panel-top' },
-        { id: 'item-card', label: 'Item Card', href: '/components/item-card.html', icon: 'layout-panel-top' },
-        { id: 'table', label: 'Table', href: '/components/table.html', icon: 'table-2' },
-        { id: 'meter', label: 'Meter', href: '/components/meter.html', icon: 'chart-column' },
-        { id: 'breakdown-list', label: 'Breakdown List', href: '/components/breakdown-list.html', icon: 'table-2' },
-        { id: 'rank-pill', label: 'Rank Pill', href: '/components/rank-pill.html', icon: 'tag' },
-        { id: 'line-chart', label: 'Line Chart', href: '/components/line-chart.html', icon: 'chart-line' },
-        { id: 'bar-chart', label: 'Bar Chart', href: '/components/bar-chart.html', icon: 'chart-column' },
-        { id: 'donut-chart', label: 'Donut Chart', href: '/components/donut-chart.html', icon: 'chart-line' },
-        { id: 'breadcrumb', label: 'Breadcrumb', href: '/components/breadcrumb.html', icon: 'chevrons-right' },
-        { id: 'pagination', label: 'Pagination', href: '/components/pagination.html', icon: 'ellipsis' },
-        { id: 'tabs', label: 'Tabs', href: '/components/tabs.html', icon: 'panel-top' },
-        { id: 'date-range-selector', label: 'Date Range Selector', href: '/components/date-range-selector.html', icon: 'calendar' },
-        { id: 'filter-bar', label: 'Filter Bar', href: '/components/filter-bar.html', icon: 'filter' },
-        { id: 'navigation', label: 'Navigation', href: '/components/navigation.html', icon: 'chevrons-right' },
-        { id: 'modal', label: 'Modal', href: '/components/modal.html', icon: 'app-window' },
-        { id: 'drawer', label: 'Drawer', href: '/components/drawer.html', icon: 'panel-right' },
-        { id: 'toast', label: 'Toast', href: '/components/toast.html', icon: 'bell' },
-        { id: 'tooltip', label: 'Tooltip', href: '/components/tooltip.html', icon: 'message-square' },
-        { id: 'popover', label: 'Popover', href: '/components/popover.html', icon: 'app-window' },
-        { id: 'range-calendar', label: 'Range Calendar', href: '/components/range-calendar.html', icon: 'calendar' },
-        { id: 'form-elements', label: 'All Form Elements', href: '/components/form-elements.html', icon: 'panels-top-left' },
-        { id: 'text-input', label: 'Text Input', href: '/components/text-input.html', icon: 'text-cursor-input' },
-        { id: 'textarea', label: 'Textarea', href: '/components/textarea.html', icon: 'square-pen' },
-        { id: 'select', label: 'Select', href: '/components/select.html', icon: 'square-chevron-down' },
-        { id: 'checkbox', label: 'Checkbox', href: '/components/checkbox.html', icon: 'square-check' },
-        { id: 'radio', label: 'Radio', href: '/components/radio.html', icon: 'circle-dot' },
-        { id: 'switch', label: 'Switch', href: '/components/switch.html', icon: 'toggle-right' },
-        { id: 'search-input', label: 'Search Input', href: '/components/search-input.html', icon: 'search' },
-        { id: 'file-input', label: 'File Input', href: '/components/file-input.html', icon: 'upload' },
-        { id: 'input-group', label: 'Input Group', href: '/components/input-group.html', icon: 'group' },
+      // Sub-sections (Master KMO, 2026-11-28: the list was 38 links long). Only the section holding the current page is open.
+      sections: [
+        {
+          name: 'Basics',
+          items: [
+            { id: 'button', label: 'Button', href: '/components/button.html', icon: 'square-mouse-pointer' },
+            { id: 'badge', label: 'Badge', href: '/components/badge.html', icon: 'tag' },
+            { id: 'avatar', label: 'Avatar', href: '/components/avatar.html', icon: 'circle-user' },
+            { id: 'rating', label: 'Rating', href: '/components/rating.html', icon: 'star' },
+            { id: 'rank-pill', label: 'Rank Pill', href: '/components/rank-pill.html', icon: 'tag' },
+          ],
+        },
+        {
+          name: 'Feedback',
+          items: [
+            { id: 'alert', label: 'Alert', href: '/components/alert.html', icon: 'triangle-alert' },
+            { id: 'toast', label: 'Toast', href: '/components/toast.html', icon: 'bell' },
+            { id: 'tooltip', label: 'Tooltip', href: '/components/tooltip.html', icon: 'message-square' },
+            { id: 'empty-state', label: 'Empty State', href: '/components/empty-state.html', icon: 'inbox' },
+          ],
+        },
+        {
+          name: 'Cards',
+          items: [
+            { id: 'card', label: 'Card', href: '/components/card.html', icon: 'layout-panel-top' },
+            { id: 'summary-card-carousel', label: 'Summary Card Carousel', href: '/components/summary-card-carousel.html', icon: 'layout-panel-top' },
+            { id: 'item-card', label: 'Item Card', href: '/components/item-card.html', icon: 'layout-panel-top' },
+          ],
+        },
+        {
+          name: 'Data Display',
+          items: [
+            { id: 'table', label: 'Table', href: '/components/table.html', icon: 'table-2' },
+            { id: 'breakdown-list', label: 'Breakdown List', href: '/components/breakdown-list.html', icon: 'table-2' },
+            { id: 'meter', label: 'Meter', href: '/components/meter.html', icon: 'chart-column' },
+          ],
+        },
+        {
+          name: 'Charts',
+          items: [
+            { id: 'line-chart', label: 'Line Chart', href: '/components/line-chart.html', icon: 'chart-line' },
+            { id: 'bar-chart', label: 'Bar Chart', href: '/components/bar-chart.html', icon: 'chart-column' },
+            { id: 'donut-chart', label: 'Donut Chart', href: '/components/donut-chart.html', icon: 'chart-line' },
+          ],
+        },
+        {
+          name: 'Navigation',
+          items: [
+            { id: 'navigation', label: 'Navigation', href: '/components/navigation.html', icon: 'chevrons-right' },
+            { id: 'breadcrumb', label: 'Breadcrumb', href: '/components/breadcrumb.html', icon: 'chevrons-right' },
+            { id: 'tabs', label: 'Tabs', href: '/components/tabs.html', icon: 'panel-top' },
+            { id: 'pagination', label: 'Pagination', href: '/components/pagination.html', icon: 'ellipsis' },
+          ],
+        },
+        {
+          name: 'Filters & Dates',
+          items: [
+            { id: 'filter-bar', label: 'Filter Bar', href: '/components/filter-bar.html', icon: 'filter' },
+            { id: 'date-range-selector', label: 'Date Range Selector', href: '/components/date-range-selector.html', icon: 'calendar' },
+            { id: 'range-calendar', label: 'Range Calendar', href: '/components/range-calendar.html', icon: 'calendar' },
+          ],
+        },
+        {
+          name: 'Overlays',
+          items: [
+            { id: 'modal', label: 'Modal', href: '/components/modal.html', icon: 'app-window' },
+            { id: 'drawer', label: 'Drawer', href: '/components/drawer.html', icon: 'panel-right' },
+            { id: 'popover', label: 'Popover', href: '/components/popover.html', icon: 'app-window' },
+          ],
+        },
+        {
+          name: 'Forms',
+          items: [
+            { id: 'form-elements', label: 'All Form Elements', href: '/components/form-elements.html', icon: 'panels-top-left' },
+            { id: 'text-input', label: 'Text Input', href: '/components/text-input.html', icon: 'text-cursor-input' },
+            { id: 'textarea', label: 'Textarea', href: '/components/textarea.html', icon: 'square-pen' },
+            { id: 'select', label: 'Select', href: '/components/select.html', icon: 'square-chevron-down' },
+            { id: 'checkbox', label: 'Checkbox', href: '/components/checkbox.html', icon: 'square-check' },
+            { id: 'radio', label: 'Radio', href: '/components/radio.html', icon: 'circle-dot' },
+            { id: 'switch', label: 'Switch', href: '/components/switch.html', icon: 'toggle-right' },
+            { id: 'search-input', label: 'Search Input', href: '/components/search-input.html', icon: 'search' },
+            { id: 'file-input', label: 'File Input', href: '/components/file-input.html', icon: 'upload' },
+            { id: 'input-group', label: 'Input Group', href: '/components/input-group.html', icon: 'group' },
+          ],
+        },
       ],
     },
     {
@@ -123,17 +169,33 @@
     if (!mount) return;
     const active = document.body.dataset.page;
     const slug = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-    const holder = NAV.find((group) => group.items.some((item) => item.id === active));
+    const itemsOf = (group) => group.items || group.sections.flatMap((section) => section.items);
+    const holder = NAV.find((group) => itemsOf(group).some((item) => item.id === active));
     const openSlug = slug((holder || NAV.find((group) => group.group === 'Components') || NAV[0]).group);
+    const linkHtml = (item) => {
+      const isActive = item.id === active;
+      return `<a href="${item.href}" class="${isActive ? 'is-active' : ''}"${isActive ? ' aria-current="page"' : ''}>${icon(item.icon)}<span>${item.label}</span></a>`;
+    };
     const groups = NAV.map((group) => {
       const key = slug(group.group);
       const isOpen = key === openSlug;
-      const links = group.items
-        .map((item) => {
-          const isActive = item.id === active;
-          return `<a href="${item.href}" class="${isActive ? 'is-active' : ''}"${isActive ? ' aria-current="page"' : ''}>${icon(item.icon)}<span>${item.label}</span></a>`;
-        })
-        .join('');
+      let links;
+      if (group.sections) {
+        // Sub-sections: the one holding the current page is open, otherwise the first one.
+        const openIndex = Math.max(0, group.sections.findIndex((section) => section.items.some((item) => item.id === active)));
+        links = group.sections
+          .map((section, i) => {
+            const subKey = `${key}-${slug(section.name)}`;
+            const subOpen = i === openIndex;
+            return `<div class="vs-docs-sidebar-sub${subOpen ? ' is-open' : ''}" data-default-open="${subOpen}">
+              <button type="button" class="vs-docs-sidebar-sub-toggle" id="vs-docs-toggle-${subKey}" aria-expanded="${subOpen}" aria-controls="vs-docs-group-${subKey}"><span>${section.name}</span><span class="vs-docs-sidebar-sub-count">${section.items.length}</span>${icon('chevron-right')}</button>
+              <div class="vs-docs-sidebar-sub-links" id="vs-docs-group-${subKey}" role="group" aria-labelledby="vs-docs-toggle-${subKey}"${subOpen ? '' : ' hidden'}>${section.items.map(linkHtml).join('')}</div>
+            </div>`;
+          })
+          .join('');
+      } else {
+        links = group.items.map(linkHtml).join('');
+      }
       return `<div class="vs-docs-sidebar-group${isOpen ? ' is-open' : ''}">
         <button type="button" class="vs-docs-sidebar-group-toggle" id="vs-docs-toggle-${key}" aria-expanded="${isOpen}" aria-controls="vs-docs-group-${key}"><span>${group.group}</span>${icon('chevron-right')}</button>
         <div class="vs-docs-sidebar-group-links" id="vs-docs-group-${key}" role="group" aria-labelledby="vs-docs-toggle-${key}"${isOpen ? '' : ' hidden'}>${links}</div>
@@ -165,6 +227,22 @@
         });
       });
     });
+
+    // Sub-sections inside a group: one open at a time, like the groups (the open one can also be closed).
+    mount.querySelectorAll('.vs-docs-sidebar-sub-toggle').forEach((toggle) => {
+      toggle.addEventListener('click', () => {
+        const wasOpen = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.closest('.vs-docs-sidebar-group').querySelectorAll('.vs-docs-sidebar-sub').forEach((sub) => {
+          setSubOpen(sub, sub.querySelector('.vs-docs-sidebar-sub-toggle') === toggle && !wasOpen);
+        });
+      });
+    });
+  }
+
+  function setSubOpen(sub, open) {
+    sub.classList.toggle('is-open', open);
+    sub.querySelector('.vs-docs-sidebar-sub-toggle').setAttribute('aria-expanded', String(open));
+    sub.querySelector('.vs-docs-sidebar-sub-links').hidden = !open;
   }
 
   // The menu keeps its place across page loads (Master KMO, 2026-11-28: "only the right side refreshes, not the left
@@ -253,6 +331,12 @@
           group.querySelector('.vs-docs-sidebar-group-toggle').setAttribute('aria-expanded', String(any));
           group.querySelector('.vs-docs-sidebar-group-links').hidden = !any;
         }
+        // Sub-sections: while searching, show only those with a match, opened; with the box empty, back to the default.
+        group.querySelectorAll('.vs-docs-sidebar-sub').forEach((sub) => {
+          const subHit = Array.from(sub.querySelectorAll('a')).some((a) => !a.hidden);
+          sub.hidden = !subHit;
+          setSubOpen(sub, q ? subHit : sub.dataset.defaultOpen === 'true');
+        });
       });
     });
 

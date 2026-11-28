@@ -130,6 +130,66 @@ a {
   }
 }
 
+/* Sub-sections inside a group (Components: Basics, Feedback, Cards, ...): a lighter accordion row under the group heading. */
+.vs-docs-sidebar-sub-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: calc(100% - 20px);
+  margin: 0 10px 2px;
+  padding: 8px 12px;
+  background: none;
+  border: 0;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--vs-color-text-heading);
+  text-align: left;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.vs-docs-sidebar-sub-toggle:hover {
+  background: var(--vs-color-background);
+}
+
+.vs-docs-sidebar-sub-toggle:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: -2px;
+}
+
+.vs-docs-sidebar-sub-toggle > span:first-child {
+  flex: 1;
+}
+
+.vs-docs-sidebar-sub-count {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--vs-color-text-body);
+}
+
+.vs-docs-sidebar-sub-toggle svg {
+  width: 14px;
+  height: 14px;
+  color: var(--vs-color-text-muted);
+  transition: transform 150ms ease;
+}
+
+.vs-docs-sidebar-sub.is-open .vs-docs-sidebar-sub-toggle svg {
+  transform: rotate(90deg);
+}
+
+.vs-docs-sidebar-sub-links {
+  margin: 0 0 6px 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vs-docs-sidebar-sub-toggle svg {
+    transition: none;
+  }
+}
+
 /* Page to page (Master KMO, 2026-11-28): only the page area changes, the menu stays still. Browsers with cross-document
    view transitions (Chrome / Edge 126+, Safari 18.2+) keep the menu as one still layer and fade the page area; others just
    load the page (the menu still keeps its scroll place, see shell.js). No fade with reduced motion. */
