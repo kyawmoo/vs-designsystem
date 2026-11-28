@@ -113,6 +113,8 @@ export type { LineChartProps, LineChartSeries, LineChartVariant } from './compon
 export { BarChart, BAR_CHART_GROW_MS, BAR_CHART_FEW_DAYS } from './components/BarChart';
 export type { BarChartProps, BarChartSeries } from './components/BarChart';
 export { RankedBarChart } from './components/RankedBarChart';
+export { TimeSeriesLineChart, DEFAULT_TIME_SERIES_COLORS, DEFAULT_MARKER_STATUS_LABELS } from './components/TimeSeriesLineChart';
+export type { TimeSeriesLineChartProps, TimeSeriesPoint, TimeSeriesMarker, TimeSeriesMarkerStatus, TimeSeriesColors } from './components/TimeSeriesLineChart';
 export type { RankedBarChartProps, RankedBarRow } from './components/RankedBarChart';
 export { StackedBar } from './components/StackedBar';
 export type { StackedBarProps, StackedBarPart } from './components/StackedBar';

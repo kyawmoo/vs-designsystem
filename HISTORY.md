@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - TimeSeriesLineChart (issue 13; decision 2a)
+
+- Asked: Master KMO (2a): move the reports site's Server Health chart into the DS as it is.
+- Changed: new `react/src/components/TimeSeriesLineChart.tsx` (Chart.js): the Server Health chart's drawing with generic props: `points` / `maxPoints` (null = gap), `thresholds` (dotted Warning/Danger, stretches coloured by level), `markers` (severity shape, status colour/tick, urgency order, `primary`), `highest` ring + tag, `futureMs` Now line, `tickStep` day/3h with today bold, `peakStyle` sign/pin, `yMax`, formatters (read through a ref, so new functions do not rebuild), `onSelectMarker`, `onZoomAt`, `liveDot` (DS `.vs-live-dot`), `colors` (tokens, read at draw time). Helpers exported. Docs page + menu, `TimeSeriesLineChart.test.tsx` (19; Chart.js mocked). A test caught that a default `markers = []` rebuilt the chart on every render: now a stable constant.
+- Checked: see the pull request.
+- Not verified: the drawn chart compared with the reports original (done in the reports pull request).
+
+---
+
 ## 2026-11-28 - MobilePageHeader: the approved phone look and onBack (issue 145; decision 1a)
 
 - Asked: Master KMO (1a): the DS header takes the reports site's approved phone header (its stand-in `PhonePageHeader`), plus `onBack`.
