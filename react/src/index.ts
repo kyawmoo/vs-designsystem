@@ -17,7 +17,7 @@ export { SummaryCard } from './components/SummaryCard';
 export type { SummaryCardProps, SummaryCardChange } from './components/SummaryCard';
 
 export { TableWidget } from './components/TableWidget';
-export type { TableWidgetProps, TableColumn, TableTab } from './components/TableWidget';
+export type { TableWidgetProps, TableColumn, TableColumnAlign, TableTab } from './components/TableWidget';
 
 export { WidgetLoader } from './components/WidgetLoader';
 

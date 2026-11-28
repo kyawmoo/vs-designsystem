@@ -1,10 +1,29 @@
 import React from 'react';
 import { SegmentedControl } from './SegmentedControl';
 
+export type TableColumnAlign = 'left' | 'center' | 'right';
+
 export interface TableColumn<T> {
   label: string;
   value: (row: T, index: number) => React.ReactNode;
   strong?: boolean;
+  /** Title and cells share this alignment. Default and fallback: 'right'. */
+  align?: TableColumnAlign;
+}
+
+const ALIGN_CLASS: Record<TableColumnAlign, string> = {
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right',
+};
+
+function alignClass(align: TableColumn<unknown>['align']): string {
+  return (align && ALIGN_CLASS[align]) || ALIGN_CLASS.right;
+}
+
+/** A usable first rank: a whole number of 1 or more. Anything else counts from 1. */
+function safeStartRank(startRank: number | undefined): number {
+  return typeof startRank === 'number' && Number.isInteger(startRank) && startRank >= 1 ? startRank : 1;
 }
 
 export interface TableTab {
@@ -25,6 +44,12 @@ export interface TableWidgetProps<T> {
   rowKey?: (row: T, index: number) => string | number;
   emptyLabel?: string;
   bare?: boolean;
+  /** Number shown for the first row, so ranks continue across pages. Default 1. */
+  startRank?: number;
+  /** Show the "#" rank column. Default true. */
+  showRank?: boolean;
+  /** True for a partial or incomplete row: it is drawn muted. */
+  rowMuted?: (row: T, index: number) => boolean;
 }
 
 export function TableWidget<T>({
@@ -40,7 +65,11 @@ export function TableWidget<T>({
   rowKey,
   emptyLabel = 'No data available',
   bare = false,
+  startRank,
+  showRank = true,
+  rowMuted,
 }: TableWidgetProps<T>) {
+  const firstRank = safeStartRank(startRank);
   return (
     <div
       className={
@@ -78,16 +107,18 @@ export function TableWidget<T>({
         <table className="vs-table w-full text-left text-sm">
           <thead>
             <tr className="border-b border-gray-200 bg-gray-50/50">
-              <th className="py-3 px-5 font-semibold text-gray-700 uppercase tracking-wider text-xs w-10">
-                #
-              </th>
+              {showRank && (
+                <th className="py-3 px-5 font-semibold text-gray-700 uppercase tracking-wider text-xs w-10">
+                  #
+                </th>
+              )}
               <th className="py-3 px-5 font-semibold text-gray-700 uppercase tracking-wider text-xs">
                 {itemLabel}
               </th>
               {columns.map((col, i) => (
                 <th
                   key={i}
-                  className="py-3 px-5 text-right font-semibold text-gray-700 uppercase tracking-wider text-xs whitespace-nowrap"
+                  className={`py-3 px-5 ${alignClass(col.align)} font-semibold text-gray-700 uppercase tracking-wider text-xs whitespace-nowrap`}
                 >
                   {col.label}
                 </th>
@@ -99,18 +130,22 @@ export function TableWidget<T>({
               rows.map((row, i) => (
                 <tr
                   key={rowKey ? rowKey(row, i) : i}
-                  className="hover:bg-gray-50/60 transition-colors"
+                  className={`hover:bg-gray-50/60 transition-colors${
+                    rowMuted && rowMuted(row, i) ? ' vs-table-row--muted' : ''
+                  }`}
                 >
-                  <td className="py-3 px-5 text-gray-500 text-sm tabular-nums">
-                    {i + 1}
-                  </td>
+                  {showRank && (
+                    <td className="py-3 px-5 text-gray-500 text-sm tabular-nums">
+                      {firstRank + i}
+                    </td>
+                  )}
                   <td className="py-3 px-5 text-gray-900 font-medium">
                     {renderItem(row, i)}
                   </td>
                   {columns.map((col, j) => (
                     <td
                       key={j}
-                      className={`py-3 px-5 text-right text-sm tabular-nums ${
+                      className={`py-3 px-5 ${alignClass(col.align)} text-sm tabular-nums ${
                         col.strong ? 'font-semibold text-gray-900' : 'text-gray-600'
                       }`}
                     >
@@ -122,7 +157,7 @@ export function TableWidget<T>({
             ) : (
               <tr>
                 <td
-                  colSpan={2 + columns.length}
+                  colSpan={(showRank ? 2 : 1) + columns.length}
                   className="text-center text-gray-400 py-8 text-sm"
                 >
                   {emptyLabel}

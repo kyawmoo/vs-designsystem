@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - TableWidget: startRank, showRank, rowMuted, column align (issues 135, 136, 137, 138)
+
+- Asked: Master KMO: the reports site must use DS components so a DS design change reaches it; its tables needed four things TableWidget lacked, so he chose to add them here.
+- Changed: `react/src/components/TableWidget.tsx` new optional props `startRank` (default 1; below 1, not a whole number or not a number counts as 1), `showRank` (default true; false drops the `#` th/td and the empty-row colSpan follows), `rowMuted(row, index)` (adds `vs-table-row--muted`), `columns[].align` (`left|center|right`, default and fallback `right`, title and cells together). `react/src/styles.css`: `.vs-table-row--muted td` uses `--vs-color-text-muted`. `react/src/index.ts`: exports `TableColumnAlign`. `docs/components/table.html`: props table. New `TableWidget.test.tsx` (20 tests). No default behaviour changed.
+- Checked: `vitest run` 476/476 pass (33 files); `tsc --noEmit` exit 0; `check-tokens` OK; with TableWidget.tsx reverted, 7 of the 20 new tests fail.
+- Not verified: a browser look; the Blade `x-vs-table` has none of these options (not asked); the muted colour contrast.
+
+---
+
 ## 2026-11-28 - Docs menu: Components split into 9 collapsible sub-sections; branch claude/hopeful-bardeen-n2x75g; not merged
 
 - Asked: Master KMO: the Components menu is too long, group it; chose 1a (collapsible sub-sections inside Components, the one holding the current page open) and 2a (the 9 groups proposed).
