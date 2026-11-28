@@ -102,6 +102,24 @@ describe('TableWidget showRank', () => {
   });
 });
 
+describe('TableWidget scrollLabel', () => {
+  it('leaves the scroll area as it was by default', () => {
+    const html = render();
+    expect(html).not.toContain('tabindex');
+    expect(html).not.toContain('role="region"');
+  });
+  it('makes the scroll area a focusable named region', () => {
+    const html = render({ scrollLabel: 'Numbers table, scrolls sideways' });
+    expect(html).toContain('tabindex="0"');
+    expect(html).toContain('role="region"');
+    expect(html).toContain('aria-label="Numbers table, scrolls sideways"');
+    expect(html).toContain('vs-table-scroll');
+  });
+  it('treats an empty label as not set', () => {
+    expect(render({ scrollLabel: '' })).not.toContain('role="region"');
+  });
+});
+
 describe('TableWidget rowMuted', () => {
   it('mutes nothing by default', () => {
     expect(render()).not.toContain('vs-table-row--muted');

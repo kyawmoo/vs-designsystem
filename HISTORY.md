@@ -6,6 +6,15 @@ what happened, so a new session can catch up from this file plus `git log`. New 
 
 ---
 
+## 2026-11-28 - TableWidget: muted rows are italic; scrollLabel for keyboard-reachable scrolling (issues 140, 141)
+
+- Asked: Master KMO: the reports Measurement tables need these before they can use the DS table. The reports site found `--vs-color-text-muted` too faint for partial rows (about 2.8:1 on white, per its CSS comment; not re-measured here) and keeps its scroll areas keyboard-reachable.
+- Changed: `react/src/components/TableWidget.tsx`: `rowMuted` rows are now italic with the normal text colour; new optional `scrollLabel` makes the scroll area `tabindex=0 role=region aria-label`. `react/src/styles.css`: `.vs-table-row--muted td` italic; `.vs-table-scroll:focus-visible` ring from `--vs-focus-ring-*`. `docs/components/table.html` props. Tests added. Nothing uses `rowMuted` yet; no default output changed.
+- Checked: see the pull request.
+- Not verified: a browser look.
+
+---
+
 ## 2026-11-28 - TableWidget: startRank, showRank, rowMuted, column align (issues 135, 136, 137, 138)
 
 - Asked: Master KMO: the reports site must use DS components so a DS design change reaches it; its tables needed four things TableWidget lacked, so he chose to add them here.
