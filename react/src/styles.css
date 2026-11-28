@@ -2669,3 +2669,76 @@
   flex: none;
   color: var(--vs-color-text-muted);
 }
+
+/* Disclosure (issue #70, 28 Nov 2026): moved from the reports site's approved stand-in. A card; 20px on phones like the other
+   cards (#156). Tokens only. */
+.vs-disclosure {
+  background: var(--vs-color-surface);
+  border: 1px solid var(--vs-color-border);
+  border-radius: var(--vs-card-radius);
+  overflow: hidden;
+  font-family: var(--vs-font-family);
+}
+.vs-disclosure__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 14px 16px;
+  box-sizing: border-box;
+  list-style: none;
+  cursor: pointer;
+}
+.vs-disclosure__head::-webkit-details-marker {
+  display: none;
+}
+.vs-disclosure__head:focus-visible {
+  outline: var(--vs-focus-ring-width) solid var(--vs-focus-ring-color);
+  outline-offset: calc(var(--vs-focus-ring-offset) * -1);
+}
+.vs-disclosure__icon {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--vs-radius-lg);
+  background: var(--vs-color-lavender-surface);
+  color: var(--vs-color-badge-free);
+}
+.vs-disclosure__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.vs-disclosure__title {
+  font: 600 15px/1.3 var(--vs-font-family);
+  color: var(--vs-color-text-heading);
+}
+.vs-disclosure__desc {
+  font: 400 12px/1.4 var(--vs-font-family);
+  color: var(--vs-color-text-body);
+}
+.vs-disclosure__chev {
+  flex: none;
+  color: var(--vs-color-text-muted);
+  transition: transform 200ms ease;
+}
+.vs-disclosure[open] .vs-disclosure__chev {
+  transform: rotate(180deg);
+}
+.vs-disclosure__body {
+  padding: 0 16px 8px;
+}
+@media (max-width: 1023.98px) {
+  .vs-disclosure {
+    border-radius: var(--vs-card-radius-lg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vs-disclosure__chev {
+    transition: none;
+  }
+}
